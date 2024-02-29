@@ -39,6 +39,7 @@ if($email != false && $password != false){
 
 <?php
 
+
 @include 'connection.php';
 
 if(isset($_POST['order_btn'])){
@@ -49,6 +50,7 @@ if(isset($_POST['order_btn'])){
   $method = $_POST['method'];
   $address = $_POST['address'];
   $reference_number = $_POST['reference'];
+  $gcash_number = $_POST['gcash_number'];
   $product_image = $_POST['product_image'];
   if(isset($product_image['product_image'])){
     $product_image_folder = 'uploaded_img/'.$product_image['product_image'];
@@ -75,9 +77,9 @@ if(isset($_POST['order_btn'])){
 
     $total_product = implode(', ',$product_name);
 
-      $detail_query = mysqli_prepare($conn, "INSERT INTO `orders`(name, number, email, method, address, total_products, total_price, user_id, status, date_created, time_created, reference_number, screenshot) 
-      VALUES(?, ?, ?, ?, ?, ?, ?, ?, 'to ship', CURRENT_DATE(), CURRENT_TIME(), ?,?)");
-      mysqli_stmt_bind_param($detail_query, "ssssssdiis", $name, $number, $email, $method, $address, $total_product, $price_total, $user_id, $reference_number, $product_image);
+      $detail_query = mysqli_prepare($conn, "INSERT INTO `orders`(name, number, email, method, address, total_products, total_price, user_id, status, date_created, time_created, reference_number, gcash_number, screenshot) 
+      VALUES(?, ?, ?, ?, ?, ?, ?, ?, 'to ship', CURRENT_DATE(), CURRENT_TIME(), ?,?,?)");
+      mysqli_stmt_bind_param($detail_query, "ssssssdiiis", $name, $number, $email, $method, $address, $total_product, $price_total, $user_id, $reference_number, $gcash_number, $product_image);
       mysqli_stmt_execute($detail_query);
 
       $order_id = mysqli_insert_id($conn);
@@ -272,7 +274,9 @@ if(isset($_POST['order_btn'])){
                  $total_price =($fetch_cart['price'] * $fetch_cart['quantity']);
                  $grand_total += $total_price;
                   $shipping = "80";
+                  $Total = 0;
                   $Total = $grand_total + $shipping;
+                 
             ?>
             <span><?= $fetch_cart['name']; ?> <?= $fetch_cart['unit']; ?> (<?= $fetch_cart['quantity']; ?>)</span>
             <?php
@@ -289,6 +293,12 @@ if(isset($_POST['order_btn'])){
     </div>
   </div>
 </div>
+<?php
+if($grand_total == 0) {
+  echo "<script>alert('Your cart is empty.'); history.back();</script>";
+}
+else{
+  ?>
 <h4>INPUT YOUR ORDER INFORMATION</h4>
   <div class="row g-3">
       <div class="col-md-6">
@@ -356,20 +366,26 @@ if(isset($_POST['order_btn'])){
                     <div class="input-group mb-3">
 
                         <div id="gcash-input" style="display: block;">
-                  <img src="https://gadgetsmagazine.com.ph/wp-content/uploads/2020/05/GCASH-logo.jpg" alt="GCash QR Code" class="img-fluid">
+                  <img src="../assets/images/gcashQR.jpg" alt="GCash QR Code" class="img-fluid">
                 </div>
-                    </div>
+                    
                     <div id="gcash-qr-code"></div>
                     <div class="col-md-6">
         <div class="inputBox p-3 mb-3 bg-light">
           <span class="fs-5">Enter REFERENCE NO.</span>
           <input type="text" placeholder="" name="reference"  required class="form-control">
         </div>
+
+        <div class="inputBox p-3 mb-3 bg-light">
+          <span class="fs-5">Enter Gcash Number Used:</span>
+          <input type="text" placeholder="" name="gcash_number"  pattern="[0-9]{11}" required class="form-control">
+        </div>
       
 
       <div class="inputBox p-3 mb-3 bg-light">
           <span class="fs-5">Upload Receipt Screenshot:</span>
           <input type="file" accept="image/png, image/jpeg, image/jpg"  name="product_image" class="box">
+        </div>
         </div>
         </div>
    
@@ -420,7 +436,7 @@ if(isset($_POST['order_btn'])){
 </div>
 
 <?php
-     }}
+     }}}
 ?>
 <!-- custom js file link  -->
 <script>
