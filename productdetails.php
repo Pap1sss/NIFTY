@@ -60,7 +60,7 @@
 
 </head>
 
-<body id="top">
+<body id="top"style ="background-color: #b69f77;">
   
   <!-- 
     - alert for add to cart
@@ -202,10 +202,15 @@
   font-family: "roboto-medium";
 }
   .p2 {
-    font-family: "impact";
+    font-family:"Gill Sans Extrabold", cursive;
+    
   }
 </style>
+<br>
+<br>
+<br>
         <div class="container">
+          
                 
                     <?php
                         if(mysqli_num_rows($select_products) > 0)
@@ -227,9 +232,14 @@
                                             <div class="product-card" >
                                                          
                                                          <figure class="card-banner" >
-                                                         
+                                                         <style>
+                                                            .productimage{
+                                                                border: 5px solid #000;
+                                                                
+                                                            }
+                                                        </style>
                                                               <img src="<?php echo $fetch_product['image']; ?>" loading="lazy"
-                                                                    alt="PRODUCTS" class="image-contain">  
+                                                                    alt="PRODUCTS" class="image-contain productimage">  
                                 
                                                                       </ul>
                                                                                                     
@@ -274,14 +284,14 @@
                                                                   color: black;
                                                                 }
                                                         </style>
-
-              <form action="" method="post">
+                                                        
+<h1>Select Size & Color</h1>
+<form action="" method="post">
+  <div class="row">
   <div class="box">
     <div class="form-check">
-    <input class="form-check-input" type="radio" name="size" id="size" required>
-      <label class="check-label" for="size">
-        <span class="unselectable">Select Size:</span>
-      </label>
+      <input class="form-check-input" type="radio" name="size" id="size" required disabled>
+      
     </div>
     <div class="form-check-inline">
       <?php
@@ -302,12 +312,11 @@
          }
          ?>
        </div>
+
        <div class="form-check">
-       <input class="form-check-input" type="radio" name="color" id="color" required>
-      <label class="form-check-label" for="color">
-        <span class="unselectable" >Select Color:</span>
-      </label>
-       </div>
+      <input class="form-check-input" type="radio" name="color" id="color" required disabled>
+    </div>
+
        <div class="form-check-inline">
          <?php
          if (empty($options)) {
@@ -331,15 +340,26 @@
         <div class="form-group">
           <br>
           <br>
+          <style>
+              .bordered-input {
+              border: 1px solid #ccc;
+              padding: 5px;
+              border-radius: 3px;
+          }
+          .bordered-input:focus {
+              border: 2px solid #007bff;
+              outline: none;
+          }
+          </style>
           <label for="quantity">Quantity:</label>
-          <input type="number" name="quantity" id="quantity" value="1" required>
+          <input type="number" name="quantity" id="quantity" value="1" required class="bordered-input">
           <input type="hidden" name="image" value="<?php echo $fetch_product['image']; ?>">
           <input type="hidden" name="name" value="<?php echo $fetch_product['name']; ?>">
           <input type="hidden" name="price" value="<?php echo $fetch_product['price']; ?>">
           <input class ="btn btn-primary" type="submit" value="ADD TO CART" name="add_to_cart" id="addToCartBtn" style="display: none;">
       
         </div>
-
+        </div>
 </form>
                                                                     
                                                                     </div>
@@ -352,12 +372,18 @@
                                                       <div class="col-md-7">
                                               
                                                     
-                                              <h2 style = "color: #EC8F5E; font-size: 40px;"class = p2><?php echo $fetch_product['name']; ?></h2>
-                                              <h2  class=p3>Price: ₱<?php echo $fetch_product['price']; ?></h2>
+                                              <h2 style = "color: white; font-size: 40px; text-transform: uppercase;"class = p2><?php echo $fetch_product['name']; ?></h2>
                                               <br>
+                                              
+                                              <br>
+                                                <div class="container">
+                                                  
+                                              
+                                              <h2 class = p2 style = "color: white; font-size: 30px;"><?php echo $fetch_product['description']; ?></h2>
+                                              <br>
+                                              <h2  style = "color: black;" class=p2>Price: ₱<?php echo $fetch_product['price']; ?></h2>
+                                              </div>
 
-                                              <h3 class = p2>Product Description:</h3>
-                                              <h2 class = p3><?php echo $fetch_product['description']; ?></h2>
                                               <br><br><br>
                                       </div>
 
@@ -419,6 +445,7 @@
                                       <strong>Success! <a  href="login_user/cart.php">Go to cart</a></strong> Product added to cart successfully.
                                       
                                       </div>
+                                    </div>
                 
                   <?php
                           }}
@@ -428,15 +455,31 @@
 <!-- 
     - #REVIEW with login
   -->
+<style>
+  #add_review {
+  width: 100%;
+  display: inline-block;
+  border: 1px solid #000;
+  background-color: transparent;
+  padding: 10px;
+  box-sizing: border-box;
+}
+</style>
 
-  <div class="container">
+  <div class="container" >
 
-<div class="card">
-  <div class="card-header">Do you like our product? Leave a review</div>
+<div class="card" style ="background-color: #b69f77;">
+  <div class="card-header">Do you like our product? Leave a review
+
+  </div>
+  
   <br>
-  <button type="button" name="add_review" id="add_review" class="btn btn-primary" style = "width:100%; display: inline-block;">ADD REVIEW</button>
+  
+  
   <div class="card-body">
+ 
     <div class="row">
+      
       <div class="col-sm-4 text-center">
         <h1 class="text-warning mt-4 mb-4">
           <b><span id="average_rating">0.0</span> / 5</b>
@@ -493,10 +536,11 @@
                   </p>
       </div>
       <div class="col-sm-4 text-center">
-        <br><br>
 
-        
+        <br><br>
+        <button type="button" name="add_review" id="add_review" class="btn" style = "width:50%; display: inline-block;">ADD REVIEW</button>
       </div>
+      
     </div>
   </div>
 </div>
@@ -707,9 +751,9 @@ function load_rating_data()
 
                   html += '<div class="col-sm-1"><div class="rounded-circle bg-danger text-white pt-2 pb-2"><h3 class="text-center">'+data.review_data[count].user_name.charAt(0)+'</h3></div></div>';
 
-                  html += '<div class="col-sm-11">';
+                  html += '<div class="col-sm-11" >';
 
-                  html += '<div class="card">';
+                  html += '<div class="card"style ="background-color: #b69f77;">';
 
                   html += '<div class="card-header"><b>'+data.review_data[count].user_name+'</b></div>';
 
@@ -779,7 +823,7 @@ function load_rating_data()
 
   <div class="container">
 
-<div class="card">
+<div class="card" style ="background-color: #b69f77;">
   <div class="card-header"><a href="login_user/login-user.php" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Login to leave a review!</a></div>
   <br>
   <div class="card-body">
@@ -1056,7 +1100,7 @@ function load_rating_data()
 
                   html += '<div class="col-sm-11">';
 
-                  html += '<div class="card">';
+                  html += '<div class="card" style ="background-color: #b69f77;">';
 
                   html += '<div class="card-header"><b>'+data.review_data[count].user_name+'</b></div>';
 
@@ -1117,7 +1161,7 @@ function load_rating_data()
 
   <footer class="footer">
 
-    <div class="footer-top section">
+    <div class="footer-top section"style ="background-color: #b69f77;">
       <div class="container">
 
         <div class="footer-brand">

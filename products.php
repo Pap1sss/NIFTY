@@ -221,7 +221,7 @@
                                   <div class="card-content" >
                                       <h3 class="h3 card-title" >
                                         
-                                      <p><?php echo $fetch_product['name']; ?></p>
+                                      <p style = "text-transform: uppercase;"><?php echo $fetch_product['name']; ?></p>
                                      
 
                                       </h3>
