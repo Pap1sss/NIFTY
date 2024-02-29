@@ -191,7 +191,6 @@ $sql="SELECT * from upload";
 
  
   <div class="container py-4" style=" display: flex; justify-content: center;">
-    
 
    
       <div class="col-lg-8">
@@ -276,66 +275,67 @@ $sql="SELECT * from upload";
                 </div>
             </form>
           </div>
-        </div>
-        <div class="row" style=" display: flex; justify-content: center;">
-          <div class="col-md-6">
-            <div class="card mb-4 mb-md-0">
-              <div class="card-body">
-                <h4>TO SHIP</h4>
-                                        <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th  style="width: 50%;"> Products</th>
-                                        <th style="width: 25%;">Total Price</th>
-                                        <th style="width: 25%;">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    include_once "connection.php";
-                                    $ship = "to ship";
-                                    $stmt = $conn->prepare("SELECT * FROM orders WHERE user_id = ? AND status = ?");
-                                    $stmt->bind_param("is", $user_id, $ship);
-                                    $ship = "to ship";
-                                    $stmt->execute();
-                                    $resultship = $stmt->get_result();
+       
+      
+          
+          <div class="card mb-4 mb-md-0">
+    <div class="card-body">
+        <h4>TO SHIP</h4>
+        <table class="table table-striped table-bordered">
+            <thead style="display: table-row-group;">
+                <tr>
+                    <th style="width: 50%;">Products</th>
+                    <th style="width: 25%;">Total Price</th>
+                    <th style="width: 25%;">Status</th>
+                </tr>
+            </thead>
+            <tbody style="display: table-row-group;">
+                <?php
+                include_once "connection.php";
+                $ship = "to ship";
+                $stmt = $conn->prepare("SELECT * FROM orders WHERE user_id = ? AND status = ?");
+                $stmt->bind_param("is", $user_id, $ship);
+                $ship = "to ship";
+                $stmt->execute();
+                $resultship = $stmt->get_result();
 
-                                    if ($resultship-> num_rows > 0){
-                                        while ($row=$resultship-> fetch_assoc()) {
-                                            ?>
-                                            <tr>
-                                                <td style="width: 50%;"><?=htmlspecialchars($row["total_products"])?></td>
-                                                <td style="width: 25%;"><?=htmlspecialchars($row["total_price"])?></td>
-                                                <td style="width: 25%;"><?=htmlspecialchars($row["status"])?></td>
-                                            </tr>
-                                            <?php
-                                        }
-                                    } else {
-                                        ?>
-                                        <tr>
-                                            <td colspan="4">No user orders found.</td>
-                                        </tr>
-                                        <?php
-                                    }
-                                    ?>
-    </tbody>
-</table>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-            <div class="card mb-4 mb-md-0">
-              <div class="card-body">
-                <h4>TO RECEIVE </h4>
-                                        <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th  style="width: 50%;"> Products</th>
-                                        <th style="width: 25%;">Total Price</th>
-                                        <th style="width: 25%;">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                if ($resultship-> num_rows > 0){
+                    while ($row=$resultship-> fetch_assoc()) {
+                        ?>
+                        <tr>
+                            <td style="width: 50%;"><?=htmlspecialchars($row["total_products"])?></td>
+                            <td style="width: 25%;"><?=htmlspecialchars($row["total_price"])?></td>
+                            <td style="width: 25%;"><?=htmlspecialchars($row["status"])?></td>
+                        </tr>
+                        <?php
+                    }
+                } else {
+                    ?>
+                    <tr>
+                        <td colspan="3">No user orders found.</td>
+                    </tr>
+                    <?php
+                }
+                ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+            
+            
+              
+<div class="card mb-4 mb-md-0">
+    <div class="card-body">
+        <h4>TO SHIP</h4>
+        <table class="table table-striped table-bordered">
+            <thead style="display: table-row-group;">
+                <tr>
+                    <th style="width: 50%;">Products</th>
+                    <th style="width: 25%;">Total Price</th>
+                    <th style="width: 25%;">Status</th>
+                </tr>
+            </thead>
+            <tbody style="display: table-row-group;">
                                     <?php
                                     include_once "connection.php";
                                     $receive = "to receive";
@@ -349,9 +349,9 @@ $sql="SELECT * from upload";
                                         while ($row=$resultreceive -> fetch_assoc()) {
                                             ?>
                                             <tr>
-                                                <td style="width: 50%;"><?=htmlspecialchars($row["total_products"])?></td>
-                                                <td style="width: 25%;"><?=htmlspecialchars($row["total_price"])?></td>
-                                                <td style="width: 25%;"><?=htmlspecialchars($row["status"])?></td>
+                                                <td ><?=htmlspecialchars($row["total_products"])?></td>
+                                                <td ><?=htmlspecialchars($row["total_price"])?></td>
+                                                <td ><?=htmlspecialchars($row["status"])?></td>
                                             </tr>
                                             <?php
                                         }
@@ -364,24 +364,23 @@ $sql="SELECT * from upload";
                                     }
                                     ?>
     </tbody>
-</table>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
+        </table>
+    </div>
+</div>
+           
                 <br>
-            <div class="card mb-4 mb-md-0">
-              <div class="card-body">
-                <h4>COMPLETED </h4>
-                                        <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th  style="width: 50%;"> Products</th>
-                                        <th style="width: 25%;">Total Price</th>
-                                        <th style="width: 25%;">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                <div class="card mb-4 mb-md-0">
+    <div class="card-body">
+        <h4>TO SHIP</h4>
+        <table class="table table-striped table-bordered">
+            <thead style="display: table-row-group;">
+                <tr>
+                    <th style="width: 50%;">Products</th>
+                    <th style="width: 25%;">Total Price</th>
+                    <th style="width: 25%;">Status</th>
+                </tr>
+            </thead>
+            <tbody style="display: table-row-group;">
                                     <?php
                                     include_once "connection.php";
                                     $complete = "order completed";
@@ -409,11 +408,11 @@ $sql="SELECT * from upload";
                                         <?php
                                     }
                                     ?>
-    </tbody>
-</table>
-                </div>
-              </div>
-            </div>
+     </tbody>
+        </table>
+    </div>
+</div>
+            
           </div>
           </div>
         </div>

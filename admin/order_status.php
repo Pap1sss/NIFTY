@@ -90,7 +90,7 @@ if(isset($_GET['complete'])){
             <td><?php echo $row['number']; ?></td>
             <td><?php echo $row['email']; ?></td>
             <td><?php echo $row['method']; ?></td>
-            <td><?php echo $row['housenumber']; ?> <?php echo $row['street']; ?><?php echo $row['city']; ?> <?php echo $row['province']; ?> <?php echo $row['country']; ?><?php echo $row['zip_code']; ?></td>
+            <td><?php echo $row['address']; ?> </td>
             <td><?php echo $row['total_products']; ?></td>
             <td><?php echo $row['total_price']; ?></td>
             <td><?php echo $row['date_created']; ?> <?php echo $row['time_created']; ?></td>
