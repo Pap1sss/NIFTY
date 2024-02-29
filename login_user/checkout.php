@@ -51,7 +51,7 @@ if(isset($_POST['order_btn'])){
   $address = $_POST['address'];
   $reference_number = $_POST['reference'];
   $gcash_number = $_POST['gcash_number'];
-  $product_image = $_POST['product_image'];
+  $product_image = $_POST['product_image'] ;
   if(isset($product_image['product_image'])){
     $product_image_folder = 'uploaded_img/'.$product_image['product_image'];
   } else {
@@ -84,6 +84,8 @@ if(isset($_POST['order_btn'])){
 
       $order_id = mysqli_insert_id($conn);
 
+      
+
       $sales_query = mysqli_prepare($conn, "INSERT INTO `sales`(orders_id, total_price, date_created) VALUES (?, ?, CURRENT_DATE())");
       mysqli_stmt_bind_param($sales_query, "di", $order_id, $price_total);
       mysqli_stmt_execute($sales_query);
@@ -93,6 +95,8 @@ if(isset($_POST['order_btn'])){
       mysqli_stmt_execute($delete_query);
       echo '<script>alert("Order placed successfully!");</script>';
       echo '<a href="profile.php" class="btn btn-primary">Go to Profile</a>';
+
+      
 }
         ?>
         
