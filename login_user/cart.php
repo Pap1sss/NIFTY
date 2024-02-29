@@ -257,6 +257,7 @@ if (<?php echo $row_count; ?> <=0) {
                     } else {
                 ?>
                 <form action="checkout.php">
+                 
                     <button type="submit" class="btn btn-primary btn-lg btn-block">
                         Go to checkout
                     </button>

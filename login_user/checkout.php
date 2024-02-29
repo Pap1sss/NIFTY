@@ -21,6 +21,7 @@ if($email != false && $password != false){
         $address = $fetch_info['address'];
         
         
+        
         if($status == "verified"){
             if($code != 0){
                 header('Location: reset-code.php');
@@ -270,6 +271,8 @@ if(isset($_POST['order_btn'])){
                  while($fetch_cart = mysqli_fetch_assoc($select_cart)){
                  $total_price =($fetch_cart['price'] * $fetch_cart['quantity']);
                  $grand_total += $total_price;
+                  $shipping = "80";
+                  $Total = $grand_total + $shipping;
             ?>
             <span><?= $fetch_cart['name']; ?> <?= $fetch_cart['unit']; ?> (<?= $fetch_cart['quantity']; ?>)</span>
             <?php
@@ -279,7 +282,7 @@ if(isset($_POST['order_btn'])){
             }
             ?>
           
-            <span class="grand-total ms-3">Grand Total: ₱<?php echo $grand_total; ?></span>
+            <span class="grand-total ms-3">Grand Total: ₱<?php echo $Total; ?></span>
           </div>
         </div>
       </div>

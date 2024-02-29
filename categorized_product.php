@@ -80,7 +80,7 @@
 
         <ul class="navbar-list">
 
-        <div class="container" style = "display: flex; overflow-x: scroll;">
+        <div class="container" style = "display: flex; overflow-x: auto;">
     <?php 
        
         $select_category = mysqli_query($conn, "SELECT * FROM `category`");
