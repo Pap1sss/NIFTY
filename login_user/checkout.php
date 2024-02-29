@@ -1,6 +1,5 @@
 <?php require_once "controllerUserData.php"; 
      include 'connection.php';
-     
     
 ?>
 <?php 
@@ -57,8 +56,6 @@ if(isset($_POST['order_btn'])){
   } else {
     $product_image_folder = 'default_image.jpg'; // Provide a default value if the key doesn't exist
   }
-
-
   $cart_query = mysqli_prepare($conn, "SELECT * FROM `cart` WHERE user_id = ?");
   mysqli_stmt_bind_param($cart_query, "i", $user_id);
   mysqli_stmt_execute($cart_query);
@@ -81,11 +78,7 @@ if(isset($_POST['order_btn'])){
       VALUES(?, ?, ?, ?, ?, ?, ?, ?, 'to ship', CURRENT_DATE(), CURRENT_TIME(), ?,?,?)");
       mysqli_stmt_bind_param($detail_query, "ssssssdiiis", $name, $number, $email, $method, $address, $total_product, $price_total, $user_id, $reference_number, $gcash_number, $product_image);
       mysqli_stmt_execute($detail_query);
-
       $order_id = mysqli_insert_id($conn);
-
-      
-
       $sales_query = mysqli_prepare($conn, "INSERT INTO `sales`(orders_id, total_price, date_created) VALUES (?, ?, CURRENT_DATE())");
       mysqli_stmt_bind_param($sales_query, "di", $order_id, $price_total);
       mysqli_stmt_execute($sales_query);
@@ -95,6 +88,8 @@ if(isset($_POST['order_btn'])){
       mysqli_stmt_execute($delete_query);
       echo '<script>alert("Order placed successfully!");</script>';
       echo '<a href="profile.php" class="btn btn-primary">Go to Profile</a>';
+
+
 
       
 }
@@ -286,7 +281,7 @@ if(isset($_POST['order_btn'])){
             <?php
                }
             }else{
-               echo "<div class='display-order'><span>your cart is empty!</span></div>";
+              
             }
             ?>
           
@@ -377,12 +372,12 @@ else{
                     <div class="col-md-6">
         <div class="inputBox p-3 mb-3 bg-light">
           <span class="fs-5">Enter REFERENCE NO.</span>
-          <input type="text" placeholder="" name="reference"  required class="form-control">
+          <input type="text" placeholder="" name="reference"   class="form-control">
         </div>
 
         <div class="inputBox p-3 mb-3 bg-light">
           <span class="fs-5">Enter Gcash Number Used:</span>
-          <input type="text" placeholder="" name="gcash_number"  pattern="[0-9]{11}" required class="form-control">
+          <input type="text" placeholder="" name="gcash_number"  pattern="[0-9]{11}"  class="form-control">
         </div>
       
 
@@ -411,28 +406,10 @@ else{
       
     </div>
     <div class="text-center mt-5">
-  <button type="submit" name="order_btn" id="orderButton" class="btn" disabled>Order Now</button>
+  <button type="submit" name="order_btn" id="orderButton" class="btn" >Order Now</button>
 </div>
 
-<script>
-  // Check cart status every 1 second
-  setInterval(function() {
-    // Make an AJAX request to check if the cart is empty
-    $.ajax({
-      url: 'checkout.php', // Replace this with the URL to your check_cart.php file
-      type: 'GET',
-      success: function(response) {
-        if (response == 'empty') {
-          // If the cart is empty, disable the order button
-          $("#orderButton").prop('disabled', true);
-        } else {
-          // If the cart is not empty, enable the order button
-          $("#orderButton").prop('disabled', false);
-        }
-      }
-    });
-  }, 1000);
-</script>
+
 
   </form>
 </div>

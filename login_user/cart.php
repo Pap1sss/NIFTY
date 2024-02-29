@@ -245,7 +245,7 @@ if (<?php echo $row_count; ?> <=0) {
                     <?php
                     
                     if($grand_total == 0) {
-                        echo "<script>alert('Your cart is empty.')</script>";
+                    
                        
                         ?>
                          <form action="checkout.php">
