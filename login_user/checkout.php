@@ -103,6 +103,8 @@ if(isset($_POST['order_btn'])){
 
       $mail = new PHPMailer(true);
       $now = new DateTime();
+      $date = date('Y-m-d');
+      $time = date('H:i:s');
       $minDaysToAdd = 3;
       $maxDaysToAdd = 5;
       $daysToAdd = rand($minDaysToAdd, $maxDaysToAdd); // Randomly choose between 3 and 5 days to add
@@ -119,7 +121,7 @@ if(isset($_POST['order_btn'])){
 
       Thank you for placing an order of our product $name 
 
-      We have received your order $order_id on {$now->format('Y-m-d H:i:s')} and your payment method is $method
+      We have received your order $order_id on $date $time and your payment method is $method
       We’re getting your order ready and will let you know once it’s on the way. We wish you enjoy shopping with us 
       and hope to see you again real soon!
       
