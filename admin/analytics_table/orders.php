@@ -160,7 +160,7 @@ if(!isset($_SESSION['user_name'])){
             <td><?=$value['number']?></td>
             <td><?=$value['email']?></td>
             <td><?=$value['method']?></td>
-            <td><?=$value['housenumber']?> <?=$value['street']?> <?=$value['city']?> <?=$value['province']?> <?=$value['country']?> <?=$value['zip_code']?></td>
+            <td><?=$value['address']?> </td>
             <td><?=$value['total_products']?></td>
             <td><?=$value['total_price']?></td>
             <td><?=$value['status']?></td>

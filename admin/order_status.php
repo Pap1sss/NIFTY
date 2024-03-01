@@ -71,11 +71,25 @@ if(isset($_GET['complete'])){
    
    ?>
    <br><br><br>
-    <div class="row">
+   <style>
+            .table {
+        border: 1px solid #dee2e6;
+        width: 70%;
+        height 90%;
+        margin: 0 auto;
+        }
+
+        .table th,
+        .table td {
+        border: 1px solid #dee2e6;
+        }
+   </style>
+   <div class="row">
     <div class="col-md-12">
         <table class="table table-bordered">
             <thead class="thead-dark" style="display: table-row-group;">
                 <tr>
+                    <th>Order ID</th>
                     <th>User ID</th>
                     <th>Name</th>
                     <th>Number</th>
@@ -93,40 +107,40 @@ if(isset($_GET['complete'])){
                 </tr>
             </thead>
             <tbody style="display: table-row-group;">
-            <?php while($row = mysqli_fetch_assoc($select)){ ?>
+            <?php while($row = mysqli_fetch_assoc($select)): ?>
             <tr>
-                <td><?php echo $row['user_id']; ?></td>
-                <td><?php echo $row['name']; ?></td>
-                <td><?php echo $row['number']; ?></td>
-                <td><?php echo $row['email']; ?></td>
-                <td><?php echo $row['method']; ?></td>
-                <td><?php echo $row['address']; ?></td>
-                <td><?php echo $row['total_products']; ?></td>
-                <td><?php echo $row['total_price']; ?></td>
-                <td><?php echo $row['date_created'] . ' ' . $row['time_created']; ?></td>
-                <td> <?php echo $row['status']; ?></td>
-                <td> <?php echo $row['reference_number']; ?></td>
-                <td> <?php echo $row['gcash_number']; ?></td>
-                <td><img src="../<?php echo $row['screenshot']; ?>" height="100" alt="Receipt"></td>
+                <td><?= htmlspecialchars($row['id']) ?></td>
+                <td><?= htmlspecialchars($row['user_id']) ?></td>
+                <td><?= htmlspecialchars($row['name']) ?></td>
+                <td><?= htmlspecialchars($row['number']) ?></td>
+                <td><?= htmlspecialchars($row['email']) ?></td>
+                <td><?= htmlspecialchars($row['method']) ?></td>
+                <td><?= htmlspecialchars($row['address']) ?></td>
+                <td><?= htmlspecialchars($row['total_products']) ?></td>
+                <td>₱<?= htmlspecialchars($row['total_price']) ?></td>
+                <td><?= htmlspecialchars($row['date_created'] . ' ' . $row['time_created']) ?></td>
+                <td> <?= htmlspecialchars($row['status']) ?></td>
+                <td> <?= htmlspecialchars($row['reference_number']) ?></td>
+                <td> <?= htmlspecialchars($row['gcash_number']) ?></td>
                 <td>
-                    <a href="order_status.php?receive=<?php echo $row['id']; ?>" class="btn">
-                        <i class="fas "></i> To receive
-                    </a>
+                    <img src="../<?= htmlspecialchars($row['screenshot']) ?>" height="100" alt="Receipt">
                 </td>
                 <td>
-                    <a href="order_status.php?complete=<?php echo $row['id']; ?>" class="btn">
+                    <a  class="btn btn-danger" href="order_status.php?receive=<?= htmlspecialchars($row['id']) ?>" >
+                        <i class="fas "></i> To receive
+                    </a>
+                    <a href="order_status.php?complete=<?= htmlspecialchars($row['id']); ?>" class="btn">
                         <i class="fas "></i> Order complete
                     </a>
                 </td>
             </tr>
+            <?php endwhile; ?>
             </tbody>
-            <?php } ?>
         </table>
     </div>
 </div>
 
 </div>
-
 
 </body>
 </html>
