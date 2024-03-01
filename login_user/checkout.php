@@ -116,12 +116,9 @@ if(isset($_POST['order_btn'])){
       $subject = "NIFTY SHOES ORDER CONFIRMATION";
       $message = "
       
-      
-
-
       Thank you for placing an order of our product $name 
 
-      We have received your order $order_id on $date $time and your payment method is $method
+      We have received your order $total_product on $date $time and your payment method is $method
       We’re getting your order ready and will let you know once it’s on the way. We wish you enjoy shopping with us 
       and hope to see you again real soon!
       

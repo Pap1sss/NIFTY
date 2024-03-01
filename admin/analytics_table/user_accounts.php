@@ -55,7 +55,7 @@ if(!isset($_SESSION['user_name'])){
 
         <ul class="sidebar-list">
           <li class="sidebar-list-item">
-            <a href="analytics_table/user_accounts.php" >
+            <a href="user_accounts.php" >
               <span class="material-icons-outlined">dashboard</span> User Account
             </a>
           </li>
