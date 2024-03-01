@@ -7,6 +7,13 @@ require_once "controllerUserData.php";
      use PHPMailer\PHPMailer\Exception;
 ?>
 <?php 
+
+$sql="SELECT * from upload";
+    $result = mysqli_query($conn, $sql);
+    if ($result-> num_rows > 0){
+      while ($row=$result-> fetch_assoc()) {
+     
+        
 $email = $_SESSION['email'];
 $password = $_SESSION['password'];
 
@@ -76,7 +83,7 @@ if(isset($_POST['order_btn'])){
     };
  };
 
-    $total_product = implode(', ',$product_name);
+    $total_product = implode(',',$product_name);
 
       $detail_query = mysqli_prepare($conn, "INSERT INTO `orders`(name, number, email, method, address, total_products, total_price, user_id, status, date_created, time_created, reference_number, gcash_number, screenshot) 
       VALUES(?, ?, ?, ?, ?, ?, ?, ?, 'to ship', CURRENT_DATE(), CURRENT_TIME(), ?,?,?)");
@@ -92,14 +99,46 @@ if(isset($_POST['order_btn'])){
       $delete_query = mysqli_prepare($conn, "DELETE FROM `cart` WHERE user_id = ?");
       mysqli_stmt_bind_param($delete_query, "i", $user_id);
       mysqli_stmt_execute($delete_query);
-      
+       
 
       $mail = new PHPMailer(true);
+      $now = new DateTime();
+      $minDaysToAdd = 3;
+      $maxDaysToAdd = 5;
+      $daysToAdd = rand($minDaysToAdd, $maxDaysToAdd); // Randomly choose between 3 and 5 days to add
+      $now->add(new DateInterval('P'.$daysToAdd.'D'));
+      $expectedDeliveryDate = $now->format('Y-m-d');
+      
+
 
       $subject = "NIFTY SHOES ORDER CONFIRMATION";
-      $message = "Thank you for placing an order of our product $name
-      Order Summary:
-      $total_product
+      $message = "
+      
+      
+
+
+      Thank you for placing an order of our product $name 
+
+      We have received your order $order_id on {$now->format('Y-m-d H:i:s')} and your payment method is $method
+      We’re getting your order ready and will let you know once it’s on the way. We wish you enjoy shopping with us 
+      and hope to see you again real soon!
+      
+
+      ________________________________________________________________________
+
+
+      DELIVERY DETAILS:
+      
+      Name: $name
+      Address: $address
+      Phone: $number
+      Email: $email
+
+      _________________________________________________________________________
+      
+      Estimated Delivery Dates: $expectedDeliveryDate
+      
+
       Delivery date will depends on the availability of the product you ordered
       For inquires and questions you can email us on this address";
 
@@ -459,7 +498,7 @@ else{
 </div>
 
 <?php
-     }}}
+     }}}}}
 ?>
 <!-- custom js file link  -->
 <script>
