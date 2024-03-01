@@ -1,6 +1,10 @@
-<?php require_once "controllerUserData.php"; 
+<?php 
+
+
+require_once "controllerUserData.php"; 
      include 'connection.php';
-    
+     use PHPMailer\PHPMailer\PHPMailer;
+     use PHPMailer\PHPMailer\Exception;
 ?>
 <?php 
 $email = $_SESSION['email'];
@@ -83,11 +87,49 @@ if(isset($_POST['order_btn'])){
       mysqli_stmt_bind_param($sales_query, "di", $order_id, $price_total);
       mysqli_stmt_execute($sales_query);
 
+    
+
       $delete_query = mysqli_prepare($conn, "DELETE FROM `cart` WHERE user_id = ?");
       mysqli_stmt_bind_param($delete_query, "i", $user_id);
       mysqli_stmt_execute($delete_query);
-      echo '<script>alert("Order placed successfully!");</script>';
-      echo '<a href="profile.php" class="btn btn-primary">Go to Profile</a>';
+      
+
+      $mail = new PHPMailer(true);
+
+      $subject = "NIFTY SHOES ORDER CONFIRMATION";
+      $message = "Thank you for placing an order of our product $name
+      Order Summary:
+      $total_product
+      Delivery date will depends on the availability of the product you ordered
+      For inquires and questions you can email us on this address";
+
+      try {
+        //Server settings
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com';
+        $mail->SMTPAuth = true;
+        $mail->Username = 'papisssgg@gmail.com';
+        $mail->Password = 'mnxc djee wiln kzje';
+        $mail->SMTPSecure = 'tls';
+        $mail->Port = 587;
+
+        // Sender and recipient settings
+        $mail->setFrom('niftyshoes@gmail.com', 'Nifty Shoes');
+        $mail->addAddress($email);
+
+        // Email content
+        $mail->isHTML(false);
+        $mail->Subject = $subject;
+        $mail->Body = $message;
+
+        $mail->send();
+       
+        header('location: home.php');
+        exit();
+    } catch (Exception $e) {
+        $errors['otp-error'] = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    }
+
 
 
 
