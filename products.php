@@ -1,374 +1,389 @@
 <?php
-    @include 'admin/admin_creation/config.php';
-    session_start();
-             
-    $sql="SELECT * from upload";
-    $result = mysqli_query($conn, $sql);
-    if ($result-> num_rows > 0){
-      while ($row=$result-> fetch_assoc()) {
-     
-        
-   ?>
-   
+@include 'admin/admin_creation/config.php';
+session_start();
 
-<!DOCTYPE html>
-<html lang="en">
+$sql = "SELECT * from upload";
+$result = mysqli_query($conn, $sql);
+if ($result->num_rows > 0) {
+  while ($row = $result->fetch_assoc()) {
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Products</title>
 
-  <!-- 
+    ?>
+
+
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Products</title>
+
+      <!-- 
     - favicon
   -->
-  <link rel="shortcut icon" href="./assets/images/urllogo.png" type="image/svg+xml">
+      <link rel="shortcut icon" href="./assets/images/urllogo.png" type="image/svg+xml">
 
-  <!-- 
+      <!-- 
     - custom css link
   -->
-  <link rel="stylesheet" href="./assets/css/style.css">
+      <link rel="stylesheet" href="./assets/css/style.css">
 
 
-  <!-- 
+      <!-- 
     - google font link
   -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
-    rel="stylesheet">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
 
-  <!-- 
+      <!-- 
     - preload banner
   -->
-  <link rel="preload" href="admin/uploaded_img/<?=$row["logo"]?>" as="image">
+      <link rel="preload" href="admin/uploaded_img/<?= $row["logo"] ?>" as="image">
 
-</head>
+    </head>
 
-<body id="top" style ="background-color: #b69f77;">
+    <body id="top" style="background-color: #b69f77;">
 
-  <!-- 
+      <!-- 
     - #HEADER
   -->
 
-  <header class="header" data-header>
-    <div class="container">
+      <header class="header" data-header>
+        <div class="container">
 
-      <div class="overlay" data-overlay></div>
+          <div class="overlay" data-overlay></div>
 
-      <!-- 
+          <!-- 
     - #PIC FOR MAINPAGE
       -->
-      <a href="index.php" class="logo">
-        <img src="admin/uploaded_img/<?=$row["logo"]?>" width="150" height="50" alt="Footcap logo">
-      </a>
-      <!-- 
+          <a href="index.php" class="logo">
+            <img src="admin/uploaded_img/<?= $row["logo"] ?>" width="150" height="50" alt="Footcap logo">
+          </a>
+          <!-- 
     - #FOR SMALL BROWSER
       -->
-      <button class="nav-open-btn" data-nav-open-btn aria-label="Open Menu">
-        <ion-icon name="menu-outline"></ion-icon>
-      </button>
+          <button class="nav-open-btn" data-nav-open-btn aria-label="Open Menu">
+            <ion-icon name="menu-outline"></ion-icon>
+          </button>
 
-      <nav class="navbar" data-navbar>
+          <nav class="navbar" data-navbar>
 
-        <button class="nav-close-btn" data-nav-close-btn aria-label="Close Menu">
-          <ion-icon name="close-outline"></ion-icon>
-        </button>
+            <button class="nav-close-btn" data-nav-close-btn aria-label="Close Menu">
+              <ion-icon name="close-outline"></ion-icon>
+            </button>
 
-        <a href="index.php" class="logo">
-          <img src="./assets/images/homepagelogo.png" width="190" height="50" alt="Footcap logo">
-        </a>
-
-        <ul class="navbar-list">
-        <div class="container" style = "display: flex; overflow-x: auto;">
- 
- <?php 
-    
-     $select_category = mysqli_query($conn, "SELECT * FROM `category`");
-     if(mysqli_num_rows($select_category) > 0){
-     while($fetch_category = mysqli_fetch_assoc($select_category)){
-         ?>
-       <div class="card-content" >
-                                   
-                                   <a onclick="refreshAndGoToDefault()" style="text-transform:uppercase; " href="categorized_product.php?id=<?php echo $fetch_category ["category"]; ?>">
-                                   <data class="card-price"><?php echo $fetch_category['category']; ?></a>
-                                 </data>
-
-                                   </div>
-                               
-                                                                                 
-                                                   
-                                     <?php
-                                     };
-                                       };
-                                     ?>
-
-
-
-
-        </ul>
-
-        <ul class="nav-action-list">
-        <li>
-            <a href="login_user/home.php" class="nav-action-btn">
-              <ion-icon name="person-outline" aria-hidden="false"></ion-icon>
-
-              <span class="nav-action-text">Login / Register</span>
+            <a href="index.php" class="logo">
+              <img src="./assets/images/homepagelogo.png" width="190" height="50" alt="Footcap logo">
             </a>
-          </li>
 
-          
+            <ul class="navbar-list">
+              <div class="container" style="display: flex; overflow-x: auto;">
 
-          <li>
-          <a href="login_user/cart.php" class="nav-action-btn">
-              <ion-icon name="bag-outline" aria-hidden="true"></ion-icon>
+                <?php
 
-              <data class="nav-action-text">Basket: <strong></strong></data>
+                $select_category = mysqli_query($conn, "SELECT * FROM `category`");
+                if (mysqli_num_rows($select_category) > 0) {
+                  while ($fetch_category = mysqli_fetch_assoc($select_category)) {
+                    ?>
+                    <div class="card-content">
 
-             
-          </a>
-          </li>
+                      <a onclick="refreshAndGoToDefault()" style="text-transform:uppercase; "
+                        href="categorized_product.php?id=<?php echo $fetch_category["category"]; ?>">
+                        <data class="card-price">
+                          <?php echo $fetch_category['category']; ?></a>
+                      </data>
 
-        </ul>
-
-      </nav>
-
-    </div>
-    
-  </header>
+                    </div>
 
 
-  <!-- 
-    - #END HEADER
-  -->
- 
-  
-                   </div>
-                   
-              </li>
-         </ul>
-                                  
+
+                    <?php
+                  }
+                  ;
+                }
+                ;
+                ?>
+
+
+
+
             </ul>
 
-       
-          </li>
-                                        </div>
-                                        </div>
-                                        
-                                       
+            <ul class="nav-action-list">
+              <li>
+                <a href="login_user/home.php" class="nav-action-btn">
+                  <ion-icon name="person-outline" aria-hidden="false"></ion-icon>
 
-                                        
-                                       
-
-                                   
+                  <span class="nav-action-text">Login / Register</span>
+                </a>
+              </li>
 
 
-  <main>
-    <article>
-             
-        
+
+              <li>
+                <a href="login_user/cart.php" class="nav-action-btn">
+                  <ion-icon name="bag-outline" aria-hidden="true"></ion-icon>
+
+                  <data class="nav-action-text">Basket: <strong></strong></data>
 
 
+                </a>
+              </li>
+
+            </ul>
+
+          </nav>
+
+        </div>
+
+      </header>
 
 
       <!-- 
+    - #END HEADER
+  -->
+
+
+      </div>
+
+      </li>
+      </ul>
+
+      </ul>
+
+
+      </li>
+      </div>
+      </div>
+
+
+
+
+
+
+
+
+
+      <main>
+        <article>
+
+
+
+
+
+
+          <!-- 
         - #PRODUCT
       -->
 
-      <section class="section product">
-        
-                  <!-- 
+          <section class="section product">
+
+            <!-- 
         - #category query
       -->
-     
-              
-        <div class="container">
-                                          
-            
-        <h2 class="h2 section-title">OUR PRODUCTS</h2>
-        <div class="container" style = "display:flex; ">
-        <form action="" method="post">       
-          <ul class="product-list">
-            
-          <?php
-                   
+
+
+            <div class="container">
+
+
+              <h2 class="h2 section-title">OUR PRODUCTS</h2>
+              <div class="container" style="display:flex; ">
+                <form action="" method="post">
+                  <ul class="product-list">
+
+                    <?php
+
                     $select_products = mysqli_query($conn, "SELECT * FROM `products`");
-                    if(mysqli_num_rows($select_products) > 0){
-                    while($fetch_product = mysqli_fetch_assoc($select_products)){
+                    if (mysqli_num_rows($select_products) > 0) {
+                      while ($fetch_product = mysqli_fetch_assoc($select_products)) {
+                        ?>
+                        <li class="product-item">
+                          <div class="product-card" tabindex="0">
+
+
+                            <figure class="card-banner" style="border: 2px solid #f6b035;">
+
+
+                              <img src="<?php echo $fetch_product['image']; ?>" width="350" height="350" loading="lazy"
+                                alt="PRODUCTS" class="image-contain">
+
+                              <ul class="card-action-list">
+
+
+
+
+                              </ul>
+
+
+
+                            </figure>
+                            <div class="card-content">
+                              <h3 class="h3 card-title">
+
+                                <p style="text-transform: uppercase;">
+                                  <?php echo $fetch_product['name']; ?>
+                                </p>
+
+
+                              </h3>
+
+                              <data class="card-price">₱
+                                <?php echo $fetch_product['price']; ?>
+                              </data>
+
+                            </div>
+                            <br>
+                            <a href="productdetails.php?id=<?php echo $fetch_product["id"]; ?>" class="btn">View Details</a>
+
+
+                            <?php
+                      }
+                      ;
+                    }
+                    ;
                     ?>
-            <li class="product-item" >
-               <div class="product-card" tabindex="0"  >
-                                                         
-                  
-                       <figure class="card-banner" style ="border: 2px solid #f6b035;">
-                                
-                       
-                            <img src="<?php echo $fetch_product['image']; ?>" width="350" height="350" loading="lazy"
-                                  alt="PRODUCTS" class="image-contain">
-                                                  
-                                    <ul class="card-action-list">
 
-                                     
-                                         
+                      </div>
+              </div>
+              </li>
+              </ul>
+              </ul>
 
-                                    </ul>
-                                                                  
-                                                  
-                     
-                      </figure>                                            
-                                  <div class="card-content" >
-                                      <h3 class="h3 card-title" >
-                                        
-                                      <p style = "text-transform: uppercase;"><?php echo $fetch_product['name']; ?></p>
-                                     
 
-                                      </h3>
 
-                                      <data class="card-price">₱<?php echo $fetch_product['price']; ?></data>
+            </div>
+          </section>
+          </form>
 
-                                      </div>
-                                      <br>
-                                      <a href="productdetails.php?id=<?php echo $fetch_product ["id"]; ?>" class= "btn">View Details</a>
-                                                                                    
-                                                      
-                                        <?php
-                                        };
-                                          };
-                                        ?>
-                                                
-                </div> 
-                                              </div>  
-            </li>    
-            </ul>                                           
-           </ul>   
-
-            
-
-        </div>
-      </section>
-    </form>    
-
-    </article>
-  </main>
+        </article>
+      </main>
 
 
 
 
 
-    <!-- 
+      <!-- 
     - #FOOTER
   -->
 
-  <footer class="footer">
+      <footer class="footer">
 
-<div class="footer-top section"style ="background-color: #b69f77;" >
-  <div class="container">
+        <div class="footer-top section" style="background-color: #b69f77;">
+          <div class="container">
 
-    <div class="footer-brand">
-
-      
-       
-      
-
-   
-
-       
-
-      </ul>
-
-    </div>
-
-    <div class="footer-link-box">
-
-      <ul class="footer-list">
-
-        <li>
-          <p class="footer-list-title">Contact Us</p>
-        </li>
-
-        <li>
-          <address class="footer-link">
-            <ion-icon name="location"></ion-icon>
-
-            <span class="footer-link-text">
-            <?=$row["address"]?>
-            </span>
-          </address>
-        </li>
-
-        <li>
-          <a href="tel:<?=$row["contact"]?>" class="footer-link">
-            <ion-icon name="call"></ion-icon>
-
-            <span class="footer-link-text"><?=$row["contact"]?></span>
-          </a>
-        </li>
-
-        <li>
-          <a href="mailto:niftyshoesph@gmail.com" class="footer-link">
-            <ion-icon name="mail"></ion-icon>
-
-            <span class="footer-link-text"><?=$row["email"]?></span>
-          </a>
-        </li>
-
-      </ul>
-
-    
-
-      
-
-    </div>
-
-  </div>
-</div>
-
-
-
-</footer>
+            <div class="footer-brand">
 
 
 
 
 
-  <!-- 
+
+
+
+
+              </ul>
+
+            </div>
+
+            <div class="footer-link-box">
+
+              <ul class="footer-list">
+
+                <li>
+                  <p class="footer-list-title">Contact Us</p>
+                </li>
+
+                <li>
+                  <address class="footer-link">
+                    <ion-icon name="location"></ion-icon>
+
+                    <span class="footer-link-text">
+                      <?= $row["address"] ?>
+                    </span>
+                  </address>
+                </li>
+
+                <li>
+                  <a href="tel:<?= $row["contact"] ?>" class="footer-link">
+                    <ion-icon name="call"></ion-icon>
+
+                    <span class="footer-link-text">
+                      <?= $row["contact"] ?>
+                    </span>
+                  </a>
+                </li>
+
+                <li>
+                  <a href="mailto:niftyshoesph@gmail.com" class="footer-link">
+                    <ion-icon name="mail"></ion-icon>
+
+                    <span class="footer-link-text">
+                      <?= $row["email"] ?>
+                    </span>
+                  </a>
+                </li>
+
+              </ul>
+
+
+
+
+
+            </div>
+
+          </div>
+        </div>
+
+
+
+      </footer>
+
+
+
+
+
+      <!-- 
     - #GO TO TOP
   -->
 
-  <a href="#top" class="go-top-btn" data-go-top>
-    <ion-icon name="arrow-up-outline"></ion-icon>
-  </a>
+      <a href="#top" class="go-top-btn" data-go-top>
+        <ion-icon name="arrow-up-outline"></ion-icon>
+      </a>
 
 
 
 
 
-  <!-- 
+      <!-- 
     - custom js link
   -->
-  <script src="./assets/js/script.js"></script>
+      <script src="./assets/js/script.js"></script>
 
-  <!-- 
+      <!-- 
     - ionicon link
   -->
-  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-  <?php
-  
-}
+      <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+      <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+      <?php
+
+  }
 }
 ?>
 
 </body>
 <script>
-function refreshAndGoToDefault() {
-  // Reload the page
-  location.reload();
+  function refreshAndGoToDefault() {
+    // Reload the page
+    location.reload();
 
-  // Go back to the default URL or page
-  window.location.href = 'categorized_product.php'; // Replace with your default URL
-}
+    // Go back to the default URL or page
+    window.location.href = 'categorized_product.php'; // Replace with your default URL
+  }
 </script>
+
 </html>
