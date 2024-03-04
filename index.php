@@ -2,12 +2,19 @@
     @include 'admin/admin_creation/config.php';
     session_start();
              
-    $sql="SELECT * from upload";
-    $result = mysqli_query($conn, $sql);
-    if ($result-> num_rows > 0){
-      while ($row=$result-> fetch_assoc()) {
-      
-   ?>
+   // Create a prepared statement for the SELECT query
+    $stmt = $conn->prepare("SELECT * from upload");
+
+    // Execute the prepared statement
+    $stmt->execute();
+
+    // Get the result
+    $result = $stmt->get_result();
+
+    if ($result-> num_rows > 0) {
+      while ($row = $result-> fetch_assoc()) {
+    ?>
+   
    
 <!DOCTYPE html>
 <html lang="en">
