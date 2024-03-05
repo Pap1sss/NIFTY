@@ -2,40 +2,8 @@
 
 @include 'config.php';
 
-if(isset($_POST['submit'])){
-
-   $name = mysqli_real_escape_string($conn, $_POST['name']);
-   $username = mysqli_real_escape_string($conn, $_POST['username']);
-   $password = md5($_POST['password']);
-   $cpassword = md5($_POST['cpassword']);
-   $admin_type = $_POST['admin_type'];
-   $code = $_POST['code'];
-   $company_code = '12345678';
-
-   $select = " SELECT * FROM admin_accounts WHERE username = '$username'";
-
-   $result = mysqli_query($conn, $select);
-
-   if(mysqli_num_rows($result) > 0){
-
-      $error[] = 'user already exist!';
-
-   }else{
-
-      if($password != $cpassword || $company_code != $code){
-         $error[] = 'INVALID SIGN UP!';
-         
-      }else{
-         $insert = "INSERT INTO admin_accounts(name, username, password, admin_type) VALUES('$name','$username','$password','$admin_type')";
-         mysqli_query($conn, $insert);
-         header('location:login_form.php');
-      }
-   }
-
-};
-
-
 ?>
+<?php require_once "controllerUserData.php"; ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -53,7 +21,7 @@ if(isset($_POST['submit'])){
    
 <div class="form-container">
 
-   <form action="" method="post">
+   <form action="register_form.php" method="post">
       <h3>CREATE ADMIN ACCOUNT</h3>
       <?php
       if(isset($error)){
@@ -66,11 +34,6 @@ if(isset($_POST['submit'])){
       <input type="text" name="username" required placeholder="USERNAME">
       <input type="password" name="password" required placeholder="PASSWORD">
       <input type="password" name="cpassword" required placeholder="VERIFY PASSWORD">
-      <select name="admin_type">
-         <option value="regular">regular</option>
-         <option value="super">super</option>
-      </select>
-
       <input type="password" name="code" required placeholder="ENTER COMPANY CODE">
       <input type="submit" name="submit" value="CREATE NOW" class="form-btn">
       <p>already have an account? <a href="login_form.php">login now</a></p>

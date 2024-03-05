@@ -1,7 +1,22 @@
 <?php
 
 @include 'config.php';
-session_start();
+require_once "admin_creation/controllerUserData.php";
+
+$username = $_SESSION['user_name'];
+$name = $_SESSION['name'];
+
+if($username != false && $name != false){
+  $sql = "SELECT * FROM admin_accounts WHERE username = '$username'";
+  $run_Sql = mysqli_query($conn, $sql);
+  if($run_Sql){
+      $fetch_info = mysqli_fetch_assoc($run_Sql);
+      $username = $fetch_info['username'];
+      $name = $fetch_info['name'];
+  }
+}else{
+  header('Location: admin_creation/login_form.php');
+}
 
 
 if (isset($_POST['add_product'])) {
@@ -87,7 +102,7 @@ if (isset($_GET['delete'])) {
 
          </div>
          <div class="header-right">
-            <a href="logout.php">
+            <a href="admin_creation/logout.php">
                <span class="material-icons-outlined">LOGOUT</span>
             </a>
          </div>
@@ -270,11 +285,6 @@ if (isset($_GET['delete'])) {
    </table>
    <br>
    <br>
-
-
-
-
-
 
 
 

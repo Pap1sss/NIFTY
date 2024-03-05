@@ -1,13 +1,23 @@
 <?php
 
 @include 'config.php';
+require_once "controllerUserData.php";
 
-session_start();
+$username = $_SESSION['user_name'];
+$name = $_SESSION['name'];
 
-
-if(!isset($_SESSION['user_name'])){
-   header('location:login_form.php');
+if($username != false && $name != false){
+  $sql = "SELECT * FROM admin_accounts WHERE username = '$username'";
+  $run_Sql = mysqli_query($conn, $sql);
+  if($run_Sql){
+      $fetch_info = mysqli_fetch_assoc($run_Sql);
+      $username = $fetch_info['username'];
+      $name = $fetch_info['name'];
+  }
+}else{
+  header('Location: login_form.php');
 }
+
 
 ?>
 
