@@ -11,60 +11,89 @@ $username = $_SESSION['user_name'];
 
 if (isset($_POST['update_product_name'])) {
 
+   // Validate the input
    $product_name = $_POST['product_name'];
-
+   if (!preg_match("/^[a-zA-Z0-9 ]*$/", $product_name)) {
+       $message[] = 'Only letters, numbers, and whitespace are allowed in product name';
+       goto end;
+   }
 
    if (empty($product_name)) {
-      $message[] = 'please fill out product name';
-   } else {
-      $editproductname = 'edit product name';
-
-      $update_data = "UPDATE products SET name='$product_name', date_edited =CURRENT_DATE(), time_edited=CURRENT_TIME() WHERE id = '$id'";
-      $product_logs = "INSERT INTO product_log(username, date_log, time_log, edit_create) 
-      VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'$editproductname')";
-      $upload = mysqli_query($conn, $update_data);
-      $data_check = mysqli_query($conn, $product_logs);
-
-
+       $message[] = 'Please fill out product name';
+       goto end;
    }
+
+   // Use prepared statements to prevent SQL injection
+   $stmt = $conn->prepare("UPDATE products SET name=?, date_edited =CURRENT_DATE(), time_edited=CURRENT_TIME() WHERE id = ?");
+   $stmt->bind_param("si", $product_name, $id);
+   $stmt->execute();
+
+   // Log the activity
+   $editproductname = 'edit product name';
+   $stmt = $conn->prepare("INSERT INTO product_log(username, date_log, time_log, edit_create) VALUES(?, CURRENT_DATE(), CURRENT_TIME(),?)");
+   $stmt->bind_param("ss", $username, $editproductname);
+   $stmt->execute();
+
+  
 }
 ;
 
 if (isset($_POST['update_price'])) {
 
+   // Validate the input
    $product_price = $_POST['product_price'];
-
-   if (empty($product_price)) {
-      $message[] = 'please fill out price';
-   } else {
-      $editproductprice = 'edit product price';
-
-      $update_data = "UPDATE products SET price='$product_price', date_edited =CURRENT_DATE(), time_edited=CURRENT_TIME() WHERE id = '$id'";
-      $product_logs = "INSERT INTO product_log(username, date_log, time_log, edit_create) 
-      VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'$editproductprice')";
-      $upload = mysqli_query($conn, $update_data);
-      $data_check = mysqli_query($conn, $product_logs);
+   if (!is_numeric($product_price)) {
+       $message[] = 'Price must be a number';
+       goto end;
    }
 
+   if (empty($product_price)) {
+       $message[] = 'Please fill out price';
+       goto end;
+   }
+
+   // Use prepared statements to prevent SQL injection
+   $stmt = $conn->prepare("UPDATE products SET price=?, date_edited =CURRENT_DATE(), time_edited=CURRENT_TIME() WHERE id = ?");
+   $stmt->bind_param("di", $product_price, $id);
+   $stmt->execute();
+
+   // Log the activity
+   $editproductprice = 'edit product price';
+   $stmt = $conn->prepare("INSERT INTO product_log(username, date_log, time_log, edit_create) VALUES(?, CURRENT_DATE(), CURRENT_TIME(),?)");
+   $stmt->bind_param("ss", $username, $editproductprice);
+   $stmt->execute();
+
+   
 }
+;
 
 
 if (isset($_POST['update_description'])) {
 
-   $product_description = $_POST['product_description'];
-
-   if (empty($product_description)) {
-      $message[] = 'please fill out description';
-   } else {
-      $editproductdescription = 'edit product description';
-
-      $update_data = "UPDATE products SET description ='$product_description', date_edited =CURRENT_DATE(), time_edited=CURRENT_TIME() WHERE id = '$id'";
-      $product_logs = "INSERT INTO product_log(username, date_log, time_log, edit_create) 
-      VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'$editproductdescription')";
-      $upload = mysqli_query($conn, $update_data);
-      $data_check = mysqli_query($conn, $product_logs);
+   // Validate the input
+   $product_description = trim($_POST['product_description']);
+   if (strlen($product_description) > 500) {
+       $message[] = 'Description should not exceed 500 characters';
+       goto end;
    }
 
+   if (empty($product_description)) {
+       $message[] = 'Please fill out description';
+       goto end;
+   }
+
+   // Use prepared statements to prevent SQL injection
+   $stmt = $conn->prepare("UPDATE products SET description=?, date_edited =CURRENT_DATE(), time_edited=CURRENT_TIME() WHERE id = ?");
+   $stmt->bind_param("si", $product_description, $id);
+   $stmt->execute();
+
+   // Log the activity
+   $editproductdescription = 'edit product description';
+   $stmt = $conn->prepare("INSERT INTO product_log(username, date_log, time_log, edit_create) VALUES(?, CURRENT_DATE(), CURRENT_TIME(),?)");
+   $stmt->bind_param("ss", $username, $editproductdescription);
+   $stmt->execute();
+
+   end:
 }
 
 
@@ -103,7 +132,7 @@ if (isset($_POST['update_image'])) {
 <head>
    <meta charset="utf-8">
    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-   <title>REGULAR ADMIN</title>
+   <title>EDIT PRODUCT</title>
 
    <!-- Montserrat Font -->
    <link
@@ -134,11 +163,10 @@ if (isset($_POST['update_image'])) {
          <div class="header-left">
 
          </div>
-         <div class="header-right">
-            <a href="logout.php">
-               <span class="material-icons-outlined">LOGOUT</span>
-            </a>
-         </div>
+      
+            <a href="CRUD.php" class="btn btn-danger">LOGOUT</a>
+         
+         
       </header>
       <!-- End Header -->
 
@@ -200,6 +228,9 @@ if (isset($_POST['update_image'])) {
 
          <form action="" method="post" enctype="multipart/form-data">
             <ul class="list-group" style="margin-top: 20px">
+            <li class="list-group-item d-flex justify-content-start">
+            <a href="CRUD.php" class="btn btn-secondary">BACK</a>
+               </li>
                <li class="list-group-item"> <img class="center border border-dark" src="../<?php echo $row['image']; ?>"
                      height="100" alt="logo"></td>
 
