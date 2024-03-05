@@ -6,37 +6,38 @@ $id = $_GET['edit'];
 
 
 
-$username = $_SESSION ['user_name'];
+$username = $_SESSION['user_name'];
 
 
-if(isset($_POST['update_product_name'])){
-   
+if (isset($_POST['update_product_name'])) {
+
    $product_name = $_POST['product_name'];
-  
 
-   if(empty($product_name)){
-      $message[] = 'please fill out product name';    
-   }else{
+
+   if (empty($product_name)) {
+      $message[] = 'please fill out product name';
+   } else {
       $editproductname = 'edit product name';
-      
+
       $update_data = "UPDATE products SET name='$product_name', date_edited =CURRENT_DATE(), time_edited=CURRENT_TIME() WHERE id = '$id'";
       $product_logs = "INSERT INTO product_log(username, date_log, time_log, edit_create) 
       VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'$editproductname')";
       $upload = mysqli_query($conn, $update_data);
       $data_check = mysqli_query($conn, $product_logs);
-      
+
 
    }
-};
+}
+;
 
-if(isset($_POST['update_price'])){
+if (isset($_POST['update_price'])) {
 
    $product_price = $_POST['product_price'];
-   
-   if(empty($product_price)){
-      $message[] = 'please fill out price';    
-   }else{
-      $editproductprice= 'edit product price';
+
+   if (empty($product_price)) {
+      $message[] = 'please fill out price';
+   } else {
+      $editproductprice = 'edit product price';
 
       $update_data = "UPDATE products SET price='$product_price', date_edited =CURRENT_DATE(), time_edited=CURRENT_TIME() WHERE id = '$id'";
       $product_logs = "INSERT INTO product_log(username, date_log, time_log, edit_create) 
@@ -47,44 +48,46 @@ if(isset($_POST['update_price'])){
 
 }
 
-if(isset($_POST['update_quantity'])){
 
-   $product_quantity = $_POST['product_quantity'];
-  
-   if(empty($product_quantity)){
-      $message[] = 'please fill out quantity';    
-   }else{
-      $editproductquantity= 'edit product quantity';
-      $update_data = "UPDATE products SET quantity='$product_quantity', date_edited =CURRENT_DATE(), time_edited=CURRENT_TIME() WHERE id = '$id'";
+if (isset($_POST['update_description'])) {
+
+   $product_description = $_POST['product_description'];
+
+   if (empty($product_description)) {
+      $message[] = 'please fill out description';
+   } else {
+      $editproductdescription = 'edit product description';
+
+      $update_data = "UPDATE products SET description ='$product_description', date_edited =CURRENT_DATE(), time_edited=CURRENT_TIME() WHERE id = '$id'";
       $product_logs = "INSERT INTO product_log(username, date_log, time_log, edit_create) 
-      VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'$editproductquantity')";
+      VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'$editproductdescription')";
       $upload = mysqli_query($conn, $update_data);
       $data_check = mysqli_query($conn, $product_logs);
    }
 
 }
 
-if(isset($_POST['update_image'])){
-   
+
+if (isset($_POST['update_image'])) {
+
    $product_image = $_FILES['product_image']['name'];
    $product_image_tmp_name = $_FILES['product_image']['tmp_name'];
-   $product_image_folder = 'uploaded_img/'.$product_image;
+   $product_image_folder = 'uploaded_img/' . $product_image;
 
-   $product_price = $_POST['product_image'];
-   if(empty($product_image)){
-      $message[] = 'please fill attach image';    
-   }else{
-      $editproductimage= 'change product image';
+   if (empty($product_image)) {
+      $message[] = 'please fill attach image';
+   } else {
+      $editproductimage = 'change product image';
       $update_data = "UPDATE products SET image='admin/uploaded_img/$product_image', date_edited =CURRENT_DATE(), time_edited=CURRENT_TIME() WHERE id = '$id'";
       $product_logs = "INSERT INTO product_log(username, date_log, time_log, edit_create) 
       VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'$editproductimage')";
       $upload = mysqli_query($conn, $update_data);
       $data_check = mysqli_query($conn, $product_logs);
-      if($upload){
+      if ($upload) {
          move_uploaded_file($product_image_tmp_name, $product_image_folder);
-         header('location:CRUD.php');
-      }else{
-         $$message[] = 'please fill attach image'; 
+
+      } else {
+         $$message[] = 'please fill attach image';
       }
    }
 
@@ -96,92 +99,156 @@ if(isset($_POST['update_image'])){
 <!DOCTYPE html>
 
 <html lang="en">
+
 <head>
-   <meta charset="UTF-8">
-   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <link rel="stylesheet" href="css/style.css">
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width,initial-scale=1.0">
+   <title>REGULAR ADMIN</title>
+
+   <!-- Montserrat Font -->
+   <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet">
+
+   <!-- Material Icons -->
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"></script>
+
+   <!-- Custom CSS -->
+   <link rel="stylesheet" href="css/analyticstyle.css">
+
 </head>
+
 <body>
+   <div class="grid-container">
 
-<div class="container">
+      <!-- Header -->
+      <header class="header">
+         <div class="menu-icon" onclick="openSidebar()">
+            <span class="material-icons-outlined">menu</span>
+         </div>
+         <div class="header-left">
 
-            <div class="content">
-               <h3>hi, <span><?php echo $_SESSION['name'] ?></span></h3>
-               <h1>welcome <span><?php echo $_SESSION['user_name'] ?></span></h1>
-               <a href="admin_creation/logout.php" class="btn" style = "width: 300px">logout</a>
+         </div>
+         <div class="header-right">
+            <a href="logout.php">
+               <span class="material-icons-outlined">LOGOUT</span>
+            </a>
+         </div>
+      </header>
+      <!-- End Header -->
+
+      <!-- Sidebar -->
+      <aside id="sidebar">
+
+
+         <div class="sidebar-title">
+            <div class="sidebar-brand">
+               <span class="material-icons-outlined"></span>Welcome,
+               <?php echo $_SESSION['user_name'] ?>
             </div>
+         </div>
+
+         <ul class="sidebar-list">
+            <li class="sidebar-list-item">
+               <a href="CRUD.php">
+                  <span class="material-icons-outlined">inventory</span> Manage Products
+               </a>
+            </li>
+            <a href="../categories.php">
+               <li class="sidebar-list-item">
+                  <span class="material-icons-outlined">inventory_2</span> Add Category
+            </a>
+            </li>
+            <li class="sidebar-list-item">
+               <a href="analytics_table/admin_logs.php">
+                  <span class="material-icons-outlined">fact_check</span> Stocks Update
+               </a>
+            </li>
+
+         </ul>
+
+      </aside>
+
+      </main>
+
+      <style>
+         .center {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 50%;
+            height: inherit;
+         }
+      </style>
+
+      <?php
+
+      $select = mysqli_query($conn, "SELECT * FROM products WHERE id = '$id'");
+      while ($row = mysqli_fetch_assoc($select)) {
+
+         ?>
+         <!-- End Main -->
+         <div class="container">
+
 
          </div>
 
-<?php
-   if(isset($message)){
-      foreach($message as $message){
-         echo '<span class="message">'.$message.'</span>';
-      }
-   }
-?>
+         <form action="" method="post" enctype="multipart/form-data">
+            <ul class="list-group" style="margin-top: 20px">
+               <li class="list-group-item"> <img class="center border border-dark" src="../<?php echo $row['image']; ?>"
+                     height="100" alt="logo"></td>
 
-<div class="container">
+                  <h4 style="text-align: center">NAME:
+                     <?php echo $row['name']; ?>
+                  </h4>
+                  <h4 style="text-align: center">PRICE: ₱
+                     <?php echo $row['price']; ?>
+                  </h4>
+                  <p style="text-align: justify">
+                     <?php echo $row['description']; ?>
+                  </p>
+               </li>
+               <li class="list-group-item d-flex justify-content-center">
+                  <input type="text" class="box me-1 pe-5" name="product_name" value="" placeholder="new product name">
+                  <input type="submit" value="UPDATE" name="update_product_name" class="btn btn-dark">
+               </li>
+               <li class="list-group-item d-flex justify-content-center">
+                  <input type="number" min="0" class="box me-1 pe-5" name="product_price" value=""
+                     placeholder="new product price">
 
+                  <input type="submit" value="UPDATE" name="update_price" class="btn btn-dark">
+               </li>
+               <li class="list-group-item d-flex justify-content-center">
+                  <input type="text" class="box me-1 pe-5" name="product_description" value=""
+                     placeholder="new description">
 
-<div class="admin-product-form-container centered">
+                  <input type="submit" value="UPDATE" name="update_description" class="btn btn-dark">
+               </li>
+               <li class="list-group-item d-flex justify-content-center">
+                  <input type="file" class="box me-1 pe-4" name="product_image" accept="image/png, image/jpeg, image/jpg">
 
-   <?php
-      
-      $select = mysqli_query($conn, "SELECT * FROM products WHERE id = '$id'");
-      while($row = mysqli_fetch_assoc($select)){
+                  <input type="submit" value="UPDATE IMAGE" name="update_image" class="btn btn-dark">
+               </li>
 
-   ?>
-
-   <style>
-   .center {
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-      width: 50%;
-      height: inherit;
-   }
-   </style>
-
-   <form action="" method="post" enctype="multipart/form-data">
-
-      <h3 class="title">update the product</h3>
-      <img class="center" src="../<?php echo $row['image']; ?>" height="100" alt="logo" ></td>
-      <h2 class ="center">&nbsp;&nbsp;PRODUCT INFORMATION</h2>
-      <h1>NAME: <?php echo $row['name']; ?></h1>
-      <h1>PRICE: ₱<?php echo $row['price']; ?> </h1>
-      <h1>----------------------------------</h1>
-      <h4>UPDATE NAME</h4>
-      <input type="text" class="box" name="product_name" value="" placeholder="enter the product name">
-      <input type="submit" value="update name" name="update_product_name" class="btn">
-      <br>
-      <br>
-      <h4>UPDATE PRICE</h4>
-      <input type="number" min="0" class="box" name="product_price" value="" placeholder="enter the product price">
-      <input type="submit" value="update price" name="update_price" class="btn">
-      <br>
-      <br>
-      <h4>UPDATE STOCKS</h4>
-      <input type="number" min="0" class="box" name="product_quantity" value="" placeholder="enter the product quantity">
-      <input type="submit" value="update stocks" name="update_quantity" class="btn">
-      <br>
-      <br>
-      <h4>UPDATE IMAGE</h4>
-      <input type="file" class="box" name="product_image" accept="image/png, image/jpeg, image/jpg" >
-      <input type="submit" value="update image" name="update_image" class="btn">
-      <a href="CRUD.php" class="btn">go back!</a>
-   </form>
-   
+            </ul>
+            <br>
+            <br>
+         </form>
 
 
-   <?php }; ?>
 
-   
+      <?php }
+      ; ?>
 
-</div>
 
-</div>
+
+
 
 </body>
+
 </html>
