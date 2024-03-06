@@ -6,16 +6,16 @@ require_once "admin_creation/controllerUserData.php";
 $username = $_SESSION['user_name'];
 $name = $_SESSION['name'];
 
-if($username != false && $name != false){
-  $sql = "SELECT * FROM admin_accounts WHERE username = '$username'";
-  $run_Sql = mysqli_query($conn, $sql);
-  if($run_Sql){
+if ($username != false && $name != false) {
+   $sql = "SELECT * FROM admin_accounts WHERE username = '$username'";
+   $run_Sql = mysqli_query($conn, $sql);
+   if ($run_Sql) {
       $fetch_info = mysqli_fetch_assoc($run_Sql);
       $username = $fetch_info['username'];
       $name = $fetch_info['name'];
-  }
-}else{
-  header('Location: admin_creation/login_form.php');
+   }
+} else {
+   header('Location: admin_creation/login_form.php');
 }
 
 
@@ -120,17 +120,26 @@ if (isset($_GET['delete'])) {
             </div>
          </div>
 
+
+
          <ul class="sidebar-list">
+
+            <li class="sidebar-list-item">
+               <a href="admin_creation/regular_admin_page.php"> <span class="material-icons-outlined">dashboard</span>Dashboard</a>
+            </li>
+
             <li class="sidebar-list-item">
                <a href="../CRUD.php">
                   <span class="material-icons-outlined">inventory</span> Manage Products
                </a>
             </li>
+            <li>
             <a href="../categories.php">
                <li class="sidebar-list-item">
                   <span class="material-icons-outlined">inventory_2</span> Add Category
             </a>
             </li>
+            
             <li class="sidebar-list-item">
                <a href="analytics_table/admin_logs.php">
                   <span class="material-icons-outlined">fact_check</span> Stocks Update
@@ -179,119 +188,120 @@ if (isset($_GET['delete'])) {
          </style>
 
          <div class="container">
-           
-               <div class="card-body">
-                  <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" enctype="multipart/form-data">
-                     <h3 style="text-align: center;">Manage Products</h3>
-                     <p>Add a Product</p>
-                     <div class="input-container">
-                        <select class="box" name="category">
-                           <option>Select category</option>
-                           <?php
-                           foreach ($options as $option) {
-                              ?>
-                              <option>
-                                 <?php echo $option['category']; ?>
-                              </option>
-                              <?php
-                           }
+
+            <div class="card-body">
+               <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" enctype="multipart/form-data">
+                  <h3 style="text-align: center;">Manage Products</h3>
+                  <p>Add a Product</p>
+                  <div class="input-container">
+                     <select class="box" name="category">
+                        <option>Select category</option>
+                        <?php
+                        foreach ($options as $option) {
                            ?>
-                        </select>
-                        <input type="text" placeholder="Enter product name" name="product_name" class="box">
-                        <input type="text" placeholder="Enter product description" name="product_description"
-                           class="box">
-                        <input type="number" placeholder="Enter product price" name="product_price" class="box">
-                        </div>
-                        <br>
-                        <input type="file" accept="image/png, image/jpeg, image/jpg" name="product_image" class="box">
-                     </div>
-                     <br>
-                     <div class="card-body">
-                        <input type="submit" class="btn btn-primary" name="add_product" value="SUBMIT">
-                  </form>
-               </div>
-      
-  
-
-
-   </div>
-
-
-   <div class="container">
-    
-
-
-   </div>
-
-
-   <?php
-
-   $select = mysqli_query($conn, "SELECT * FROM products ORDER BY id DESC");
-
-   ?>
-
-   <br>
-   <table class="table table-bordered border-primary">
-      <thead>
-         <tr>
-
-            <th style="border: 1px solid black;">product image</th>
-            <th style="border: 1px solid black;">product category</th>
-            <th style="border: 1px solid black;">product name</th>
-            <th style="border: 1px solid black;">product price</th>
-            <th style="width: 30%; border: 1px solid black">product description</th>
-            <th style="border: 1px solid black;">edit product</th>
-            <th style="border: 1px solid black;">manage stocks</th>
-            <th style="border: 1px solid black;">remove product</th>
-
-
-         </tr>
-      </thead>
-      <?php while ($row = mysqli_fetch_assoc($select)) { ?>
-         <tr>
-
-            <td style="border: 1px solid black"><img src="../<?php echo $row['image']; ?>" height="100" width="100"  alt="logo">
-            </td>
-            <td style="border: 1px solid black;">
-               <?php echo $row['category']; ?>
-            </td>
-            <td style="border: 1px solid black;">
-               <?php echo $row['name']; ?>
-            </td>
-            <td style="border: 1px solid black;">₱
-               <?php echo $row['price']; ?>.00
-            </td>
-
-
-            <td style="border: 1px solid black;">
-               <?php echo $row['description']; ?>
-            </td>
-            <td style="border: 1px solid black;">
-               <a href="admin_update.php?edit=<?php echo $row['id']; ?>" class="btn btn-primary"> <i
-                     class="fas fa-edit"></i>
-                  edit </a>
-            </td>
-
-            <td style="border: 1px solid black;">
-               <a href="stocks_update.php?manage=<?php echo $row['id']; ?>" class="btn btn-secondary"> <i
-                     class="fas fa-edit"></i> manage </a>
-            </td>
-            <td style="border: 1px solid black;">
-               <a href="CRUD.php?delete=<?php echo $row['id']; ?>" class="btn btn-danger"> <i class="fas fa-trash"></i>
-                  delete </a>
-            </td>
-         </tr>
-      <?php } ?>
-   </table>
-   <br>
-   <br>
+                           <option>
+                              <?php echo $option['category']; ?>
+                           </option>
+                           <?php
+                        }
+                        ?>
+                     </select>
+                     <input type="text" placeholder="Enter product name" name="product_name" class="box">
+                     <input type="text" placeholder="Enter product description" name="product_description" class="box">
+                     <input type="number" placeholder="Enter product price" name="product_price" class="box">
+                  </div>
+                  <br>
+                  <input type="file" accept="image/png, image/jpeg, image/jpg" name="product_image" class="box">
+            </div>
+            <br>
+            <div class="card-body">
+               <input type="submit" class="btn btn-primary" name="add_product" value="SUBMIT">
+               </form>
+            </div>
 
 
 
 
+         </div>
 
-   </main>
-   <!-- End Main -->
+
+         <div class="container">
+
+
+
+         </div>
+
+
+         <?php
+
+         $select = mysqli_query($conn, "SELECT * FROM products ORDER BY id DESC");
+
+         ?>
+
+         <br>
+         <table class="table table-bordered border-primary">
+            <thead>
+               <tr>
+
+                  <th style="border: 1px solid black;">product image</th>
+                  <th style="border: 1px solid black;">product category</th>
+                  <th style="border: 1px solid black;">product name</th>
+                  <th style="border: 1px solid black;">product price</th>
+                  <th style="width: 30%; border: 1px solid black">product description</th>
+                  <th style="border: 1px solid black;">edit product</th>
+                  <th style="border: 1px solid black;">manage stocks</th>
+                  <th style="border: 1px solid black;">remove product</th>
+
+
+               </tr>
+            </thead>
+            <?php while ($row = mysqli_fetch_assoc($select)) { ?>
+               <tr>
+
+                  <td style="border: 1px solid black"><img src="../<?php echo $row['image']; ?>" height="100" width="100"
+                        alt="logo">
+                  </td>
+                  <td style="border: 1px solid black;">
+                     <?php echo $row['category']; ?>
+                  </td>
+                  <td style="border: 1px solid black;">
+                     <?php echo $row['name']; ?>
+                  </td>
+                  <td style="border: 1px solid black;">₱
+                     <?php echo $row['price']; ?>.00
+                  </td>
+
+
+                  <td style="border: 1px solid black;">
+                     <?php echo $row['description']; ?>
+                  </td>
+                  <td style="border: 1px solid black;">
+                     <a href="admin_update.php?edit=<?php echo $row['id']; ?>" class="btn btn-primary"> <i
+                           class="fas fa-edit"></i>
+                        edit </a>
+                  </td>
+
+                  <td style="border: 1px solid black;">
+                     <a href="stocks_update.php?manage=<?php echo $row['id']; ?>" class="btn btn-secondary"> <i
+                           class="fas fa-edit"></i> manage </a>
+                  </td>
+                  <td style="border: 1px solid black;">
+                     <a href="CRUD.php?delete=<?php echo $row['id']; ?>" class="btn btn-danger"> <i
+                           class="fas fa-trash"></i>
+                        delete </a>
+                  </td>
+               </tr>
+            <?php } ?>
+         </table>
+         <br>
+         <br>
+
+
+
+
+
+      </main>
+      <!-- End Main -->
 </body>
 
 
