@@ -56,13 +56,18 @@ if ($username != false && $name != false) {
         <span class="material-icons-outlined">menu</span>
       </div>
       <div class="header-left">
-
+     
+        <a href="regular_admin_page.php">
+          <span class="material-icons-outlined">refresh</span>
+        </a>
+     
       </div>
       <div class="header-right">
         <a href="logout.php">
           <span class="material-icons-outlined">logout</span>
         </a>
       </div>
+      
     </header>
     <!-- End Header -->
 
@@ -107,7 +112,7 @@ if ($username != false && $name != false) {
 
         <li class="sidebar-list-item">
           <a href="../analytics.php">
-            <span class="material-icons-outlined">fact_check</span> Data & Information
+            <span class="material-icons-outlined">group</span> Accounts
           </a>
         </li>
         <li class="sidebar-list-item">
@@ -119,8 +124,11 @@ if ($username != false && $name != false) {
     </aside>
     <!-- End Sidebar -->
 
+
     <!-- Main -->
     <main class="main-container d-flex justify-content-evenly">
+
+      <!-- SALES -->
       <section style="padding-top:10px;">
         <div class="handler">
           <div class="row">
@@ -183,58 +191,56 @@ if ($username != false && $name != false) {
 
 
                 ?>
+
                 <div class="col-md-6">
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="col-lg-12">
-                        <h3>Total Sales between
-                          <?= $start_date ?> and
-                          <?= $end_date ?>:
+                  <div class="col-lg-12">
+                    <h3>Total Sales between
+                      <?= $start_date ?> and
+                      <?= $end_date ?>:
 
-                        </h3>
-                        <h1>₱
-                          <?= $total_sales ?>
-                        </h1>
-                      </div>
-                    </div>
-
-                    <div class="col-lg-12">
-                      <table class="table table-striped table-bordered">
-                        <thead>
-                          <th style="border: 1px solid black;">SALES ID</th>
-                          <th style="border: 1px solid black;">ORDER ID</th>
-                          <th style="border: 1px solid black;">TOTAL ORDER PRICE</th>
-                          <th style="border: 1px solid black;">DATE</th>
-                        </thead>
-
-                        <tbody>
-
-                          <?php
-                          foreach ($query as $value) { ?>
-                            <tr>
-                              <td>
-                                <?= $value['sales_id'] ?>
-                              </td>
-                              <td>
-                                <?= $value['orders_id'] ?>
-                              </td>
-                              <td>
-                                <?= $value['total_price'] ?>
-                              </td>
-                              <td>
-                                <?= $value['date_created'] ?>
-                              </td>
-                            </tr>
-                            <?php
-                          }
-                          ?>
-                        </tbody>
-
-                      </table>
-                    </div>
-
+                    </h3>
+                    <h1>₱
+                      <?= $total_sales ?>
+                    </h1>
                   </div>
                 </div>
+
+                <div class="col-lg-12">
+                  <table class="table table-striped table-bordered">
+                    <thead>
+                      <th style="border: 1px solid black;">SALES ID</th>
+                      <th style="border: 1px solid black;">ORDER ID</th>
+                      <th style="border: 1px solid black;">TOTAL ORDER PRICE</th>
+                      <th style="border: 1px solid black;">DATE</th>
+                    </thead>
+
+                    <tbody>
+
+                      <?php
+                      foreach ($query as $value) { ?>
+                        <tr>
+                          <td>
+                            <?= $value['sales_id'] ?>
+                          </td>
+                          <td>
+                            <?= $value['orders_id'] ?>
+                          </td>
+                          <td>
+                            <?= $value['total_price'] ?>
+                          </td>
+                          <td>
+                            <?= $value['date_created'] ?>
+                          </td>
+                        </tr>
+                        <?php
+                      }
+                      ?>
+                    </tbody>
+
+                  </table>
+                </div>
+
+
                 <?php
 
 
@@ -256,6 +262,7 @@ if ($username != false && $name != false) {
       </section>
 
       <br><br>
+      <!-- ORDERS -->
       <section style="padding-top:10px;">
         <div class="handler">
           <div class="row">
@@ -375,25 +382,25 @@ if ($username != false && $name != false) {
               <h3>NO ORDERS CAN BE FOUND</h3>
             </div>
 
-      </div>
-      <?php
+
+            <?php
           }
         }
         ?>
-  </section>
-
-  <section style="padding-top:10px;">
+      </section>
+      <!-- ADMIN LOGS -->
+      <section style="padding-top:10px;">
         <div class="container">
           <div class="row">
             <h1>ADMIN LOGS</h1>
-            <form method="post" action="">
+            <form method="post" action="" onsubmit="return checkPassword()">
               <div class="col-lg-4">
-                <div class="form-group">
+                <div class="form-group" style="width: 200%;">
                   <input type="date" name="start_date" class="form-control">
                 </div>
               </div>
               <div class="col-lg-4">
-                <div class="form-group">
+                <div class="form-group" style="width: 200%;">
                   <input type="date" name="end_date" class="form-control">
                 </div>
               </div>
@@ -444,7 +451,7 @@ if ($username != false && $name != false) {
                               <?= $value['date'] ?>
                             </td>
                           </tr>
-                        <?php
+                          <?php
                         }
                         ?>
                       </tbody>
@@ -462,21 +469,21 @@ if ($username != false && $name != false) {
                   <h3>NO RECORDS CAN BE FOUND</h3>
                 </div>
 
-              </div>
-              <?php
+
+                <?php
               }
             }
             ?>
-
+          </div>
       </section>
 
-  </div>
 
 
-  </main>
+
+    </main>
 
 
-  <!-- End Main -->
+    <!-- End Main -->
 
 
 
