@@ -103,7 +103,7 @@ if (isset($_GET['delete'])) {
          </div>
          <div class="header-right">
             <a href="admin_creation/logout.php">
-               <span class="material-icons-outlined">LOGOUT</span>
+               <span class="material-icons-outlined">logout</span>
             </a>
          </div>
       </header>
@@ -123,29 +123,49 @@ if (isset($_GET['delete'])) {
 
 
          <ul class="sidebar-list">
-
             <li class="sidebar-list-item">
-               <a href="admin_creation/regular_admin_page.php"> <span class="material-icons-outlined">dashboard</span>Dashboard</a>
+               <a href="admin_creation/regular_admin_page.php">
+                  <span class="material-icons-outlined">home</span> Dashboard
+               </a>
             </li>
 
             <li class="sidebar-list-item">
-               <a href="../CRUD.php">
+               <a href="uploads.php">
+                  <span class="material-icons-outlined">dashboard</span> Setup Website
+               </a>
+            </li>
+            <li class="sidebar-list-item">
+               <a href="CRUD.php">
                   <span class="material-icons-outlined">inventory</span> Manage Products
                </a>
             </li>
-            <li>
-            <a href="../categories.php">
+            <a href="categories.php">
                <li class="sidebar-list-item">
                   <span class="material-icons-outlined">inventory_2</span> Add Category
             </a>
             </li>
-            
+            <li>
+               <a href="units.php">
             <li class="sidebar-list-item">
-               <a href="analytics_table/admin_logs.php">
+               <span class="material-icons-outlined">inventory_2</span> Add Color & Sizes
+               </a>
+            </li>
+            <li class="sidebar-list-item">
+               <a href="stocks_update.php">
                   <span class="material-icons-outlined">fact_check</span> Stocks Update
                </a>
             </li>
 
+            <li class="sidebar-list-item">
+               <a href="analytics.php">
+                  <span class="material-icons-outlined">fact_check</span> Data & Information
+               </a>
+            </li>
+            <li class="sidebar-list-item">
+               <a href="analytics_table/admin_logs.php">
+                  <span class="material-icons-outlined">inventory</span> Manage Order Status
+               </a>
+            </li>
          </ul>
 
       </aside>

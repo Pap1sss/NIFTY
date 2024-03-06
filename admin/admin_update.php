@@ -7,6 +7,20 @@ $id = $_GET['edit'];
 
 
 $username = $_SESSION['user_name'];
+$name = $_SESSION['name'];
+
+if ($username != false && $name != false) {
+   $sql = "SELECT * FROM admin_accounts WHERE username = '$username'";
+   $run_Sql = mysqli_query($conn, $sql);
+   if ($run_Sql) {
+      $fetch_info = mysqli_fetch_assoc($run_Sql);
+      $username = $fetch_info['username'];
+      $name = $fetch_info['name'];
+   }
+} else {
+   header('Location: admin_creation/login_form.php');
+}
+
 
 
 if (isset($_POST['update_product_name'])) {
@@ -14,13 +28,13 @@ if (isset($_POST['update_product_name'])) {
    // Validate the input
    $product_name = $_POST['product_name'];
    if (!preg_match("/^[a-zA-Z0-9 ]*$/", $product_name)) {
-       $message[] = 'Only letters, numbers, and whitespace are allowed in product name';
-       goto end;
+      $message[] = 'Only letters, numbers, and whitespace are allowed in product name';
+      goto end;
    }
 
    if (empty($product_name)) {
-       $message[] = 'Please fill out product name';
-       goto end;
+      $message[] = 'Please fill out product name';
+      goto end;
    }
 
    // Use prepared statements to prevent SQL injection
@@ -34,7 +48,7 @@ if (isset($_POST['update_product_name'])) {
    $stmt->bind_param("ss", $username, $editproductname);
    $stmt->execute();
 
-  
+
 }
 ;
 
@@ -43,13 +57,13 @@ if (isset($_POST['update_price'])) {
    // Validate the input
    $product_price = $_POST['product_price'];
    if (!is_numeric($product_price)) {
-       $message[] = 'Price must be a number';
-       goto end;
+      $message[] = 'Price must be a number';
+      goto end;
    }
 
    if (empty($product_price)) {
-       $message[] = 'Please fill out price';
-       goto end;
+      $message[] = 'Please fill out price';
+      goto end;
    }
 
    // Use prepared statements to prevent SQL injection
@@ -63,7 +77,7 @@ if (isset($_POST['update_price'])) {
    $stmt->bind_param("ss", $username, $editproductprice);
    $stmt->execute();
 
-   
+
 }
 ;
 
@@ -73,13 +87,13 @@ if (isset($_POST['update_description'])) {
    // Validate the input
    $product_description = trim($_POST['product_description']);
    if (strlen($product_description) > 500) {
-       $message[] = 'Description should not exceed 500 characters';
-       goto end;
+      $message[] = 'Description should not exceed 500 characters';
+      goto end;
    }
 
    if (empty($product_description)) {
-       $message[] = 'Please fill out description';
-       goto end;
+      $message[] = 'Please fill out description';
+      goto end;
    }
 
    // Use prepared statements to prevent SQL injection
@@ -163,10 +177,10 @@ if (isset($_POST['update_image'])) {
          <div class="header-left">
 
          </div>
-      
-            <a href="CRUD.php" class="btn btn-danger">LOGOUT</a>
-         
-         
+
+         <a href="CRUD.php" class="btn btn-danger">LOGOUT</a>
+
+
       </header>
       <!-- End Header -->
 
@@ -183,18 +197,46 @@ if (isset($_POST['update_image'])) {
 
          <ul class="sidebar-list">
             <li class="sidebar-list-item">
+               <a href="admin_creation/regular_admin_page.php">
+                  <span class="material-icons-outlined">home</span> Dashboard
+               </a>
+            </li>
+
+            <li class="sidebar-list-item">
+               <a href="uploads.php">
+                  <span class="material-icons-outlined">dashboard</span> Setup Website
+               </a>
+            </li>
+            <li class="sidebar-list-item">
                <a href="CRUD.php">
                   <span class="material-icons-outlined">inventory</span> Manage Products
                </a>
             </li>
-            <a href="../categories.php">
+            <a href="categories.php">
                <li class="sidebar-list-item">
                   <span class="material-icons-outlined">inventory_2</span> Add Category
             </a>
             </li>
+            <li>
+               <a href="units.php">
+            <li class="sidebar-list-item">
+               <span class="material-icons-outlined">inventory_2</span> Add Color & Sizes
+               </a>
+            </li>
+            <li class="sidebar-list-item">
+               <a href="stocks_update.php">
+                  <span class="material-icons-outlined">fact_check</span> Stocks Update
+               </a>
+            </li>
+
+            <li class="sidebar-list-item">
+               <a href="analytics.php">
+                  <span class="material-icons-outlined">fact_check</span> Data & Information
+               </a>
+            </li>
             <li class="sidebar-list-item">
                <a href="analytics_table/admin_logs.php">
-                  <span class="material-icons-outlined">fact_check</span> Stocks Update
+                  <span class="material-icons-outlined">inventory</span> Manage Order Status
                </a>
             </li>
 
@@ -228,8 +270,8 @@ if (isset($_POST['update_image'])) {
 
          <form action="" method="post" enctype="multipart/form-data">
             <ul class="list-group" style="margin-top: 20px">
-            <li class="list-group-item d-flex justify-content-start">
-            <a href="CRUD.php" class="btn btn-secondary">BACK</a>
+               <li class="list-group-item d-flex justify-content-start">
+                  <a href="CRUD.php" class="btn btn-secondary">BACK</a>
                </li>
                <li class="list-group-item"> <img class="center border border-dark" src="../<?php echo $row['image']; ?>"
                      height="100" alt="logo"></td>
