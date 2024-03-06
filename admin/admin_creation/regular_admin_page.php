@@ -122,7 +122,7 @@ if ($username != false && $name != false) {
     <!-- Main -->
     <main class="main-container d-flex justify-content-evenly">
       <section style="padding-top:10px;">
-        <div class="container">
+        <div class="handler">
           <div class="row">
             <h1>SALES</h1>
             <form method="post" action="" onsubmit="return checkPassword()">
@@ -148,39 +148,42 @@ if ($username != false && $name != false) {
               </div>
             </form>
 
+          </div>
 
 
-            <script>
-              function checkPassword() {
-                var password = prompt("Please enter the password to proceed.");
-                if (password === "12345678") {
-                  return true;
-                } else {
-                  alert("Incorrect password. Please try again.");
-                  return false;
-                }
+
+          <script>
+            function checkPassword() {
+              var password = prompt("Please enter the password to proceed.");
+              if (password === "12345678") {
+                return true;
+              } else {
+                alert("Incorrect password. Please try again.");
+                return false;
               }
-            </script>
+            }
+          </script>
 
 
 
-            <?php
-            if (isset($_POST['submit_date_sales'])) {
+          <?php
+          if (isset($_POST['submit_date_sales'])) {
 
-              $start_date = $_POST['start_date'];
-              $end_date = $_POST['end_date'];
+            $start_date = $_POST['start_date'];
+            $end_date = $_POST['end_date'];
 
-              $query = mysqli_query($conn, "SELECT * FROM sales WHERE date_created between '$start_date' and '$end_date'");
-              $querysum = mysqli_query($conn, "SELECT SUM(total_price) AS total_sales FROM sales WHERE date_created BETWEEN '$start_date' AND '$end_date'");
+            $query = mysqli_query($conn, "SELECT * FROM sales WHERE date_created between '$start_date' and '$end_date'");
+            $querysum = mysqli_query($conn, "SELECT SUM(total_price) AS total_sales FROM sales WHERE date_created BETWEEN '$start_date' AND '$end_date'");
 
-              if (mysqli_num_rows($query) > 0) {
-                $result = mysqli_fetch_assoc($querysum);
-                $total_sales = $result['total_sales'];
-                foreach ($query as $value) {
+            if (mysqli_num_rows($query) > 0) {
+              $result = mysqli_fetch_assoc($querysum);
+              $total_sales = $result['total_sales'];
+              foreach ($query as $value) {
 
 
 
-                  ?>
+                ?>
+                <div class="col-md-6">
                   <div class="row">
                     <div class="col-md-6">
                       <div class="col-lg-12">
@@ -196,7 +199,7 @@ if ($username != false && $name != false) {
                     </div>
 
                     <div class="col-lg-12">
-                      <table class="table table-bordered border-primary">
+                      <table class="table table-striped table-bordered">
                         <thead>
                           <th style="border: 1px solid black;">SALES ID</th>
                           <th style="border: 1px solid black;">ORDER ID</th>
@@ -231,23 +234,24 @@ if ($username != false && $name != false) {
                     </div>
 
                   </div>
-                  <?php
-
-
-                }
-
-              } else {
-                ?>
-                <div class="col-lg-12">
-                  <h3>NO SALES CAN BE FOUND</h3>
                 </div>
+                <?php
 
-              </div>
-            </div>
-            <?php
+
               }
+
+            } else {
+              ?>
+              <div class="col-lg-12">
+                <h3>NO SALES CAN BE FOUND</h3>
+              </div>
+
+            </div>
+
+            <?php
             }
-            ?>
+          }
+          ?>
 
       </section>
 
@@ -278,17 +282,138 @@ if ($username != false && $name != false) {
                 </div>
               </div>
             </form>
+          </div>
 
+        </div>
+
+
+
+        <?php
+        if (isset($_POST['submit_date_orders'])) {
+
+          $start_date = $_POST['start_date'];
+          $end_date = $_POST['end_date'];
+
+          $query = mysqli_query($conn, "SELECT * FROM orders WHERE date_created BETWEEN '$start_date' AND '$end_date' ORDER BY id DESC");
+
+          if (mysqli_num_rows($query) > 0) {
+
+            foreach ($query as $value) {
+
+              ?>
+
+              <div class="col-lg-12">
+                <table class="table table-striped table-bordered">
+                  <thead>
+                    <th>ORDER ID</th>
+                    <th>STATUS</th>
+                    <th>DATE & TIME</th>
+                    <th>NAME</th>
+                    <th>MOBILE NUMBER</th>
+                    <th>EMAIL</th>
+                    <th>PAYMENT METHOD</th>
+                    <th>ADDRESS</th>
+                    <th>ORDERS</th>
+                    <th>TOTAL PRICE</th>
+
+                  </thead>
+
+                  <tbody>
+
+                    <?php
+                    foreach ($query as $value) { ?>
+                      <tr>
+                        <td>
+                          <?= $value['id'] ?>
+                        </td>
+                        <td>
+                          <?= $value['status'] ?>
+                        </td>
+                        <td>
+
+                          <?= $value['time_created'] ?>
+                        </td>
+
+                        <td>
+                          <?= $value['name'] ?>
+                        </td>
+                        <td>
+                          <?= $value['number'] ?>
+                        </td>
+                        <td>
+                          <?= $value['email'] ?>
+                        </td>
+                        <td>
+                          <?= $value['method'] ?>
+                        </td>
+                        <td>
+                          <?= $value['address'] ?>
+                        </td>
+                        <td>
+                          <?= $value['total_products'] ?>
+                        </td>
+                        <td>
+                          <?= $value['total_price'] ?>
+                        </td>
+
+                      </tr>
+                      <?php
+                    }
+                    ?>
+                  </tbody>
+
+                </table>
+              </div>
+              <?php
+
+
+            }
+
+          } else {
+            ?>
+            <div class="col-lg-12">
+              <h3>NO ORDERS CAN BE FOUND</h3>
+            </div>
+
+      </div>
+      <?php
+          }
+        }
+        ?>
+  </section>
+
+  <section style="padding-top:10px;">
+        <div class="container">
+          <div class="row">
+            <h1>ADMIN LOGS</h1>
+            <form method="post" action="">
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <input type="date" name="start_date" class="form-control">
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <input type="date" name="end_date" class="form-control">
+                </div>
+              </div>
+
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <input type="submit" name="submit_date_admin_logs" class="btn btn-primary">
+                </div>
+              </div>
+            </form>
 
 
 
             <?php
-            if (isset($_POST['submit_date_orders'])) {
+            if (isset($_POST['submit_date_admin_logs'])) {
 
               $start_date = $_POST['start_date'];
               $end_date = $_POST['end_date'];
 
-              $query = mysqli_query($conn, "SELECT * FROM orders WHERE date_created BETWEEN '$start_date' AND '$end_date' ORDER BY id DESC");
+              $query = mysqli_query($conn, "SELECT * FROM admin_log WHERE date between '$start_date' and '$end_date'");
 
               if (mysqli_num_rows($query) > 0) {
 
@@ -297,19 +422,11 @@ if ($username != false && $name != false) {
                   ?>
 
                   <div class="col-lg-12">
-                    <table class="table table-bordered border-primary">
+                    <table class="table table-striped table-bordered">
                       <thead>
-                        <th>ORDER ID</th>
-                        <th>STATUS</th>
-                        <th>DATE & TIME</th>
-                        <th>NAME</th>
-                        <th>MOBILE NUMBER</th>
-                        <th>EMAIL</th>
-                        <th>PAYMENT METHOD</th>
-                        <th>ADDRESS</th>
-                        <th>ORDERS</th>
-                        <th>TOTAL PRICE</th>
-
+                        <th>ADMIN USERNAME</th>
+                        <th>TIME-IN</th>
+                        <th>DATE</th>
                       </thead>
 
                       <tbody>
@@ -318,40 +435,16 @@ if ($username != false && $name != false) {
                         foreach ($query as $value) { ?>
                           <tr>
                             <td>
-                              <?= $value['id'] ?>
+                              <?= $value['username'] ?>
                             </td>
                             <td>
-                              <?= $value['status'] ?>
+                              <?= $value['timein'] ?>
                             </td>
                             <td>
-
-                              <?= $value['time_created'] ?>
+                              <?= $value['date'] ?>
                             </td>
-
-                            <td>
-                              <?= $value['name'] ?>
-                            </td>
-                            <td>
-                              <?= $value['number'] ?>
-                            </td>
-                            <td>
-                              <?= $value['email'] ?>
-                            </td>
-                            <td>
-                              <?= $value['method'] ?>
-                            </td>
-                            <td>
-                              <?= $value['address'] ?>
-                            </td>
-                            <td>
-                              <?= $value['total_products'] ?>
-                            </td>
-                            <td>
-                              <?= $value['total_price'] ?>
-                            </td>
-
                           </tr>
-                          <?php
+                        <?php
                         }
                         ?>
                       </tbody>
@@ -366,7 +459,7 @@ if ($username != false && $name != false) {
               } else {
                 ?>
                 <div class="col-lg-12">
-                  <h3>NO ORDERS CAN BE FOUND</h3>
+                  <h3>NO RECORDS CAN BE FOUND</h3>
                 </div>
 
               </div>
@@ -374,11 +467,8 @@ if ($username != false && $name != false) {
               }
             }
             ?>
+
       </section>
-
-
-
-
 
   </div>
 
