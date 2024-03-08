@@ -56,18 +56,18 @@ if ($username != false && $name != false) {
         <span class="material-icons-outlined">menu</span>
       </div>
       <div class="header-left">
-     
+
         <a href="regular_admin_page.php">
           <span class="material-icons-outlined">refresh</span>
         </a>
-     
+
       </div>
       <div class="header-right">
         <a href="logout.php">
           <span class="material-icons-outlined">logout</span>
         </a>
       </div>
-      
+
     </header>
     <!-- End Header -->
 
@@ -93,17 +93,6 @@ if ($username != false && $name != false) {
             <span class="material-icons-outlined">inventory</span> Manage Products
           </a>
         </li>
-        <a href="../categories.php">
-          <li class="sidebar-list-item">
-            <span class="material-icons-outlined">inventory_2</span> Add Category
-        </a>
-        </li>
-        <li>
-          <a href="../units.php">
-        <li class="sidebar-list-item">
-          <span class="material-icons-outlined">inventory_2</span> Add Color & Sizes
-          </a>
-        </li>
         <li class="sidebar-list-item">
           <a href="../stocks_update.php">
             <span class="material-icons-outlined">fact_check</span> Stocks Update
@@ -111,7 +100,7 @@ if ($username != false && $name != false) {
         </li>
 
         <li class="sidebar-list-item">
-          <a href="../analytics.php">
+          <a href="../user_accounts.php">
             <span class="material-icons-outlined">group</span> Accounts
           </a>
         </li>

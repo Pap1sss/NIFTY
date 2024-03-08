@@ -31,7 +31,7 @@ if (isset($_POST['add_product'])) {
    $product_image_folder = 'uploaded_img/' . $product_image;
 
    if (empty($product_name) || empty($product_price) || empty($product_image)) {
-      $message[] = 'please fill out all';
+      echo "<script>alert('Please fill out all');</script>";
    } else {
       $insert = "INSERT INTO products(category,name, price, image, description, date_created, time_created) 
          VALUES('$category', '$product_name', '$product_price', 'admin/uploaded_img/$product_image', '$product_description', CURRENT_DATE(), CURRENT_TIME())";
@@ -41,9 +41,9 @@ if (isset($_POST['add_product'])) {
       $upload = mysqli_query($conn, $insert);
       if ($upload) {
          move_uploaded_file($product_image_tmp_name, $product_image_folder);
-         $message[] = 'new product added successfully';
+         echo "<script>alert('New Product Added Successfully');</script>";
       } else {
-         $message[] = 'could not add the product';
+         echo "<script>alert('Could not add the product');</script>";
       }
    }
 
@@ -285,17 +285,7 @@ if (isset($_GET['color_delete'])) {
                   <span class="material-icons-outlined">inventory</span> Manage Products
                </a>
             </li>
-            <a href="categories.php">
-               <li class="sidebar-list-item">
-                  <span class="material-icons-outlined">inventory_2</span> Add Category
-            </a>
-            </li>
-            <li>
-               <a href="units.php">
-            <li class="sidebar-list-item">
-               <span class="material-icons-outlined">inventory_2</span> Add Color & Sizes
-               </a>
-            </li>
+
             <li class="sidebar-list-item">
                <a href="stocks_update.php">
                   <span class="material-icons-outlined">fact_check</span> Stocks Update
