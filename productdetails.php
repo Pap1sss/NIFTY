@@ -303,7 +303,7 @@ if ($result->num_rows > 0) {
                   <form action="" method="post">
                     <div class="row">
                       <div class="box">
-                       
+
                         <div class="form-check-inline">
                           <?php
 
@@ -324,7 +324,7 @@ if ($result->num_rows > 0) {
                           ?>
                         </div>
 
-                      
+
 
                         <div class="form-check-inline">
                           <?php

@@ -93,7 +93,10 @@ if (isset($_POST['upload'])) {
 
          </div>
 
-         <a href="CRUD.php" class="btn btn-danger">LOGOUT</a>
+         <div class="header-right">
+            <a href="admin_creation/logout.php">
+               <span class="material-icons-outlined">logout</span>
+            </a>
 
 
       </header>
@@ -267,5 +270,10 @@ if (isset($_POST['upload'])) {
 
 
 </body>
+
+<!-- ApexCharts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.35.3/apexcharts.min.js"></script>
+<!-- Custom JS -->
+<script src="js/scripts.js"></script>
 
 </html>

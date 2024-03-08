@@ -32,7 +32,7 @@ if(isset($_POST['submit'])){
           $error[] = 'INVALID SIGN UP!';
           
        }else{
-          $insert = "INSERT INTO admin_accounts(name, username, password, admin_type) VALUES('$name','$username','$password','$admin_type')";
+          $insert = "INSERT INTO admin_accounts(name, username, password) VALUES('$name','$username','$password')";
           mysqli_query($conn, $insert);
           header('location:login_form.php');
        }
