@@ -84,18 +84,18 @@ if ($username != false && $name != false) {
 
       <ul class="sidebar-list">
         <li class="sidebar-list-item">
+          <a href="regular_admin_page.php">
+            <span class="material-icons-outlined">dashboard</span> Dashboard
+          </a>
+        </li>
+        <li class="sidebar-list-item">
           <a href="../uploads.php">
-            <span class="material-icons-outlined">dashboard</span> Setup Website
+            <span class="material-icons-outlined">wysiwyg</span> Setup Website
           </a>
         </li>
         <li class="sidebar-list-item">
           <a href="../CRUD.php">
             <span class="material-icons-outlined">inventory</span> Manage Products
-          </a>
-        </li>
-        <li class="sidebar-list-item">
-          <a href="../stocks_update.php">
-            <span class="material-icons-outlined">fact_check</span> Stocks Update
           </a>
         </li>
 
@@ -105,8 +105,13 @@ if ($username != false && $name != false) {
           </a>
         </li>
         <li class="sidebar-list-item">
-          <a href="analytics_table/admin_logs.php">
+          <a href="../order_status.php">
             <span class="material-icons-outlined">inventory</span> Manage Order Status
+          </a>
+        </li>
+        <li class="sidebar-list-item">
+          <a href="../admin_logs.php">
+            <span class="material-icons-outlined">face</span> Admin Logs
           </a>
         </li>
       </ul>

@@ -102,10 +102,10 @@ if (isset($_POST['add_stocks'])) {
          color: black;
       }
    </style>
-   <div class="grid-container" >
+   <div class="grid-container">
 
       <!-- Header -->
-      <header class="header" >
+      <header class="header">
          <div class="menu-icon" onclick="openSidebar()">
             <span class="material-icons-outlined">menu</span>
          </div>
@@ -121,7 +121,7 @@ if (isset($_POST['add_stocks'])) {
       <!-- End Header -->
 
       <!-- Sidebar -->
-      <aside id="sidebar" >
+      <aside id="sidebar">
          <div class="sidebar-title">
             <div class="sidebar-brand">
                <span class="material-icons-outlined"></span>Welcome,
@@ -132,13 +132,12 @@ if (isset($_POST['add_stocks'])) {
          <ul class="sidebar-list">
             <li class="sidebar-list-item">
                <a href="admin_creation/regular_admin_page.php">
-                  <span class="material-icons-outlined">home</span> Dashboard
+                  <span class="material-icons-outlined">dashboard</span> Dashboard
                </a>
             </li>
-
             <li class="sidebar-list-item">
                <a href="uploads.php">
-                  <span class="material-icons-outlined">dashboard</span> Setup Website
+                  <span class="material-icons-outlined">wysiwyg</span> Setup Website
                </a>
             </li>
             <li class="sidebar-list-item">
@@ -146,37 +145,26 @@ if (isset($_POST['add_stocks'])) {
                   <span class="material-icons-outlined">inventory</span> Manage Products
                </a>
             </li>
-            <a href="categories.php">
-               <li class="sidebar-list-item">
-                  <span class="material-icons-outlined">inventory_2</span> Add Category
-            </a>
-            </li>
-            <li>
-               <a href="units.php">
             <li class="sidebar-list-item">
-               <span class="material-icons-outlined">inventory_2</span> Add Color & Sizes
+               <a href="user_accounts.php">
+                  <span class="material-icons-outlined">group</span> Accounts
                </a>
             </li>
             <li class="sidebar-list-item">
-               <a href="stocks_update.php">
-                  <span class="material-icons-outlined">fact_check</span> Stocks Update
-               </a>
-            </li>
-
-            <li class="sidebar-list-item">
-               <a href="analytics.php">
-                  <span class="material-icons-outlined">fact_check</span> Data & Information
-               </a>
-            </li>
-            <li class="sidebar-list-item">
-               <a href="analytics_table/admin_logs.php">
+               <a href="order_status.php">
                   <span class="material-icons-outlined">inventory</span> Manage Order Status
+               </a>
+            </li>
+            <li class="sidebar-list-item">
+               <a href="admin_logs.php">
+                  <span class="material-icons-outlined">face</span> Admin Logs
                </a>
             </li>
          </ul>
 
+
       </aside>
-   
+
       <!-- fetch categories  -->
 
       <?php
@@ -209,7 +197,7 @@ if (isset($_POST['add_stocks'])) {
 
       ?>
 
-      <div class="d-flex justify-content-center " style="margin-top: 20px" >
+      <div class="d-flex justify-content-center " style="margin-top: 20px">
          <ul class="list-group float-left mr-3">
             <li class="list-group-item d-flex justify-content-center">
                <h5>AVAILABLE STOCKS</h5>
@@ -238,108 +226,108 @@ if (isset($_POST['add_stocks'])) {
                   <?php } ?>
                </table>
             </li>
-       
+
       </div>
-   
-         <!-- fetch units  -->
 
-         <?php
-         $query = "SELECT unit_name FROM product_units";
-         $result = $conn->query($query);
-         if ($result->num_rows > 0) {
-            $options = mysqli_fetch_all($result, MYSQLI_ASSOC);
-         }
+      <!-- fetch units  -->
+
+      <?php
+      $query = "SELECT unit_name FROM product_units";
+      $result = $conn->query($query);
+      if ($result->num_rows > 0) {
+         $options = mysqli_fetch_all($result, MYSQLI_ASSOC);
+      }
+      ?>
+
+      <?php
+      $query1 = "SELECT color_name FROM color";
+      $result1 = $conn->query($query1);
+      if ($result1->num_rows > 0) {
+         $options1 = mysqli_fetch_all($result1, MYSQLI_ASSOC);
+      }
+      ?>
+      <?php
+
+      $select = mysqli_query($conn, "SELECT * FROM products WHERE id = '$id'");
+      while ($row = mysqli_fetch_assoc($select)) {
+
          ?>
 
-         <?php
-         $query1 = "SELECT color_name FROM color";
-         $result1 = $conn->query($query1);
-         if ($result1->num_rows > 0) {
-            $options1 = mysqli_fetch_all($result1, MYSQLI_ASSOC);
-         }
-         ?>
-         <?php
-
-         $select = mysqli_query($conn, "SELECT * FROM products WHERE id = '$id'");
-         while ($row = mysqli_fetch_assoc($select)) {
-
-            ?>
-
-            <style >
-               .center {
-                  display: block;
-                  margin-left: auto;
-                  margin-right: auto;
-                  width: 50%;
-                  height: inherit;
-               }
-            </style>
+         <style>
+            .center {
+               display: block;
+               margin-left: auto;
+               margin-right: auto;
+               width: 50%;
+               height: inherit;
+            }
+         </style>
 
 
-               <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" enctype="multipart/form-data" >
-            <ul class="list-group" style="margin-top: 20px" >
+         <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" enctype="multipart/form-data">
+            <ul class="list-group" style="margin-top: 20px">
 
-                  <li class="list-group-item d-flex justify-content-center">
-                     <h3>Product Information</h3>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-center">
-                     <img class="center" src="../<?php echo $row['image']; ?>" height="100" alt="logo"></td>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-center">
-                     <h5>NAME:
-                        <?php echo $row['name']; ?>
-                     </h5>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-center">
-                     <h5>PRICE: ₱
-                        <?php echo $row['price']; ?>
-                     </h5>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-center">
-                     <select class="box" name="unit">
-                        <option>Select Unit</option>
-                        <?php
-                        foreach ($options as $option) {
-                           ?>
-                           <option>
-                              <?php echo $option['unit_name']; ?>
-                           </option>
-                           <?php
-                        }
+               <li class="list-group-item d-flex justify-content-center">
+                  <h3>Product Information</h3>
+               </li>
+               <li class="list-group-item d-flex justify-content-center">
+                  <img class="center" src="../<?php echo $row['image']; ?>" height="100" alt="logo"></td>
+               </li>
+               <li class="list-group-item d-flex justify-content-center">
+                  <h5>NAME:
+                     <?php echo $row['name']; ?>
+                  </h5>
+               </li>
+               <li class="list-group-item d-flex justify-content-center">
+                  <h5>PRICE: ₱
+                     <?php echo $row['price']; ?>
+                  </h5>
+               </li>
+               <li class="list-group-item d-flex justify-content-center">
+                  <select class="box" name="unit">
+                     <option>Select Unit</option>
+                     <?php
+                     foreach ($options as $option) {
                         ?>
-                     </select>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-center">
-                     <select class="box" name="color">
-                        <option>Select color</option>
+                        <option>
+                           <?php echo $option['unit_name']; ?>
+                        </option>
                         <?php
-                        foreach ($options1 as $option) {
-                           ?>
-                           <option>
-                              <?php echo $option['color_name']; ?>
-                           </option>
-                           <?php
-                        }
+                     }
+                     ?>
+                  </select>
+               </li>
+               <li class="list-group-item d-flex justify-content-center">
+                  <select class="box" name="color">
+                     <option>Select color</option>
+                     <?php
+                     foreach ($options1 as $option) {
                         ?>
-                     </select>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-center">
-                     <input type="submit" class="btn btn-dark" name="add_stocks" value="confirm">
-                  </li>
+                        <option>
+                           <?php echo $option['color_name']; ?>
+                        </option>
+                        <?php
+                     }
+                     ?>
+                  </select>
+               </li>
+               <li class="list-group-item d-flex justify-content-center">
+                  <input type="submit" class="btn btn-dark" name="add_stocks" value="confirm">
+               </li>
             </ul>
 
-               </form>
+         </form>
 
 
-         <?php }
-         ; ?>
-     
+      <?php }
+      ; ?>
+
    </div>
 
 
 
 
- 
+
    <script>
       var close = document.getElementsByClassName("closebtn");
       var i;

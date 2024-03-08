@@ -271,13 +271,12 @@ if (isset($_GET['color_delete'])) {
          <ul class="sidebar-list">
             <li class="sidebar-list-item">
                <a href="admin_creation/regular_admin_page.php">
-                  <span class="material-icons-outlined">home</span> Dashboard
+                  <span class="material-icons-outlined">dashboard</span> Dashboard
                </a>
             </li>
-
             <li class="sidebar-list-item">
                <a href="uploads.php">
-                  <span class="material-icons-outlined">dashboard</span> Setup Website
+                  <span class="material-icons-outlined">wysiwyg</span> Setup Website
                </a>
             </li>
             <li class="sidebar-list-item">
@@ -285,21 +284,19 @@ if (isset($_GET['color_delete'])) {
                   <span class="material-icons-outlined">inventory</span> Manage Products
                </a>
             </li>
-
             <li class="sidebar-list-item">
-               <a href="stocks_update.php">
-                  <span class="material-icons-outlined">fact_check</span> Stocks Update
-               </a>
-            </li>
-
-            <li class="sidebar-list-item">
-               <a href="analytics.php">
-                  <span class="material-icons-outlined">fact_check</span> Data & Information
+               <a href="user_accounts.php">
+                  <span class="material-icons-outlined">group</span> Accounts
                </a>
             </li>
             <li class="sidebar-list-item">
-               <a href="analytics_table/admin_logs.php">
+               <a href="order_status.php">
                   <span class="material-icons-outlined">inventory</span> Manage Order Status
+               </a>
+            </li>
+            <li class="sidebar-list-item">
+               <a href="admin_logs.php">
+                  <span class="material-icons-outlined">face</span> Admin Logs
                </a>
             </li>
          </ul>
