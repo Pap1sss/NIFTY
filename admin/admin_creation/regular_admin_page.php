@@ -129,12 +129,12 @@ if ($username != false && $name != false) {
             <h1>SALES</h1>
             <form method="post" action="" onsubmit="return checkPassword()">
               <div class="col-lg-4">
-                <div class="form-group" style="width: 200%;">
+                <div class="form-group" style="width: 230%;">
                   <input type="date" name="start_date" class="form-control">
                 </div>
               </div>
               <div class="col-lg-4">
-                <div class="form-group" style="width: 200%;">
+                <div class="form-group" style="width: 230%;">
                   <input type="date" name="end_date" class="form-control">
                 </div>
 
@@ -381,94 +381,6 @@ if ($username != false && $name != false) {
           }
         }
         ?>
-      </section>
-      <!-- ADMIN LOGS -->
-      <section style="padding-top:10px;">
-        <div class="container">
-          <div class="row">
-            <h1>ADMIN LOGS</h1>
-            <form method="post" action="" onsubmit="return checkPassword()">
-              <div class="col-lg-4">
-                <div class="form-group" style="width: 200%;">
-                  <input type="date" name="start_date" class="form-control">
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="form-group" style="width: 200%;">
-                  <input type="date" name="end_date" class="form-control">
-                </div>
-              </div>
-
-              <div class="col-lg-4">
-                <div class="form-group">
-                  <input type="submit" name="submit_date_admin_logs" class="btn btn-primary">
-                </div>
-              </div>
-            </form>
-
-
-
-            <?php
-            if (isset($_POST['submit_date_admin_logs'])) {
-
-              $start_date = $_POST['start_date'];
-              $end_date = $_POST['end_date'];
-
-              $query = mysqli_query($conn, "SELECT * FROM admin_log WHERE date between '$start_date' and '$end_date'");
-
-              if (mysqli_num_rows($query) > 0) {
-
-                foreach ($query as $value) {
-
-                  ?>
-
-                  <div class="col-lg-12">
-                    <table class="table table-striped table-bordered">
-                      <thead>
-                        <th>ADMIN USERNAME</th>
-                        <th>TIME-IN</th>
-                        <th>DATE</th>
-                      </thead>
-
-                      <tbody>
-
-                        <?php
-                        foreach ($query as $value) { ?>
-                          <tr>
-                            <td>
-                              <?= $value['username'] ?>
-                            </td>
-                            <td>
-                              <?= $value['timein'] ?>
-                            </td>
-                            <td>
-                              <?= $value['date'] ?>
-                            </td>
-                          </tr>
-                          <?php
-                        }
-                        ?>
-                      </tbody>
-
-                    </table>
-                  </div>
-                  <?php
-
-
-                }
-
-              } else {
-                ?>
-                <div class="col-lg-12">
-                  <h3>NO RECORDS CAN BE FOUND</h3>
-                </div>
-
-
-                <?php
-              }
-            }
-            ?>
-          </div>
       </section>
 
 

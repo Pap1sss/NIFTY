@@ -174,135 +174,138 @@ if (isset($_POST['update_image'])) {
          <div class="menu-icon" onclick="openSidebar()">
             <span class="material-icons-outlined">menu</span>
          </div>
-         <div class="header-left">
+         < <div class="header-left">
 
+            <a href="regular_admin_page.php">
+               <span class="material-icons-outlined">refresh</span>
+            </a>
+
+   </div>
+
+   <a href="CRUD.php" class="btn btn-danger">LOGOUT</a>
+
+
+   </header>
+   <!-- End Header -->
+
+   <!-- Sidebar -->
+   <aside id="sidebar">
+
+
+      <div class="sidebar-title">
+         <div class="sidebar-brand">
+            <span class="material-icons-outlined"></span>Welcome,
+            <?php echo $_SESSION['user_name'] ?>
          </div>
+      </div>
 
-         <a href="CRUD.php" class="btn btn-danger">LOGOUT</a>
+      <ul class="sidebar-list">
+         <li class="sidebar-list-item">
+            <a href="admin_creation/regular_admin_page.php">
+               <span class="material-icons-outlined">dashboard</span> Dashboard
+            </a>
+         </li>
+         <li class="sidebar-list-item">
+            <a href="uploads.php">
+               <span class="material-icons-outlined">wysiwyg</span> Setup Website
+            </a>
+         </li>
+         <li class="sidebar-list-item">
+            <a href="CRUD.php">
+               <span class="material-icons-outlined">inventory</span> Manage Products
+            </a>
+         </li>
+         <li class="sidebar-list-item">
+            <a href="user_accounts.php">
+               <span class="material-icons-outlined">group</span> Accounts
+            </a>
+         </li>
+         <li class="sidebar-list-item">
+            <a href="order_status.php">
+               <span class="material-icons-outlined">inventory</span> Manage Order Status
+            </a>
+         </li>
+         <li class="sidebar-list-item">
+            <a href="admin_logs.php">
+               <span class="material-icons-outlined">face</span> Admin Logs
+            </a>
+         </li>
+      </ul>
+
+   </aside>
+
+   </main>
+
+   <style>
+      .center {
+         display: block;
+         margin-left: auto;
+         margin-right: auto;
+         width: 50%;
+         height: inherit;
+      }
+   </style>
+
+   <?php
+
+   $select = mysqli_query($conn, "SELECT * FROM products WHERE id = '$id'");
+   while ($row = mysqli_fetch_assoc($select)) {
+
+      ?>
+      <!-- End Main -->
+      <div class="container">
 
 
-      </header>
-      <!-- End Header -->
+      </div>
 
-      <!-- Sidebar -->
-      <aside id="sidebar">
-
-
-         <div class="sidebar-title">
-            <div class="sidebar-brand">
-               <span class="material-icons-outlined"></span>Welcome,
-               <?php echo $_SESSION['user_name'] ?>
-            </div>
-         </div>
-
-         <ul class="sidebar-list">
-            <li class="sidebar-list-item">
-               <a href="admin_creation/regular_admin_page.php">
-                  <span class="material-icons-outlined">dashboard</span> Dashboard
-               </a>
+      <form action="" method="post" enctype="multipart/form-data">
+         <ul class="list-group" style="margin-top: 20px">
+            <li class="list-group-item d-flex justify-content-start">
+               <a href="CRUD.php" class="btn btn-secondary">BACK</a>
             </li>
-            <li class="sidebar-list-item">
-               <a href="uploads.php">
-                  <span class="material-icons-outlined">wysiwyg</span> Setup Website
-               </a>
+            <li class="list-group-item"> <img class="center border border-dark" src="../<?php echo $row['image']; ?>"
+                  height="100" alt="logo"></td>
+
+               <h4 style="text-align: center">NAME:
+                  <?php echo $row['name']; ?>
+               </h4>
+               <h4 style="text-align: center">PRICE: ₱
+                  <?php echo $row['price']; ?>
+               </h4>
+               <p style="text-align: justify">
+                  <?php echo $row['description']; ?>
+               </p>
             </li>
-            <li class="sidebar-list-item">
-               <a href="CRUD.php">
-                  <span class="material-icons-outlined">inventory</span> Manage Products
-               </a>
+            <li class="list-group-item d-flex justify-content-center">
+               <input type="text" class="box me-1 pe-5" name="product_name" value="" placeholder="new product name">
+               <input type="submit" value="UPDATE" name="update_product_name" class="btn btn-dark">
             </li>
-            <li class="sidebar-list-item">
-               <a href="user_accounts.php">
-                  <span class="material-icons-outlined">group</span> Accounts
-               </a>
+            <li class="list-group-item d-flex justify-content-center">
+               <input type="number" min="0" class="box me-1 pe-5" name="product_price" value=""
+                  placeholder="new product price">
+
+               <input type="submit" value="UPDATE" name="update_price" class="btn btn-dark">
             </li>
-            <li class="sidebar-list-item">
-               <a href="order_status.php">
-                  <span class="material-icons-outlined">inventory</span> Manage Order Status
-               </a>
+            <li class="list-group-item d-flex justify-content-center">
+               <input type="text" class="box me-1 pe-5" name="product_description" value="" placeholder="new description">
+
+               <input type="submit" value="UPDATE" name="update_description" class="btn btn-dark">
             </li>
-            <li class="sidebar-list-item">
-               <a href="admin_logs.php">
-                  <span class="material-icons-outlined">face</span> Admin Logs
-               </a>
+            <li class="list-group-item d-flex justify-content-center">
+               <input type="file" class="box me-1 pe-4" name="product_image" accept="image/png, image/jpeg, image/jpg">
+
+               <input type="submit" value="UPDATE IMAGE" name="update_image" class="btn btn-dark">
             </li>
+
          </ul>
-
-      </aside>
-
-      </main>
-
-      <style>
-         .center {
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            width: 50%;
-            height: inherit;
-         }
-      </style>
-
-      <?php
-
-      $select = mysqli_query($conn, "SELECT * FROM products WHERE id = '$id'");
-      while ($row = mysqli_fetch_assoc($select)) {
-
-         ?>
-         <!-- End Main -->
-         <div class="container">
-
-
-         </div>
-
-         <form action="" method="post" enctype="multipart/form-data">
-            <ul class="list-group" style="margin-top: 20px">
-               <li class="list-group-item d-flex justify-content-start">
-                  <a href="CRUD.php" class="btn btn-secondary">BACK</a>
-               </li>
-               <li class="list-group-item"> <img class="center border border-dark" src="../<?php echo $row['image']; ?>"
-                     height="100" alt="logo"></td>
-
-                  <h4 style="text-align: center">NAME:
-                     <?php echo $row['name']; ?>
-                  </h4>
-                  <h4 style="text-align: center">PRICE: ₱
-                     <?php echo $row['price']; ?>
-                  </h4>
-                  <p style="text-align: justify">
-                     <?php echo $row['description']; ?>
-                  </p>
-               </li>
-               <li class="list-group-item d-flex justify-content-center">
-                  <input type="text" class="box me-1 pe-5" name="product_name" value="" placeholder="new product name">
-                  <input type="submit" value="UPDATE" name="update_product_name" class="btn btn-dark">
-               </li>
-               <li class="list-group-item d-flex justify-content-center">
-                  <input type="number" min="0" class="box me-1 pe-5" name="product_price" value=""
-                     placeholder="new product price">
-
-                  <input type="submit" value="UPDATE" name="update_price" class="btn btn-dark">
-               </li>
-               <li class="list-group-item d-flex justify-content-center">
-                  <input type="text" class="box me-1 pe-5" name="product_description" value=""
-                     placeholder="new description">
-
-                  <input type="submit" value="UPDATE" name="update_description" class="btn btn-dark">
-               </li>
-               <li class="list-group-item d-flex justify-content-center">
-                  <input type="file" class="box me-1 pe-4" name="product_image" accept="image/png, image/jpeg, image/jpg">
-
-                  <input type="submit" value="UPDATE IMAGE" name="update_image" class="btn btn-dark">
-               </li>
-
-            </ul>
-            <br>
-            <br>
-         </form>
+         <br>
+         <br>
+      </form>
 
 
 
-      <?php }
-      ; ?>
+   <?php }
+   ; ?>
 
 
 

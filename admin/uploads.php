@@ -91,6 +91,10 @@ if (isset($_POST['upload'])) {
          </div>
          <div class="header-left">
 
+            <a href="regular_admin_page.php">
+               <span class="material-icons-outlined">refresh</span>
+            </a>
+
          </div>
 
          <div class="header-right">
