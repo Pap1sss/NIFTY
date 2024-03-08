@@ -49,7 +49,7 @@ if ($username != false && $name != false) {
       </div>
       <div class="header-left">
 
-        <a href="regular_admin_page.php">
+        <a href="user_accounts.php">
           <span class="material-icons-outlined">refresh</span>
         </a>
 

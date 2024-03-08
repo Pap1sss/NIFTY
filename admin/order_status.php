@@ -56,7 +56,7 @@ if ($username != false && $name != false) {
             </div>
             <div class="header-left">
 
-                <a href="regular_admin_page.php">
+                <a href="order_status.php">
                     <span class="material-icons-outlined">refresh</span>
                 </a>
 
@@ -266,21 +266,8 @@ if ($username != false && $name != false) {
                                                 <?= htmlspecialchars($row['gcash_number']) ?>
                                             </td>
                                             <td>
-
-
-                                                <div id="review_modal" class="modal" tabindex="-1" role="dialog">
-                                                    <div class="modal-dialog" role="document">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <button type="button" data-dismiss="modal" aria-label="Close">
-                                                                    <img src="./uploaded_img/<?= $row['screenshot'] ?>"
-                                                                        height="100" alt="Receipt">
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
+                                            <img src="./uploaded_img/<?= $row['screenshot'] ?>" alt="Image"
+                                                                    class="img-fluid">
 
                                             </td>
                                             <td>
