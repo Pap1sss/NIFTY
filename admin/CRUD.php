@@ -329,12 +329,6 @@ if (isset($_GET['color_delete'])) {
       <!-- Main -->
       <?php
 
-      if (isset($message)) {
-         foreach ($message as $message) {
-            echo '<span class="message">' . $message . '</span>';
-         }
-      }
-
       ?>
       <main class="main-container">
          <style>
