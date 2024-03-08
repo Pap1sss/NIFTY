@@ -2,7 +2,7 @@
 
 @include 'config.php';
 session_start();
-$username = $_SESSION ['user_name'];
+$username = $_SESSION['user_name'];
 
 
 
@@ -13,134 +13,270 @@ $username = $_SESSION ['user_name'];
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-   <meta charset="UTF-8">
-   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>admin page</title>
 
-   <!-- font awesome cdn link  -->
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl7/1L_dstPt3HV5HzF6Gvk/e9T9hXmJ58bldgTk+" crossorigin="anonymous">
-   <!-- custom css file link  -->
-   <link rel="stylesheet" href="css/style.css">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Analytics</title>
+
+    <!-- Montserrat Font -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/analyticstyle.css">
 
 </head>
+
 <body>
+    <div class="grid-container">
 
+        <!-- Header -->
+        <header class="header">
+            <div class="menu-icon" onclick="openSidebar()">
+                <span class="material-icons-outlined">menu</span>
+            </div>
+            <div class="header-left">
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card text-center mb-5">
-                <div class="card-header">
-                    <h1>Hi, <span><?php echo $_SESSION['name'] ?></span></h1>
-                    <h1>Welcome</h1>
-                </div>
-                <div class="card-body">
-                    <div class="d-flex justify-content-center mb-5">
-                        <a href="admin_creation/super_admin_page.php" class="btn btn-primary me-5">Go back</a>
-                        <a href="admin_creation/logout.php" class="btn btn-danger">Logout</a>
-                    </div>
+                <a href="regular_admin_page.php">
+                    <span class="material-icons-outlined">refresh</span>
+                </a>
+
+            </div>
+            <div class="header-right">
+                <a href="admin_creation/logout.php">
+                    <span class="material-icons-outlined">logout</span>
+                </a>
+            </div>
+        </header>
+        <!-- End Header -->
+
+        <!-- Sidebar -->
+        <aside id="sidebar">
+
+            <div class="sidebar-title">
+                <div class="sidebar-brand">
+                    <span class="material-icons-outlined"></span>Welcome,
+                    <?php echo $_SESSION['user_name'] ?>
                 </div>
             </div>
-        </div>
-    </div>
-  
 
-   <?php
+            <ul class="sidebar-list">
+                <li class="sidebar-list-item">
+                    <a href="admin_creation/regular_admin_page.php">
+                        <span class="material-icons-outlined">dashboard</span> Dashboard
+                    </a>
+                </li>
+                <li class="sidebar-list-item">
+                    <a href="uploads.php">
+                        <span class="material-icons-outlined">wysiwyg</span> Setup Website
+                    </a>
+                </li>
+                <li class="sidebar-list-item">
+                    <a href="CRUD.php">
+                        <span class="material-icons-outlined">inventory</span> Manage Products
+                    </a>
+                </li>
 
-if(isset($_GET['receive'])){
-   $id = $_GET['receive'];
-   mysqli_query($conn, "UPDATE orders SET status='to receive'WHERE id = '$id'");
-   mysqli_query($conn, "INSERT INTO product_log(username, date_log, time_log,  edit_create) 
+                <li class="sidebar-list-item">
+                    <a href="user_accounts.php">
+                        <span class="material-icons-outlined">group</span> Accounts
+                    </a>
+                </li>
+                <li class="sidebar-list-item">
+                    <a href="order_status.php">
+                        <span class="material-icons-outlined">inventory</span> Manage Order Status
+                    </a>
+                </li>
+                <li class="sidebar-list-item">
+                    <a href="admin_logs.php">
+                        <span class="material-icons-outlined">face</span> Admin Logs
+                    </a>
+                </li>
+            </ul>
+        </aside>
+        <!-- End Sidebar -->
+
+
+        <?php
+
+        if (isset($_GET['receive'])) {
+            $id = $_GET['receive'];
+            mysqli_query($conn, "UPDATE orders SET status='to receive'WHERE id = '$id'");
+            mysqli_query($conn, "INSERT INTO product_log(username, date_log, time_log,  edit_create) 
    VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'updated order status (to receive) : order number $id')");
-   header('location:order_status.php');
-};
+            header('location:order_status.php');
+        }
+        ;
 
-if(isset($_GET['complete'])){
-   $id = $_GET['complete'];
-   mysqli_query($conn, "UPDATE orders SET status='order completed'WHERE id = '$id'");
-   mysqli_query($conn, "INSERT INTO product_log(username, date_log, time_log,  edit_create) 
+        if (isset($_GET['complete'])) {
+            $id = $_GET['complete'];
+            mysqli_query($conn, "UPDATE orders SET status='order completed'WHERE id = '$id'");
+            mysqli_query($conn, "INSERT INTO product_log(username, date_log, time_log,  edit_create) 
    VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'updated order status (completed) : order number $id')");
-   header('location:order_status.php');
-};
-
-   $select = mysqli_query($conn, "SELECT * FROM orders");
-   
-   ?>
-   <br><br><br>
-   <style>
-            .table {
-        border: 1px solid #dee2e6;
-        width: 70%;
-        height 90%;
-        margin: 0 auto;
+            header('location:order_status.php');
         }
+        ;
 
-        .table th,
-        .table td {
-        border: 1px solid #dee2e6;
-        }
-   </style>
-   <div class="row">
-    <div class="col-md-12">
-        <table class="table table-bordered">
-            <thead class="thead-dark" style="display: table-row-group;">
-                <tr>
-                    <th>Order ID</th>
-                    <th>User ID</th>
-                    <th>Name</th>
-                    <th>Number</th>
-                    <th>Email</th>
-                    <th>Payment Method</th>
-                    <th>Address</th>
-                    <th>Products</th>
-                    <th>Total Price</th>
-                    <th>Order Time</th>
-                    <th>Status</th>
-                    <th>Reference Number</th>
-                    <th>Gcash Number</th>
-                    <th>Receipt</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody style="display: table-row-group;">
-            <?php while($row = mysqli_fetch_assoc($select)): ?>
-            <tr>
-                <td><?= htmlspecialchars($row['id']) ?></td>
-                <td><?= htmlspecialchars($row['user_id']) ?></td>
-                <td><?= htmlspecialchars($row['name']) ?></td>
-                <td><?= htmlspecialchars($row['number']) ?></td>
-                <td><?= htmlspecialchars($row['email']) ?></td>
-                <td><?= htmlspecialchars($row['method']) ?></td>
-                <td><?= htmlspecialchars($row['address']) ?></td>
-                <td><?= htmlspecialchars($row['total_products']) ?></td>
-                <td>₱<?= htmlspecialchars($row['total_price']) ?></td>
-                <td><?= htmlspecialchars($row['date_created'] . ' ' . $row['time_created']) ?></td>
-                <td> <?= htmlspecialchars($row['status']) ?></td>
-                <td> <?= htmlspecialchars($row['reference_number']) ?></td>
-                <td> <?= htmlspecialchars($row['gcash_number']) ?></td>
-                <td>
-                    <img src="../<?= htmlspecialchars($row['screenshot']) ?>" height="100" alt="Receipt">
-                </td>
-                <td>
-                    <a  class="btn btn-danger" href="order_status.php?receive=<?= htmlspecialchars($row['id']) ?>" >
-                        <i class="fas "></i> To receive
-                    </a>
-                    <a href="order_status.php?complete=<?= htmlspecialchars($row['id']); ?>" class="btn">
-                        <i class="fas "></i> Order complete
-                    </a>
-                </td>
-            </tr>
-            <?php endwhile; ?>
-            </tbody>
-        </table>
-    </div>
-</div>
+        $select = mysqli_query($conn, "SELECT * FROM orders");
 
-</div>
+        ?>
 
+        <main class="main-container">
+            <div class="column" style="overflow-x:auto;">
+                <div class="row">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <?php
+                            $status = isset($_GET['status']) ? $_GET['status'] : 'all';
+                            $limit = isset($_GET['limit']) ? (int) $_GET['limit'] : 10;
+                            $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+                            $offset = ($page - 1) * $limit;
+                            if ($status == 'all') {
+                                $sql = "SELECT COUNT(*) as total from orders";
+                            } else {
+                                $sql = "SELECT COUNT(*) as total from orders WHERE status = '$status'";
+                            }
+                            $result = $conn->query($sql);
+                            $row = $result->fetch_assoc();
+                            $total_rows = $row["total"];
+                            $total_pages = ceil($total_rows / $limit);
+                            for ($i = 1; $i <= $total_pages; $i++) {
+                                ?>
+                                <li class="page-item <?= $i == $page ? 'active' : '' ?>">
+                                    <a class="page-link" href="?status=<?= $status ?>&limit=<?= $limit ?>&page=<?= $i ?>">
+                                        <?= $i ?>
+                                    </a>
+                                </li>
+                                <?php
+                            }
+                            ?>
+                        </ul>
+                    </nav>
+                    <form method="get">
+                        <p>Select number of rows:</p>
+                        <select name="limit" onchange="this.form.submit()" class="btn btn-primary dropdown-toggle">
+                            <option value="3" <?= $limit == 3 ? 'selected' : '' ?>>3 Rows</option>
+                            <option value="10" <?= $limit == 10 ? 'selected' : '' ?>>10 Rows</option>
+                            <option value="20" <?= $limit == 20 ? 'selected' : '' ?>>20 Rows</option>
+                            <option value="50" <?= $limit == 50 ? 'selected' : '' ?>>50 Rows</option>
+                            <option value="100" <?= $limit == 100 ? 'selected' : '' ?>>100 Rows</option>
+                        </select>
+                    </form>
+
+                    <form method="get">
+                        <br>
+                        <p>Filter by status:</p>
+                        <select name="status" onchange="this.form.submit()" class="btn btn-primary dropdown-toggle">
+                            <option value="all" <?= $status == 'all' ? 'selected' : '' ?>>All</option>
+                            <option value="to ship" <?= $status == 'to ship' ? 'selected' : '' ?>>To Ship</option>
+                            <option value="to receive" <?= $status == 'to receive' ? 'selected' : '' ?>>To Receive
+                            </option>
+                            <option value="order completed" <?= $status == 'order completed' ? 'selected' : '' ?>>Order
+                                Completed
+                            </option>
+                        </select>
+                    </form>
+
+                    <div class="col-md-12" style="max-width: 100%;">
+                        <br>
+                        <table class="table table-bordered border-primary overflow-x-auto">
+                            <thead class="thead-dark" style="display: table-row-group; text-align: center;">
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer ID & Name</th>
+                                    <th>Number</th>
+                                    <th>Email</th>
+                                    <th>Payment Method</th>
+                                    <th>Address</th>
+                                    <th>Products</th>
+                                    <th style="width: 10%;">Price & Status</th>
+                                    <th>Order Date & Time</th>
+                                    <th>GCASH Payment Information</th>
+                                    <th>Receipt</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <?php
+                            if ($status == 'all') {
+                                $sql = "SELECT * from orders  ORDER BY id DESC LIMIT $limit OFFSET $offset";
+                            } else {
+                                $sql = "SELECT * from orders  WHERE status = '$status'  ORDER BY id DESC LIMIT $limit OFFSET $offset";
+                            }
+                            $result = $conn->query($sql);
+
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    ?>
+                                    <tbody style="display: table-row-group;">
+                                        <tr>
+                                            <td>
+                                                <?= htmlspecialchars($row['id']) ?>
+                                            </td>
+                                            <td>
+                                                <?= htmlspecialchars($row['user_id']) ?>
+                                                |
+                                                <?= htmlspecialchars($row['name']) ?>
+                                            </td>
+                                            <td>
+                                                <?= htmlspecialchars($row['number']) ?>
+                                            </td>
+                                            <td>
+                                                <?= htmlspecialchars($row['email']) ?>
+                                            </td>
+                                            <td>
+                                                <?= htmlspecialchars($row['method']) ?>
+                                            </td>
+                                            <td>
+                                                <?= htmlspecialchars($row['address']) ?>
+                                            </td>
+                                            <td>
+                                                <?= htmlspecialchars($row['total_products']) ?>
+                                            </td>
+                                            <td>₱
+                                                <?= htmlspecialchars($row['total_price']) ?>
+                                                |
+                                                <?= htmlspecialchars($row['status']) ?>
+                                            </td>
+                                            <td>
+                                                <?= htmlspecialchars($row['date_created'] . ' ' . $row['time_created']) ?>
+                                            </td>
+                                            <td>
+                                                Reference Number:
+                                                <?= htmlspecialchars($row['reference_number']) ?>
+                                                Gcash Number:
+                                                <?= htmlspecialchars($row['gcash_number']) ?>
+                                            </td>
+                                            <td>
+                                                <img src="../<?= htmlspecialchars($row['screenshot']) ?>" height="100"
+                                                    alt="Receipt">
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-secondary"
+                                                    href="order_status.php?receive=<?= htmlspecialchars($row['id']) ?>">
+                                                    To receive
+                                                </a>
+                                                <br><br>
+                                                <a href="order_status.php?complete=<?= htmlspecialchars($row['id']); ?>"
+                                                    class="btn btn-success">
+                                                    <i class="fas "></i> Order complete
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                    <?php }
+                            } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </main>
 </body>
+
 </html>

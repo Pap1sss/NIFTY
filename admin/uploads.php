@@ -101,6 +101,7 @@ if (isset($_POST['upload'])) {
             <a href="admin_creation/logout.php">
                <span class="material-icons-outlined">logout</span>
             </a>
+         </div>
 
 
       </header>

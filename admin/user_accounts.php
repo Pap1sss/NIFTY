@@ -55,8 +55,8 @@ if ($username != false && $name != false) {
 
       </div>
       <div class="header-right">
-        <a href="../admin_creation/super_admin_page.php">
-          <span class="material-icons-outlined">account_circle</span>
+        <a href="admin_creation/logout.php">
+          <span class="material-icons-outlined">logout</span>
         </a>
       </div>
     </header>
@@ -137,7 +137,7 @@ if ($username != false && $name != false) {
                 for ($i = 1; $i <= $total_pages; $i++) {
                   ?>
                   <li class="page-item <?= $i == $page ? 'active' : '' ?>">
-                    <a class="page-link" href="?status=<?= $status ?>&limit_user=<?= $limit ?>&page=<?= $i ?>">
+                    <a class="page-link" href="?status=<?= $status ?>&limit_user=<?= $limit ?>&user_page=<?= $i ?>">
                       <?= $i ?>
                     </a>
                   </li>
