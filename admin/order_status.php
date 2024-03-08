@@ -1,9 +1,23 @@
 <?php
 
 @include 'config.php';
-session_start();
-$username = $_SESSION['user_name'];
 
+require_once "admin_creation/controllerUserData.php";
+
+$username = $_SESSION['user_name'];
+$name = $_SESSION['name'];
+
+if ($username != false && $name != false) {
+    $sql = "SELECT * FROM admin_accounts WHERE username = '$username'";
+    $run_Sql = mysqli_query($conn, $sql);
+    if ($run_Sql) {
+        $fetch_info = mysqli_fetch_assoc($run_Sql);
+        $username = $fetch_info['username'];
+        $name = $fetch_info['name'];
+    }
+} else {
+    header('Location: admin_creation/login_form.php');
+}
 
 
 
@@ -252,8 +266,22 @@ $username = $_SESSION['user_name'];
                                                 <?= htmlspecialchars($row['gcash_number']) ?>
                                             </td>
                                             <td>
-                                                <img src="../<?= htmlspecialchars($row['screenshot']) ?>" height="100"
-                                                    alt="Receipt">
+
+
+                                                <div id="review_modal" class="modal" tabindex="-1" role="dialog">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" data-dismiss="modal" aria-label="Close">
+                                                                    <img src="./uploaded_img/<?= $row['screenshot'] ?>"
+                                                                        height="100" alt="Receipt">
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
                                             </td>
                                             <td>
                                                 <a class="btn btn-secondary"
@@ -276,6 +304,7 @@ $username = $_SESSION['user_name'];
                 </div>
 
             </div>
+
         </main>
 </body>
 
