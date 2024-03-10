@@ -26,7 +26,7 @@ if ($username != false && $name != false) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>EDIT PRODUCT</title>
+  <title>Admin Logs</title>
 
   <!-- Montserrat Font -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap"
@@ -55,7 +55,7 @@ if ($username != false && $name != false) {
       </div>
       <div class="header-left">
 
-        <a href="regular_admin_page.php">
+        <a href="admin_logs.php">
           <span class="material-icons-outlined">refresh</span>
         </a>
 

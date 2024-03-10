@@ -20,7 +20,7 @@ if ($username != false && $name != false) {
 
 
 if (isset($_POST['add_product'])) {
-   $create = 'createa a product';
+   $create = 'create a product';
    $category = $_POST['category'];
    $username = $_SESSION['user_name'];
    $product_name = $_POST['product_name'];
