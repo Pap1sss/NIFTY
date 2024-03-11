@@ -58,13 +58,13 @@ if ($result->num_rows > 0) {
 
     </head>
 
-    <body id="top" style="background-color: #b69f77;">
+    <body id="top" style="background-color: white;">
 
       <!-- 
     - #HEADER
   -->
 
-      <header class="header" data-header>
+      <header class="header" data-header style="background-color: #f9c47f;">
         <div class="container">
 
           <div class="overlay" data-overlay></div>
@@ -103,10 +103,12 @@ if ($result->num_rows > 0) {
                     ?>
                     <div class="card-content">
 
-                      <a onclick="refreshAndGoToDefault()" style="text-transform:uppercase;"
-                        href="categorized_product.php?id=<?php echo $fetch_category["category"]; ?>">
-                        <data class="card-price">
-                          <?php echo $fetch_category['category']; ?></a>
+
+                      <a style="color: white; text-transform:uppercase; " onclick="refreshAndGoToDefault()"
+                        style="text-transform:uppercase; "
+                        href="categorized_product.php?id=<?php echo htmlspecialchars($fetch_category["category"]); ?>">
+                        <data>
+                          <?php echo htmlspecialchars($fetch_category['category']); ?></a>
                       </data>
 
                     </div>
@@ -250,13 +252,14 @@ if ($result->num_rows > 0) {
 
                               </h3>
 
-                              <data style="color: white; font-size:20px;">₱
+                              <data style="color: black; font-size:20px;">₱
                                 <?php echo htmlspecialchars($fetch_product['price']); ?>
                               </data>
 
                             </div>
                             <br>
-                            <a href=" productdetails.php?id=<?php echo htmlspecialchars($fetch_product["id"]); ?>"
+                            <a style="background-color: #f9c47f; border-radius: 12px; border: 2px solid white;"
+                              href=" productdetails.php?id=<?php echo htmlspecialchars($fetch_product["id"]); ?>"
                               class="btn">View
                               Details</a>
 
@@ -294,15 +297,10 @@ if ($result->num_rows > 0) {
 
       <footer class="footer">
 
-        <div class="footer-top section" style="background-color: #b69f77;">
+        <div class="footer-top section" style="background-color: #f9c47f;">
           <div class="container">
 
-            <div class="footer-brand">
 
-
-              </ul>
-
-            </div>
 
             <div class="footer-link-box">
 
@@ -353,15 +351,6 @@ if ($result->num_rows > 0) {
           </div>
         </div>
 
-        <div class="footer-bottom">
-          <div class="container">
-
-            <p class="copyright">
-
-            </p>
-
-          </div>
-        </div>
 
       </footer>
 

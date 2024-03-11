@@ -66,85 +66,85 @@ if ($result->num_rows > 0) {
 
     </head>
 
-    <body id="top" style="background-color: #b69f77;"">
+    <body id="top" style="background-color: #b69f77;">
 
-  <!-- 
+      <!-- 
     - #HEADER
   -->
 
-  <header class=" header" data-header>
-      <div class="container">
+      <header class=" header" data-header style="background-color: #f9c47f;">
+        <div class="container">
 
-        <div class="overlay" data-overlay></div>
+          <div class="overlay" data-overlay></div>
 
-        <!-- 
+          <!-- 
     - #PIC FOR MAINPAGE
       -->
-        <a href="index.php" class="logo">
-          <img src="admin/uploaded_img/<?= $row["logo"] ?>" width="150" height="50" alt="logo">
-        </a>
-        <!-- 
+          <a href="index.php" class="logo">
+            <img src="admin/uploaded_img/<?= $row["logo"] ?>" width="150" height="50" alt="logo">
+          </a>
+          <!-- 
     - #FOR SMALL BROWSER
       -->
-        <button class="nav-open-btn" data-nav-open-btn aria-label="Open Menu">
-          <ion-icon name="menu-outline"></ion-icon>
-        </button>
-
-        <nav class="navbar" data-navbar>
-
-          <button class="nav-close-btn" data-nav-close-btn aria-label="Close Menu">
-            <ion-icon name="close-outline"></ion-icon>
+          <button class="nav-open-btn" data-nav-open-btn aria-label="Open Menu">
+            <ion-icon name="menu-outline"></ion-icon>
           </button>
 
-          <a href="index.php" class="logo">
-            <img src="admin/uploaded_img/<?= $row["logo"] ?>" width="190" height="50" alt="logo">
-          </a>
+          <nav class="navbar" data-navbar>
 
-          <ul class="navbar-list">
+            <button class="nav-close-btn" data-nav-close-btn aria-label="Close Menu">
+              <ion-icon name="close-outline"></ion-icon>
+            </button>
 
-            <li class="navbar-item">
-              <a href="index.php" class="navbar-link">Home</a>
-            </li>
+            <a href="index.php" class="logo">
+              <img src="admin/uploaded_img/<?= $row["logo"] ?>" width="190" height="50" alt="logo">
+            </a>
 
-            <li class="navbar-item">
-              <a href="products.php" class="navbar-link">Products</a>
-            </li>
+            <ul class="navbar-list">
 
+              <li class="navbar-item">
 
+              </li>
 
+              <li class="navbar-item">
 
-          </ul>
-
-          <ul class="nav-action-list">
-
-
-            <li>
-              <a href="login_user/home.php" class="nav-action-btn">
-                <ion-icon name="person-outline" aria-hidden="false"></ion-icon>
-
-                <span class="nav-action-text">Login / Register</span>
-              </a>
-            </li>
+              </li>
 
 
 
-            <li>
-              <a href="login_user/cart.php" class="nav-action-btn">
-                <ion-icon name="bag-outline" aria-hidden="true"></ion-icon>
 
-                <data class="nav-action-text">Basket: <strong></strong></data>
+            </ul>
 
-
-              </a>
-            </li>
+            <ul class="nav-action-list">
 
 
+              <li>
+                <a href="login_user/home.php" class="nav-action-btn">
+                  <ion-icon name="person-outline" aria-hidden="false"></ion-icon>
 
-          </ul>
+                  <span class="nav-action-text">Login / Register</span>
+                </a>
+              </li>
 
-        </nav>
 
-      </div>
+
+              <li>
+                <a href="login_user/cart.php" class="nav-action-btn">
+                  <ion-icon name="bag-outline" aria-hidden="true"></ion-icon>
+
+                  <data class="nav-action-text">Basket: <strong></strong></data>
+
+
+                </a>
+              </li>
+
+
+
+            </ul>
+
+          </nav>
+
+        </div>
       </header>
 
 
@@ -174,10 +174,10 @@ if ($result->num_rows > 0) {
                 <?= $row["description"] ?>
               </p>
               <a href="products.php">
-                <button class="btn">
+                <button class="btn" style="background-color: #f9c47f; border-radius: 12px; border: 2px solid white;">
                   <span>Shop Now</span>
 
-                  <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
+
                 </button>
               </a>
 
@@ -198,7 +198,7 @@ if ($result->num_rows > 0) {
 
       <footer class="footer">
 
-        <div class="footer-top section" style="background-color: #b69f77;">
+        <div class="footer-top section" style="background-color: white;">
           <div class="container">
 
             <div class="footer-brand">

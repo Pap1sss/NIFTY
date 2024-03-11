@@ -355,7 +355,17 @@ if (isset($_GET['color_delete'])) {
                      </select>
                      <input type="text" placeholder="Enter product name" name="product_name" class="box">
                      <input type="text" placeholder="Enter product description" name="product_description" class="box">
-                     <input type="number" placeholder="Enter product price" name="product_price" class="box">
+                     <input type="number" placeholder="Enter product price" name="product_price" class="box"
+                        id="productPriceInput">
+                     <script>
+                        document.getElementById('productPriceInput').addEventListener('input', function (e) {
+                           // Only allow numbers and decimal point
+                           this.value = this.value.replace(/[^0-9.]/g, '');
+
+                           // Only allow one decimal point
+                           this.value = this.value.replace(/\.(\..*)/g, '1');
+                        });
+                     </script>
                   </div>
                   <br>
                   <input type="file" accept="image/png, image/jpeg, image/jpg" name="product_image" class="box">

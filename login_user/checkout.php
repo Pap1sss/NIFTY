@@ -76,7 +76,8 @@ if ($result->num_rows > 0) {
       $price_total = 0;
       if (mysqli_num_rows($result) > 0) {
         while ($product_item = mysqli_fetch_assoc($result)) {
-          $product_name[] = $product_item['name'] . '[SIZE' . $product_item['unit'] . ']   (' . $product_item['quantity'] . ') ';
+          $ordered_product = array($product_item['name'], $product_item['unit'], $product_item['quantity']);
+          $glue = "\n";
           $product_price = ($product_item['price'] * $product_item['quantity']);
           $price_total += $product_price;
           $total_price = $price_total;
@@ -86,7 +87,7 @@ if ($result->num_rows > 0) {
       }
       ;
 
-      $total_product = implode(',', $product_name);
+      $total_product = implode($glue, $ordered_product);
 
       $detail_query = mysqli_prepare($conn, "INSERT INTO `orders`(name, number, email, method, address, total_products, total_price, user_id, status, date_created, time_created, reference_number, gcash_number, screenshot) 
       VALUES(?, ?, ?, ?, ?, ?, ?, ?, 'to ship', CURRENT_DATE(), CURRENT_TIME(), ?,?,?)");

@@ -67,7 +67,7 @@ if ($result->num_rows > 0) {
 
     </head>
 
-    <body id="top" style="background-color: #b69f77;">
+    <body id="top" style="background-color:white;">
 
       <!-- 
     - alert for add to cart
@@ -114,7 +114,7 @@ if ($result->num_rows > 0) {
     - #HEADER
   -->
 
-      <header class="header" data-header>
+      <header class="header" data-header style="background-color: #f9c47f;">
         <div class="container">
 
           <div class="overlay" data-overlay></div>
@@ -144,22 +144,19 @@ if ($result->num_rows > 0) {
 
             <ul class="navbar-list">
 
-              <li class="navbar-item">
-                <a href="index.php" class="navbar-link">Home</a>
-              </li>
-
-
-
-              <li class="navbar-item">
-                <a href="products.php" class="navbar-link">Products</a>
-              </li>
-
 
 
 
             </ul>
 
             <ul class="nav-action-list">
+              <li>
+                <a href="products.php" class="nav-action-btn">
+                  <ion-icon name="arrow-back" aria-hidden="false"></ion-icon>
+
+                  <span class="nav-action-text">Login / Register</span>
+                </a>
+              </li>
 
               <li>
                 <a href="login_user/home.php" class="nav-action-btn">
@@ -383,14 +380,14 @@ if ($result->num_rows > 0) {
               <div class="col-md-7">
 
 
-                <h2 style="color: white; font-size: 40px; text-transform: uppercase;" class=p2><?php echo $fetch_product['name']; ?></h2>
+                <h2 style="color: #282828; font-size: 40px; text-transform: uppercase;" class=p2><?php echo $fetch_product['name']; ?></h2>
                 <br>
 
                 <br>
                 <div class="container">
 
 
-                  <h2 class=p2 style="color: white; font-size: 30px;">
+                  <h2 class=p2 style="color: #282828; font-size: 30px;">
                     <?php echo $fetch_product['description']; ?>
                   </h2>
                   <br>
@@ -435,9 +432,9 @@ if ($result->num_rows > 0) {
                 $product_image = $_POST['image'];
                 $product_name = $_POST['name'];
                 $product_price = $_POST['price'];
-                $product_unit = array('size' => $_POST['size'], 'color' => $_POST['color']);
+                $product_unit = array($_POST['size'], $_POST['color']);
                 $product_quantity = $_POST['quantity'];
-                $product_unit_json = json_encode($product_unit);
+                $unit = implode(' ', $product_unit);
 
                 $select_cart = mysqli_query($conn, "SELECT * FROM cart WHERE name = '$product_name' AND user_id = '$user_id' AND unit = '$product_unit_json'");
 
@@ -451,7 +448,7 @@ if ($result->num_rows > 0) {
                   <?php
                 } else {
 
-                  mysqli_query($conn, "INSERT INTO `cart`(user_id, image, name, price, unit, quantity) VALUES('$user_id', '$product_image','$product_name', '$product_price', '$product_unit_json', '$product_quantity')");
+                  mysqli_query($conn, "INSERT INTO `cart`(user_id, image, name, price, unit, quantity) VALUES('$user_id', '$product_image','$product_name', '$product_price', '$unit', '$product_quantity')");
                   ?>
                   <div class="alert success">
                     <span class="closebtn">&times;</span>
@@ -482,7 +479,7 @@ if ($result->num_rows > 0) {
 
             <div class="container">
 
-              <div class="card" style="background-color: #b69f77;">
+              <div class="card" style="background-color: white;">
                 <div class="card-header">Do you like our product? Leave a review
 
                 </div>
@@ -558,7 +555,8 @@ if ($result->num_rows > 0) {
 
                       <br><br>
                       <button type="button" name="add_review" id="add_review" class="btn"
-                        style="width:50%; display: inline-block;">ADD REVIEW</button>
+                        style="width:50%; background-color: #f9c47f; color: white; border: 2px solid white; font-weight: bold;display: inline-block;">ADD
+                        REVIEW</button>
                     </div>
 
                   </div>
@@ -762,7 +760,7 @@ if ($result->num_rows > 0) {
 
                         html += '<div class="col-sm-11" >';
 
-                        html += '<div class="card"style ="background-color: #b69f77;">';
+                        html += '<div class="card"style ="background-color: white;">';
 
                         html += '<div class="card-header"><b>' + data.review_data[count].user_name + '</b></div>';
 
@@ -829,7 +827,7 @@ if ($result->num_rows > 0) {
 
       <div class="container">
 
-        <div class="card" style="background-color: #b69f77;">
+        <div class="card" style="background-color: white;">
           <div class="card-header"><a href="login_user/login-user.php"
               class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Login to leave a
               review!</a></div>
@@ -1102,7 +1100,7 @@ if ($result->num_rows > 0) {
 
                     html += '<div class="col-sm-11">';
 
-                    html += '<div class="card" style ="background-color: #b69f77;">';
+                    html += '<div class="card" style ="background-color: white;">';
 
                     html += '<div class="card-header"><b>' + data.review_data[count].user_name + '</b></div>';
 
@@ -1160,7 +1158,7 @@ if ($result->num_rows > 0) {
 
     <footer class="footer">
 
-      <div class="footer-top section" style="background-color: #b69f77;">
+      <div class="footer-top section" style="background-color: #f9c47f;">
         <div class="container">
 
           <div class="footer-brand">

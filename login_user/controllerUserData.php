@@ -3,16 +3,9 @@ ini_set('session.cookie_secure', 1);
 ini_set('session.cookie_httponly', 1);
 ini_set('session.use_only_cookies', 1);
 
-$secure = isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "";
-if (!$secure) {
-    $r = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-    header("Location: $r");
-    exit("use https!");
-}
-//if($secure) {
+
 session_start();
-/* and other secure happenings;;; */
-//}
+
 $_SESSION['logged_in'] = false;
 require "connection.php";
 $email = "";
