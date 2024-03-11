@@ -2,17 +2,17 @@
 @include 'admin/admin_creation/config.php';
 session_start();
 
- // Create a prepared statement for the SELECT query
- $stmt = $conn->prepare("SELECT * from upload");
+// Create a prepared statement for the SELECT query
+$stmt = $conn->prepare("SELECT * from upload");
 
- // Execute the prepared statement
- $stmt->execute();
+// Execute the prepared statement
+$stmt->execute();
 
- // Get the result
- $result = $stmt->get_result();
+// Get the result
+$result = $stmt->get_result();
 
- if ($result-> num_rows > 0) {
-   while ($row = $result-> fetch_assoc()) {
+if ($result->num_rows > 0) {
+  while ($row = $result->fetch_assoc()) {
 
     ?>
 
@@ -46,10 +46,9 @@ session_start();
         href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
         rel="stylesheet">
 
-      <!-- 
-    - preload banner
+      <!-- - preload banner
   -->
-      <link rel="preload" href="admin/uploaded_img/<?= $row["logo"] ?>" as="image">
+      <link rel="preload" href="admin/uploaded_img/<?= htmlspecialchars($row["logo"]); ?>" as="image">
 
     </head>
 
@@ -68,7 +67,7 @@ session_start();
     - #PIC FOR MAINPAGE
       -->
           <a href="index.php" class="logo">
-            <img src="admin/uploaded_img/<?= $row["logo"] ?>" width="150" height="50" alt="Footcap logo">
+            <img src="admin/uploaded_img/<?= htmlspecialchars($row["logo"]); ?>" width="150" height="50" alt="Footcap logo">
           </a>
           <!-- 
     - #FOR SMALL BROWSER
@@ -99,9 +98,9 @@ session_start();
                     <div class="card-content">
 
                       <a onclick="refreshAndGoToDefault()" style="text-transform:uppercase; "
-                        href="categorized_product.php?id=<?php echo $fetch_category["category"]; ?>">
+                        href="categorized_product.php?id=<?php echo htmlspecialchars($fetch_category["category"]); ?>">
                         <data class="card-price">
-                          <?php echo $fetch_category['category']; ?></a>
+                          <?php echo htmlspecialchars($fetch_category['category']); ?></a>
                       </data>
 
                     </div>
@@ -114,7 +113,6 @@ session_start();
                 }
                 ;
                 ?>
-
 
 
 
@@ -215,8 +213,8 @@ session_start();
                             <figure class="card-banner" style="border: 2px solid #f6b035;">
 
 
-                              <img src="<?php echo $fetch_product['image']; ?>" width="350" height="350" loading="lazy"
-                                alt="PRODUCTS" class="image-contain">
+                              <img src="<?php echo htmlspecialchars($fetch_product['image']); ?>" width="350" height="350"
+                                loading="lazy" alt="PRODUCTS" class="image-contain">
 
                               <ul class="card-action-list">
 
@@ -232,19 +230,21 @@ session_start();
                               <h3 class="h3 card-title">
 
                                 <p style="text-transform: uppercase;">
-                                  <?php echo $fetch_product['name']; ?>
+                                  <?php echo htmlspecialchars($fetch_product['name']); ?>
                                 </p>
 
 
                               </h3>
 
-                              <data class="card-price">₱
-                                <?php echo $fetch_product['price']; ?>
+                              <data style="color: white; font-size:20px;">₱
+                                <?php echo htmlspecialchars($fetch_product['price']); ?>
                               </data>
 
                             </div>
                             <br>
-                            <a href="productdetails.php?id=<?php echo $fetch_product["id"]; ?>" class="btn">View Details</a>
+                            <a href=" productdetails.php?id=<?php echo htmlspecialchars($fetch_product["id"]); ?>"
+                              class="btn">View
+                              Details</a>
 
 
                             <?php
@@ -309,27 +309,27 @@ session_start();
                     <ion-icon name="location"></ion-icon>
 
                     <span class="footer-link-text">
-                      <?= $row["address"] ?>
+                      <?= htmlspecialchars($row["address"]); ?>
                     </span>
                   </address>
                 </li>
 
                 <li>
-                  <a href="tel:<?= $row["contact"] ?>" class="footer-link">
+                  <a href="tel:<?= htmlspecialchars($row["contact"]); ?>" class="footer-link">
                     <ion-icon name="call"></ion-icon>
 
                     <span class="footer-link-text">
-                      <?= $row["contact"] ?>
+                      <?= htmlspecialchars($row["contact"]); ?>
                     </span>
                   </a>
                 </li>
 
                 <li>
-                  <a href="mailto:niftyshoesph@gmail.com" class="footer-link">
+                  <a href="mailto:<?= htmlspecialchars($row["email"]); ?>" class="footer-link">
                     <ion-icon name="mail"></ion-icon>
 
                     <span class="footer-link-text">
-                      <?= $row["email"] ?>
+                      <?= htmlspecialchars($row["email"]); ?>
                     </span>
                   </a>
                 </li>
@@ -358,7 +358,7 @@ session_start();
   -->
 
       <a href="#top" class="go-top-btn" data-go-top>
-        <ion-icon name="arrow-up-outline"></ion-icon>
+        <ion-iconname="arrow-up-outline"></ion-icon>
       </a>
 
 

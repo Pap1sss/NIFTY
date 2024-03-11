@@ -36,8 +36,8 @@ if ($email != false && $password != false) {
 @include 'connection.php';
 
 if (isset($_POST['update_cart'])) {
-  $update_quantity = $_POST['cart_quantity'];
-  $update_id = $_POST['cart_id'];
+  $update_quantity = strip_tags($_POST['cart_quantity']);
+  $update_id = strip_tags($_POST['cart_id']);
 
   // Prepare the update statement
   $stmt = $conn->prepare("UPDATE `cart` SET quantity = ? WHERE id = ?");
@@ -226,13 +226,13 @@ if (isset($_GET['delete_all'])) {
                     <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
                       <!-- Data -->
                       <h2><strong>
-                          <?php echo $fetch_cart['name']; ?>
+                          <?php echo htmlspecialchars(strip_tags($fetch_cart['name'])); ?>
                         </strong></h2>
                       <h5>
-                        <?php echo $fetch_cart['unit']; ?>
+                        <?php echo htmlspecialchars(strip_tags($fetch_cart['unit'])); ?>
                       </h5>
                       <h5>Price: ₱
-                        <?php echo $fetch_cart['price']; ?>
+                        <?php echo htmlspecialchars(strip_tags($fetch_cart['price'])); ?>
                       </h5>
                       <a href="cart.php?remove=<?php echo $fetch_cart['id']; ?>" class="btn btn-danger btn-sm me-1 mb-2"
                         class="delete-btn" onclick="return confirm('remove item from cart?');">remove</a>
