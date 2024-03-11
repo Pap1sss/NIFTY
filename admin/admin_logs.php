@@ -61,8 +61,8 @@ if ($username != false && $name != false) {
 
       </div>
       <div class="header-right">
-        <a href="../admin_creation/super_admin_page.php">
-          <span class="material-icons-outlined">account_circle</span>
+        <a href="admin_creation/logout.php">
+          <span class="material-icons-outlined">logout</span>
         </a>
       </div>
     </header>

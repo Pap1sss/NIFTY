@@ -205,57 +205,60 @@ if (isset($_POST['upload'])) {
                   ?>
                   <br>
                   <br>
-                  <h3>YOUR COMPANY INFORMATION</h3>
-                  <ul class="list-group" style="margin-top: 20px;">
 
-                     <li class="list-group-item d-flex justify-content-center">
-                        <p>Name:</p>
-                        <h4>
+                  <table class="table table-bordered border-primary">
+                     <thead>
+                        <tr>
+
+                           <th style="border: 1px solid black;">Company Name</th>
+                           <th style="border: 1px solid black;">Company Description</th>
+                           <th style="border: 1px solid black;">Company Address</th>
+                           <th style="border: 1px solid black;">Contact Number</th>
+                           <th style="border: 1px solid black">Email Address</th>
+                           <th style="border: 1px solid black">Logo</th>
+
+                        </tr>
+                     </thead>
+
+                     <tr>
+
+                        <td style="border: 1px solid black;">
                            <?php echo $row['title']; ?>
-                        </h4>
-                     </li>
-                     <li class="list-group-item d-flex justify-content-center">
-                        <p>Description:</p>
-                        <h4>
+                        </td>
+                        <td style="border: 1px solid black;">
                            <?php echo $row['description']; ?>
-                        </h4>
-                     </li>
-                     <li class="list-group-item d-flex justify-content-center">
-                        <p>Address:</p>
-                        <h4>
+                        </td>
+                        <td style="border: 1px solid black;">
                            <?php echo $row['address']; ?>
-                        </h4>
-                     </li>
-                     <li class="list-group-item d-flex justify-content-center">
-                        <p>Contact Number:</p>
-                        <h4>
+                        </td>
+
+
+                        <td style="border: 1px solid black;">
                            <?php echo $row['contact']; ?>
-                        </h4>
-                     </li>
-                     <li class="list-group-item d-flex justify-content-center">
-                        <p>Email:</p>
-                        <h4>
+                        </td>
+                        <td style="border: 1px solid black;">
                            <?php echo $row['email']; ?>
-                        </h4>
-                     </li>
-                     <li class="list-group-item d-flex justify-content-center">
-                        <h4>
-                           <img src="uploaded_img/<?php echo $row['logo']; ?>" height="100" alt="logo">
-                        </h4>
-                     </li>
-                  </ul>
-                  <br>
-                  <br>
-            </form>
-         </div>
+                        </td>
+                        <td style="border: 1px solid black;">
+                           <img src="uploaded_img/<?php echo $row['logo']; ?>" height="50" width="150" alt="logo">
+                        </td>
 
+                     </tr>
+                  <?php } ?>
+               </table>
+
+               <br>
+               <br>
+         </form>
       </div>
 
-      </div>
+   </div>
 
-      <?php
-               }
-               ?>
+   </div>
+
+   <?php
+
+   ?>
 
 
 

@@ -7,15 +7,15 @@ $username = $_SESSION['user_name'];
 $name = $_SESSION['name'];
 
 if ($username != false && $name != false) {
-  $sql = "SELECT * FROM admin_accounts WHERE username = '$username'";
-  $run_Sql = mysqli_query($conn, $sql);
-  if ($run_Sql) {
-    $fetch_info = mysqli_fetch_assoc($run_Sql);
-    $username = $fetch_info['username'];
-    $name = $fetch_info['name'];
-  }
+   $sql = "SELECT * FROM admin_accounts WHERE username = '$username'";
+   $run_Sql = mysqli_query($conn, $sql);
+   if ($run_Sql) {
+      $fetch_info = mysqli_fetch_assoc($run_Sql);
+      $username = $fetch_info['username'];
+      $name = $fetch_info['name'];
+   }
 } else {
-  header('Location: ../admin_creation/login_form.php');
+   header('Location: ../admin_creation/login_form.php');
 }
 
 $id = $_GET['manage'];
@@ -127,7 +127,7 @@ if (isset($_POST['add_stocks'])) {
          </div>
          <div class="header-left">
 
-            <a href="regular_admin_page.php">
+            <a href="stocks_update.php">
                <span class="material-icons-outlined">refresh</span>
             </a>
 
