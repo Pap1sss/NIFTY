@@ -1,6 +1,20 @@
 <?php
 @include 'admin/admin_creation/config.php';
+
+ini_set('session.cookie_secure', 1);
+ini_set('session.cookie_httponly', 1);
+ini_set('session.use_only_cookies', 1);
+
+$secure = isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "";
+if (!$secure) {
+  $r = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+  header("Location: $r");
+  exit("use https!");
+}
+//if($secure) {
 session_start();
+/* and other secure happenings;;; */
+//}
 
 $sql = "SELECT * from upload";
 $result = mysqli_query($conn, $sql);
