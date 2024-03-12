@@ -32,24 +32,32 @@ if (isset($_POST['upload'])) {
    $product_image_tmp_name = $_FILES['product_image']['tmp_name'];
    $product_image_folder = 'uploaded_img/' . $product_image;
 
+   // Validate and sanitize user inputs
+   $title = filter_var($title, FILTER_SANITIZE_STRING);
+   $description = filter_var($description, FILTER_SANITIZE_STRING);
+   $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+   $address = filter_var($address, FILTER_SANITIZE_STRING);
+   $contact = filter_var($contact, FILTER_SANITIZE_NUMBER_INT);
+
    if (empty($title) || empty($description) || empty($email) || empty($address) || empty($contact) || empty($product_image)) {
       $message[] = 'please fill out all';
    } else {
-      $delete = "TRUNCATE TABLE upload;";
-      $remove = mysqli_query($conn, $delete);
-      $insert = "INSERT INTO upload(title, description, address, contact, email, logo) 
-   VALUES('$title', '$description', '$address', '$contact', '$email', '$product_image')";
-      $upload = mysqli_query($conn, $insert);
-      if ($upload) {
-         move_uploaded_file($product_image_tmp_name, $product_image_folder);
-         $message[] = 'new product added successfully';
-      } else {
-         $message[] = 'could not add the product';
-      }
-   }
+      // Use prepared statements to prevent SQL injection attacks
+      $stmt = $conn->prepare("TRUNCATE TABLE upload");
+      $stmt->execute();
 
+      $stmt = $conn->prepare("INSERT INTO upload(title, description, address, contact, email, logo) VALUES(?, ?, ?, ?, ?, ?)");
+      $stmt->bind_param("ssssss", $title, $description, $address, $contact, $email, $product_image);
+      $stmt->execute();
+
+      // Move the uploaded file to a secure location
+      $target_dir = "uploaded_img/";
+      $target_file = $target_dir . basename($product_image);
+      move_uploaded_file($product_image_tmp_name, $target_file);
+
+      $message[] = 'new product added successfully';
+   }
 }
-;
 
 ?>
 
@@ -114,7 +122,8 @@ if (isset($_POST['upload'])) {
          <div class="sidebar-title">
             <div class="sidebar-brand">
                <span class="material-icons-outlined"></span>Welcome,
-               <?php echo $_SESSION['user_name'] ?>
+               <?php echo htmlspecialchars($_SESSION['user_name']) ?>
+
             </div>
          </div>
 
@@ -161,7 +170,7 @@ if (isset($_POST['upload'])) {
       </div>
       <div class="admin-product-form-container">
 
-         <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" enctype="multipart/form-data">
+         <form action="" method="post" enctype="multipart/form-data">
             <br>
             <br>
             <h3>SETUP YOUR WEBSITE</h3>
@@ -192,64 +201,68 @@ if (isset($_POST['upload'])) {
                   <input type="file" accept="image/png, image/jpeg, image/jpg" name="product_image" class="box">
                </li>
                <li class="list-group-item list-group-item-success d-flex justify-content-center">
-                  <input type="submit" class="btn" name="upload" value="UPLOAD">
+                  <input type="submit" name="upload" class="btn" value="UPLOAD">
                </li>
 
             </ul>
-            <div class="admin-product-form-container">
-               <?php
+         </form>
 
-               $select = mysqli_query($conn, "SELECT * FROM upload");
-               while ($row = mysqli_fetch_assoc($select)) {
+         <div class="admin-product-form-container">
+            <?php
 
-                  ?>
-                  <br>
-                  <br>
+            $select = mysqli_query($conn, "SELECT * FROM upload");
+            while ($row = mysqli_fetch_assoc($select)) {
 
-                  <table class="table table-bordered border-primary">
-                     <thead>
-                        <tr>
+               ?>
+               <br>
+               <br>
 
-                           <th style="border: 1px solid black;">Company Name</th>
-                           <th style="border: 1px solid black;">Company Description</th>
-                           <th style="border: 1px solid black;">Company Address</th>
-                           <th style="border: 1px solid black;">Contact Number</th>
-                           <th style="border: 1px solid black">Email Address</th>
-                           <th style="border: 1px solid black">Logo</th>
-
-                        </tr>
-                     </thead>
-
+               <table class="table table-bordered border-primary">
+                  <thead>
                      <tr>
 
-                        <td style="border: 1px solid black;">
-                           <?php echo $row['title']; ?>
-                        </td>
-                        <td style="border: 1px solid black;">
-                           <?php echo $row['description']; ?>
-                        </td>
-                        <td style="border: 1px solid black;">
-                           <?php echo $row['address']; ?>
-                        </td>
-
-
-                        <td style="border: 1px solid black;">
-                           <?php echo $row['contact']; ?>
-                        </td>
-                        <td style="border: 1px solid black;">
-                           <?php echo $row['email']; ?>
-                        </td>
-                        <td style="border: 1px solid black;">
-                           <img src="uploaded_img/<?php echo $row['logo']; ?>" height="50" width="150" alt="logo">
-                        </td>
+                        <th style="border: 1px solid black;">Company Name</th>
+                        <th style="border: 1px solid black;">Company Description</th>
+                        <th style="border: 1px solid black;">Company Address</th>
+                        <th style="border: 1px solid black;">Contact Number</th>
+                        <th style="border: 1px solid black">Email Address</th>
+                        <th style="border: 1px solid black">Logo</th>
 
                      </tr>
-                  <?php } ?>
-               </table>
+                  </thead>
 
-               <br>
-               <br>
-         </form>
+                  <tr>
+
+                     <td style="border: 1px solid black;">
+                        <?php echo htmlspecialchars($row['title']); ?>
+                     </td>
+                     <td style="border: 1px solid black;">
+                        <?php echo htmlspecialchars($row['description']); ?>
+                     </td>
+                     <td style="border: 1px solid black;">
+                        <?php echo htmlspecialchars($row['address']); ?>
+                     </td>
+
+
+                     <td style="border: 1px solid black;">
+                        <?php echo htmlspecialchars($row['contact']); ?>
+                     </td>
+                     <td style="border: 1px solid black;">
+                        <?php echo htmlspecialchars($row['email']); ?>
+                     </td>
+                     <td style="border: 1px solid black;">
+                        <img src="uploaded_img/<?php echo htmlspecialchars($row['logo']); ?>" height="50" width="150"
+                           alt="logo">
+                     </td>
+
+                  </tr>
+               <?php } ?>
+            </table>
+
+            <br>
+            <br>
+         </div>
+
       </div>
 
    </div>

@@ -186,16 +186,16 @@ if ($username != false && $name != false) {
                   ?>
                   <tr>
                     <td>
-                      <?= $row["id"] ?>
+                      <?= htmlspecialchars($row["id"]) ?>
                     </td>
                     <td>
-                      <?= $row["name"] ?>
+                      <?= htmlspecialchars($row["name"]) ?>
                     </td>
                     <td>
-                      <?= $row["email"] ?>
+                      <?= htmlspecialchars($row["email"]) ?>
                     </td>
                     <td>
-                      <?= $row["status"] ?>
+                      <?= htmlspecialchars($row["status"]) ?>
                     </td>
                   </tr>
                   <?php
@@ -256,13 +256,13 @@ if ($username != false && $name != false) {
                   ?>
                   <tr>
                     <td>
-                      <?= $row["email"] ?>
+                      <?= htmlspecialchars($row["email"]) ?>
                     </td>
                     <td>
-                      <?= $row["timein"] ?>
+                      <?= htmlspecialchars($row["timein"]) ?>
                     </td>
                     <td>
-                      <?= $row["date"] ?>
+                      <?= htmlspecialchars($row["date"]) ?>
                     </td>
                   </tr>
                   <?php

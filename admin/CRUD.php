@@ -21,12 +21,12 @@ if ($username != false && $name != false) {
 
 if (isset($_POST['add_product'])) {
    $create = 'create a product';
-   $category = $_POST['category'];
-   $username = $_SESSION['user_name'];
-   $product_name = $_POST['product_name'];
-   $product_price = $_POST['product_price'];
-   $product_image = $_FILES['product_image']['name'];
-   $product_description = $_POST['product_description'];
+   $category = mysqli_real_escape_string($conn, $_POST['category']);
+   $username = mysqli_real_escape_string($conn, $_SESSION['user_name']);
+   $product_name = mysqli_real_escape_string($conn, $_POST['product_name']);
+   $product_price = mysqli_real_escape_string($conn, $_POST['product_price']);
+   $product_image = mysqli_real_escape_string($conn, $_FILES['product_image']['name']);
+   $product_description = mysqli_real_escape_string($conn, $_POST['product_description']);
    $product_image_tmp_name = $_FILES['product_image']['tmp_name'];
    $product_image_folder = 'uploaded_img/' . $product_image;
 

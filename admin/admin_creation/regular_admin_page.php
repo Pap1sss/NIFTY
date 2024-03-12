@@ -43,8 +43,8 @@ if ($username != false && $name != false) {
     crossorigin="anonymous"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
- <!-- Custom CSS -->
- <link rel="stylesheet" href="../css/analyticstyle.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../css/analyticstyle.css">
 
 </head>
 
@@ -79,7 +79,7 @@ if ($username != false && $name != false) {
       <div class="sidebar-title">
         <div class="sidebar-brand">
           <span class="material-icons-outlined"></span>Welcome,
-          <?php echo $_SESSION['user_name'] ?>
+          <?php echo htmlspecialchars($_SESSION['user_name']) ?>
         </div>
       </div>
 
@@ -172,84 +172,104 @@ if ($username != false && $name != false) {
           <?php
           if (isset($_POST['submit_date_sales'])) {
 
-            $start_date = $_POST['start_date'];
-            $end_date = $_POST['end_date'];
+            $start_date = mysqli_real_escape_string($conn, $_POST['start_date']);
+            $end_date = mysqli_real_escape_string($conn, $_POST['end_date']);
 
-            $query = mysqli_query($conn, "SELECT * FROM sales WHERE date_created between '$start_date' and '$end_date'");
-            $querysum = mysqli_query($conn, "SELECT SUM(total_price) AS total_sales FROM sales WHERE date_created BETWEEN '$start_date' AND '$end_date'");
+            // Prepare the SQL statement
+            $stmt = $conn->prepare("SELECT * FROM sales WHERE date_created BETWEEN ? AND ?");
+            $stmt->bind_param("ss", $start_date, $end_date);
+            $stmt->execute();
+            $result = $stmt->get_result();
 
-            if (mysqli_num_rows($query) > 0) {
-              $result = mysqli_fetch_assoc($querysum);
-              $total_sales = $result['total_sales'];
-              foreach ($query as $value) {
+            // Check if there are any rows
+            if ($result->num_rows > 0) {
+
+              // Prepare the SQL statement for sum
+              $stmtSum = $conn->prepare("SELECT SUM(total_price) AS total_sales FROM sales WHERE date_created BETWEEN ? AND ?");
+              $stmtSum->bind_param("ss", $start_date, $end_date);
+              $stmtSum->execute();
+              $resultSum = $stmtSum->get_result();
+              $rowSum = $resultSum->fetch_assoc();
+              $total_sales = $rowSum['total_sales'];
+              $query = mysqli_query($conn, "SELECT * FROM sales WHERE date_created BETWEEN '$start_date' AND '$end_date' ORDER BY sales_id DESC");
+
+              // Loop through the rows and display the data
+              if (mysqli_num_rows($query) > 0) {
+
+                foreach ($query as $value) {
+
+                  // Use htmlspecialchars to prevent XSS attacks
+                  $start_date = htmlspecialchars($start_date);
+                  $end_date = htmlspecialchars($end_date);
+                  $total_sales = htmlspecialchars($total_sales);
 
 
+                  ?>
 
-                ?>
+                  <div class="col-md-6">
+                    <div class="col-lg-12">
+                      <h3>Total Sales between
+                        <?= $start_date ?> and
+                        <?= $end_date ?>:
 
-                <div class="col-md-6">
-                  <div class="col-lg-12">
-                    <h3>Total Sales between
-                      <?= $start_date ?> and
-                      <?= $end_date ?>:
-
-                    </h3>
-                    <h1>₱
-                      <?= $total_sales ?>
-                    </h1>
+                      </h3>
+                      <h1>₱
+                        <?= $total_sales ?>
+                      </h1>
+                    </div>
                   </div>
-                </div>
 
-                <div class="col-lg-12">
-                  <table class="table table-striped table-bordered">
-                    <thead>
-                      <th style="border: 1px solid black;">SALES ID</th>
-                      <th style="border: 1px solid black;">ORDER ID</th>
-                      <th style="border: 1px solid black;">TOTAL ORDER PRICE</th>
-                      <th style="border: 1px solid black;">DATE</th>
-                    </thead>
+                  <div class="col-lg-12">
+                    <table class="table table-striped table-bordered">
+                      <thead>
+                        <th style="border: 1px solid black;">SALES ID</th>
+                        <th style="border: 1px solid black;">ORDER ID</th>
+                        <th style="border: 1px solid black;">TOTAL ORDER PRICE</th>
+                        <th style="border: 1px solid black;">DATE</th>
+                      </thead>
 
-                    <tbody>
+                      <tbody>
 
-                      <?php
-                      foreach ($query as $value) { ?>
-                        <tr>
-                          <td>
-                            <?= $value['sales_id'] ?>
-                          </td>
-                          <td>
-                            <?= $value['orders_id'] ?>
-                          </td>
-                          <td>
-                            <?= $value['total_price'] ?>
-                          </td>
-                          <td>
-                            <?= $value['date_created'] ?>
-                          </td>
-                        </tr>
                         <?php
-                      }
-                      ?>
-                    </tbody>
+                        foreach ($query as $value) { ?>
+                          <tr>
+                            <td>
+                              <?= htmlspecialchars($value['sales_id']) ?>
+                            </td>
+                            <td>
+                              <?= htmlspecialchars($value['orders_id']) ?>
+                            </td>
+                            <td>
+                              <?= htmlspecialchars($value['total_price']) ?>
+                            </td>
+                            <td>
+                              <?= htmlspecialchars($value['date_created']) ?>
+                            </td>
+                          </tr>
+                          <?php
+                        }
+                        ?>
+                      </tbody>
 
-                  </table>
+                    </table>
+                  </div>
+
+
+                  <?php
+
+
+                }
+
+              } else {
+                ?>
+                <div class="col-lg-12">
+                  <h3>NO SALES CAN BE FOUND</h3>
                 </div>
 
-
-                <?php
-
-
-              }
-
-            } else {
-              ?>
-              <div class="col-lg-12">
-                <h3>NO SALES CAN BE FOUND</h3>
               </div>
 
-            </div>
-
-            <?php
+              <?php
+              }
             }
           }
           ?>
@@ -293,82 +313,95 @@ if ($username != false && $name != false) {
         <?php
         if (isset($_POST['submit_date_orders'])) {
 
-          $start_date = $_POST['start_date'];
-          $end_date = $_POST['end_date'];
+          $start_date = mysqli_real_escape_string($conn, $_POST['start_date']);
+          $end_date = mysqli_real_escape_string($conn, $_POST['end_date']);
 
-          $query = mysqli_query($conn, "SELECT * FROM orders WHERE date_created BETWEEN '$start_date' AND '$end_date' ORDER BY id DESC");
+          // Prepare the SQL statement
+          $stmt = $conn->prepare("SELECT * FROM orders WHERE date_created BETWEEN ? AND ?");
+          $stmt->bind_param("ss", $start_date, $end_date);
+          $stmt->execute();
+          $result = $stmt->get_result();
 
-          if (mysqli_num_rows($query) > 0) {
+          // Check if there are any rows
+          if ($result->num_rows > 0) {
+            $query = mysqli_query($conn, "SELECT * FROM orders WHERE date_created BETWEEN '$start_date' AND '$end_date' ORDER BY id DESC");
 
-            foreach ($query as $value) {
+            if (mysqli_num_rows($query) > 0) {
 
-              ?>
+              foreach ($query as $value) {
 
-              <div class="col-lg-12">
-                <table class="table table-striped table-bordered">
-                  <thead>
-                    <th>ORDER ID</th>
-                    <th>STATUS</th>
-                    <th>DATE & TIME</th>
-                    <th>NAME</th>
-                    <th>MOBILE NUMBER</th>
-                    <th>EMAIL</th>
-                    <th>PAYMENT METHOD</th>
-                    <th>ADDRESS</th>
-                    <th>ORDERS</th>
-                    <th>TOTAL PRICE</th>
+                // Use htmlspecialchars to prevent XSS attacks
+                $start_date = htmlspecialchars($start_date);
+                $end_date = htmlspecialchars($end_date);
 
-                  </thead>
+                ?>
 
-                  <tbody>
+                <div class="col-lg-12">
+                  <table class="table table-striped table-bordered">
+                    <thead>
+                      <th>ORDER ID</th>
+                      <th>STATUS</th>
+                      <th>DATE & TIME</th>
+                      <th>NAME</th>
+                      <th>MOBILE NUMBER</th>
+                      <th>EMAIL</th>
+                      <th>PAYMENT METHOD</th>
+                      <th>ADDRESS</th>
+                      <th>ORDERS</th>
+                      <th>TOTAL PRICE</th>
 
-                    <?php
-                    foreach ($query as $value) { ?>
-                      <tr>
-                        <td>
-                          <?= $value['id'] ?>
-                        </td>
-                        <td>
-                          <?= $value['status'] ?>
-                        </td>
-                        <td>
+                    </thead>
 
-                          <?= $value['time_created'] ?>
-                        </td>
+                    <tbody>
 
-                        <td>
-                          <?= $value['name'] ?>
-                        </td>
-                        <td>
-                          <?= $value['number'] ?>
-                        </td>
-                        <td>
-                          <?= $value['email'] ?>
-                        </td>
-                        <td>
-                          <?= $value['method'] ?>
-                        </td>
-                        <td>
-                          <?= $value['address'] ?>
-                        </td>
-                        <td>
-                          <?= $value['total_products'] ?>
-                        </td>
-                        <td>
-                          <?= $value['total_price'] ?>
-                        </td>
-
-                      </tr>
                       <?php
-                    }
-                    ?>
-                  </tbody>
+                      foreach ($query as $value) { ?>
+                        <tr>
+                          <td>
+                            <?= htmlspecialchars($value['id']) ?>
+                          </td>
+                          <td>
+                            <?= htmlspecialchars($value['status']) ?>
+                          </td>
+                          <td>
 
-                </table>
-              </div>
-              <?php
+                            <?= htmlspecialchars($value['time_created']) ?>
+                          </td>
+
+                          <td>
+                            <?= htmlspecialchars($value['name']) ?>
+                          </td>
+                          <td>
+                            <?= htmlspecialchars($value['number']) ?>
+                          </td>
+                          <td>
+                            <?= htmlspecialchars($value['email']) ?>
+                          </td>
+                          <td>
+                            <?= htmlspecialchars($value['method']) ?>
+                          </td>
+                          <td>
+                            <?= htmlspecialchars($value['address']) ?>
+                          </td>
+                          <td>
+                            <?= htmlspecialchars($value['total_products']) ?>
+                          </td>
+                          <td>
+                            <?= htmlspecialchars($value['total_price']) ?>
+                          </td>
+
+                        </tr>
+                        <?php
+                      }
+                      ?>
+                    </tbody>
+
+                  </table>
+                </div>
+                <?php
 
 
+              }
             }
 
           } else {
