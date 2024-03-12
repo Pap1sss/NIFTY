@@ -45,6 +45,7 @@ if ($result->num_rows > 0) {
   -->
       <link rel="shortcut icon" href="admin/uploaded_img/<?= $row["logo"] ?>" type="image/svg+xml">
 
+
       <!-- 
     - custom css link
   -->
@@ -210,11 +211,11 @@ if ($result->num_rows > 0) {
       ?>
       <style>
         .p3 {
-          font-family: "roboto-medium";
+          font-family: "Montserrat";
         }
 
         .p2 {
-          font-family: "Gill Sans Extrabold", cursive;
+          font-family: "Montserrat";
 
         }
       </style>
@@ -296,11 +297,10 @@ if ($result->num_rows > 0) {
                     }
                   </style>
 
-                  <h1>Select Size & Color</h1>
+                  <h1>Size:</h1>
                   <form action="" method="post">
                     <div class="row">
                       <div class="box">
-
                         <div class="form-check-inline">
                           <?php
 
@@ -320,10 +320,9 @@ if ($result->num_rows > 0) {
                           }
                           ?>
                         </div>
-
-
-
+                        <h1>Color:</h1>
                         <div class="form-check-inline">
+
                           <?php
                           if (empty($options)) {
                             echo "OUT OF STOCK";
@@ -340,7 +339,6 @@ if ($result->num_rows > 0) {
                             }
                           }
                           ?>
-
                         </div>
                       </div>
                       <div class="form-group">
@@ -377,7 +375,7 @@ if ($result->num_rows > 0) {
               <!-- 
                                                             - Product Details
                                                           -->
-              <div class="col-md-7">
+              <div class="col-md-7" style="background-color: #f9c47f; border-radius: 20px; padding: 2%;">
 
 
                 <h2 style="color: #282828; font-size: 40px; text-transform: uppercase;" class=p2><?php echo $fetch_product['name']; ?></h2>

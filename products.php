@@ -101,36 +101,22 @@ if ($result->num_rows > 0) {
             </a>
 
             <ul class="navbar-list">
-              <div class="container" style="display: flex; overflow-x: auto;">
 
-                <?php
+              <li class="navbar-item">
 
-                $select_category = mysqli_query($conn, "SELECT * FROM `category`");
-                if (mysqli_num_rows($select_category) > 0) {
-                  while ($fetch_category = mysqli_fetch_assoc($select_category)) {
-                    ?>
-                    <div class="card-content">
-
-                      <a style="color: white; text-transform:uppercase;" onclick="refreshAndGoToDefault()"
-                        href="categorized_product.php?id=<?php echo htmlspecialchars($fetch_category["category"]); ?>">
-                        <data>
-                          <?php echo htmlspecialchars($fetch_category['category']); ?></a>
-                      </data>
-
-                    </div>
+              </li>
 
 
 
-                    <?php
-                  }
-                  ;
-                }
-                ;
-                ?>
+              <li class="navbar-item">
+
+              </li>
+
 
 
 
             </ul>
+
 
             <ul class="nav-action-list">
               <li>
@@ -179,37 +165,59 @@ if ($result->num_rows > 0) {
       </div>
       </div>
 
-
-
-
-
-
-
-
-
       <main>
         <article>
-
-
-
-
-
-
           <!-- 
         - #PRODUCT
       -->
 
           <section class="section product">
 
-            <!-- 
-        - #category query
-      -->
+
 
 
             <div class="container">
+              <!-- 
+        - #category query
+      -->
+              <ul>
+                <div class="container" style="display: flex; overflow-x: auto;">
+
+                  <?php
+
+                  $select_category = mysqli_query($conn, "SELECT * FROM `category`");
+                  if (mysqli_num_rows($select_category) > 0) {
+                    while ($fetch_category = mysqli_fetch_assoc($select_category)) {
+                      ?>
+                      <div class="card-content">
+
+                        <a style="color: #4a4747; text-transform:uppercase;" onclick="refreshAndGoToDefault()"
+                          href="categorized_product.php?id=<?php echo htmlspecialchars($fetch_category["category"]); ?>">
+                          <data>
+                            <?php echo htmlspecialchars($fetch_category['category']); ?></a>
+                        </data>
+
+                      </div>
+
+
+
+                      <?php
+                    }
+                    ;
+                  }
+                  ;
+                  ?>
+                </div>
+
+
+
+              </ul>
+
 
 
               <h2 class="h2 section-title">OUR PRODUCTS</h2>
+
+
               <div class="container" style="display:flex; ">
                 <form action="" method="post">
                   <ul class="product-list">

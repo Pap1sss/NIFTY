@@ -28,9 +28,10 @@ if (isset($_POST['upload'])) {
    $email = $_POST['email'];
    $address = $_POST['company_address'];
    $contact = $_POST['company_contact'];
-   $product_image = $_FILES['product_image']['name'];
-   $product_image_tmp_name = $_FILES['product_image']['tmp_name'];
-   $product_image_folder = 'uploaded_img/' . $product_image;
+   $company_logo = $_FILES['company_logo']['name'];
+   $company_logo_tmp_name = $_FILES['company_logo']['tmp_name'];
+   $display_image = $_FILES['display_image']['name'];
+   $display_image_tmp_name = $_FILES['display_image']['tmp_name'];
 
    // Validate and sanitize user inputs
    $title = filter_var($title, FILTER_SANITIZE_STRING);
@@ -39,23 +40,24 @@ if (isset($_POST['upload'])) {
    $address = filter_var($address, FILTER_SANITIZE_STRING);
    $contact = filter_var($contact, FILTER_SANITIZE_NUMBER_INT);
 
-   if (empty($title) || empty($description) || empty($email) || empty($address) || empty($contact) || empty($product_image)) {
-      $message[] = 'please fill out all';
+   if (empty($title) || empty($description) || empty($email) || empty($address) || empty($contact) || empty($company_logo) || empty($display_image)) {
+      echo "<script>alert('Please fill out all');</script>";
    } else {
       // Use prepared statements to prevent SQL injection attacks
       $stmt = $conn->prepare("TRUNCATE TABLE upload");
       $stmt->execute();
 
-      $stmt = $conn->prepare("INSERT INTO upload(title, description, address, contact, email, logo) VALUES(?, ?, ?, ?, ?, ?)");
-      $stmt->bind_param("ssssss", $title, $description, $address, $contact, $email, $product_image);
+      $stmt = $conn->prepare("INSERT INTO upload(title, description, address, contact, email, logo, homepage_image) VALUES(?, ?, ?, ?, ?, ?, ? )");
+      $stmt->bind_param("sssssss", $title, $description, $address, $contact, $email, $company_logo, $display_image);
       $stmt->execute();
 
-      // Move the uploaded file to a secure location
+      // Move the uploaded files to a secure location
       $target_dir = "uploaded_img/";
-      $target_file = $target_dir . basename($product_image);
-      move_uploaded_file($product_image_tmp_name, $target_file);
+      $target_file_logo = $target_dir . basename($company_logo);
+      $target_file_image = $target_dir . basename($display_image);
+      move_uploaded_file($company_logo_tmp_name, $target_file_logo);
+      move_uploaded_file($display_image_tmp_name, $target_file_image);
 
-      $message[] = 'new product added successfully';
    }
 }
 
@@ -194,11 +196,15 @@ if (isset($_POST['upload'])) {
                   <input type="tel" placeholder="Business Contact number" name="company_contact" class="box"
                      style="width: 80%;">
                </li>
+
                <li class="list-group-item d-flex justify-content-center">
-                  <p>COMPANY LOGO | MAKE SURE SIZE OF LOGO IS 150X50 PX</p>
+                  <p>COMPANY LOGO |150X50px size required</p>
+                  <input type="file" accept="image/png, image/jpeg, image/jpg" name="company_logo" class="box">
                </li>
+
                <li class="list-group-item d-flex justify-content-center">
-                  <input type="file" accept="image/png, image/jpeg, image/jpg" name="product_image" class="box">
+                  <p>UPLOAD HOMEPAGE IMAGE</p>
+                  <input type="file" accept="image/png, image/jpeg, image/jpg" name="display_image" class="box">
                </li>
                <li class="list-group-item list-group-item-success d-flex justify-content-center">
                   <input type="submit" name="upload" class="btn" value="UPLOAD">
@@ -227,6 +233,7 @@ if (isset($_POST['upload'])) {
                         <th style="border: 1px solid black;">Contact Number</th>
                         <th style="border: 1px solid black">Email Address</th>
                         <th style="border: 1px solid black">Logo</th>
+                        <th style="border: 1px solid black">Display Image</th>
 
                      </tr>
                   </thead>
@@ -253,6 +260,10 @@ if (isset($_POST['upload'])) {
                      <td style="border: 1px solid black;">
                         <img src="uploaded_img/<?php echo htmlspecialchars($row['logo']); ?>" height="50" width="150"
                            alt="logo">
+                     </td>
+                     <td style="border: 1px solid black;">
+                        <img src="uploaded_img/<?php echo htmlspecialchars($row['homepage_image']); ?>" height="50"
+                           width="150" alt="logo">
                      </td>
 
                   </tr>

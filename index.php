@@ -66,94 +66,94 @@ if ($result->num_rows > 0) {
 
     </head>
 
-    <body id="top" style="background-color: #b69f77;">
 
-      <!-- 
+
+    <!-- 
     - #HEADER
   -->
 
-      <header class=" header" data-header style="background-color: #f9c47f;">
-        <div class="container">
+    <header class=" header" data-header style="background-color: #f9c47f;">
+      <div class="container">
 
-          <div class="overlay" data-overlay></div>
+        <div class="overlay" data-overlay></div>
 
-          <!-- 
+        <!-- 
     - #PIC FOR MAINPAGE
       -->
-          <a href="index.php" class="logo">
-            <img src="admin/uploaded_img/<?= $row["logo"] ?>" width="150" height="50" alt="logo">
-          </a>
-          <!-- 
+        <a href="index.php" class="logo">
+          <img src="admin/uploaded_img/<?= $row["logo"] ?>" width="150" height="50" alt="logo">
+        </a>
+        <!-- 
     - #FOR SMALL BROWSER
       -->
-          <button class="nav-open-btn" data-nav-open-btn aria-label="Open Menu">
-            <ion-icon name="menu-outline"></ion-icon>
+        <button class="nav-open-btn" data-nav-open-btn aria-label="Open Menu">
+          <ion-icon name="menu-outline"></ion-icon>
+        </button>
+
+        <nav class="navbar" data-navbar>
+
+          <button class="nav-close-btn" data-nav-close-btn aria-label="Close Menu">
+            <ion-icon name="close-outline"></ion-icon>
           </button>
 
-          <nav class="navbar" data-navbar>
+          <a href="index.php" class="logo">
+            <img src="admin/uploaded_img/<?= $row["logo"] ?>" width="190" height="50" alt="logo">
+          </a>
 
-            <button class="nav-close-btn" data-nav-close-btn aria-label="Close Menu">
-              <ion-icon name="close-outline"></ion-icon>
-            </button>
+          <ul class="navbar-list">
 
-            <a href="index.php" class="logo">
-              <img src="admin/uploaded_img/<?= $row["logo"] ?>" width="190" height="50" alt="logo">
-            </a>
+            <li class="navbar-item">
 
-            <ul class="navbar-list">
+            </li>
 
-              <li class="navbar-item">
+            <li class="navbar-item">
 
-              </li>
-
-              <li class="navbar-item">
-
-              </li>
+            </li>
 
 
 
 
-            </ul>
+          </ul>
 
-            <ul class="nav-action-list">
-
-
-              <li>
-                <a href="login_user/home.php" class="nav-action-btn">
-                  <ion-icon name="person-outline" aria-hidden="false"></ion-icon>
-
-                  <span class="nav-action-text">Login / Register</span>
-                </a>
-              </li>
+          <ul class="nav-action-list">
 
 
+            <li>
+              <a href="login_user/home.php" class="nav-action-btn">
+                <ion-icon name="person-outline" aria-hidden="false"></ion-icon>
 
-              <li>
-                <a href="login_user/cart.php" class="nav-action-btn">
-                  <ion-icon name="bag-outline" aria-hidden="true"></ion-icon>
-
-                  <data class="nav-action-text">Basket: <strong></strong></data>
-
-
-                </a>
-              </li>
+                <span class="nav-action-text">Login / Register</span>
+              </a>
+            </li>
 
 
 
-            </ul>
+            <li>
+              <a href="login_user/cart.php" class="nav-action-btn">
+                <ion-icon name="bag-outline" aria-hidden="true"></ion-icon>
 
-          </nav>
-
-        </div>
-      </header>
+                <data class="nav-action-text">Basket: <strong></strong></data>
 
 
-      <!-- 
+              </a>
+            </li>
+
+
+
+          </ul>
+
+        </nav>
+
+      </div>
+    </header>
+
+
+    <!-- 
     - #END HEADER
   -->
 
 
-
+    <body id="top">
       <main>
         <article>
 
@@ -161,27 +161,32 @@ if ($result->num_rows > 0) {
         - #HERO
       -->
 
-          <section class="section hero" style="background-image: url('./assets/images/banner.jpg')">
-            <div class="container">
+          <section class="section hero"
+            style="background-image: url(admin/uploaded_img/<?= htmlspecialchars($row["homepage_image"]) ?>); background-position: center; ">
 
-              <h2 class="h1 hero-title" style="color:white;">
-                <strong>
-                  <?= $row["title"] ?>
-                </strong>
-              </h2>
+            <div class="container"
+              style=" background-color: transparent; text-align: left; padding: 3%; border-radius: 50px;">
+              <div>
+                <h2 class="h1 hero-title" style="color:white;  ">
+                  <strong>
+                    <?= $row["title"] ?>
+                  </strong>
+                </h2>
 
-              <p class="hero-text" style="color:white; ">
-                <?= $row["description"] ?>
-              </p>
-              <a href="products.php">
-                <button class="btn" style="background-color: #f9c47f; border-radius: 12px; border: 2px solid white;">
-                  <span>Shop Now</span>
+                <p class="hero-text" style="color:white; ">
+                  <?= $row["description"] ?>
+                </p>
+                <a href="products.php">
+                  <button class="btn" style="background-color: #f9c47f; border-radius: 12px; border: 2px solid white;">
+                    <span>Shop Now</span>
 
 
-                </button>
-              </a>
+                  </button>
+                </a>
 
+              </div>
             </div>
+
           </section>
 
 
@@ -195,102 +200,102 @@ if ($result->num_rows > 0) {
       <!-- 
     - #FOOTER
   -->
+    </body>
+    <footer class="footer">
 
-      <footer class="footer">
+      <div class="footer-top section" style="background-color: white;">
+        <div class="container">
 
-        <div class="footer-top section" style="background-color: white;">
-          <div class="container">
+          <div class="footer-brand">
 
-            <div class="footer-brand">
-
-              </ul>
-
-            </div>
-
-            <div class="footer-link-box">
-
-              <ul class="footer-list">
-
-                <li>
-                  <p class="footer-list-title">Contact Us</p>
-                </li>
-
-                <li>
-                  <address class="footer-link">
-                    <ion-icon name="location"></ion-icon>
-
-                    <span class="footer-link-text">
-                      <?= $row["address"] ?>
-                    </span>
-                  </address>
-                </li>
-
-                <li>
-                  <a href="tel:<?= $row["contact"] ?>" class="footer-link">
-                    <ion-icon name="call"></ion-icon>
-
-                    <span class="footer-link-text">
-                      <?= $row["contact"] ?>
-                    </span>
-                  </a>
-                </li>
-
-                <li>
-                  <a href="<?= $row["email"] ?>" class="footer-link">
-                    <ion-icon name="mail"></ion-icon>
-
-                    <span class="footer-link-text">
-                      <?= $row["email"] ?>
-                    </span>
-                  </a>
-                </li>
-
-              </ul>
-
-
-
-
-
-            </div>
+            </ul>
 
           </div>
+
+          <div class="footer-link-box">
+
+            <ul class="footer-list">
+
+              <li>
+                <p class="footer-list-title">Contact Us</p>
+              </li>
+
+              <li>
+                <address class="footer-link">
+                  <ion-icon name="location"></ion-icon>
+
+                  <span class="footer-link-text">
+                    <?= $row["address"] ?>
+                  </span>
+                </address>
+              </li>
+
+              <li>
+                <a href="tel:<?= $row["contact"] ?>" class="footer-link">
+                  <ion-icon name="call"></ion-icon>
+
+                  <span class="footer-link-text">
+                    <?= $row["contact"] ?>
+                  </span>
+                </a>
+              </li>
+
+              <li>
+                <a href="<?= $row["email"] ?>" class="footer-link">
+                  <ion-icon name="mail"></ion-icon>
+
+                  <span class="footer-link-text">
+                    <?= $row["email"] ?>
+                  </span>
+                </a>
+              </li>
+
+            </ul>
+
+
+
+
+
+          </div>
+
         </div>
+      </div>
 
 
-      </footer>
+    </footer>
 
 
 
 
 
-      <!-- 
+    <!-- 
     - #GO TO TOP
   -->
 
-      <a href="#top" class="go-top-btn" data-go-top>
-        <ion-icon name="arrow-up-outline"></ion-icon>
-      </a>
+    <a href="#top" class="go-top-btn" data-go-top>
+      <ion-icon name="arrow-up-outline"></ion-icon>
+    </a>
 
 
 
 
 
-      <!-- 
+    <!-- 
     - custom js link
   -->
-      <script src="./assets/js/script.js"></script>
+    <script src="./assets/js/script.js"></script>
 
-      <!-- 
+    <!-- 
     - ionicon link
   -->
-      <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-      <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
-      <?php
+    <?php
 
   }
 }
 ?>
-</body>
+
 
 </html>
