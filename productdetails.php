@@ -209,16 +209,7 @@ if ($result->num_rows > 0) {
 
 
       ?>
-      <style>
-        .p3 {
-          font-family: "Montserrat";
-        }
 
-        .p2 {
-          font-family: "Montserrat";
-
-        }
-      </style>
       <br>
       <br>
       <br>
@@ -257,132 +248,204 @@ if ($result->num_rows > 0) {
 
 
                   </figure>
+                </div>
 
 
-
-                  <!-- 
+                <!-- 
                                                             - ADD TO CART
                                                           -->
-                  <style>
-                    .btn1 {
-                      background-color: #E48F45;
-                      color: var(--color, var(--white));
-                      font-size: var(--fs-5);
-                      display: flex;
-                      align-items: center;
-                      gap: 5px;
-                      padding: 14px 25px;
+                <style>
+                  .btn1 {
+                    background-color: #E48F45;
+                    color: var(--color, var(--white));
+                    font-size: var(--fs-5);
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    padding: 14px 25px;
 
-                    }
-                  </style>
-                  <br>
-                  <br>
-
-
+                  }
+                </style>
+                <br>
+                <br>
 
 
 
-                  <style>
-                    .unselectable {
-                      -webkit-touch-callout: none;
-                      -webkit-user-select: none;
-                      -khtml-user-select: none;
-                      -moz-user-select: none;
-                      -ms-user-select: none;
-                      user-select: none;
-                    }
 
-                    .form-check-label {
-                      color: black;
-                    }
-                  </style>
 
-                  <h1>Size:</h1>
-                  <form action="" method="post">
-                    <div class="row">
-                      <div class="box">
-                        <div class="form-check-inline">
-                          <?php
+                <style>
+                  .unselectable {
+                    -webkit-touch-callout: none;
+                    -webkit-user-select: none;
+                    -khtml-user-select: none;
+                    -moz-user-select: none;
+                    -ms-user-select: none;
+                    user-select: none;
+                  }
 
-                          if (empty($options)) {
-                            echo "OUT OF STOCK";
-                          } else {
-                            $size_names = array();
-                            foreach ($options as $option) {
-                              if (!empty($option['unit_name']) && !in_array($option['unit_name'], $size_names)) {
-                                $size_names[] = $option['unit_name'];
-                                echo '<div class="form-check">';
-                                echo '<input class="form-check-input" type="radio" name="size" id="size' . $option['id'] . '" value="' . $option['unit_name'] . '" required>';
-                                echo '<label class="form-check-label" for="size' . $option['id'] . '">' . $option['unit_name'] . '</label>';
-                                echo '</div>';
-                              }
+                  .form-check-label {
+                    color: black;
+                  }
+                </style>
+
+                <h1>Size:</h1>
+                <form action="" method="post">
+                  <div class="row">
+                    <div class="box">
+                      <div class="form-check-inline">
+                        <?php
+
+                        if (empty($options)) {
+                          echo "OUT OF STOCK";
+                        } else {
+                          $size_names = array();
+                          foreach ($options as $option) {
+                            if (!empty($option['unit_name']) && !in_array($option['unit_name'], $size_names)) {
+                              $size_names[] = $option['unit_name'];
+                              echo '<div class="form-check">';
+                              echo '<input class="form-check-input" type="radio" name="size" id="size' . $option['id'] . '" value="' . $option['unit_name'] . '" required>';
+                              echo '<label class="form-check-label" for="size' . $option['id'] . '">' . $option['unit_name'] . '</label>';
+                              echo '</div>';
                             }
                           }
-                          ?>
-                        </div>
-                        <h1>Color:</h1>
-                        <div class="form-check-inline">
-
-                          <?php
-                          if (empty($options)) {
-                            echo "OUT OF STOCK";
-                          } else {
-                            $color_names = array();
-                            foreach ($options as $option) {
-                              if (!empty($option['color_name']) && !in_array($option['color_name'], $color_names)) {
-                                $color_names[] = $option['color_name'];
-                                echo '<div class="form-check">';
-                                echo '<input class="form-check-input" type="radio" name="color" id="color' . $option['id'] . '" value="' . $option['color_name'] . '" required>';
-                                echo '<label class="form-check-label" for="color' . $option['id'] . '">' . $option['color_name'] . '</label>';
-                                echo '</div>';
-                              }
-                            }
-                          }
-                          ?>
-                        </div>
+                        }
+                        ?>
                       </div>
-                      <div class="form-group">
-                        <br>
-                        <br>
-                        <style>
-                          .bordered-input {
-                            border: 1px solid #ccc;
-                            padding: 5px;
-                            border-radius: 3px;
-                          }
+                      <h1>Color:</h1>
+                      <div class="form-check-inline">
 
-                          .bordered-input:focus {
-                            border: 2px solid #007bff;
-                            outline: none;
+                        <?php
+                        if (empty($options)) {
+                          echo "OUT OF STOCK";
+                        } else {
+                          $color_names = array();
+                          foreach ($options as $option) {
+                            if (!empty($option['color_name']) && !in_array($option['color_name'], $color_names)) {
+                              $color_names[] = $option['color_name'];
+                              echo '<div class="form-check">';
+                              echo '<input class="form-check-input" type="radio" name="color" id="color' . $option['id'] . '" value="' . $option['color_name'] . '" required>';
+                              echo '<label class="form-check-label" for="color' . $option['id'] . '">' . $option['color_name'] . '</label>';
+                              echo '</div>';
+                            }
                           }
-                        </style>
-                        <label for="quantity">Quantity:</label>
-                        <input type="number" name="quantity" id="quantity" value="1" required class="bordered-input">
-                        <input type="hidden" name="image" value="<?php echo $fetch_product['image']; ?>">
-                        <input type="hidden" name="name" value="<?php echo $fetch_product['name']; ?>">
-                        <input type="hidden" name="price" value="<?php echo $fetch_product['price']; ?>">
-                        <input class="btn btn-primary" type="submit" value="ADD TO CART" name="add_to_cart" id="addToCartBtn"
-                          style="display: none;">
-
+                        }
+                        ?>
                       </div>
                     </div>
-                  </form>
+                    <div class="form-group">
+                      <br>
+                      <br>
+                      <style>
+                        .bordered-input {
+                          border: 1px solid #ccc;
+                          padding: 5px;
+                          border-radius: 3px;
+                        }
 
-                </div>
+                        .bordered-input:focus {
+                          border: 2px solid #007bff;
+                          outline: none;
+                        }
+                      </style>
+                      <label for="quantity">Quantity:</label>
+                      <input type="number" name="quantity" id="quantity" value="1" required class="bordered-input">
+                      <input type="hidden" name="image" value="<?php echo $fetch_product['image']; ?>">
+                      <input type="hidden" name="name" value="<?php echo $fetch_product['name']; ?>">
+                      <input type="hidden" name="price" value="<?php echo $fetch_product['price']; ?>">
+                      <input class="btn btn-primary" type="submit" value="ADD TO CART" name="add_to_cart" id="addToCartBtn"
+                        style="display: none;">
+
+                    </div>
+                  </div>
+                </form>
+
+
               </div>
 
 
               <!-- 
                                                             - Product Details
                                                           -->
-              <div class="col-md-7" style="background-color: #f9c47f; border-radius: 20px; padding: 2%;">
+              <div class="col-md-7 d-flex justify-content-center"
+                style="background-color: white; border-radius: 20px; padding: 2%;">
 
 
-                <h2 style="color: #282828; font-size: 40px; text-transform: uppercase;" class=p2><?php echo $fetch_product['name']; ?></h2>
-                <br>
+                <div class="container" style="background-color: #F8FAE5; border-radius: 3%;">
+                  <h2 class="h3 card-title" style="color: #282828; font-size: 40px; text-transform: uppercase;" class=p2><?php echo $fetch_product['name']; ?></h2>
+                  <div class="card-body">
 
-                <br>
-                <div class="container">
+                    <div class="row">
+
+                      <div class="col-sm-4 text-center">
+                        <h1 class="text-warning mt-4 mb-4">
+                          <b>
+                            <p id="average_rating">0.0/5 </p>
+                          </b>
+                        </h1>
+                        <div class="mb-3">
+                          <i class="fas fa-star star-light mr-1 main_star"></i>
+                          <i class="fas fa-star star-light mr-1 main_star"></i>
+                          <i class="fas fa-star star-light mr-1 main_star"></i>
+                          <i class="fas fa-star star-light mr-1 main_star"></i>
+                          <i class="fas fa-star star-light mr-1 main_star"></i>
+                        </div>
+                        <h3><span id="total_review">0</span> Review/s</h3>
+                      </div>
+                      <div class="col-sm-4">
+                        <p>
+                        <div class="progress-label-left"><b>5</b> <i class="fas fa-star text-warning"></i></div>
+
+                        <div class="progress-label-right"><span id="total_five_star_review">0</span></div>
+                        <div class="progress">
+                          <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="0" aria-valuemin="0"
+                            aria-valuemax="100" id="five_star_progress"></div>
+                        </div>
+                        </p>
+                        <p>
+                        <div class="progress-label-left"><b>4</b> <i class="fas fa-star text-warning"></i></div>
+
+                        <div class="progress-label-right"><span id="total_four_star_review">0</span></div>
+                        <div class="progress">
+                          <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="0" aria-valuemin="0"
+                            aria-valuemax="100" id="four_star_progress"></div>
+                        </div>
+                        </p>
+                        <p>
+                        <div class="progress-label-left"><b>3</b> <i class="fas fa-star text-warning"></i></div>
+
+                        <div class="progress-label-right"><span id="total_three_star_review">0</span></div>
+                        <div class="progress">
+                          <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="0" aria-valuemin="0"
+                            aria-valuemax="100" id="three_star_progress"></div>
+                        </div>
+                        </p>
+                        <p>
+                        <div class="progress-label-left"><b>2</b> <i class="fas fa-star text-warning"></i></div>
+
+                        <div class="progress-label-right"><span id="total_two_star_review">0</span></div>
+                        <div class="progress">
+                          <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="0" aria-valuemin="0"
+                            aria-valuemax="100" id="two_star_progress"></div>
+                        </div>
+                        </p>
+                        <p>
+                        <div class="progress-label-left"><b>1</b> <i class="fas fa-star text-warning"></i></div>
+
+                        <div class="progress-label-right"><span id="total_one_star_review">0</span></div>
+                        <div class="progress">
+                          <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="0" aria-valuemin="0"
+                            aria-valuemax="100" id="one_star_progress"></div>
+                        </div>
+                        </p>
+                      </div>
+                      <div class="col-sm-4 text-center">
+
+                        <br><br>
+
+                      </div>
+
+                    </div>
+                  </div>
 
 
                   <h2 class=p2 style="color: #282828; font-size: 30px;">
@@ -485,82 +548,17 @@ if ($result->num_rows > 0) {
                 <br>
 
 
-                <div class="card-body">
+                <div class="card-body d-flex justify-content-center">
+                  <button type="button" name="add_review" id="add_review" class="btn"
+                    style="width:100%; background-color: #f9c47f; color: white; border: 2px solid white; font-weight: bold;display: inline-block;">ADD
+                    REVIEW</button>
 
-                  <div class="row">
 
-                    <div class="col-sm-4 text-center">
-                      <h1 class="text-warning mt-4 mb-4">
-                        <b><span id="average_rating">0.0</span> / 5</b>
-                      </h1>
-                      <div class="mb-3">
-                        <i class="fas fa-star star-light mr-1 main_star"></i>
-                        <i class="fas fa-star star-light mr-1 main_star"></i>
-                        <i class="fas fa-star star-light mr-1 main_star"></i>
-                        <i class="fas fa-star star-light mr-1 main_star"></i>
-                        <i class="fas fa-star star-light mr-1 main_star"></i>
-                      </div>
-                      <h3><span id="total_review">0</span> Review</h3>
-                    </div>
-                    <div class="col-sm-4">
-                      <p>
-                      <div class="progress-label-left"><b>5</b> <i class="fas fa-star text-warning"></i></div>
 
-                      <div class="progress-label-right"><span id="total_five_star_review">0</span></div>
-                      <div class="progress">
-                        <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="0" aria-valuemin="0"
-                          aria-valuemax="100" id="five_star_progress"></div>
-                      </div>
-                      </p>
-                      <p>
-                      <div class="progress-label-left"><b>4</b> <i class="fas fa-star text-warning"></i></div>
-
-                      <div class="progress-label-right"><span id="total_four_star_review">0</span></div>
-                      <div class="progress">
-                        <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="0" aria-valuemin="0"
-                          aria-valuemax="100" id="four_star_progress"></div>
-                      </div>
-                      </p>
-                      <p>
-                      <div class="progress-label-left"><b>3</b> <i class="fas fa-star text-warning"></i></div>
-
-                      <div class="progress-label-right"><span id="total_three_star_review">0</span></div>
-                      <div class="progress">
-                        <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="0" aria-valuemin="0"
-                          aria-valuemax="100" id="three_star_progress"></div>
-                      </div>
-                      </p>
-                      <p>
-                      <div class="progress-label-left"><b>2</b> <i class="fas fa-star text-warning"></i></div>
-
-                      <div class="progress-label-right"><span id="total_two_star_review">0</span></div>
-                      <div class="progress">
-                        <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="0" aria-valuemin="0"
-                          aria-valuemax="100" id="two_star_progress"></div>
-                      </div>
-                      </p>
-                      <p>
-                      <div class="progress-label-left"><b>1</b> <i class="fas fa-star text-warning"></i></div>
-
-                      <div class="progress-label-right"><span id="total_one_star_review">0</span></div>
-                      <div class="progress">
-                        <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="0" aria-valuemin="0"
-                          aria-valuemax="100" id="one_star_progress"></div>
-                      </div>
-                      </p>
-                    </div>
-                    <div class="col-sm-4 text-center">
-
-                      <br><br>
-                      <button type="button" name="add_review" id="add_review" class="btn"
-                        style="width:50%; background-color: #f9c47f; color: white; border: 2px solid white; font-weight: bold;display: inline-block;">ADD
-                        REVIEW</button>
-                    </div>
-
-                  </div>
                 </div>
               </div>
-              <div class="mt-5" id="review_content"></div>
+            </div>
+            <div class="mt-5" id="review_content"></div>
             </div>
           </body>
 
@@ -832,66 +830,7 @@ if ($result->num_rows > 0) {
           <br>
           <div class="card-body">
             <div class="row">
-              <div class="col-sm-4 text-center">
-                <h1 class="text-warning mt-4 mb-4">
-                  <b><span id="average_rating">0.0</span> / 5</b>
-                </h1>
-                <div class="mb-3">
-                  <i class="fas fa-star star-light mr-1 main_star"></i>
-                  <i class="fas fa-star star-light mr-1 main_star"></i>
-                  <i class="fas fa-star star-light mr-1 main_star"></i>
-                  <i class="fas fa-star star-light mr-1 main_star"></i>
-                  <i class="fas fa-star star-light mr-1 main_star"></i>
-                </div>
-                <h3><span id="total_review">0</span> Review</h3>
-              </div>
-              <div class="col-sm-4">
-                <p>
-                <div class="progress-label-left"><b>5</b> <i class="fas fa-star text-warning"></i></div>
 
-                <div class="progress-label-right"><span id="total_five_star_review">0</span></div>
-                <div class="progress">
-                  <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="0" aria-valuemin="0"
-                    aria-valuemax="100" id="five_star_progress"></div>
-                </div>
-                </p>
-                <p>
-                <div class="progress-label-left"><b>4</b> <i class="fas fa-star text-warning"></i></div>
-
-                <div class="progress-label-right"><span id="total_four_star_review">0</span></div>
-                <div class="progress">
-                  <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="0" aria-valuemin="0"
-                    aria-valuemax="100" id="four_star_progress"></div>
-                </div>
-                </p>
-                <p>
-                <div class="progress-label-left"><b>3</b> <i class="fas fa-star text-warning"></i></div>
-
-                <div class="progress-label-right"><span id="total_three_star_review">0</span></div>
-                <div class="progress">
-                  <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="0" aria-valuemin="0"
-                    aria-valuemax="100" id="three_star_progress"></div>
-                </div>
-                </p>
-                <p>
-                <div class="progress-label-left"><b>2</b> <i class="fas fa-star text-warning"></i></div>
-
-                <div class="progress-label-right"><span id="total_two_star_review">0</span></div>
-                <div class="progress">
-                  <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="0" aria-valuemin="0"
-                    aria-valuemax="100" id="two_star_progress"></div>
-                </div>
-                </p>
-                <p>
-                <div class="progress-label-left"><b>1</b> <i class="fas fa-star text-warning"></i></div>
-
-                <div class="progress-label-right"><span id="total_one_star_review">0</span></div>
-                <div class="progress">
-                  <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="0" aria-valuemin="0"
-                    aria-valuemax="100" id="one_star_progress"></div>
-                </div>
-                </p>
-              </div>
               <div class="col-sm-4 text-center">
                 <br><br>
 

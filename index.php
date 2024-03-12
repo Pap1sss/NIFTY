@@ -167,13 +167,13 @@ if ($result->num_rows > 0) {
             <div class="container"
               style=" background-color: transparent; text-align: left; padding: 3%; border-radius: 50px;">
               <div>
-                <h2 class="h1 hero-title" style="color:white;  ">
+                <h2 class="h1 hero-title" style="color:black;">
                   <strong>
                     <?= $row["title"] ?>
                   </strong>
                 </h2>
 
-                <p class="hero-text" style="color:white; ">
+                <p class="hero-text" style="color:black; ">
                   <?= $row["description"] ?>
                 </p>
                 <a href="products.php">
