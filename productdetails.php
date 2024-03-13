@@ -39,7 +39,10 @@ if ($result->num_rows > 0) {
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
-
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
       <!-- 
     - favicon
   -->
@@ -60,6 +63,10 @@ if ($result->num_rows > 0) {
       <link
         href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
         rel="stylesheet">
+      <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+      </style>
+
 
       <!-- 
     - preload banner
@@ -115,7 +122,8 @@ if ($result->num_rows > 0) {
     - #HEADER
   -->
 
-      <header class="header" data-header style="background-color: #f9c47f;">
+      <header class="header" data-header
+        style="background: linear-gradient(to right, #f9c47f, #F4B39D); box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.20);">
         <div class="container">
 
           <div class="overlay" data-overlay></div>
@@ -213,7 +221,7 @@ if ($result->num_rows > 0) {
       <br>
       <br>
       <br>
-      <div class="container">
+      <div class="container" style="background-color: white; border-radius: 3%;">
 
 
         <?php
@@ -228,136 +236,112 @@ if ($result->num_rows > 0) {
             }
 
             ?>
+            <style>
+              .productimage {
+                border: 5px solid white;
+                height: 100%;
+
+              }
+            </style>
             <div class="row">
-              <div class="col-md-4" style="height: auto; max-width: 100; width: auto;">
+
+              <div class="col-md-4">
 
                 <div class="product-card">
+                  <br>
 
-                  <figure class="card-banner">
-                    <style>
-                      .productimage {
-                        border: 5px solid #000;
+                  <figure class=" card-banner productimage" style="width: fit-content;">
 
-                      }
-                    </style>
-                    <img src="<?php echo $fetch_product['image']; ?>" loading="lazy" alt="PRODUCTS"
-                      class="image-contain productimage">
+                    <img src=" <?php echo $fetch_product['image']; ?>" loading="lazy" alt="PRODUCTS" class="image-contain">
 
                     </ul>
-
-
-
                   </figure>
                 </div>
 
+                <!--PRODUCT OPTIONS-->
+                <!--PRODUCT SIZE-->
+                <div style="border: 1px solid red;">
+                  <div style="padding: 0px 10px 10px 10px; border: 1px solid green;">
+                    <h2 style="padding-bottom: 5px;">Size:</h2>
+                    <form action="" method="post">
+                      <div class="row">
+                        <div class="box">
+                          <div class="form-check-inline">
+                            <?php
 
-                <!-- 
-                                                            - ADD TO CART
-                                                          -->
-                <style>
-                  .btn1 {
-                    background-color: #E48F45;
-                    color: var(--color, var(--white));
-                    font-size: var(--fs-5);
-                    display: flex;
-                    align-items: center;
-                    gap: 5px;
-                    padding: 14px 25px;
-
-                  }
-                </style>
-                <br>
-                <br>
-
-
-
-
-
-                <style>
-                  .unselectable {
-                    -webkit-touch-callout: none;
-                    -webkit-user-select: none;
-                    -khtml-user-select: none;
-                    -moz-user-select: none;
-                    -ms-user-select: none;
-                    user-select: none;
-                  }
-
-                  .form-check-label {
-                    color: black;
-                  }
-                </style>
-
-                <h1>Size:</h1>
-                <form action="" method="post">
-                  <div class="row">
-                    <div class="box">
-                      <div class="form-check-inline">
-                        <?php
-
-                        if (empty($options)) {
-                          echo "OUT OF STOCK";
-                        } else {
-                          $size_names = array();
-                          foreach ($options as $option) {
-                            if (!empty($option['unit_name']) && !in_array($option['unit_name'], $size_names)) {
-                              $size_names[] = $option['unit_name'];
-                              echo '<div class="form-check">';
-                              echo '<input class="form-check-input" type="radio" name="size" id="size' . $option['id'] . '" value="' . $option['unit_name'] . '" required>';
-                              echo '<label class="form-check-label" for="size' . $option['id'] . '">' . $option['unit_name'] . '</label>';
-                              echo '</div>';
+                            if (empty($options)) {
+                              echo "OUT OF STOCK";
+                            } else {
+                              $size_names = array();
+                              foreach ($options as $option) {
+                                if (!empty($option['unit_name']) && !in_array($option['unit_name'], $size_names)) {
+                                  $size_names[] = $option['unit_name'];
+                                  echo '<div class="form-check">';
+                                  echo '<input class="form-check-input" type="radio" name="size" id="size' . $option['id'] . '" value="' . $option['unit_name'] . '" required>';
+                                  echo '<label class="form-check-label" for="size' . $option['id'] . '">' . $option['unit_name'] . '</label>';
+                                  echo '</div>';
+                                }
+                              }
                             }
+                            ?>
+                          </div>
+                        </div>
+
+                      </div>
+                  </div>
+
+                  <!--PRODUCT COLOR-->
+                  <div style="padding: 0px 10px 10px 10px; border: 1px solid green;">
+                    <h2 style="padding-bottom: 5px;">Color:</h2>
+                    <div class="form-check-inline">
+
+                      <?php
+                      if (empty($options)) {
+                        echo "OUT OF STOCK";
+                      } else {
+                        $color_names = array();
+                        foreach ($options as $option) {
+                          if (!empty($option['color_name']) && !in_array($option['color_name'], $color_names)) {
+                            $color_names[] = $option['color_name'];
+                            echo '<div class="form-check">';
+                            echo '<input class="form-check-input" type="radio" name="color" id="color' . $option['id'] . '" value="' . $option['color_name'] . '" required>';
+                            echo '<label class="form-check-label" for="color' . $option['id'] . '">' . $option['color_name'] . '</label>';
+                            echo '</div>';
                           }
                         }
-                        ?>
-                      </div>
-                      <h1>Color:</h1>
-                      <div class="form-check-inline">
-
-                        <?php
-                        if (empty($options)) {
-                          echo "OUT OF STOCK";
-                        } else {
-                          $color_names = array();
-                          foreach ($options as $option) {
-                            if (!empty($option['color_name']) && !in_array($option['color_name'], $color_names)) {
-                              $color_names[] = $option['color_name'];
-                              echo '<div class="form-check">';
-                              echo '<input class="form-check-input" type="radio" name="color" id="color' . $option['id'] . '" value="' . $option['color_name'] . '" required>';
-                              echo '<label class="form-check-label" for="color' . $option['id'] . '">' . $option['color_name'] . '</label>';
-                              echo '</div>';
-                            }
-                          }
-                        }
-                        ?>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <br>
-                      <br>
-                      <style>
-                        .bordered-input {
-                          border: 1px solid #ccc;
-                          padding: 5px;
-                          border-radius: 3px;
-                        }
-
-                        .bordered-input:focus {
-                          border: 2px solid #007bff;
-                          outline: none;
-                        }
-                      </style>
-                      <label for="quantity">Quantity:</label>
-                      <input type="number" name="quantity" id="quantity" value="1" required class="bordered-input">
-                      <input type="hidden" name="image" value="<?php echo $fetch_product['image']; ?>">
-                      <input type="hidden" name="name" value="<?php echo $fetch_product['name']; ?>">
-                      <input type="hidden" name="price" value="<?php echo $fetch_product['price']; ?>">
-                      <input class="btn btn-primary" type="submit" value="ADD TO CART" name="add_to_cart" id="addToCartBtn"
-                        style="display: none;">
-
+                      }
+                      ?>
                     </div>
                   </div>
-                </form>
+
+                  <div class="form-group" style="padding: 5px;">
+                    <br>
+                    <style>
+                      .bordered-input {
+                        border: 1px solid #ccc;
+                        padding: 5px;
+                        border-radius: 3px;
+                      }
+
+                      .bordered-input:focus {
+                        border: 2px solid #007bff;
+                        outline: none;
+                      }
+                    </style>
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" name="quantity" id="quantity" value="1" required class="bordered-input"
+                      style="padding: 5px 5px 5px 15px;">
+                    <input type="hidden" name="image" value="<?php echo $fetch_product['image']; ?>">
+                    <input type="hidden" name="name" value="<?php echo $fetch_product['name']; ?>">
+                    <input type="hidden" name="price" value="<?php echo $fetch_product['price']; ?>">
+                    <input class="btn btn-primary" type="submit" value="ADD TO CART" name="add_to_cart" id="addToCartBtn"
+                      style="display: none; margin-top: 5px;">
+
+                  </div>
+
+                  </form>
+                </div>
+
 
 
               </div>
@@ -366,32 +350,47 @@ if ($result->num_rows > 0) {
               <!-- 
                                                             - Product Details
                                                           -->
-              <div class="col-md-7 d-flex justify-content-center"
-                style="background-color: white; border-radius: 20px; padding: 2%;">
 
+              <div class="col-md-7 d-flex justify-content-center">
+                <div class="container" style="margin-top: 25px; border: 1px solid red;">
+                  <div style="background-color: white; border-radius: 5px; text-align: justify;">
+                    <h2 class=" h3 card-title"
+                      style="color: #fccc84; font-size: 40px; font-family: Montserrat, sans-serif; text-transform: uppercase;"
+                      class=p2><?php echo $fetch_product['name']; ?></h2>
 
-                <div class="container" style="background-color: #F8FAE5; border-radius: 3%;">
-                  <h2 class="h3 card-title" style="color: #282828; font-size: 40px; text-transform: uppercase;" class=p2><?php echo $fetch_product['name']; ?></h2>
-                  <div class="card-body">
+                    <h2 class=p2 style="color: #282828; font-size: 20px; font-family: Montserrat, sans-serif;">
+                      <?php echo $fetch_product['description']; ?>
+                      <br>
+                      <br>
+                    </h2>
+                    <h2 style="color: black; font-family: Montserrat, sans-serif;" class=p2>Price: ₱<?php echo $fetch_product['price']; ?></h2>
+                  </div>
+                  <br>
+                  <br>
 
-                    <div class="row">
+                  <div class="card-body d-flex justify-content-evenly" style=" padding-left: 0;">
 
-                      <div class="col-sm-4 text-center">
+                    <div class="row d-flex" style="width: 100%;">
+
+                      <div class="col-sm-4" style="text-align: center; padding-left: 0;">
                         <h1 class="text-warning mt-4 mb-4">
                           <b>
-                            <p id="average_rating">0.0/5 </p>
+
+                            <b style="display: flex; justify-content: center;     flex-direction: row;"><span
+                                id=" average_rating" style="padding-right: 8px;">0.0</span> / 5</b>
                           </b>
                         </h1>
-                        <div class="mb-3">
+                        <div class="mb-3" style="padding-bottom: 10px;">
                           <i class="fas fa-star star-light mr-1 main_star"></i>
                           <i class="fas fa-star star-light mr-1 main_star"></i>
                           <i class="fas fa-star star-light mr-1 main_star"></i>
                           <i class="fas fa-star star-light mr-1 main_star"></i>
                           <i class="fas fa-star star-light mr-1 main_star"></i>
                         </div>
-                        <h3><span id="total_review">0</span> Review/s</h3>
+                        <h3 style="display: flex; justify-content: center;"><span id="total_review"
+                            style="padding-right: 10px;">0</span> Review/s</h3>
                       </div>
-                      <div class="col-sm-4">
+                      <div style="flex: 1;">
                         <p>
                         <div class="progress-label-left"><b>5</b> <i class="fas fa-star text-warning"></i></div>
 
@@ -438,21 +437,13 @@ if ($result->num_rows > 0) {
                         </div>
                         </p>
                       </div>
-                      <div class="col-sm-4 text-center">
 
-                        <br><br>
-
-                      </div>
 
                     </div>
                   </div>
 
 
-                  <h2 class=p2 style="color: #282828; font-size: 30px;">
-                    <?php echo $fetch_product['description']; ?>
-                  </h2>
-                  <br>
-                  <h2 style="color: black;" class=p2>Price: ₱<?php echo $fetch_product['price']; ?></h2>
+
                 </div>
 
                 <br><br><br>
@@ -752,7 +743,7 @@ if ($result->num_rows > 0) {
                       for (var count = 0; count < data.review_data.length; count++) {
                         html += '<div class="row mb-3">';
 
-                        html += '<div class="col-sm-1"><div class="rounded-circle bg-danger text-white pt-2 pb-2"><h3 class="text-center">' + data.review_data[count].user_name.charAt(0) + '</h3></div></div>';
+                        html += '<div class="col-sm-1"><div class="rounded-circle bg-danger text-white pt-2 pb-2" style="display: flex; justify-content: center; align-items: center; width: 70px; height: 70px; border-radius: 50%;"><h3 class="text-center">' + data.review_data[count].user_name.charAt(0) + '</h3></div></div>';
 
                         html += '<div class="col-sm-11" >';
 
@@ -1086,6 +1077,73 @@ if ($result->num_rows > 0) {
         }
         ?>
 
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="2000">
+      <ol class="carousel-indicators">
+        <?php
+        $select_products = mysqli_query($conn, "SELECT * FROM `products`");
+        if (mysqli_num_rows($select_products) > 0) {
+          $active = 'active';
+          $loop_count = 0;
+          while ($fetch_product = mysqli_fetch_assoc($select_products)) {
+            ?>
+            <li data-target="#carouselExampleIndicators" data-slide-to="<?php echo htmlspecialchars($loop_count); ?>"
+              class="<?php echo $active; ?>"></li>
+            <?php
+            $active = '';
+            $loop_count++;
+          }
+        }
+        ?>
+      </ol>
+      <div class="carousel-inner">
+        <?php
+        $select_products = mysqli_query($conn, "SELECT * FROM `products`");
+        if (mysqli_num_rows($select_products) > 0) {
+          $active = 'active';
+          $loop_count = 0;
+          while ($fetch_product = mysqli_fetch_assoc($select_products)) {
+            ?>
+            <div class="carousel-item <?php echo $active; ?>">
+              <a href=" productdetails.php?id=<?php echo htmlspecialchars($fetch_product["id"]); ?>">
+                <div class="product-item">
+                  <div class="product-card" tabindex="0">
+                    <figure class="card-banner" style="border: 2px solid #f6b035; width: auto; height: auto;">
+                      <img src="<?php echo htmlspecialchars($fetch_product['image']); ?>" loading="lazy" alt="PRODUCTS"
+                        class="image-contain">
+                      <ul class="card-action-list">
+                      </ul>
+                    </figure>
+                    <div class="card-content">
+                      <h3 class="h3 card-title">
+                        <p style="text-transform: uppercase; color: #4a4747;">
+                          <?php echo htmlspecialchars($fetch_product['name']); ?>
+                        </p>
+                      </h3>
+                      <data style="color: #4a4747; font-size:20px;">₱
+                        <?php echo htmlspecialchars($fetch_product['price']); ?>
+                      </data>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <?php
+            $active = '';
+            $loop_count++;
+          }
+        }
+        ?>
+      </div>
+      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+
     </div>
 
 
@@ -1219,7 +1277,13 @@ if ($result->num_rows > 0) {
       });
     </script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js">
+      $(document).ready(function () {
+        $('#carouselExampleIndicators').carousel({
+          interval: 1000
+        });
+      });
+    </script>
 
 
     <?php

@@ -223,9 +223,6 @@ if ($result->num_rows > 0) {
                   }
                   ?>
                 </div>
-
-
-
               </ul>
               <h2 class="h2 section-title">
                 <?php echo htmlspecialchars($_GET['id']); ?>
