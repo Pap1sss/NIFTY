@@ -72,7 +72,8 @@ if ($result->num_rows > 0) {
     - #HEADER
   -->
 
-    <header class=" header" data-header style="background-color: #f9c47f;">
+    <header class=" header" data-header
+      style="background: linear-gradient(to right, #f9c47f, #F4B39D); box-shadow: 0px 4px 4px rgba(0, 0, 0, .05);">
       <div class="container">
 
         <div class="overlay" data-overlay></div>
@@ -161,23 +162,26 @@ if ($result->num_rows > 0) {
         - #HERO
       -->
 
-          <section class="section hero"
-            style="background-image: url(admin/uploaded_img/<?= htmlspecialchars($row["homepage_image"]) ?>); background-position: center; ">
-
+          <section class="section hero">
+            <!--DIV CONTAINER FOR THE HERO BG-->
+            <div
+              style="height: 600px; width: 100vw; background-size: cover; background-repeat:no-repeat; background-image: url(admin/uploaded_img/<?= htmlspecialchars($row["homepage_image"]) ?>); background-position: center; opacity: .7; position: relative; filter: brightness(70%);">
+            </div>
             <div class="container"
-              style=" background-color: transparent; text-align: left; padding: 3%; border-radius: 50px;">
+              style=" background-color: transparent; text-align: left; margin: 20%; padding: 5%; border-radius: 50px; position: absolute;">
               <div>
-                <h2 class="h1 hero-title" style="color:black;">
+                <h2 class="h1 hero-title" style="color:#282828; text-shadow: 3px 3px 4px #BD9D5C;">
                   <strong>
                     <?= $row["title"] ?>
                   </strong>
                 </h2>
 
-                <p class="hero-text" style="color:black; ">
+                <p class="hero-text" style="color: black; letter-spacing: 1.5px;">
                   <?= $row["description"] ?>
                 </p>
                 <a href="products.php">
-                  <button class="btn" style="background-color: #f9c47f; border-radius: 12px; border: 2px solid white;">
+                  <button class="btn"
+                    style="font-family: josefin, sans-serif; background-color:#f9c47f; border-radius: 5px; border: none; box-shadow: 0px 4px 4px rgba(0, 0, 0, .07); ">
                     <span>Shop Now</span>
 
 

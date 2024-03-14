@@ -61,11 +61,16 @@ section {
    margin-top: 1rem;
 }
 
+.btn:hover {
+   background-color: #BD9D5C;
+}
+
 .btn:hover,
 .option-btn:hover,
 .delete-btn:hover {
    background-color: var(--black);
 }
+
 
 .option-btn i,
 .delete-btn i {
