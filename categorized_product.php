@@ -58,13 +58,14 @@ if ($result->num_rows > 0) {
 
     </head>
 
-    <body id="top" style="background-color: white;">
+    <body id="top" style="background-color: #fffaee;">
 
       <!-- 
     - #HEADER
   -->
 
-      <header class="header" data-header style="background-color: #f9c47f;">
+      <header class="header" data-header
+        style="background: linear-gradient(to right, #f9c47f, #F4B39D); box-shadow: 0px 4px 4px rgba(0, 0, 0, .05);">
         <div class="container">
 
           <div class="overlay" data-overlay></div>
@@ -316,62 +317,57 @@ if ($result->num_rows > 0) {
 
       <footer class="footer">
 
-        <div class="footer-top section" style="background-color: #f9c47f;">
+        <div class="footer-top section"
+          style="background: linear-gradient(to right, #f9c47f, #F4B39D); box-shadow: 0px 4px 4px rgba(0, 0, 0, .05); position:fixed; bottom: 0; width: 100vw; padding: 0; opacity: 1;">
           <div class="container">
 
 
+            <ul class="footer-list" style="display: flex; justify-content: space-between; align-items: center;">
 
-            <div class="footer-link-box">
+              <li>
+                <p class="footer-list-text" style="margin-right: 10px;"><strong>Contact Us:</strong></p>
+              </li>
 
-              <ul class="footer-list">
+              <li>
+                <address class="footer-link">
+                  <ion-icon name="location"></ion-icon>
 
-                <li>
-                  <p class="footer-list-title">Contact Us</p>
-                </li>
+                  <span class="footer-link-text">
+                    <?= htmlspecialchars($row["address"]); ?>
+                  </span>
+                </address>
+              </li>
 
-                <li>
-                  <address class="footer-link">
-                    <ion-icon name="location"></ion-icon>
+              <li>
+                <a href="tel:<?= htmlspecialchars($row["contact"]); ?>" class="footer-link">
+                  <ion-icon name="call"></ion-icon>
 
-                    <span class="footer-link-text">
-                      <?= htmlspecialchars($row["address"]); ?>
-                    </span>
-                  </address>
-                </li>
+                  <span class="footer-link-text">
+                    <?= htmlspecialchars($row["contact"]); ?>
+                  </span>
+                </a>
+              </li>
 
-                <li>
-                  <a href="tel:<?= htmlspecialchars($row["contact"]); ?>" class="footer-link">
-                    <ion-icon name="call"></ion-icon>
+              <li>
+                <a href="mailto:<?= htmlspecialchars($row["email"]); ?>" class="footer-link">
+                  <ion-icon name="mail"></ion-icon>
 
-                    <span class="footer-link-text">
-                      <?= htmlspecialchars($row["contact"]); ?>
-                    </span>
-                  </a>
-                </li>
+                  <span class="footer-link-text">
+                    <?= htmlspecialchars($row["email"]); ?>
+                  </span>
+                </a>
+              </li>
 
-                <li>
-                  <a href="mailto:<?= htmlspecialchars($row["email"]); ?>" class="footer-link">
-                    <ion-icon name="mail"></ion-icon>
-
-                    <span class="footer-link-text">
-                      <?= htmlspecialchars($row["email"]); ?>
-                    </span>
-                  </a>
-                </li>
-
-              </ul>
+            </ul>
 
 
 
 
 
-            </div>
-
-          </div>
-        </div>
 
 
       </footer>
+
 
 
 

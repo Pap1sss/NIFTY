@@ -116,10 +116,10 @@ if (isset($_POST['check'])) {
 if (isset($_POST['login'])) {
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
-    $user_id = mysqli_real_escape_string($conn, $_POST['id']);
+
 
     $check_email = "SELECT * FROM usertable WHERE email = '$email'";
-    $res = mysqli_query($conn, $check_email, $insert_logs);
+    $res = mysqli_query($conn, $check_email);
     if (mysqli_num_rows($res) > 0) {
 
         $fetch = mysqli_fetch_assoc($res);
@@ -128,6 +128,7 @@ if (isset($_POST['login'])) {
             $_SESSION['email'] = $email;
             $status = $fetch['status'];
             if ($status == 'verified') {
+                $user_id = mysqli_real_escape_string($conn, $_POST['id']);
                 $_SESSION['email'] = $email;
                 $_SESSION['password'] = $password;
                 $_SESSION['logged_in'] = true;
