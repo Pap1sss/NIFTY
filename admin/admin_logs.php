@@ -80,27 +80,27 @@ if ($username != false && $name != false) {
       </div>
 
       <ul class="sidebar-list">
-        <li class="sidebar-list-item">
+        <li class="sidebar-list-item" style="opacity: 0.5;">
           <a href="admin_creation/regular_admin_page.php">
             <span class="material-icons-outlined">dashboard</span> Dashboard
           </a>
         </li>
-        <li class="sidebar-list-item">
+        <li class="sidebar-list-item" style="opacity: 0.5;">
           <a href="uploads.php">
             <span class="material-icons-outlined">wysiwyg</span> Setup Website
           </a>
         </li>
-        <li class="sidebar-list-item">
+        <li class="sidebar-list-item" style="opacity: 0.5;">
           <a href="CRUD.php">
             <span class="material-icons-outlined">inventory</span> Manage Products
           </a>
         </li>
-        <li class="sidebar-list-item">
+        <li class="sidebar-list-item" style="opacity: 0.5;">
           <a href="user_accounts.php">
             <span class="material-icons-outlined">group</span> Accounts
           </a>
         </li>
-        <li class="sidebar-list-item">
+        <li class="sidebar-list-item" style="opacity: 0.5;">
           <a href="order_status.php">
             <span class="material-icons-outlined">inventory</span> Manage Order Status
           </a>
@@ -115,8 +115,8 @@ if ($username != false && $name != false) {
     <!-- End Sidebar -->
 
     <!-- Main -->
-    <main class="main-container">
-      <div class="column">
+    <main class="main-container" style="background-color: #fffdf6;">
+      <div class=" column">
 
         <div style="margin-left:45px; margin-right: 45px;">
           <h2>Admin Logs</h2>
@@ -133,7 +133,7 @@ if ($username != false && $name != false) {
               $total_pages = ceil($total_rows / $limit);
               for ($i = 1; $i <= $total_pages; $i++) {
                 ?>
-                <li class="page-item <?= $i == $page ? 'active' : '' ?>">
+                <li class=" page-item <?= $i == $page ? 'active' : '' ?>">
                   <a class="page-link" href="?limit=<?= $limit ?>&page=<?= $i ?>">
                     <?= $i ?>
                   </a>

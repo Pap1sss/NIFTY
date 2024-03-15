@@ -58,7 +58,7 @@ if ($result->num_rows > 0) {
 
     </head>
 
-    <body id="top" style="background-color: #fffaee;">
+    <body id="top" style="background-color: white; ">
 
       <!-- 
     - #HEADER
@@ -178,7 +178,7 @@ if ($result->num_rows > 0) {
         - #PRODUCT
       -->
 
-          <section class="section product">
+          <section class="section product" style="min-height: 100vh;">
 
             <!-- 
         - #category query
@@ -243,12 +243,13 @@ if ($result->num_rows > 0) {
 
                       while ($fetch_product = mysqli_fetch_assoc($select_products)) {
                         ?>
-                        <li class="product-item">
+                        <li class="product-item"
+                          style="box-shadow: 1px 3px 10px 1px; color: #C2C0C0; padding: 10px; border-radius: 5px;">
 
                           <div class="product-card" tabindex="0">
 
 
-                            <figure class="card-banner" style="border: 2px solid #f6b035;">
+                            <figure class="card-banner" style="border-radius: 4px;">
 
 
                               <img src="<?php echo $fetch_product['image']; ?>" width="350" height="350" loading="lazy"
@@ -310,22 +311,24 @@ if ($result->num_rows > 0) {
 
 
 
-
-      <!-- 
+    </body>
+    <!-- 
     - #FOOTER
   -->
 
-      <footer class="footer">
+    <footer class="footer">
 
-        <div class="footer-top section"
-          style="background: linear-gradient(to right, #f9c47f, #F4B39D); box-shadow: 0px 4px 4px rgba(0, 0, 0, .05); position:fixed; bottom: 0; width: 100vw; padding: 0; opacity: 1;">
-          <div class="container">
+      <div class="footer-top section"
+        style="background: linear-gradient(to right, #f9c47f, #F4B39D); box-shadow: 0px 4px 4px rgba(0, 0, 0, .05); position:sticky; bottom:0; width:100%;">
+        <div class="container">
 
 
-            <ul class="footer-list" style="display: flex; justify-content: space-between; align-items: center;">
+          <div class="footer-link-box">
+
+            <ul class="footer-list">
 
               <li>
-                <p class="footer-list-text" style="margin-right: 10px;"><strong>Contact Us:</strong></p>
+                <p class="footer-list-title">Contact Us</p>
               </li>
 
               <li>
@@ -364,44 +367,50 @@ if ($result->num_rows > 0) {
 
 
 
+          </div>
 
-
-      </footer>
-
-
-
+        </div>
+      </div>
 
 
 
-      <!-- 
+    </footer>
+
+
+
+
+
+
+
+    <!-- 
     - #GO TO TOP
   -->
 
-      <a href="#top" class="go-top-btn" data-go-top>
-        <ion-icon name="arrow-up-outline"></ion-icon>
-      </a>
+    <a href="#top" class="go-top-btn" data-go-top>
+      <ion-icon name="arrow-up-outline"></ion-icon>
+    </a>
 
 
 
 
 
-      <!-- 
+    <!-- 
     - custom js link
   -->
-      <script src="./assets/js/script.js"></script>
+    <script src="./assets/js/script.js"></script>
 
-      <!-- 
+    <!-- 
     - ionicon link
   -->
-      <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-      <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
-      <?php
+    <?php
 
   }
 }
 ?>
-</body>
+
 
 <script>
   function refreshAndGoToDefault() {

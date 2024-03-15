@@ -89,28 +89,28 @@ if ($username != false && $name != false) {
             <span class="material-icons-outlined">dashboard</span> Dashboard
           </a>
         </li>
-        <li class="sidebar-list-item">
+        <li class="sidebar-list-item" style="opacity: 0.5;">
           <a href="../uploads.php">
             <span class="material-icons-outlined">wysiwyg</span> Setup Website
           </a>
         </li>
-        <li class="sidebar-list-item">
+        <li class="sidebar-list-item" style="opacity: 0.5;">
           <a href="../CRUD.php">
             <span class="material-icons-outlined">inventory</span> Manage Products
           </a>
         </li>
 
-        <li class="sidebar-list-item">
+        <li class="sidebar-list-item" style="opacity: 0.5;">
           <a href="../user_accounts.php">
             <span class="material-icons-outlined">group</span> Accounts
           </a>
         </li>
-        <li class="sidebar-list-item">
+        <li class="sidebar-list-item" style="opacity: 0.5;">
           <a href="../order_status.php">
             <span class="material-icons-outlined">inventory</span> Manage Order Status
           </a>
         </li>
-        <li class="sidebar-list-item">
+        <li class="sidebar-list-item" style="opacity: 0.5;">
           <a href="../admin_logs.php">
             <span class="material-icons-outlined">face</span> Admin Logs
           </a>

@@ -72,7 +72,8 @@ if ($result->num_rows > 0) {
     - #HEADER
   -->
 
-      <header class="header" data-header style="background-color: #f9c47f;">
+      <header class="header" data-header
+        style="background: linear-gradient(to right, #f9c47f, #F4B39D); box-shadow: 0px 4px 4px rgba(0, 0, 0, .05);">
         <div class="container">
 
           <div class="overlay" data-overlay></div>
@@ -171,7 +172,7 @@ if ($result->num_rows > 0) {
         - #PRODUCT
       -->
 
-          <section class="section product">
+          <section class="section product" style="min-height: 100vh;">
 
 
 
@@ -180,8 +181,28 @@ if ($result->num_rows > 0) {
               <!-- 
         - #category query
       -->
+
+
+              <h2 class="h2 section-title">OUR PRODUCTS</h2>
               <ul>
-                <div class="container" style="display: flex; overflow-x: auto;">
+                <style>
+                  .category-container::-webkit-scrollbar {
+                    padding-top: 20px;
+                    height: 7px;
+                    border-radius: 5px;
+                  }
+
+                  .category-container::-webkit-scrollbar-thumb {
+                    background-color: #E7E7E7;
+                    cursor: pointer;
+                  }
+
+                  .category-container::-webkit-scrollbar-track {
+                    background-color: transparent;
+                  }
+                </style>
+                <div class="container category-container"
+                  style="display: flex; overflow-x: auto; margin-bottom: 40px; padding: 20px 30px;">
 
                   <?php
 
@@ -189,7 +210,15 @@ if ($result->num_rows > 0) {
                   if (mysqli_num_rows($select_category) > 0) {
                     while ($fetch_category = mysqli_fetch_assoc($select_category)) {
                       ?>
-                      <div class="card-content">
+                      <style>
+                        .cat-card:hover {
+                          background-color: #E7E7E7;
+                          padding: 10px 15px;
+                          border-radius: 5px;
+                        }
+                      </style>
+
+                      <div class="card-content  cat-card" style="white-space: nowrap; cursor: pointer;">
 
                         <a style="color: #4a4747; text-transform:uppercase;" onclick="refreshAndGoToDefault()"
                           href="categorized_product.php?id=<?php echo htmlspecialchars($fetch_category["category"]); ?>">
@@ -213,11 +242,6 @@ if ($result->num_rows > 0) {
 
               </ul>
 
-
-
-              <h2 class="h2 section-title">OUR PRODUCTS</h2>
-
-
               <div class="container" style="display:flex; ">
                 <form action="" method="post">
                   <ul class="product-list">
@@ -228,11 +252,13 @@ if ($result->num_rows > 0) {
                     if (mysqli_num_rows($select_products) > 0) {
                       while ($fetch_product = mysqli_fetch_assoc($select_products)) {
                         ?>
-                        <li class="product-item">
+                        <li class="product-item"
+                          style="box-shadow: 1px 3px 10px 1px; color: #C2C0C0; padding: 10px; border-radius: 5px;">
+
                           <div class="product-card" tabindex="0">
 
 
-                            <figure class="card-banner" style="border: 2px solid #f6b035;">
+                            <figure class="card-banner">
 
 
                               <img src="<?php echo htmlspecialchars($fetch_product['image']); ?>" width="350" height="350"
@@ -264,10 +290,19 @@ if ($result->num_rows > 0) {
 
                             </div>
                             <br>
-                            <a style="background-color: #f9c47f; border-radius: 12px; border: 2px solid white;"
+                            <style>
+                              .detail-btn {
+                                background-color: #f9c47f;
+
+                              }
+
+                              .detail-btn:hover {
+                                background-color: #F4B39D;
+                              }
+                            </style>
+                            <a style=" border-radius: 7px; border: 2px solid white; display: flex; justify-content:center; align-items: center;"
                               href=" productdetails.php?id=<?php echo htmlspecialchars($fetch_product["id"]); ?>"
-                              class="btn">View
-                              Details</a>
+                              class="btn detail-btn">View Details</a>
 
 
                             <?php
@@ -278,6 +313,7 @@ if ($result->num_rows > 0) {
                     ?>
 
                       </div>
+                    </li>
               </div>
               </li>
               </ul>
@@ -302,7 +338,8 @@ if ($result->num_rows > 0) {
 
       <footer class="footer">
 
-        <div class="footer-top section" style="background-color: #f9c47f;">
+        <div class="footer-top section"
+          style="background: linear-gradient(to right, #f9c47f, #F4B39D); box-shadow: 0px 4px 4px rgba(0, 0, 0, .05);">
           <div class="container">
 
 

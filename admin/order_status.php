@@ -47,7 +47,7 @@ if ($username != false && $name != false) {
 </head>
 
 <body>
-    <div class="grid-container">
+    <div class="grid-container" style="background-color: #fffdf6;">
 
         <!-- Header -->
         <header class="header">
@@ -80,23 +80,23 @@ if ($username != false && $name != false) {
             </div>
 
             <ul class="sidebar-list">
-                <li class="sidebar-list-item">
+                <li class="sidebar-list-item" style="opacity: 0.5;">
                     <a href="admin_creation/regular_admin_page.php">
                         <span class="material-icons-outlined">dashboard</span> Dashboard
                     </a>
                 </li>
-                <li class="sidebar-list-item">
+                <li class="sidebar-list-item" style="opacity: 0.5;">
                     <a href="uploads.php">
                         <span class="material-icons-outlined">wysiwyg</span> Setup Website
                     </a>
                 </li>
-                <li class="sidebar-list-item">
+                <li class="sidebar-list-item" style="opacity: 0.5;">
                     <a href="CRUD.php">
                         <span class="material-icons-outlined">inventory</span> Manage Products
                     </a>
                 </li>
 
-                <li class="sidebar-list-item">
+                <li class="sidebar-list-item" style="opacity: 0.5;">
                     <a href="user_accounts.php">
                         <span class="material-icons-outlined">group</span> Accounts
                     </a>
@@ -106,7 +106,7 @@ if ($username != false && $name != false) {
                         <span class="material-icons-outlined">inventory</span> Manage Order Status
                     </a>
                 </li>
-                <li class="sidebar-list-item">
+                <li class="sidebar-list-item" style="opacity: 0.5;">
                     <a href="admin_logs.php">
                         <span class="material-icons-outlined">face</span> Admin Logs
                     </a>
@@ -266,8 +266,8 @@ if ($username != false && $name != false) {
                                                 <?= htmlspecialchars($row['gcash_number']) ?>
                                             </td>
                                             <td>
-                                            <img src="./uploaded_img/<?= $row['screenshot'] ?>" alt="Image"
-                                                                    class="img-fluid">
+                                                <img src="./uploaded_img/<?= $row['screenshot'] ?>" alt="Image"
+                                                    class="img-fluid">
 
                                             </td>
                                             <td>

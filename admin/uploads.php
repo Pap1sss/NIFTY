@@ -130,7 +130,7 @@ if (isset($_POST['upload'])) {
          </div>
 
          <ul class="sidebar-list">
-            <li class="sidebar-list-item">
+            <li class="sidebar-list-item" style="opacity: 0.5;">
                <a href="admin_creation/regular_admin_page.php">
                   <span class="material-icons-outlined">dashboard</span> Dashboard
                </a>
@@ -140,24 +140,24 @@ if (isset($_POST['upload'])) {
                   <span class="material-icons-outlined">wysiwyg</span> Setup Website
                </a>
             </li>
-            <li class="sidebar-list-item">
+            <li class="sidebar-list-item" style="opacity: 0.5;">
                <a href="CRUD.php">
                   <span class="material-icons-outlined">inventory</span> Manage Products
                </a>
             </li>
 
 
-            <li class="sidebar-list-item">
+            <li class="sidebar-list-item" style="opacity: 0.5;">
                <a href="user_accounts.php">
                   <span class="material-icons-outlined">group</span> Accounts
                </a>
             </li>
-            <li class="sidebar-list-item">
+            <li class="sidebar-list-item" style="opacity: 0.5;">
                <a href="order_status.php">
                   <span class="material-icons-outlined">inventory</span> Manage Order Status
                </a>
             </li>
-            <li class="sidebar-list-item">
+            <li class="sidebar-list-item" style="opacity: 0.5;">
                <a href="admin_logs.php">
                   <span class="material-icons-outlined">face</span> Admin Logs
                </a>
