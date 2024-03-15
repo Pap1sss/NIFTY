@@ -186,12 +186,33 @@ if ($result->num_rows > 0) {
 
 
             <div class="container">
+              <h2 class="h2 section-title">
+                <?php echo htmlspecialchars($_GET['id']); ?>
+              </h2>
 
               <!-- 
         - #category query
       -->
               <ul>
-                <div class="container" style="display: flex; overflow-x: auto;">
+                <style>
+                  .category-container::-webkit-scrollbar {
+                    padding-top: 20px;
+                    height: 7px;
+                    border-radius: 5px;
+                  }
+
+                  .category-container::-webkit-scrollbar-thumb {
+                    background-color: #E7E7E7;
+                    cursor: pointer;
+                  }
+
+                  .category-container::-webkit-scrollbar-track {
+                    background-color: transparent;
+                  }
+                </style>
+
+                <div class="container category-container"
+                  style="display: flex; overflow-x: auto; margin-bottom: 40px; padding: 20px 30px;">
 
                   <?php
 
@@ -199,7 +220,15 @@ if ($result->num_rows > 0) {
                   if (mysqli_num_rows($select_category) > 0) {
                     while ($fetch_category = mysqli_fetch_assoc($select_category)) {
                       ?>
-                      <div class="card-content">
+                      <style>
+                        .cat-card:hover {
+                          background-color: #E7E7E7;
+                          padding: 10px 15px;
+                          border-radius: 5px;
+                        }
+                      </style>
+                      <div class="card-content cat-card" style="white-space: nowrap; cursor: pointer;">
+
 
                         <a style="color: #4a4747; text-transform:uppercase;" onclick="refreshAndGoToDefault()"
                           href="categorized_product.php?id=<?php echo htmlspecialchars($fetch_category["category"]); ?>">
@@ -225,13 +254,13 @@ if ($result->num_rows > 0) {
                   ?>
                 </div>
               </ul>
-              <h2 class="h2 section-title">
-                <?php echo htmlspecialchars($_GET['id']); ?>
-              </h2>
+
               <div class="container" style="display:flex; ">
                 <form action="" method="post">
                   <ul class="product-list">
+
                     <?php
+
 
 
 
