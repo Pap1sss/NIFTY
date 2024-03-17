@@ -21,8 +21,15 @@ if ($username != false && $name != false) {
 
 
 
-
+if (isset($_GET['delete'])) {
+    $id = $_GET['delete'];
+    mysqli_query($conn, "INSERT INTO product_log(username, date_log, time_log,  edit_create) 
+    VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'deleted an order')");
+    mysqli_query($conn, "DELETE FROM orders WHERE id = $id");
+    echo "<script>alert('Removed Successfully');</script>";
+ }
 ?>
+
 
 
 <!DOCTYPE html>
@@ -198,8 +205,8 @@ if ($username != false && $name != false) {
 
                     <div class="col-md-12" style="max-width: 100%;">
                         <br>
-                        <table class="table table-bordered border-primary overflow-x-auto">
-                            <thead class="thead-dark" style="display: table-row-group; text-align: center;">
+                        <table class="table table-bordered border-secondary overflow-x-auto" style="border-radius: 5px;">
+                            <thead class="thead-dark" style="display: table-row-group; text-align: center; ">
                                 <tr>
                                     <th>Order ID</th>
                                     <th>Customer ID & Name</th>
@@ -279,6 +286,12 @@ if ($username != false && $name != false) {
                                                 <a href="order_status.php?complete=<?= htmlspecialchars($row['id']); ?>"
                                                     class="btn btn-success">
                                                     <i class="fas "></i> Order complete
+                                                </a>
+                                                <br>
+                                                <br>
+                                                <a href="order_status.php?delete=<?= htmlspecialchars($row['id']); ?>"
+                                                    class="btn btn-danger">
+                                                    <i class="fas "></i> Remove Order
                                                 </a>
                                             </td>
                                         </tr>

@@ -174,7 +174,7 @@ if (isset($_POST['update_image'])) {
          <div class="menu-icon" onclick="openSidebar()">
             <span class="material-icons-outlined">menu</span>
          </div>
-         < <div class="header-left">
+          <div class="header-left">
 
             <a href="regular_admin_page.php">
                <span class="material-icons-outlined">refresh</span>
