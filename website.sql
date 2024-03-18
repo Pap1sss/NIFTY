@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 07, 2024 at 11:57 PM
+-- Generation Time: Mar 18, 2024 at 10:07 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -40,7 +40,8 @@ CREATE TABLE `admin_accounts` (
 
 INSERT INTO `admin_accounts` (`id`, `name`, `username`, `password`) VALUES
 (15, 'Roy Francis B. Castro', 'adminRoy', 'bf5cea53924bcdfed7201ba25f1f0961'),
-(16, 'Christia Anna Q. Sarguet', 'adminAnna', '25d55ad283aa400af464c76d713c07ad');
+(16, 'Christia Anna Q. Sarguet', 'adminAnna', '25d55ad283aa400af464c76d713c07ad'),
+(17, 'Adrian Carl Artugue', 'AdminCarl', '25f9e794323b453885f5181f1b624d0b');
 
 -- --------------------------------------------------------
 
@@ -77,7 +78,19 @@ INSERT INTO `admin_log` (`id`, `username`, `timein`, `date`) VALUES
 (87, 'adminRoy', '2024-03-05 02:42:06', '2024-03-05'),
 (88, 'adminAnna', '2024-03-05 02:45:55', '2024-03-05'),
 (89, 'adminRoy', '2024-03-05 02:48:19', '2024-03-05'),
-(90, 'adminAnna', '2024-03-06 00:21:15', '2024-03-06');
+(90, 'adminAnna', '2024-03-06 00:21:15', '2024-03-06'),
+(91, 'AdminCarl', '2024-03-08 00:29:13', '2024-03-08'),
+(92, 'adminAnna', '2024-03-08 00:38:16', '2024-03-08'),
+(93, 'adminAnna', '2024-03-08 08:38:44', '2024-03-08'),
+(94, 'adminRoy', '2024-03-11 01:32:39', '2024-03-11'),
+(95, 'adminRoy', '2024-03-11 06:10:46', '2024-03-11'),
+(96, 'adminAnna', '2024-03-12 01:12:16', '2024-03-12'),
+(97, 'adminAnna', '2024-03-12 07:44:02', '2024-03-12'),
+(98, 'adminAnna', '2024-03-13 02:44:49', '2024-03-13'),
+(99, 'adminRoy', '2024-03-14 02:35:59', '2024-03-14'),
+(100, 'adminAnna', '2024-03-14 07:11:59', '2024-03-14'),
+(101, 'adminAnna', '2024-03-15 00:26:43', '2024-03-15'),
+(102, 'adminAnna', '2024-03-15 07:03:49', '2024-03-15');
 
 -- --------------------------------------------------------
 
@@ -100,7 +113,8 @@ CREATE TABLE `cart` (
 --
 
 INSERT INTO `cart` (`id`, `user_id`, `image`, `name`, `price`, `unit`, `quantity`) VALUES
-(152, 122, 'admin/uploaded_img/Screenshot 2024-01-10 214633.png', 'Slingback Carlson', '449', '{\"size\":\"9\",\"color\":\"Green\"}', 1);
+(152, 122, 'admin/uploaded_img/Screenshot 2024-01-10 214633.png', 'Slingback Carlson', '449', '{\"size\":\"9\",\"color\":\"Green\"}', 1),
+(178, 124, 'admin/uploaded_img/Screenshot 2024-01-10 214833.png', 'Carly', '749', ' ', 1);
 
 -- --------------------------------------------------------
 
@@ -120,7 +134,15 @@ CREATE TABLE `category` (
 INSERT INTO `category` (`id`, `category`) VALUES
 (33, 'Flats'),
 (34, 'Sandals'),
-(37, 'Heels');
+(37, 'Heels'),
+(45, 'Slip-ons'),
+(46, 'asdasdasd'),
+(47, 'vvdvd'),
+(48, 'asdasd'),
+(49, 'zadasd'),
+(50, 'iiyuiyui'),
+(51, 'bhghfgh'),
+(52, 'bcvnvb');
 
 -- --------------------------------------------------------
 
@@ -204,7 +226,16 @@ INSERT INTO `logs` (`id`, `email`, `timein`, `date`) VALUES
 (86, 'papisss05@gmail.com', '2024-03-01 06:52:34', '2024-03-01'),
 (87, 'castroroyfrancis@gmail.com', '2024-03-01 06:53:44', '2024-03-01'),
 (88, 'castroroyfrancis@gmail.com', '2024-03-01 06:55:09', '2024-03-01'),
-(89, 'castroroyfrancis@gmail.com', '2024-03-04 05:55:57', '2024-03-04');
+(89, 'castroroyfrancis@gmail.com', '2024-03-04 05:55:57', '2024-03-04'),
+(90, 'castroroyfrancis@gmail.com', '2024-03-08 08:41:20', '2024-03-08'),
+(91, 'castroroyfrancis@gmail.com', '2024-03-11 01:33:13', '2024-03-11'),
+(92, 'castroroyfrancis@gmail.com', '2024-03-11 05:25:29', '2024-03-11'),
+(93, 'jojonathanpeol3001@gmail.com', '2024-03-12 07:43:22', '2024-03-12'),
+(94, 'castroroyfrancis@gmail.com', '2024-03-13 05:12:56', '2024-03-13'),
+(95, 'castroroyfrancis@gmail.com', '2024-03-14 01:45:27', '2024-03-14'),
+(96, 'castroroyfrancis@gmail.com', '2024-03-14 04:36:44', '2024-03-14'),
+(97, 'castroroyfrancis@gmail.com', '2024-03-15 03:06:26', '2024-03-15'),
+(98, 'castroroyfrancis@gmail.com', '2024-03-15 06:34:13', '2024-03-15');
 
 -- --------------------------------------------------------
 
@@ -244,11 +275,12 @@ INSERT INTO `orders` (`id`, `name`, `number`, `email`, `method`, `address`, `tot
 (74, 'Lebron James', '09750162818', 'castroroyfrancis@gmail.com', 'cash on delivery', '5014 General Ricarte South Cembo, Taguig City', 'Slingback Carlson[SIZE{\"size\":\"9\",\"color\":\"Gray\"}]   (1) \\nSlingback Carlson[SIZE{\"size\":\"5.5\",\"color\":\"Brown\"}]   (1) ', '898', 118, 'to ship', '2024-03-01', '2024-03-01 06:50:26', 0, 0, ''),
 (75, 'Papisss Castro', '09557315312', 'papisss05@gmail.com', 'cash on delivery', 'Kalbayog st. mandaluyong', 'Carly[SIZE{\"size\":\"8\",\"color\":\"Gold\"}]   (1) /vSlingback Carlson[SIZE{\"size\":\"5.5\",\"color\":\"Brown\"}]   (1) ', '1198', 119, 'to ship', '2024-03-01', '2024-03-01 06:53:02', 0, 0, ''),
 (76, 'Roy Francis B. Castro', '09750162818', 'castroroyfrancis@gmail.com', 'cash on delivery', '5014 General Ricarte South Cembo, Taguig City', 'Carly[SIZE{\"size\":\"8\",\"color\":\"Pink\"}]   (1) ,Slingback Carlson[SIZE{\"size\":\"5.5\",\"color\":\"Gray\"}]   (1) ', '1198', 118, 'to ship', '2024-03-01', '2024-03-01 06:55:31', 0, 0, ''),
-(77, 'Roy Francis B. Castro', '09557315312', 'castroroyfrancis@gmail.com', 'gcash', 'Kalbayog st. mandaluyong ', 'Slingback Carlson[SIZE{\"size\":\"5\",\"color\":\"Black\"}]   (1) ,Slingback Carlson[SIZE{\"size\":\"5\",\"color\":\"White\"}]   (1) ', '898', 118, 'to ship', '2024-03-01', '2024-03-01 06:57:25', 1231231123, 2147483647, 'gcashQR.jpg'),
-(78, 'Roy Francis B. Castro', '09750162818', 'castroroyfrancis@gmail.com', 'cash on delivery', '5014 General Ricarte South Cembo, Taguig City', 'Slingback Carlson[SIZE{\"size\":\"5.5\",\"color\":\"White\"}]   (1) ', '449', 118, 'to ship', '2024-03-01', '2024-03-01 07:21:16', 0, 0, ''),
-(79, 'Roy Francis B. Castro', '09750162818', 'castroroyfrancis@gmail.com', 'cash on delivery', '5014 General Ricarte South Cembo, Taguig City', 'Carly[SIZE{\"size\":\"8\",\"color\":\"Pink\"}]   (1) ', '749', 118, 'to ship', '2024-03-01', '2024-03-01 07:22:14', 0, 0, ''),
-(80, 'Roy Francis B. Castro', '09750162818', 'castroroyfrancis@gmail.com', 'cash on delivery', '5014 General Ricarte South Cembo, Taguig City', 'Slingback Carlson[SIZE{\"size\":\"9\",\"color\":\"Green\"}]   (1) ', '449', 118, 'to ship', '2024-03-01', '2024-03-01 07:24:03', 0, 0, ''),
-(81, 'Roy Francis B. Castro', '09750162818', 'castroroyfrancis@gmail.com', 'cash on delivery', '5014 General Ricarte South Cembo, Taguig City', 'Slingback Carlson[SIZE{\"size\":\"9\",\"color\":\"White\"}]   (1) ', '449', 118, 'to ship', '2024-03-01', '2024-03-01 07:26:09', 0, 0, '');
+(85, 'Jonathan', '09452051108', 'jojonathanpeol3001@gmail.com', 'cash on delivery', 'Marikina', 'Carly\n8 Black\n2', '1498', 124, 'to ship', '2024-03-12', '2024-03-12 07:41:44', 0, 0, ''),
+(87, 'Roy Francis B. Castro', '09750162818', 'castroroyfrancis@gmail.com', 'cash on delivery', '5014 General Ricarte South Cembo, Taguig City', 'Presly\n8.5 Cyan\n1', '2400', 118, 'to ship', '2024-03-15', '2024-03-15 07:48:30', 0, 0, ''),
+(88, 'Roy Francis B. Castro', '09750162818', 'castroroyfrancis@gmail.com', 'cash on delivery', '5014 General Ricarte South Cembo, Taguig City', 'Presly8 Black1', '2400', 118, 'to ship', '2024-03-15', '2024-03-15 08:22:18', 0, 0, ''),
+(89, 'Roy Francis B. Castro', '09750162818', 'castroroyfrancis@gmail.com', 'cash on delivery', '5014 General Ricarte South Cembo, Taguig City', 'Presly[SIZE6.5 Black]   (3) \nPresly[SIZE11.5 Olive]   (1) ', '4800', 118, 'to ship', '2024-03-15', '2024-03-15 08:27:40', 0, 0, ''),
+(90, 'Roy Francis B. Castro', '09750162818', 'castroroyfrancis@gmail.com', 'cash on delivery', '5014 General Ricarte South Cembo, Taguig City', '\\n Item:Presly SIZE & COLOR5 White] Quantity: (1) \n\\n Item:Presly SIZE & COLOR4.5 Olive] Quantity: (1) \n\\n Item:Presly SIZE & COLOR7 Black] Quantity: (1) \n\\n Item:Presly SIZE & COLOR5 Cyan] Quantity: (1) ', '4800', 118, 'order completed', '2024-03-15', '2024-03-15 08:41:39', 0, 0, ''),
+(91, 'Roy Francis B. Castro', '09750162818', 'castroroyfrancis@gmail.com', 'cash on delivery', '5014 General Ricarte South Cembo, Taguig City', 'Item:Presly SIZE & COLOR [5.5 Pink] Quantity: (1) \nItem:Presly SIZE & COLOR [5 Beige] Quantity: (1) \nItem:Presly SIZE & COLOR [6.5 Black] Quantity: (1) ', '3600', 118, 'to receive', '2024-03-15', '2024-03-15 08:46:32', 0, 0, '');
 
 -- --------------------------------------------------------
 
@@ -274,14 +306,8 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `category`, `name`, `price`, `image`, `description`, `date_created`, `time_created`, `date_edited`, `time_edited`) VALUES
-(19, 'Flats', 'Slingback Carlson', 449, 'admin/uploaded_img/Screenshot 2024-01-10 214633.png', 'Chic Meets Comfort: Flaunt Your Stride in Our Criss-Cross Garterized Slingback Carlson!  #niftyshoesprestigecollection #staycomfywearnifty #marikinamadeshoes', '2024-01-10', '2024-01-11 13:46:53', '0000-00-00', '2024-01-11 13:46:53'),
-(20, 'Sandals', 'Carly', 749, 'admin/uploaded_img/Screenshot 2024-01-10 214833.png', 'Step into versatile style with our changeable bows for Carly sandals – customize your look with a subtle tone-on-tone design or add a touch of elegance with a chic rose gold accent bow.', '2024-01-10', '2024-01-11 13:49:34', '2024-02-29', '2024-02-29 07:52:38'),
-(21, 'Sandals', 'Ferdie Fishermans', 999, 'admin/uploaded_img/Screenshot 2024-01-10 215008.png', 'Cast a Stylish and Comfortable Net with Ferdie Fishermans Sandals #niftyshoesprestigecollection #staycomfywearnifty #marikinamade', '2024-01-10', '2024-01-11 13:53:37', '2024-02-29', '2024-02-29 07:52:51'),
-(22, 'Heels', 'Mathilda', 899, 'admin/uploaded_img/Screenshot 2024-01-10 215559.png', 'These heels were made for strutting! Say hello to Mathilda! #niftyshoesprestigecollection #staycomfywearnifty #marikinamade', '2024-01-10', '2024-01-11 13:57:15', '0000-00-00', '2024-01-11 13:57:15'),
-(23, 'Heels', 'FERRY', 849, 'admin/uploaded_img/412099889_405789561784365_5093997403783878773_n.jpg', 'FERRY patent shoes are a reflection of classic style. 💘 #GlossyElegance #niftyshoesprestigecollection  #staycomfywearnifty', '2024-01-10', '2024-01-11 14:00:31', '0000-00-00', '2024-01-11 14:00:31'),
-(24, 'Heels', 'Presley', 1200, 'admin/uploaded_img/409558625_401750962188225_7031822928928661290_n.jpg', 'Step into elegance with these enchanting heels – the perfect blend of style and comfort. Elevate your look with the ideal height, enjoy the bounce of a cushioned footbed, and make a statement with its unique design and classy colors. Your go-to pair for l', '2024-01-10', '2024-01-11 14:01:59', '0000-00-00', '2024-01-11 14:01:59'),
-(25, 'Flats', 'Gretel Mule', 699, 'admin/uploaded_img/405521884_392401063123215_3429614730173235132_n.jpg', 'Slip into sophistication with our Gretel Mule - the perfect blend of style and comfort.✨ #niftyshoesprestigecollection  #staycomfywearnifty  #marikinashoes  #marikinamade', '2024-01-10', '2024-01-11 14:03:30', '0000-00-00', '2024-01-11 14:03:30'),
-(26, 'Heels', 'SAMANTHA', 999, 'admin/uploaded_img/387170055_18391810147013011_6664341851688769203_n.jpg', 'Who is Samantha? The 2 inches blocked heel has soft patent material and hooked buckles for an easily wearable strap. #marikinashoes #patentshoes #staycomfywearnifty', '2024-01-10', '2024-01-11 14:05:47', '2024-03-05', '2024-03-05 07:42:53');
+(34, 'Slip-ons', 'Presly', 1200, 'admin/uploaded_img/431780365_18423152689013011_7830608783600598095_n.jpg', 'Your wardrobe\'s must-have. Presley slip-ons! Back in stock and ready to elevate your style game. Slip into comfort, class, and versatility - get yours now!', '2024-03-13', '2024-03-13 02:46:42', '2024-03-18', '2024-03-18 00:19:05'),
+(35, 'Flats', 'Maggie', 649, 'admin/uploaded_img/428703023_18418024639013011_2462875183673748442_n.jpg', 'Twirl in style with Maggie ballerina shoes, exclusively at Nifty Shoes! Hurry, before they pirouette out of stock! ✨🥿 #NiftyShoes #BalletBeauty #staycomfywearnifty #niftyshoesprestigecollection', '2024-03-13', '2024-03-13 02:49:08', '0000-00-00', '2024-03-13 02:49:08');
 
 -- --------------------------------------------------------
 
@@ -359,7 +385,127 @@ INSERT INTO `product_log` (`id`, `username`, `date_log`, `time_log`, `edit_creat
 (140, 'adminAnna', '2024-03-06', '13:07:15', 'add a stock of product id : 26'),
 (141, 'adminAnna', '2024-03-06', '13:07:21', 'add a stock of product id : 26'),
 (142, 'adminAnna', '2024-03-06', '13:07:37', 'add a stock of product id : 26'),
-(143, 'adminAnna', '2024-03-06', '13:07:51', 'add a stock of product id : 26');
+(143, 'adminAnna', '2024-03-06', '13:07:51', 'add a stock of product id : 26'),
+(144, 'adminAnna', '2024-03-08', '09:18:23', 'created a category : 123'),
+(145, 'adminAnna', '2024-03-08', '09:32:06', 'created a category : check'),
+(146, 'adminAnna', '2024-03-08', '09:44:09', 'created a category : Rubber Shoes'),
+(147, 'adminAnna', '2024-03-08', '09:44:15', 'deleted a product : '),
+(148, 'adminAnna', '2024-03-08', '10:33:38', 'deleted a product : '),
+(149, 'adminAnna', '2024-03-08', '10:38:20', 'deleted a product : '),
+(150, 'adminAnna', '2024-03-08', '10:38:26', 'created a category : Rubber Shoes'),
+(151, 'adminAnna', '2024-03-08', '10:38:31', 'deleted a product : '),
+(152, 'adminAnna', '2024-03-08', '10:43:32', 'created a category : Rubber Shoes'),
+(153, 'adminAnna', '2024-03-08', '10:50:21', 'created a category : Rubber Shoes'),
+(154, 'adminAnna', '2024-03-08', '10:50:24', 'deleted category : '),
+(155, 'adminAnna', '2024-03-08', '10:52:22', 'deleted a color : '),
+(156, 'adminAnna', '2024-03-08', '10:53:56', 'deleted a color'),
+(157, 'adminAnna', '2024-03-08', '10:54:16', 'deleted a color'),
+(158, 'adminRoy', '2024-03-11', '14:14:05', 'create a product : asdasd'),
+(159, 'adminRoy', '2024-03-11', '14:15:26', 'deleted a product'),
+(160, 'adminRoy', '2024-03-11', '14:19:19', 'deleted a product'),
+(161, 'adminRoy', '2024-03-11', '16:18:16', 'deleted a product'),
+(162, 'adminRoy', '2024-03-11', '16:18:30', 'add a stock of product id : 20'),
+(163, 'adminRoy', '2024-03-11', '16:18:34', 'add a stock of product id : 20'),
+(164, 'adminRoy', '2024-03-11', '16:18:37', 'add a stock of product id : 20'),
+(165, 'adminRoy', '2024-03-11', '16:18:41', 'add a stock of product id : 20'),
+(166, 'adminAnna', '2024-03-12', '10:10:13', 'create a product : Test Product'),
+(167, 'adminAnna', '2024-03-12', '10:10:23', 'deleted a product'),
+(168, 'adminAnna', '2024-03-12', '10:10:34', 'create a product : Test Product'),
+(169, 'adminAnna', '2024-03-12', '10:10:34', 'deleted a product'),
+(170, 'adminAnna', '2024-03-12', '10:10:49', 'deleted a product'),
+(171, 'adminAnna', '2024-03-12', '10:11:00', 'create a product : Test Product'),
+(172, 'adminAnna', '2024-03-12', '10:19:36', 'add a stock of product id : 32'),
+(173, 'adminAnna', '2024-03-12', '10:19:38', 'add a stock of product id : 32'),
+(174, 'adminAnna', '2024-03-12', '10:19:41', 'add a stock of product id : 32'),
+(175, 'adminAnna', '2024-03-12', '10:19:49', 'add a stock of product id : 32'),
+(176, 'adminAnna', '2024-03-12', '10:19:53', 'add a stock of product id : 32'),
+(177, 'adminAnna', '2024-03-12', '10:20:03', 'add a stock of product id : 32'),
+(178, 'adminAnna', '2024-03-12', '10:59:30', 'create a product : PRODUCT TEST'),
+(179, 'adminAnna', '2024-03-13', '10:45:13', 'deleted a product'),
+(180, 'adminAnna', '2024-03-13', '10:45:16', 'deleted a product'),
+(181, 'adminAnna', '2024-03-13', '10:45:20', 'deleted a product'),
+(182, 'adminAnna', '2024-03-13', '10:45:22', 'deleted a product'),
+(183, 'adminAnna', '2024-03-13', '10:45:24', 'deleted a product'),
+(184, 'adminAnna', '2024-03-13', '10:45:26', 'deleted a product'),
+(185, 'adminAnna', '2024-03-13', '10:45:29', 'deleted a product'),
+(186, 'adminAnna', '2024-03-13', '10:45:31', 'deleted a product'),
+(187, 'adminAnna', '2024-03-13', '10:45:33', 'deleted a product'),
+(188, 'adminAnna', '2024-03-13', '10:46:12', 'deleted a product'),
+(189, 'adminAnna', '2024-03-13', '10:46:12', 'created a category : Slip-ons'),
+(190, 'adminAnna', '2024-03-13', '10:46:42', 'create a product : Presly'),
+(191, 'adminAnna', '2024-03-13', '10:49:08', 'create a product : Maggie'),
+(192, 'adminAnna', '2024-03-13', '13:16:00', 'add a stock of product id : 35'),
+(193, 'adminAnna', '2024-03-13', '13:16:04', 'add a stock of product id : 35'),
+(194, 'adminAnna', '2024-03-13', '13:16:08', 'add a stock of product id : 35'),
+(195, 'adminAnna', '2024-03-13', '13:16:25', 'add a stock of product id : 34'),
+(196, 'adminAnna', '2024-03-13', '13:16:28', 'add a stock of product id : 34'),
+(197, 'adminRoy', '2024-03-14', '10:36:06', 'updated order status (to receive) : order number 84'),
+(198, 'adminRoy', '2024-03-14', '10:36:08', 'updated order status (to receive) : order number 84'),
+(199, 'adminRoy', '2024-03-14', '10:36:15', 'updated order status (to receive) : order number 83'),
+(200, 'adminRoy', '2024-03-14', '10:36:31', 'updated order status (completed) : order number 83'),
+(201, 'adminAnna', '2024-03-14', '15:12:15', 'create a product : asdasda'),
+(202, 'adminAnna', '2024-03-14', '15:12:31', 'create a product : asdasdasd'),
+(203, 'adminAnna', '2024-03-14', '15:12:43', 'create a product : asdasdas'),
+(204, 'adminAnna', '2024-03-14', '15:12:53', 'create a product : asdasd'),
+(205, 'adminAnna', '2024-03-14', '15:13:17', 'create a product : asdasd'),
+(206, 'adminAnna', '2024-03-15', '10:09:08', 'create a product : asdasd'),
+(207, 'adminAnna', '2024-03-15', '10:09:21', 'create a product : qeqweqwe'),
+(208, 'adminAnna', '2024-03-15', '10:09:35', 'create a product : 3213213213'),
+(209, 'adminAnna', '2024-03-15', '10:19:15', 'created a category : asdasdasd'),
+(210, 'adminAnna', '2024-03-15', '10:19:20', 'created a category : vvdvd'),
+(211, 'adminAnna', '2024-03-15', '10:19:24', 'created a category : asdasd'),
+(212, 'adminAnna', '2024-03-15', '10:19:28', 'created a category : zadasd'),
+(213, 'adminAnna', '2024-03-15', '10:19:32', 'created a category : iiyuiyui'),
+(214, 'adminAnna', '2024-03-15', '10:19:37', 'created a category : bhghfgh'),
+(215, 'adminAnna', '2024-03-15', '10:19:41', 'created a category : bcvnvb'),
+(216, 'adminAnna', '2024-03-15', '10:19:49', 'created a category : ,nm,nm,'),
+(217, 'adminAnna', '2024-03-15', '10:19:53', 'created a category : bnmbnm'),
+(218, 'adminAnna', '2024-03-15', '10:19:58', 'created a category : dfgdfg'),
+(219, 'adminAnna', '2024-03-15', '10:20:02', 'created a category : ertetert'),
+(220, 'adminAnna', '2024-03-15', '10:21:17', 'deleted category'),
+(221, 'adminAnna', '2024-03-15', '10:21:20', 'deleted category'),
+(222, 'adminAnna', '2024-03-15', '10:21:22', 'deleted category'),
+(223, 'adminAnna', '2024-03-15', '10:21:25', 'deleted category'),
+(224, 'adminAnna', '2024-03-15', '10:21:28', 'created a category : zxczxc'),
+(225, 'adminAnna', '2024-03-15', '10:21:29', 'deleted category'),
+(226, 'adminAnna', '2024-03-15', '10:21:35', 'created a category : nvbnv'),
+(227, 'adminAnna', '2024-03-15', '10:21:38', 'created a category : gdfgdf'),
+(228, 'adminAnna', '2024-03-15', '10:21:42', 'created a category : poiuuio'),
+(229, 'adminAnna', '2024-03-15', '12:51:25', 'edit product name'),
+(230, 'adminAnna', '2024-03-15', '12:51:49', 'edit product name'),
+(231, 'adminAnna', '2024-03-15', '12:52:15', 'edit product name'),
+(232, 'adminAnna', '2024-03-15', '12:53:25', 'deleted category'),
+(233, 'adminAnna', '2024-03-15', '12:53:28', 'deleted category'),
+(234, 'adminAnna', '2024-03-15', '12:53:31', 'deleted category'),
+(235, 'adminAnna', '2024-03-15', '12:53:34', 'deleted category'),
+(236, '', '2024-03-15', '15:03:41', 'deleted category'),
+(237, 'adminAnna', '2024-03-15', '15:04:00', 'add a stock of product id : 34'),
+(238, 'adminAnna', '2024-03-15', '15:04:06', 'add a stock of product id : 34'),
+(239, 'adminAnna', '2024-03-15', '15:04:10', 'add a stock of product id : 34'),
+(240, 'adminAnna', '2024-03-15', '15:04:16', 'add a stock of product id : 34'),
+(241, 'adminAnna', '2024-03-15', '15:04:21', 'add a stock of product id : 34'),
+(242, 'adminAnna', '2024-03-15', '15:04:24', 'add a stock of product id : 34'),
+(243, 'adminAnna', '2024-03-15', '15:04:27', 'add a stock of product id : 34'),
+(244, 'adminAnna', '2024-03-15', '15:04:30', 'add a stock of product id : 34'),
+(245, 'adminAnna', '2024-03-15', '15:04:34', 'add a stock of product id : 34'),
+(246, 'adminAnna', '2024-03-15', '15:05:26', 'add a stock of product id : 34'),
+(247, 'adminAnna', '2024-03-15', '15:05:30', 'add a stock of product id : 34'),
+(248, 'adminAnna', '2024-03-15', '15:05:33', 'add a stock of product id : 34'),
+(249, 'adminAnna', '2024-03-15', '15:05:37', 'add a stock of product id : 34'),
+(250, 'adminAnna', '2024-03-15', '15:14:19', 'edit product description'),
+(251, 'adminAnna', '2024-03-15', '15:14:38', 'edit product description'),
+(252, 'adminAnna', '2024-03-18', '08:19:05', 'edit product description'),
+(253, 'adminAnna', '2024-03-18', '10:32:26', 'updated order status (to receive) : order number 91'),
+(254, 'adminAnna', '2024-03-18', '10:32:42', 'updated order status (completed) : order number 90'),
+(255, 'adminAnna', '2024-03-18', '16:39:42', 'deleted a product'),
+(256, 'adminAnna', '2024-03-18', '16:39:45', 'deleted a product'),
+(257, 'adminAnna', '2024-03-18', '16:39:47', 'deleted a product'),
+(258, 'adminAnna', '2024-03-18', '16:39:49', 'deleted a product'),
+(259, 'adminAnna', '2024-03-18', '16:39:50', 'deleted a product'),
+(260, 'adminAnna', '2024-03-18', '16:39:52', 'deleted a product'),
+(261, 'adminAnna', '2024-03-18', '16:39:55', 'deleted a product'),
+(262, 'adminAnna', '2024-03-18', '16:39:57', 'deleted a product'),
+(263, 'adminAnna', '2024-03-18', '17:06:46', 'deleted a product');
 
 -- --------------------------------------------------------
 
@@ -385,7 +531,12 @@ INSERT INTO `product_units` (`id`, `unit_name`) VALUES
 (23, '7.5'),
 (24, '8'),
 (25, '8.5'),
-(26, '9');
+(26, '9'),
+(27, '10'),
+(29, '4'),
+(30, '4.5'),
+(31, '11'),
+(32, '11.5');
 
 -- --------------------------------------------------------
 
@@ -407,10 +558,7 @@ CREATE TABLE `review_table` (
 --
 
 INSERT INTO `review_table` (`review_id`, `user_name`, `user_rating`, `user_review`, `datetime`, `product_id`) VALUES
-(9, 'Roy Francis B. Castro', 5, 'TEST', 1708750554, 19),
-(12, 'Papisss Castro', 3, 'eww', 1708752176, 19),
-(13, 'Roy Francis B. Castro', 5, 'asdasd', 1708753571, 20),
-(14, 'Papisss Castro', 5, 'NO', 1708946439, 20);
+(23, 'Roy Francis B. Castro', 1, 'ANG PANGET NG PRODUCT NYO ', 1710488765, 34);
 
 -- --------------------------------------------------------
 
@@ -446,7 +594,17 @@ INSERT INTO `sales` (`sales_id`, `orders_id`, `total_price`, `date_created`) VAL
 (41, 78, 449, '2024-03-01'),
 (42, 79, 749, '2024-03-01'),
 (43, 80, 449, '2024-03-01'),
-(44, 81, 449, '2024-03-01');
+(44, 81, 449, '2024-03-01'),
+(45, 82, 2247, '2024-03-11'),
+(46, 83, 1498, '2024-03-11'),
+(47, 84, 1498, '2024-03-11'),
+(48, 85, 1498, '2024-03-12'),
+(49, 86, 3600, '2024-03-15'),
+(50, 87, 2400, '2024-03-15'),
+(51, 88, 2400, '2024-03-15'),
+(52, 89, 4800, '2024-03-15'),
+(53, 90, 4800, '2024-03-15'),
+(54, 91, 3600, '2024-03-15');
 
 -- --------------------------------------------------------
 
@@ -468,23 +626,24 @@ CREATE TABLE `stocks` (
 --
 
 INSERT INTO `stocks` (`id`, `product_id`, `unit_name`, `color_name`, `date_created`, `time_created`) VALUES
-(33, 19, '5', 'Black', '2024-01-10', '2024-01-10 14:13:25'),
-(34, 19, '5', 'White', '2024-01-10', '2024-01-10 14:13:39'),
-(35, 19, '5', 'Gold', '2024-01-10', '2024-01-10 14:14:15'),
-(36, 19, '5', 'Green', '2024-01-10', '2024-01-10 14:14:25'),
-(37, 19, '5', 'Brown', '2024-01-10', '2024-01-10 14:14:32'),
-(38, 19, '5.5', 'Black', '2024-01-10', '2024-01-10 14:15:16'),
-(39, 19, '5.5', 'White', '2024-01-10', '2024-01-10 14:15:22'),
-(40, 19, '5.5', 'Gold', '2024-01-10', '2024-01-10 14:16:30'),
-(41, 20, '8', 'Gold', '2024-02-26', '2024-02-26 10:46:19'),
-(42, 20, '8', 'Pink', '2024-02-26', '2024-02-26 11:13:57'),
-(43, 19, '9', 'Gray', '2024-02-27', '2024-02-27 13:04:49'),
-(44, 26, '9', 'Gray', '2024-03-06', '2024-03-06 05:06:24'),
-(45, 26, '8', 'Gold', '2024-03-06', '2024-03-06 05:06:56'),
-(46, 26, '9', 'Gold', '2024-03-06', '2024-03-06 05:07:15'),
-(47, 26, '5.5', 'Gray', '2024-03-06', '2024-03-06 05:07:21'),
-(48, 26, '5', 'Gold', '2024-03-06', '2024-03-06 05:07:37'),
-(49, 26, '8.5', 'Black', '2024-03-06', '2024-03-06 05:07:51');
+(60, 35, '5', 'Pink', '2024-03-13', '2024-03-13 05:16:00'),
+(61, 35, '5.5', 'White', '2024-03-13', '2024-03-13 05:16:05'),
+(62, 35, '7', 'Pink', '2024-03-13', '2024-03-13 05:16:08'),
+(63, 34, '5.5', 'Pink', '2024-03-13', '2024-03-13 05:16:25'),
+(64, 34, '7.5', 'Beige', '2024-03-13', '2024-03-13 05:16:29'),
+(65, 34, '5', 'White', '2024-03-15', '2024-03-15 07:04:01'),
+(66, 34, '6', 'Black', '2024-03-15', '2024-03-15 07:04:06'),
+(67, 34, '6.5', 'Black', '2024-03-15', '2024-03-15 07:04:10'),
+(68, 34, '7', 'Pink', '2024-03-15', '2024-03-15 07:04:16'),
+(69, 34, '7.5', 'Pink', '2024-03-15', '2024-03-15 07:04:21'),
+(70, 34, '8', 'Black', '2024-03-15', '2024-03-15 07:04:24'),
+(71, 34, '8.5', 'Pink', '2024-03-15', '2024-03-15 07:04:27'),
+(72, 34, '9', 'Black', '2024-03-15', '2024-03-15 07:04:30'),
+(73, 34, '10', 'White', '2024-03-15', '2024-03-15 07:04:34'),
+(74, 34, '11', 'White', '2024-03-15', '2024-03-15 07:05:27'),
+(75, 34, '4', 'Cyan', '2024-03-15', '2024-03-15 07:05:30'),
+(76, 34, '11.5', 'Rose Gold', '2024-03-15', '2024-03-15 07:05:34'),
+(77, 34, '4.5', 'Olive', '2024-03-15', '2024-03-15 07:05:37');
 
 -- --------------------------------------------------------
 
@@ -499,15 +658,16 @@ CREATE TABLE `upload` (
   `address` varchar(255) NOT NULL,
   `contact` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `logo` varchar(255) NOT NULL
+  `logo` varchar(255) NOT NULL,
+  `homepage_image` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `upload`
 --
 
-INSERT INTO `upload` (`id`, `title`, `description`, `address`, `contact`, `email`, `logo`) VALUES
-(1, 'NIFTY SHOES', 'Flats, Sandals, Pumps, Wedges & other nifty shoes for Women.', '121 Malaya St. Malanday, Marikina City, Marikina City, Philippines', '09064997545', 'niftyshoesph@gmail.com', 'homelogo.png');
+INSERT INTO `upload` (`id`, `title`, `description`, `address`, `contact`, `email`, `logo`, `homepage_image`) VALUES
+(1, 'NIFTY SHOES', 'FLATS, SANDALS, PUMPS, WEDGES, AND OTHER NIFTY SHOES FOR WOMEN.', '121 Malaya St. Malanday, Marikina City, Marikina City, Philippines	', '09064997545', 'niftyshoesph@gmail.com', 'homelogo.png', 'homepic.jpg');
 
 -- --------------------------------------------------------
 
@@ -536,7 +696,8 @@ INSERT INTO `usertable` (`id`, `name`, `email`, `password`, `code`, `status`, `c
 (120, 'Roy Francis B. Castro', 'castroroyfrancis05@gmail.com', '$2y$10$tPgyFiePl9yiKHwsESA9m.fpQ5bKiv6h79elluF7akFN8WVC3xLia', 0, 'verified', '', ''),
 (121, 'Roy Francis B. Castro', 'lagegad669@ricorit.com', '$2y$10$.xIrcRSCxQ6B1ap.7W6zg.pj03JbnuLrNpdGz1c0hEGU7jjLvYV4G', 0, 'verified', '', ''),
 (122, 'Paul Nateman Bustillo', 'mnlbusy@gmail.com', '$2y$10$Gq78J21qoOqHbuT6bczGsu9mh0bX.//Z2pGeR7YrIHGG14gO616QO', 0, 'verified', '09557315312', 'Kalbayog st. mandaluyong'),
-(123, 'd', 'd@d.d', '$2y$10$uEP.mKAeEn2tcyfHRQQ/g..PX7vCgSwoiqe4dLwiHgR6wuKGaZcI6', 848376, 'notverified', '', 'd');
+(123, 'd', 'd@d.d', '$2y$10$uEP.mKAeEn2tcyfHRQQ/g..PX7vCgSwoiqe4dLwiHgR6wuKGaZcI6', 848376, 'notverified', '', 'd'),
+(124, 'Jonathan', 'jojonathanpeol3001@gmail.com', '$2y$10$MUJS6SPOq5UIWcEAiGsSqe0vR5nJOo7UGoztWZjGn71WGRyI5x3je', 0, 'verified', '09452051108', 'Marikina');
 
 --
 -- Indexes for dumped tables
@@ -640,79 +801,79 @@ ALTER TABLE `usertable`
 -- AUTO_INCREMENT for table `admin_accounts`
 --
 ALTER TABLE `admin_accounts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `admin_log`
 --
 ALTER TABLE `admin_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
 
 --
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=166;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=207;
 
 --
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `color`
 --
 ALTER TABLE `color`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `product_log`
 --
 ALTER TABLE `product_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=144;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=264;
 
 --
 -- AUTO_INCREMENT for table `product_units`
 --
 ALTER TABLE `product_units`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `review_table`
 --
 ALTER TABLE `review_table`
-  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `sales`
 --
 ALTER TABLE `sales`
-  MODIFY `sales_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `sales_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `stocks`
 --
 ALTER TABLE `stocks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 
 --
 -- AUTO_INCREMENT for table `upload`
@@ -724,7 +885,7 @@ ALTER TABLE `upload`
 -- AUTO_INCREMENT for table `usertable`
 --
 ALTER TABLE `usertable`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
