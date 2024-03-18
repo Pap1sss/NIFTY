@@ -69,6 +69,8 @@ if ($result->num_rows > 0) {
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 
+
+
       <!-- 
     - favicon
   -->
@@ -96,11 +98,13 @@ if ($result->num_rows > 0) {
 
     </head>
 
+
     <!-- 
     - #HEADER
   -->
 
-    <header class="header" data-header>
+    <header class=" header" data-header
+      style="background: linear-gradient(to right, #f9c47f, #F4B39D); box-shadow: 0px 4px 4px rgba(0, 0, 0, .05);">
       <div class="container">
 
         <div class="overlay" data-overlay></div>
@@ -108,7 +112,7 @@ if ($result->num_rows > 0) {
         <!-- 
     - #PIC FOR MAINPAGE
       -->
-        <a href="../index.php" class="logo">
+        <a href="index.php" class="logo">
           <img src="../admin/uploaded_img/<?= $row["logo"] ?>" width="150" height="50" alt="logo">
         </a>
         <!-- 
@@ -124,44 +128,31 @@ if ($result->num_rows > 0) {
             <ion-icon name="close-outline"></ion-icon>
           </button>
 
-          <a href="../index.php" class="logo">
+          <a href="index.php" class="logo">
             <img src="../admin/uploaded_img/<?= $row["logo"] ?>" width="190" height="50" alt="logo">
           </a>
-          <style>
-            .navbar-link {
-              text-decoration: none;
-              color: inherit;
-            }
 
-            .navbar-link:hover {
-              text-decoration: none;
-
-            }
-          </style>
           <ul class="navbar-list">
 
             <li class="navbar-item">
-              <a href="../index.php" class="navbar-link">Home</a>
-            </li>
 
-
-
-            <li class="navbar-item">
-              <a href="../products.php" class="navbar-link">Products</a>
             </li>
 
             <li class="navbar-item">
-              <a href="logout-user.php" class="navbar-link">Logout</a>
+
             </li>
+
+
 
 
           </ul>
 
           <ul class="nav-action-list">
 
+
             <li>
-              <a href="../login_user/home.php" class="nav-action-btn">
-                <ion-icon name="person-outline" aria-hidden="true"></ion-icon>
+              <a href="home.php" class="nav-action-btn">
+                <ion-icon name="person-outline" aria-hidden="false"></ion-icon>
 
                 <span class="nav-action-text">Login / Register</span>
               </a>
@@ -170,7 +161,7 @@ if ($result->num_rows > 0) {
 
 
             <li>
-              <a href="../login_user/cart.php" class="nav-action-btn">
+              <a href="cart.php" class="nav-action-btn">
                 <ion-icon name="bag-outline" aria-hidden="true"></ion-icon>
 
                 <data class="nav-action-text">Basket: <strong></strong></data>
@@ -179,12 +170,13 @@ if ($result->num_rows > 0) {
               </a>
             </li>
 
+
+
           </ul>
 
         </nav>
 
       </div>
-
     </header>
 
 
@@ -193,7 +185,20 @@ if ($result->num_rows > 0) {
   -->
 
 
-    <body style="background-color: #b69f77;">
+
+    <body style="background-color:white;">
+      <style>
+        .detail-btn {
+          background-color: #f9c47f;
+          border: transparent;
+
+        }
+
+        .detail-btn:hover {
+          background-color: #F4B39D;
+          color: white;
+        }
+      </style>
 
 
 
@@ -261,11 +266,12 @@ if ($result->num_rows > 0) {
                 <hr>
                 <div class="row">
                   <div class="col-sm-12">
-                    <button type="submit" name="submit" class="btn btn-primary btn-block"
-                      style="display: inline-block;">Update Information</button>
+                    <button type="submit" name="submit" class="btn detail-btn"
+                      style=" display: inline-block; width:100%;">Update
+                      Information</button>
 
                     <?php
-                    if (isset($_POST['submit'])) {
+                    if (isset ($_POST['submit'])) {
                       $contact = filter_var($_POST['contact'], FILTER_SANITIZE_NUMBER_INT);
                       $address = filter_var($_POST['address'], FILTER_SANITIZE_STRING);
 
@@ -290,10 +296,20 @@ if ($result->num_rows > 0) {
                 </div>
               </form>
             </div>
+          </div>
 
 
 
-            <div class="card mb-4 mb-md-0">
+          <div class="container" style="padding: 5px;">
+
+            <div class="column d-flex justify-content-evenly" style="padding: 20px;">
+
+
+              <button class="btn detail-btn" id="toShipBtn">TO SHIP</button>
+              <button class="btn detail-btn" id="toReceiveBtn">TO RECEIVED</button>
+              <button class="btn detail-btn" id="orderCompletedBtn">ORDER COMPLETED</button>
+            </div>
+            <div id="toShipSection" class="card card-order-status 4 mb-md-0">
               <div class="card-body">
                 <h4>TO SHIP</h4>
                 <table class="table table-striped table-bordered">
@@ -318,13 +334,13 @@ if ($result->num_rows > 0) {
                       while ($row = $resultship->fetch_assoc()) {
                         ?>
                         <tr>
-                          <td style="width: 50%;">
+                          <td>
                             <?= htmlspecialchars($row["total_products"]) ?>
                           </td>
-                          <td style="width: 25%;">
+                          <td>
                             <?= htmlspecialchars($row["total_price"]) ?>
                           </td>
-                          <td style="width: 25%;">
+                          <td style=" text-transform: uppercase;">
                             <?= htmlspecialchars($row["status"]) ?>
                           </td>
                         </tr>
@@ -345,9 +361,9 @@ if ($result->num_rows > 0) {
 
 
 
-            <div class="card mb-4 mb-md-0">
+            <div id="toReceiveSection" class="card card-order-status 4 mb-md-0">
               <div class="card-body">
-                <h4>TO SHIP</h4>
+                <h4>TO RECEIVED</h4>
                 <table class="table table-striped table-bordered">
                   <thead style="display: table-row-group;">
                     <tr>
@@ -376,7 +392,7 @@ if ($result->num_rows > 0) {
                           <td>
                             <?= htmlspecialchars($row["total_price"]) ?>
                           </td>
-                          <td>
+                          <td style=" text-transform: uppercase;">
                             <?= htmlspecialchars($row["status"]) ?>
                           </td>
                         </tr>
@@ -394,11 +410,9 @@ if ($result->num_rows > 0) {
                 </table>
               </div>
             </div>
-
-            <br>
-            <div class="card mb-4 mb-md-0">
+            <div id="orderCompletedSection" class="card card-order-status 4 mb-md-0">
               <div class="card-body">
-                <h4>TO SHIP</h4>
+                <h4>ORDER COMPLETED</h4>
                 <table class="table table-striped table-bordered">
                   <thead style="display: table-row-group;">
                     <tr>
@@ -421,13 +435,13 @@ if ($result->num_rows > 0) {
                       while ($row = $resultcomplete->fetch_assoc()) {
                         ?>
                         <tr>
-                          <td style="width: 50%;">
+                          <td>
                             <?= htmlspecialchars($row["total_products"]) ?>
                           </td>
-                          <td style="width: 25%;">
+                          <td>
                             <?= htmlspecialchars($row["total_price"]) ?>
                           </td>
-                          <td style="width: 25%;">
+                          <td style=" text-transform: uppercase;">
                             <?= htmlspecialchars($row["status"]) ?>
                           </td>
                         </tr>
@@ -455,6 +469,48 @@ if ($result->num_rows > 0) {
       </div>
 
 
+      <script>
+        document.getElementById('toShipBtn').addEventListener('click', function () {
+          toggleVisibility('toShipSection');
+          toggleVisibility('toReceiveSection', false);
+          toggleVisibility('orderCompletedSection', false);
+        });
+
+        document.getElementById('toReceiveBtn').addEventListener('click', function () {
+          toggleVisibility('toShipSection', false);
+          toggleVisibility('toReceiveSection');
+          toggleVisibility('orderCompletedSection', false);
+        });
+
+        document.getElementById('orderCompletedBtn').addEventListener('click', function () {
+          toggleVisibility('toShipSection', false);
+          toggleVisibility('toReceiveSection', false);
+          toggleVisibility('orderCompletedSection');
+        });
+
+        function toggleVisibility(sectionId, shouldShow = true) {
+          const section = document.getElementById(sectionId);
+          section.style.display = shouldShow ? 'block' : 'none';
+        }
+      </script>
+
+      <style>
+        .card-order-status {
+          display: none;
+        }
+      </style>
+
+
+
+
+
+
+
+
+      <!-- 
+    - custom js link
+  -->
+      <script src="./assets/js/script.js"></script>
     </body>
 
     <?php
@@ -470,17 +526,12 @@ $result = mysqli_query($conn, $sql);
 if ($result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {
     ?>
+
     <footer class="footer">
-
-
-
-      <div class="footer-top section" style="background-color: #b69f77;">
+      <div class="footer-top section" style="background-color: #f9c47f;">
         <div class="container">
-
           <div class="footer-brand">
-
-
-
+            <img src="../admin/uploaded_img/<?= $row["logo"] ?>" width="150" height="50" alt="Nifty logo">
             </ul>
 
           </div>
@@ -527,27 +578,18 @@ if ($result->num_rows > 0) {
 
 
 
+
+
           </div>
 
         </div>
       </div>
 
+
+
     </footer>
 
 
-
-
-
-
-
-
-
-
-
-    <!-- 
-    - custom js link
-  -->
-    <script src="./assets/js/script.js"></script>
     <?php
   }
 }
@@ -558,6 +600,6 @@ if ($result->num_rows > 0) {
     -->
 
 
-</footer>
+
 
 </html>
