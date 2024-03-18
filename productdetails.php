@@ -1409,8 +1409,8 @@ if ($result->num_rows > 0) {
       }
       ?>
         <!-- carousel -->
-        <div class="column d-flex justifty-content-center"
-          style="height: 400px; border-radius: 10px solid red; width: 100% border: 1px solid red;">
+        <div class="column d-flex justify-content-center"
+          style="height: 400px; width: 100%; margin: 20px;">
 
           <div style="height: 400px; width: fit-content display: flex; justify-content: center;  align-items: center; "
             id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="2000">
