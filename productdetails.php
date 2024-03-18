@@ -1195,430 +1195,412 @@ if ($result->num_rows > 0) {
 
           </div>
           <div class="mt-5" id="review_content"></div>
-        </div>
 
 
 
-        <style>
-          .progress-label-left {
-            float: left;
-            margin-right: 0.5em;
-            line-height: 1em;
-          }
 
-          .progress-label-right {
-            float: right;
-            margin-left: 0.3em;
-            line-height: 1em;
-          }
-
-          .star-light {
-            color: #e9ecef;
-          }
-        </style>
-
-        <script>
-
-          $(document).ready(function () {
-
-            var rating_data = 0;
-
-            $('#add_review').click(function () {
-
-              $('#review_modal').modal('show');
-
-            });
-
-            $(document).on('mouseenter', '.submit_star', function () {
-
-              var rating = $(this).data('rating');
-
-              reset_background();
-
-              for (var count = 1; count <= rating; count++) {
-
-                $('#submit_star_' + count).addClass('text-warning');
-
-              }
-
-            });
-
-            function reset_background() {
-              for (var count = 1; count <= 5; count++) {
-
-                $('#submit_star_' + count).addClass('star-light');
-
-                $('#submit_star_' + count).removeClass('text-warning');
-
-              }
+          <style>
+            .progress-label-left {
+              float: left;
+              margin-right: 0.5em;
+              line-height: 1em;
             }
 
-            $(document).on('mouseleave', '.submit_star', function () {
+            .progress-label-right {
+              float: right;
+              margin-left: 0.3em;
+              line-height: 1em;
+            }
 
-              reset_background();
+            .star-light {
+              color: #e9ecef;
+            }
+          </style>
 
-              for (var count = 1; count <= rating_data; count++) {
+          <script>
 
-                $('#submit_star_' + count).removeClass('star-light');
+            $(document).ready(function () {
 
-                $('#submit_star_' + count).addClass('text-warning');
+              var rating_data = 0;
+
+              $('#add_review').click(function () {
+
+                $('#review_modal').modal('show');
+
+              });
+
+              $(document).on('mouseenter', '.submit_star', function () {
+
+                var rating = $(this).data('rating');
+
+                reset_background();
+
+                for (var count = 1; count <= rating; count++) {
+
+                  $('#submit_star_' + count).addClass('text-warning');
+
+                }
+
+              });
+
+              function reset_background() {
+                for (var count = 1; count <= 5; count++) {
+
+                  $('#submit_star_' + count).addClass('star-light');
+
+                  $('#submit_star_' + count).removeClass('text-warning');
+
+                }
               }
 
-            });
+              $(document).on('mouseleave', '.submit_star', function () {
 
-            $(document).on('click', '.submit_star', function () {
+                reset_background();
 
-              rating_data = $(this).data('rating');
+                for (var count = 1; count <= rating_data; count++) {
 
-            });
+                  $('#submit_star_' + count).removeClass('star-light');
+
+                  $('#submit_star_' + count).addClass('text-warning');
+                }
+
+              });
+
+              $(document).on('click', '.submit_star', function () {
+
+                rating_data = $(this).data('rating');
+
+              });
 
 
-            $('#save_review').click(function () {
+              $('#save_review').click(function () {
 
 
 
-              var user_name = $('#user_name').val();
+                var user_name = $('#user_name').val();
 
-              var user_review = $('#user_review').val();
+                var user_review = $('#user_review').val();
 
-              var product_id = $('#product_id').val();
+                var product_id = $('#product_id').val();
 
-              if (user_name == '' || user_review == '') {
-                alert("Please Fill Both Field");
-                return false;
-              }
-              else {
+                if (user_name == '' || user_review == '') {
+                  alert("Please Fill Both Field");
+                  return false;
+                }
+                else {
+                  $.ajax({
+                    url: "submit_rating.php",
+                    method: "POST",
+                    data: { rating_data: rating_data, user_name: user_name, user_review: user_review, product_id: product_id },
+                    success: function (data) {
+                      $('#review_modal').modal('hide');
+
+                      load_rating_data();
+
+                      alert(data);
+                    }
+                  })
+                }
+
+              });
+
+              load_rating_data();
+
+              function load_rating_data() {
                 $.ajax({
                   url: "submit_rating.php",
                   method: "POST",
-                  data: { rating_data: rating_data, user_name: user_name, user_review: user_review, product_id: product_id },
+                  data: { action: 'load_data', product_id: <?php echo $id; ?> },
+                  dataType: "JSON",
                   success: function (data) {
-                    $('#review_modal').modal('hide');
+                    $('#average_rating').text(data.average_rating);
+                    $('#total_review').text(data.total_review);
 
-                    load_rating_data();
+                    var count_star = 0;
 
-                    alert(data);
+                    $('.main_star').each(function () {
+                      count_star++;
+                      if (Math.ceil(data.average_rating) >= count_star) {
+                        $(this).addClass('text-warning');
+                        $(this).addClass('star-light');
+                      }
+                    });
+
+                    $('#total_five_star_review').text(data.five_star_review);
+
+                    $('#total_four_star_review').text(data.four_star_review);
+
+                    $('#total_three_star_review').text(data.three_star_review);
+
+                    $('#total_two_star_review').text(data.two_star_review);
+
+                    $('#total_one_star_review').text(data.one_star_review);
+
+                    $('#five_star_progress').css('width', (data.five_star_review / data.total_review) * 100 + '%');
+
+                    $('#four_star_progress').css('width', (data.four_star_review / data.total_review) * 100 + '%');
+
+                    $('#three_star_progress').css('width', (data.three_star_review / data.total_review) * 100 + '%');
+
+                    $('#two_star_progress').css('width', (data.two_star_review / data.total_review) * 100 + '%');
+
+                    $('#one_star_progress').css('width', (data.one_star_review / data.total_review) * 100 + '%');
+
+                    if (data.review_data.length > 0) {
+                      var html = '';
+
+                      for (var count = 0; count < data.review_data.length; count++) {
+                        html += '<div class="row mb-3">';
+
+                        html += '<div class="col-sm-1"><div class="rounded-circle bg-danger text-white pt-2 pb-2" style="display: flex; justify-content: center; align-items: center; width: 70px; height: 70px; border-radius: 50%;"><h3 class="text-center">' + data.review_data[count].user_name.charAt(0) + '</h3></div></div>';
+
+                        html += '<div class="col-sm-11" >';
+
+                        html += '<div class="card"style ="background-color: white;">';
+
+                        html += '<div class="card-header"><b>' + data.review_data[count].user_name + '</b></div>';
+
+                        html += '<div class="card-body">';
+
+                        for (var star = 1; star <= 5; star++) {
+                          var class_name = '';
+
+                          if (data.review_data[count].rating >= star) {
+                            class_name = 'text-warning';
+                          }
+                          else {
+                            class_name = 'star-light';
+                          }
+
+                          html += '<i class="fas fa-star ' + class_name + ' mr-1"></i>';
+                        }
+
+                        html += '<br />';
+
+                        html += data.review_data[count].user_review;
+
+                        html += '</div>';
+
+                        html += '<div class="card-footer text-right">On ' + data.review_data[count].datetime + '</div>';
+
+                        html += '</div>';
+
+                        html += '</div>';
+
+                        html += '</div>';
+                      }
+
+                      $('#review_content').html(html);
+                    }
                   }
                 })
               }
 
             });
 
-            load_rating_data();
-
-            function load_rating_data() {
-              $.ajax({
-                url: "submit_rating.php",
-                method: "POST",
-                data: { action: 'load_data', product_id: <?php echo $id; ?> },
-                dataType: "JSON",
-                success: function (data) {
-                  $('#average_rating').text(data.average_rating);
-                  $('#total_review').text(data.total_review);
-
-                  var count_star = 0;
-
-                  $('.main_star').each(function () {
-                    count_star++;
-                    if (Math.ceil(data.average_rating) >= count_star) {
-                      $(this).addClass('text-warning');
-                      $(this).addClass('star-light');
-                    }
-                  });
-
-                  $('#total_five_star_review').text(data.five_star_review);
-
-                  $('#total_four_star_review').text(data.four_star_review);
-
-                  $('#total_three_star_review').text(data.three_star_review);
-
-                  $('#total_two_star_review').text(data.two_star_review);
-
-                  $('#total_one_star_review').text(data.one_star_review);
-
-                  $('#five_star_progress').css('width', (data.five_star_review / data.total_review) * 100 + '%');
-
-                  $('#four_star_progress').css('width', (data.four_star_review / data.total_review) * 100 + '%');
-
-                  $('#three_star_progress').css('width', (data.three_star_review / data.total_review) * 100 + '%');
-
-                  $('#two_star_progress').css('width', (data.two_star_review / data.total_review) * 100 + '%');
-
-                  $('#one_star_progress').css('width', (data.one_star_review / data.total_review) * 100 + '%');
-
-                  if (data.review_data.length > 0) {
-                    var html = '';
-
-                    for (var count = 0; count < data.review_data.length; count++) {
-                      html += '<div class="row mb-3">';
-
-                      html += '<div class="col-sm-1"><div class="rounded-circle bg-danger text-white pt-2 pb-2" style="display: flex; justify-content: center; align-items: center; width: 70px; height: 70px; border-radius: 50%;"><h3 class="text-center">' + data.review_data[count].user_name.charAt(0) + '</h3></div></div>';
-
-                      html += '<div class="col-sm-11" >';
-
-                      html += '<div class="card"style ="background-color: white;">';
-
-                      html += '<div class="card-header"><b>' + data.review_data[count].user_name + '</b></div>';
-
-                      html += '<div class="card-body">';
-
-                      for (var star = 1; star <= 5; star++) {
-                        var class_name = '';
-
-                        if (data.review_data[count].rating >= star) {
-                          class_name = 'text-warning';
-                        }
-                        else {
-                          class_name = 'star-light';
-                        }
-
-                        html += '<i class="fas fa-star ' + class_name + ' mr-1"></i>';
-                      }
-
-                      html += '<br />';
-
-                      html += data.review_data[count].user_review;
-
-                      html += '</div>';
-
-                      html += '<div class="card-footer text-right">On ' + data.review_data[count].datetime + '</div>';
-
-                      html += '</div>';
-
-                      html += '</div>';
-
-                      html += '</div>';
-                    }
-
-                    $('#review_content').html(html);
-                  }
-                }
-              })
-            }
-
-          });
-
-        </script>
+          </script>
 
 
 
 
 
 
-        <?php
+          <?php
       }
       ?>
+        <!-- carousel -->
+        <div class="column d-flex justifty-content-center"
+          style="height: 400px; border-radius: 10px solid red; width: 100% border: 1px solid red;">
 
-      <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="2000">
-        <ol class="carousel-indicators">
-          <?php
-          $select_products = mysqli_query($conn, "SELECT * FROM `products`");
-          if (mysqli_num_rows($select_products) > 0) {
-            $active = 'active';
-            $loop_count = 0;
-            while ($fetch_product = mysqli_fetch_assoc($select_products)) {
-              ?>
-              <li data-target="#carouselExampleIndicators" data-slide-to="<?php echo htmlspecialchars($loop_count); ?>"
-                class="<?php echo $active; ?>"></li>
+          <div style="height: 400px; width: fit-content display: flex; justify-content: center;  align-items: center; "
+            id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="2000">
+            <ol class="carousel-indicators">
               <?php
-              $active = '';
-              $loop_count++;
-            }
-          }
-          ?>
-        </ol>
-        <div class="carousel-inner">
-          <?php
-          $select_products = mysqli_query($conn, "SELECT * FROM `products`");
-          if (mysqli_num_rows($select_products) > 0) {
-            $active = 'active';
-            $loop_count = 0;
-            while ($fetch_product = mysqli_fetch_assoc($select_products)) {
+              $select_products = mysqli_query($conn, "SELECT * FROM `products`");
+              if (mysqli_num_rows($select_products) > 0) {
+                $active = 'active';
+                $loop_count = 0;
+                while ($fetch_product = mysqli_fetch_assoc($select_products)) {
+                  ?>
+                  <li data-target="#carouselExampleIndicators" data-slide-to="<?php echo htmlspecialchars($loop_count); ?>"
+                    class="<?php echo $active; ?>"></li>
+                  <?php
+                  $active = '';
+                  $loop_count++;
+                }
+              }
               ?>
-              <div class="carousel-item <?php echo $active; ?>">
-                <a href=" productdetails.php?id=<?php echo htmlspecialchars($fetch_product["id"]); ?>">
-                  <div class="product-item">
-                    <div class="product-card" tabindex="0">
-                      <figure class="card-banner" style="border: 2px solid #f6b035; width: auto; height: auto;">
-                        <img src="<?php echo htmlspecialchars($fetch_product['image']); ?>" loading="lazy" alt="PRODUCTS"
-                          class="image-contain">
-                        <ul class="card-action-list">
-                        </ul>
-                      </figure>
-                      <div class="card-content">
-                        <h3 class="h3 card-title">
-                          <p style="text-transform: uppercase; color: #4a4747;">
-                            <?php echo htmlspecialchars($fetch_product['name']); ?>
-                          </p>
-                        </h3>
-                        <data style="color: #4a4747; font-size:20px;">₱
-                          <?php echo htmlspecialchars($fetch_product['price']); ?>
-                        </data>
+            </ol>
+            <div class="carousel-inner">
+              <?php
+              $select_products = mysqli_query($conn, "SELECT * FROM `products`");
+              if (mysqli_num_rows($select_products) > 0) {
+                $active = 'active';
+                $loop_count = 0;
+                while ($fetch_product = mysqli_fetch_assoc($select_products)) {
+                  ?>
+                  <div class="carousel-item <?php echo $active; ?>">
+                    <a href=" productdetails.php?id=<?php echo htmlspecialchars($fetch_product["id"]); ?>">
+                      <div class="product-item">
+                        <div class="product-card" tabindex="0">
+                          <figure class="card-banner" style="border: 2px solid #f6b035; width: auto; height: auto;">
+                            <img src="<?php echo htmlspecialchars($fetch_product['image']); ?>" loading="lazy" alt="PRODUCTS"
+                              class="image-contain" style="height: 400px; width: 100%;">
+                            <ul class="card-action-list">
+                            </ul>
+                          </figure>
+                        </div>
                       </div>
-                    </div>
+                    </a>
                   </div>
-                </a>
-              </div>
-              <?php
-              $active = '';
-              $loop_count++;
-            }
-          }
-          ?>
+                  <?php
+                  $active = '';
+                  $loop_count++;
+                }
+              }
+              ?>
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+          </div>
         </div>
-        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
-        </a>
       </div>
-
       </div>
+    </body>
 
-
-      <!-- 
+    <!-- 
     - #FOOTER
   -->
 
-      <footer class="footer">
+    <footer class="footer">
 
-        <div class="footer-top section" style="background-color: #f9c47f;">
-          <div class="container">
-
-            <div class="footer-brand">
-
-
-              <img src="admin/uploaded_img/<?= $row["logo"] ?>" width="150" height="50" alt="Nifty logo">
+      <div class="footer-top section"
+        style="background: linear-gradient(to right, #f9c47f, #F4B39D); box-shadow: 0px 4px 4px rgba(0, 0, 0, .05);">
+        <div class="container">
 
 
+          <div class="footer-link-box">
 
+            <ul class="footer-list">
 
+              <li>
+                <p class="footer-list-title">Contact Us</p>
+              </li>
 
+              <li>
+                <address class="footer-link">
+                  <ion-icon name="location"></ion-icon>
 
-              </ul>
+                  <span class="footer-link-text">
+                    <?= htmlspecialchars($row["address"]); ?>
+                  </span>
+                </address>
+              </li>
 
-            </div>
+              <li>
+                <a href="tel:<?= htmlspecialchars($row["contact"]); ?>" class="footer-link">
+                  <ion-icon name="call"></ion-icon>
 
-            <div class="footer-link-box">
+                  <span class="footer-link-text">
+                    <?= htmlspecialchars($row["contact"]); ?>
+                  </span>
+                </a>
+              </li>
 
-              <ul class="footer-list">
+              <li>
+                <a href="mailto:<?= htmlspecialchars($row["email"]); ?>" class="footer-link">
+                  <ion-icon name="mail"></ion-icon>
 
-                <li>
-                  <p class="footer-list-title">Contact Us</p>
-                </li>
+                  <span class="footer-link-text">
+                    <?= htmlspecialchars($row["email"]); ?>
+                  </span>
+                </a>
+              </li>
 
-                <li>
-                  <address class="footer-link">
-                    <ion-icon name="location"></ion-icon>
-
-                    <span class="footer-link-text">
-                      <?= $row["address"] ?>
-                    </span>
-                  </address>
-                </li>
-
-                <li>
-                  <a href="tel:<?= $row["contact"] ?>" class="footer-link">
-                    <ion-icon name="call"></ion-icon>
-
-                    <span class="footer-link-text">
-                      <?= $row["contact"] ?>
-                    </span>
-                  </a>
-                </li>
-
-                <li>
-                  <a href="mailto:niftyshoesph@gmail.com" class="footer-link">
-                    <ion-icon name="mail"></ion-icon>
-
-                    <span class="footer-link-text">
-                      <?= $row["email"] ?>
-                    </span>
-                  </a>
-                </li>
-
-              </ul>
+            </ul>
 
 
 
 
-
-            </div>
 
           </div>
+
         </div>
+      </div>
 
 
 
-      </footer>
+    </footer>
 
 
 
 
-
-      <!-- 
+    <!-- 
     - #GO TO TOP
   -->
 
-      <a href="#top" class="go-top-btn" data-go-top>
-        <ion-icon name="arrow-up-outline"></ion-icon>
-      </a>
+    <a href="#top" class="go-top-btn" data-go-top>
+      <ion-icon name="arrow-up-outline"></ion-icon>
+    </a>
 
 
 
 
 
-      <!-- 
+    <!-- 
     - custom js link
   -->
-      <script src="./assets/js/script.js"></script>
+    <script src="./assets/js/script.js"></script>
 
-      <!-- 
+    <!-- 
     - ionicon link
   -->
-      <script>
-        var close = document.getElementsByClassName("closebtn");
-        var i;
+    <script>
+      var close = document.getElementsByClassName("closebtn");
+      var i;
 
-        for (i = 0; i < close.length; i++) {
-          close[i].onclick = function () {
-            var div = this.parentElement;
-            div.style.opacity = "0";
-            setTimeout(function () { div.style.display = "none"; }, 600);
-          }
+      for (i = 0; i < close.length; i++) {
+        close[i].onclick = function () {
+          var div = this.parentElement;
+          div.style.opacity = "0";
+          setTimeout(function () { div.style.display = "none"; }, 600);
         }
-      </script>
+      }
+    </script>
 
-      <script>
-        // JavaScript to show button only when an option is selected
-        document.querySelectorAll('input[name="size"], input[name="color"]').forEach(function (input) {
-          input.addEventListener('change', function () {
-            var sizeSelected = document.querySelector('input[name="size"]:checked');
-            var colorSelected = document.querySelector('input[name="color"]:checked');
-            var addButton = document.getElementById('addToCartBtn');
+    <script>
+      // JavaScript to show button only when an option is selected
+      document.querySelectorAll('input[name="size"], input[name="color"]').forEach(function (input) {
+        input.addEventListener('change', function () {
+          var sizeSelected = document.querySelector('input[name="size"]:checked');
+          var colorSelected = document.querySelector('input[name="color"]:checked');
+          var addButton = document.getElementById('addToCartBtn');
 
-            if (sizeSelected && colorSelected) {
-              addButton.style.display = 'block'; // Show the button
-            } else {
-              addButton.style.display = 'none'; // Hide the button if no option is selected
-            }
-          });
+          if (sizeSelected && colorSelected) {
+            addButton.style.display = 'block'; // Show the button
+          } else {
+            addButton.style.display = 'none'; // Hide the button if no option is selected
+          }
         });
-      </script>
-      <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-      <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js">
-        $(document).ready(function () {
-          $('#carouselExampleIndicators').carousel({
-            interval: 1000
-          });
+      });
+    </script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js">
+      $(document).ready(function () {
+        $('#carouselExampleIndicators').carousel({
+          interval: 1000
         });
-      </script>
+      });
+    </script>
 
 
-      <?php
+    <?php
 
 
   }

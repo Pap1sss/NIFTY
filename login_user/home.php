@@ -112,7 +112,7 @@ if ($result->num_rows > 0) {
         <!-- 
     - #PIC FOR MAINPAGE
       -->
-        <a href="index.php" class="logo">
+        <a href="../index.php" class="logo">
           <img src="../admin/uploaded_img/<?= $row["logo"] ?>" width="150" height="50" alt="logo">
         </a>
         <!-- 
@@ -128,7 +128,7 @@ if ($result->num_rows > 0) {
             <ion-icon name="close-outline"></ion-icon>
           </button>
 
-          <a href="index.php" class="logo">
+          <a href="../index.php" class="logo">
             <img src="../admin/uploaded_img/<?= $row["logo"] ?>" width="190" height="50" alt="logo">
           </a>
 
@@ -530,11 +530,7 @@ if ($result->num_rows > 0) {
     <footer class="footer">
       <div class="footer-top section" style="background-color: #f9c47f;">
         <div class="container">
-          <div class="footer-brand">
-            <img src="../admin/uploaded_img/<?= $row["logo"] ?>" width="150" height="50" alt="Nifty logo">
-            </ul>
 
-          </div>
 
           <div class="footer-link-box">
 
