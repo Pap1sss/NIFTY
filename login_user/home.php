@@ -164,7 +164,16 @@ if ($result->num_rows > 0) {
               <a href="cart.php" class="nav-action-btn">
                 <ion-icon name="bag-outline" aria-hidden="true"></ion-icon>
 
-                <data class="nav-action-text">Basket: <strong></strong></data>
+                <data class="nav-action-text">Cart: <strong></strong></data>
+
+
+              </a>
+            </li>
+            <li>
+              <a href="logout-user.php" class="nav-action-btn">
+                <ion-icon name="log-out-outline" aria-hidden="true"></ion-icon>
+
+                <data class="nav-action-text">Logout: <strong></strong></data>
 
 
               </a>
@@ -209,35 +218,37 @@ if ($result->num_rows > 0) {
         <div class="col-lg-8">
           <div class="card mb-4">
             <div class="card-body">
-              <div class="row">
-                <div class="col-sm-3">
-                  <p class="mb-0">Name:</p>
-                </div>
-                <div class="col-sm-9">
-                  <p class="text-muted mb-0">
-                    <?php echo $user_name; ?>
-                  </p>
-                </div>
-              </div>
-              <hr>
-              <div class="row">
-                <div class="col-sm-3">
-                  <p class="mb-0">Email:</p>
-                </div>
-                <div class="col-sm-9">
-                  <p class="text-muted mb-0">
-                    <?php echo $email; ?>
-                  </p>
-                </div>
-              </div>
-              <hr>
-              <hr>
-              <style>
-                .form-control {
-                  font-size: 1.4rem;
-                }
-              </style>
               <form method="post" action="">
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Name:</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0">
+                      <input type="tel" class="form-control flex-grow-1 mr-2" id="contact" name="fullname"
+                        value="<?php echo htmlspecialchars($user_name); ?>">
+                    </p>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Email:</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0">
+                      <?php echo $email; ?>
+                    </p>
+                  </div>
+                </div>
+                <hr>
+                <hr>
+                <style>
+                  .form-control {
+                    font-size: 1.4rem;
+                  }
+                </style>
+
                 <div class="row">
                   <div class="col-sm-3">
                     <p class="mb-0">Contact Number:</p>
@@ -274,12 +285,13 @@ if ($result->num_rows > 0) {
                     if (isset ($_POST['submit'])) {
                       $contact = filter_var($_POST['contact'], FILTER_SANITIZE_NUMBER_INT);
                       $address = filter_var($_POST['address'], FILTER_SANITIZE_STRING);
+                      $user_name = filter_var($_POST['fullname'], FILTER_SANITIZE_STRING);
 
 
 
-                      $sql = "UPDATE usertable SET contact = ?, address = ? WHERE id = ?";
+                      $sql = "UPDATE usertable SET name =?, contact = ?, address = ? WHERE id = ?";
                       $stmt = $conn->prepare($sql);
-                      $stmt->bind_param("sss", $contact, $address, $user_id);
+                      $stmt->bind_param("ssss", $user_name, $contact, $address, $user_id);
                       $stmt->execute();
 
 

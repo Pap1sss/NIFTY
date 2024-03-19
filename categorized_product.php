@@ -5,11 +5,11 @@ ini_set('session.cookie_secure', 1);
 ini_set('session.cookie_httponly', 1);
 ini_set('session.use_only_cookies', 1);
 
-$secure = isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "";
+$secure = isset ($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "";
 if (!$secure) {
   $r = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
   header("Location: $r");
-  exit("use https!");
+  exit ("use https!");
 }
 //if($secure) {
 session_start();
@@ -248,7 +248,7 @@ if ($result->num_rows > 0) {
                   @include 'admin/config.php';
 
                   $id = "";
-                  if (isset($_GET['id'])) {
+                  if (isset ($_GET['id'])) {
                     $id = $_GET['id'];
                   }
                   ?>
@@ -308,9 +308,20 @@ if ($result->num_rows > 0) {
 
                             </div>
                             <br>
-                            <a style="background-color: #f9c47f; border-radius: 12px; border: 2px solid white;"
+                            <style>
+                              .detail-btn {
+                                background-color: #f9c47f;
+
+                              }
+
+                              .detail-btn:hover {
+                                background-color: #F4B39D;
+                                color: white;
+                              }
+                            </style>
+                            <a style=" border-radius: 7px; border: 2px solid white; display: flex; justify-content:center; align-items: center;"
                               href=" productdetails.php?id=<?php echo htmlspecialchars($fetch_product["id"]); ?>"
-                              class="btn">View
+                              class="btn detail-btn">View
                               Details</a>
 
 
