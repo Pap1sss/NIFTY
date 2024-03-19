@@ -170,12 +170,9 @@ if ($result->num_rows > 0) {
               </a>
             </li>
             <li>
-              <a href="logout-user.php" class="nav-action-btn">
+              <a href="logout-user.php" class="nav-action-btn" onclick="return confirm('Are you sure you want to logout?')">
                 <ion-icon name="log-out-outline" aria-hidden="true"></ion-icon>
-
                 <data class="nav-action-text">Logout: <strong></strong></data>
-
-
               </a>
             </li>
 

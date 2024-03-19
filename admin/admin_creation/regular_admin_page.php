@@ -161,7 +161,7 @@ if ($username != false && $name != false) {
               if (password === "12345678") {
                 return true;
               } else {
-                alert("Incorrect password. Please try again.");
+                alert("Something went wrong.");
                 return false;
               }
             }
@@ -170,7 +170,7 @@ if ($username != false && $name != false) {
 
 
           <?php
-          if (isset($_POST['submit_date_sales'])) {
+          if (isset ($_POST['submit_date_sales'])) {
 
             $start_date = mysqli_real_escape_string($conn, $_POST['start_date']);
             $end_date = mysqli_real_escape_string($conn, $_POST['end_date']);
@@ -311,7 +311,7 @@ if ($username != false && $name != false) {
 
 
         <?php
-        if (isset($_POST['submit_date_orders'])) {
+        if (isset ($_POST['submit_date_orders'])) {
 
           $start_date = mysqli_real_escape_string($conn, $_POST['start_date']);
           $end_date = mysqli_real_escape_string($conn, $_POST['end_date']);

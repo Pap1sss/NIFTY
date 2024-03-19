@@ -19,7 +19,7 @@ if ($username != false && $name != false) {
 }
 
 
-if (isset($_POST['add_product'])) {
+if (isset ($_POST['add_product'])) {
    $create = 'create a product';
    $category = mysqli_real_escape_string($conn, $_POST['category']);
    $username = mysqli_real_escape_string($conn, $_SESSION['user_name']);
@@ -30,7 +30,7 @@ if (isset($_POST['add_product'])) {
    $product_image_tmp_name = $_FILES['product_image']['tmp_name'];
    $product_image_folder = 'uploaded_img/' . $product_image;
 
-   if (empty($product_name) || empty($product_price) || empty($product_image)) {
+   if (empty ($product_name) || empty ($product_price) || empty ($product_image)) {
       echo "<script>alert('Please fill out all');</script>";
    } else {
       $insert = "INSERT INTO products(category,name, price, image, description, date_created, time_created) 
@@ -50,7 +50,7 @@ if (isset($_POST['add_product'])) {
 }
 ;
 
-if (isset($_GET['delete'])) {
+if (isset ($_GET['delete'])) {
    $id = $_GET['delete'];
    mysqli_query($conn, "DELETE FROM products WHERE id = $id");
    mysqli_query($conn, "DELETE FROM stocks WHERE product_id = $id");
@@ -65,7 +65,7 @@ if (isset($_GET['delete'])) {
 <!-- for categories -->
 <?php
 
-if (isset($_POST['add_product_category'])) {
+if (isset ($_POST['add_product_category'])) {
    $create = 'created a category';
    $username = $_SESSION['user_name'];
    $category = mysqli_real_escape_string($conn, $_POST['category']);
@@ -78,7 +78,7 @@ if (isset($_POST['add_product_category'])) {
 
    } else {
 
-      if (empty($category)) {
+      if (empty ($category)) {
          echo "<script>alert('Please fill out all fields.');</script>";
       } else {
          // Insert category
@@ -100,7 +100,7 @@ if (isset($_POST['add_product_category'])) {
 }
 ;
 
-if (isset($_GET['category_delete'])) {
+if (isset ($_GET['category_delete'])) {
    $id = $_GET['category_delete'];
    mysqli_query($conn, "DELETE FROM category WHERE id = $id");
    mysqli_query($conn, "INSERT INTO product_log(username, date_log, time_log,  edit_create) 
@@ -114,7 +114,7 @@ if (isset($_GET['category_delete'])) {
 
 <!-- for colors and sizes -->
 <?php
-if (isset($_POST['add_product_unit'])) {
+if (isset ($_POST['add_product_unit'])) {
    $create = 'created a unit';
    $username = $_SESSION['user_name'];
    $unit = $_POST['unit'];
@@ -147,7 +147,7 @@ if (isset($_POST['add_product_unit'])) {
 
 
 
-if (isset($_POST['add_product_color'])) {
+if (isset ($_POST['add_product_color'])) {
    $create = 'created a color';
    $username = $_SESSION['user_name'];
    $color = $_POST['color'];
@@ -160,7 +160,7 @@ if (isset($_POST['add_product_color'])) {
 
    } else {
 
-      if (empty($color)) {
+      if (empty ($color)) {
          echo "<script>alert('Please fill out all fields.');</script>";
 
       } else {
@@ -183,7 +183,7 @@ if (isset($_POST['add_product_color'])) {
 ;
 
 
-if (isset($_GET['unit_delete'])) {
+if (isset ($_GET['unit_delete'])) {
    $id = $_GET['unit_delete'];
    mysqli_query($conn, "DELETE FROM product_units WHERE id = $id");
    mysqli_query($conn, "INSERT INTO product_log(username, date_log, time_log,  edit_create) 
@@ -192,7 +192,7 @@ if (isset($_GET['unit_delete'])) {
 }
 ;
 
-if (isset($_GET['color_delete'])) {
+if (isset ($_GET['color_delete'])) {
    $id = $_GET['color_delete'];
    mysqli_query($conn, "DELETE FROM color WHERE id = $id");
    mysqli_query($conn, "INSERT INTO product_log(username, date_log, time_log,  edit_create) 
@@ -390,18 +390,18 @@ if (isset($_GET['color_delete'])) {
          ?>
 
          <br>
-         <table class="table table-bordered border-primary">
-            <thead>
+         <table class="table align-middle mb-0 bg-white" style="border: 1px solid #EEEEEE; border-radius: 5px;">
+            <thead class="bg-light">
                <tr>
 
-                  <th style="border: 1px solid black;">Product Image</th>
-                  <th style="border: 1px solid black;">Product Category</th>
-                  <th style="border: 1px solid black;">Product Name</th>
-                  <th style="border: 1px solid black;">Product Price</th>
-                  <th style="width: 30%; border: 1px solid black">Product description</th>
-                  <th style="border: 1px solid black;">Edit Product</th>
-                  <th style="border: 1px solid black;">Manage Stocks</th>
-                  <th style="border: 1px solid black;">Remove Product</th>
+                  <th>Product Image</th>
+                  <th>Product Category</th>
+                  <th>Product Name</th>
+                  <th>Product Price</th>
+                  <th>Product description</th>
+                  <th>Edit Product</th>
+                  <th>Manage Stocks</th>
+                  <th>Remove Product</th>
 
 
                </tr>
@@ -409,35 +409,34 @@ if (isset($_GET['color_delete'])) {
             <?php while ($row = mysqli_fetch_assoc($select)) { ?>
                <tr>
 
-                  <td style="border: 1px solid black"><img src="../<?php echo $row['image']; ?>" height="100" width="100"
-                        alt="logo">
+                  <td><img src="../<?php echo $row['image']; ?>" height="100" width="100" alt="logo">
                   </td>
-                  <td style="border: 1px solid black;">
+                  <td>
                      <?php echo $row['category']; ?>
                   </td>
-                  <td style="border: 1px solid black;">
+                  <td>
                      <?php echo $row['name']; ?>
                   </td>
-                  <td style="border: 1px solid black;">₱
+                  <td>₱
                      <?php echo $row['price']; ?>.00
                   </td>
 
 
-                  <td style="border: 1px solid black;">
+                  <td>
                      <?php echo $row['description']; ?>
                   </td>
-                  <td style="border: 1px solid black;">
-                     <a href="admin_update.php?edit=<?php echo $row['id']; ?>" class="btn btn-primary"> <i
+                  <td>
+                     <a href="admin_update.php?edit=<?php echo $row['id']; ?>" class="btn detail-btn"> <i
                            class="fas fa-edit"></i>
                         Edit </a>
                   </td>
 
-                  <td style="border: 1px solid black;">
-                     <a href="stocks_update.php?manage=<?php echo $row['id']; ?>" class="btn btn-secondary"> <i
+                  <td>
+                     <a href="stocks_update.php?manage=<?php echo $row['id']; ?>" class="btn detail-btn"> <i
                            class="fas fa-edit"></i> Manage </a>
                   </td>
-                  <td style="border: 1px solid black;">
-                     <a href="CRUD.php?delete=<?php echo $row['id']; ?>" class="btn btn-danger"> <i
+                  <td>
+                     <a href="CRUD.php?delete=<?php echo $row['id']; ?>" class="btn detail-btn"> <i
                            class="fas fa-trash"></i>
                         Delete </a>
                   </td>
@@ -447,36 +446,36 @@ if (isset($_GET['color_delete'])) {
 
 
 
+         <div class="column d-flex justify-content-evenly" style="padding: 20px;">
+            <div class="d-flex justify-content-evenly" style=" height: 100px; width: 75%; padding: 20px;">
+               <h5>Other Options:</h5>
 
-         <!--categories -->
-
-         <div class="container-fluid d-flex" style="overflow: auto;">
-            <div class="row d-flex flex-fill">
-               <div class="col-md-6">
-                  <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" enctype="multipart/form-data">
-                     <h5>Add Category</h5>
-                     <input type="text" placeholder="Enter Category name" name="category" class="box">
-                     <input type="submit" class="btn btn-secondary" name="add_product_category" value="SUBMIT">
-                  </form>
-
-                  <br>
-                  <?php
-                  $select = mysqli_query($conn, "SELECT * FROM category ORDER BY id DESC");
-                  ?>
-
-                  <br>
-                  <table class="table table-bordered border-primary">
-                     <thead>
+               <button class="btn detail-btn" id="addCategoryBtn">ADD CATEGORY</button>
+               <button class="btn detail-btn" id="addUnitBtn">ADD UNIT/SIZE</button>
+               <button class="btn detail-btn" id="addColorBtn">ADD COLOR</button>
+            </div>
+         </div>
+         <div id="addCategorySection" class="card card-order-status 4 mb-md-0">
+            <div class="card-body">
+               <h5>Add Category</h5>
+               <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" enctype="multipart/form-data">
+                  <input type="text" placeholder="Enter Category name" name="category" class="box">
+                  <input type="submit" class="btn btn-secondary" name="add_product_category" value="SUBMIT">
+               </form>
+               <br>
+               <table class="table table-bordered border-primary">
+                  <thead>
+                     <tr>
+                        <th style="border: 1px solid black;">Category Name</th>
+                        <th style="border: 1px solid black;">Action</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <?php
+                     $select = mysqli_query($conn, "SELECT * FROM category ORDER BY id DESC");
+                     while ($row = mysqli_fetch_assoc($select)) {
+                        ?>
                         <tr>
-
-                           <th style="border: 1px solid black;">Category Name</th>
-                           <th style="border: 1px solid black;">Action</th>
-
-                        </tr>
-                     </thead>
-                     <?php while ($row = mysqli_fetch_assoc($select)) { ?>
-                        <tr>
-
                            <td style="border: 1px solid black">
                               <?php echo $row['category']; ?>
                            </td>
@@ -487,36 +486,32 @@ if (isset($_GET['color_delete'])) {
                            </td>
                         </tr>
                      <?php } ?>
-                  </table>
-               </div>
+                  </tbody>
+               </table>
+            </div>
+         </div>
 
-               <!-- size -->
-
-               <div class="col-md-6">
-                  <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" enctype="multipart/form-data">
-                     <h5>Add Unit/Size</h5>
-                     <input type="text" placeholder="Enter Unit/Size name" name="unit" class="box">
-                     <input type="submit" class="btn btn-secondary" name="add_product_unit" value="SUBMIT">
-                  </form>
-
-                  <br>
-                  <?php
-                  $select = mysqli_query($conn, "SELECT * FROM product_units ORDER BY id DESC");
-                  ?>
-
-                  <br>
-                  <table id="product_units_table" class="table table-bordered border-primary">
-                     <thead>
+         <div id="addUnitSection" class="card card-order-status 4 mb-md-0">
+            <div class="card-body">
+               <h5>Add Unit/Size</h5>
+               <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" enctype="multipart/form-data">
+                  <input type="text" placeholder="Enter Unit/Size name" name="unit" class="box">
+                  <input type="submit" class="btn btn-secondary" name="add_product_unit" value="SUBMIT">
+               </form>
+               <br>
+               <table id="product_units_table" class="table table-bordered border-primary">
+                  <thead>
+                     <tr>
+                        <th style="border: 1px solid black;">Unit/Size Name</th>
+                        <th style="border: 1px solid black;">Action</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <?php
+                     $select = mysqli_query($conn, "SELECT * FROM product_units ORDER BY id DESC");
+                     while ($row = mysqli_fetch_assoc($select)) {
+                        ?>
                         <tr>
-
-                           <th style="border: 1px solid black;">Unit/Size Name</th>
-                           <th style="border: 1px solid black;">Action</th>
-
-                        </tr>
-                     </thead>
-                     <?php while ($row = mysqli_fetch_assoc($select)) { ?>
-                        <tr>
-
                            <td style="border: 1px solid black">
                               <?php echo $row['unit_name']; ?>
                            </td>
@@ -527,35 +522,32 @@ if (isset($_GET['color_delete'])) {
                            </td>
                         </tr>
                      <?php } ?>
-                  </table>
-               </div>
+                  </tbody>
+               </table>
+            </div>
+         </div>
 
-               <!-- color -->
-               <div class="col-md-6">
-                  <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" enctype="multipart/form-data">
-                     <h5>Add Color</h5>
-                     <input type="text" placeholder="Enter Color" name="color" class="box">
-                     <input type="submit" class="btn btn-secondary" name="add_product_color" value="SUBMIT">
-                  </form>
-
-                  <br>
-                  <?php
-                  $select = mysqli_query($conn, "SELECT * FROM color ORDER BY id DESC");
-                  ?>
-
-                  <br>
-                  <table class="table table-bordered border-primary">
-                     <thead>
+         <div id="addColorSection" class="card card-order-status 4 mb-md-0">
+            <div class="card-body">
+               <h5>Add Color</h5>
+               <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" enctype="multipart/form-data">
+                  <input type="text" placeholder="Enter Color" name="color" class="box">
+                  <input type="submit" class="btn btn-secondary" name="add_product_color" value="SUBMIT">
+               </form>
+               <br>
+               <table class="table table-bordered border-primary">
+                  <thead>
+                     <tr>
+                        <th style="border: 1px solid black;">Product Color</th>
+                        <th style="border: 1px solid black;">Action</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <?php
+                     $select = mysqli_query($conn, "SELECT * FROM color ORDER BY id DESC");
+                     while ($row = mysqli_fetch_assoc($select)) {
+                        ?>
                         <tr>
-
-                           <th style="border: 1px solid black;">Product Color</th>
-                           <th style="border: 1px solid black;">Action</th>
-
-                        </tr>
-                     </thead>
-                     <?php while ($row = mysqli_fetch_assoc($select)) { ?>
-                        <tr>
-
                            <td style="border: 1px solid black">
                               <?php echo $row['color_name']; ?>
                            </td>
@@ -566,21 +558,43 @@ if (isset($_GET['color_delete'])) {
                            </td>
                         </tr>
                      <?php } ?>
-                  </table>
-               </div>
-
+                  </tbody>
+               </table>
             </div>
          </div>
+   </div>
+   </div>
+   </div>
+   </div>
+   </div>
+   </div>
+   </div>
+   <style>
+      .detail-btn {
+         background-color: #f9c47f;
+
+      }
+
+      .detail-btn:hover {
+         background-color: #F4B39D;
+         color: white;
+      }
+   </style>
+   <script>
+      document.getElementById('addCategoryBtn').addEventListener('click', function () { toggleVisibility('addCategorySection'); toggleVisibility('addUnitSection', false); toggleVisibility('addColorSection', false); });
+      document.getElementById('addUnitBtn').addEventListener('click', function () {
+         toggleVisibility('addCategorySection', false); toggleVisibility('addUnitSection');
+         toggleVisibility('addColorSection', false);
+      }); document.getElementById('addColorBtn').addEventListener('click', function () {
+         toggleVisibility('addCategorySection', false);
+         toggleVisibility('addUnitSection', false); toggleVisibility('addColorSection');
+      }); function toggleVisibility(sectionId, shouldShow = true) { const section = document.getElementById(sectionId); section.style.display = shouldShow ? 'block' : 'none'; } </script>
+   <style>
+      .card-order-status {
+         display: none;
+      }
 
 
 
 
-
-
-      </main>
-      <!-- End Main -->
-</body>
-
-
-
-</html>
+      </main>< !-- End Main --></body></html>

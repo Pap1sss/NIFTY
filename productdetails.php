@@ -842,6 +842,7 @@ if ($result->num_rows > 0) {
                         }
                       </style>
                       <div>
+
                         <div style="padding: 0px 10px 10px 10px;">
                           <h2 style="padding-bottom: 5px;">Size:</h2>
                           <form action="" method="post">
@@ -920,6 +921,8 @@ if ($result->num_rows > 0) {
                           <input class="btn detail-btn"
                             style="border-color: transparent; border: radius 5px; display: none; margin-top: 5px;" type="submit"
                             value="ADD TO CART" name="add_to_cart" id="addToCartBtn">
+
+
 
                         </div>
 
