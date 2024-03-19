@@ -23,7 +23,7 @@ if ($username != false && $name != false) {
 
 
 
-if (isset($_POST['update_product_name'])) {
+if (isset ($_POST['update_product_name'])) {
 
    // Validate the input
    $product_name = $_POST['product_name'];
@@ -32,7 +32,7 @@ if (isset($_POST['update_product_name'])) {
       goto end;
    }
 
-   if (empty($product_name)) {
+   if (empty ($product_name)) {
       $message[] = 'Please fill out product name';
       goto end;
    }
@@ -52,7 +52,7 @@ if (isset($_POST['update_product_name'])) {
 }
 ;
 
-if (isset($_POST['update_price'])) {
+if (isset ($_POST['update_price'])) {
 
    // Validate the input
    $product_price = $_POST['product_price'];
@@ -61,7 +61,7 @@ if (isset($_POST['update_price'])) {
       goto end;
    }
 
-   if (empty($product_price)) {
+   if (empty ($product_price)) {
       $message[] = 'Please fill out price';
       goto end;
    }
@@ -82,7 +82,7 @@ if (isset($_POST['update_price'])) {
 ;
 
 
-if (isset($_POST['update_description'])) {
+if (isset ($_POST['update_description'])) {
 
    // Validate the input
    $product_description = trim($_POST['product_description']);
@@ -91,7 +91,7 @@ if (isset($_POST['update_description'])) {
       goto end;
    }
 
-   if (empty($product_description)) {
+   if (empty ($product_description)) {
       $message[] = 'Please fill out description';
       goto end;
    }
@@ -111,13 +111,13 @@ if (isset($_POST['update_description'])) {
 }
 
 
-if (isset($_POST['update_image'])) {
+if (isset ($_POST['update_image'])) {
 
    $product_image = $_FILES['product_image']['name'];
    $product_image_tmp_name = $_FILES['product_image']['tmp_name'];
    $product_image_folder = 'uploaded_img/' . $product_image;
 
-   if (empty($product_image)) {
+   if (empty ($product_image)) {
       $message[] = 'please fill attach image';
    } else {
       $editproductimage = 'change product image';
@@ -130,10 +130,40 @@ if (isset($_POST['update_image'])) {
          move_uploaded_file($product_image_tmp_name, $product_image_folder);
 
       } else {
-         $$message[] = 'please fill attach image';
+         $message[] = 'please fill attach image';
       }
    }
 
+}
+if (isset ($_POST['upload_image'])) {
+   $product_gallery = mysqli_real_escape_string($conn, $_FILES['product_gallery']['name']);
+   $product_gallery_tmp_name = $_FILES['product_gallery']['tmp_name'];
+   $product_image_folder = 'uploaded_img/' . $product_gallery;
+
+   if (empty ($product_gallery)) {
+      echo "<script>alert('Please insert a file');</script>";
+   } else {
+      $insert = "INSERT INTO product_gallery(product_id, product_image, date_uploaded) 
+         VALUES('$id', '$product_gallery', CURRENT_TIME())";
+      $product_logs = "INSERT INTO product_log(username, date_log, time_log,  edit_create) 
+         VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'uploaded a file on product #$id')";
+      $data_check = mysqli_query($conn, $product_logs);
+      $upload = mysqli_query($conn, $insert);
+      if ($upload) {
+         move_uploaded_file($product_gallery_tmp_name, $product_image_folder);
+         echo "<script>alert('New Product Added Successfully');</script>";
+      } else {
+         echo "<script>alert('Could not add the product');</script>";
+      }
+   }
+
+}
+if (isset ($_GET['delete'])) {
+   $id = $_GET['delete'];
+   mysqli_query($conn, "DELETE FROM product_gallery WHERE id = $id");
+   mysqli_query($conn, "INSERT INTO product_log(username, date_log, time_log,  edit_create) 
+      VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'deleted a image in the gallery [product # $id]')");
+   echo "<script>alert('Removed Successfully');</script>";
 }
 
 
@@ -174,138 +204,191 @@ if (isset($_POST['update_image'])) {
          <div class="menu-icon" onclick="openSidebar()">
             <span class="material-icons-outlined">menu</span>
          </div>
-          <div class="header-left">
-
-            <a href="regular_admin_page.php">
-               <span class="material-icons-outlined">refresh</span>
-            </a>
-
-   </div>
-
-   <a href="CRUD.php" class="btn btn-danger">LOGOUT</a>
+         <div class="header-left">
 
 
-   </header>
-   <!-- End Header -->
 
-   <!-- Sidebar -->
-   <aside id="sidebar">
-
-
-      <div class="sidebar-title">
-         <div class="sidebar-brand">
-            <span class="material-icons-outlined"></span>Welcome,
-            <?php echo $_SESSION['user_name'] ?>
          </div>
+
+         <a href="CRUD.php" class="btn btn-danger">LOGOUT</a>
+
+
+      </header>
+      <!-- End Header -->
+
+      <!-- Sidebar -->
+      <aside id="sidebar">
+
+
+         <div class="sidebar-title">
+            <div class="sidebar-brand">
+               <span class="material-icons-outlined"></span>Welcome,
+               <?php echo $_SESSION['user_name'] ?>
+            </div>
+         </div>
+
+         <ul class="sidebar-list">
+            <li class="sidebar-list-item">
+               <a href="admin_creation/regular_admin_page.php">
+                  <span class="material-icons-outlined">dashboard</span> Dashboard
+               </a>
+            </li>
+            <li class="sidebar-list-item">
+               <a href="uploads.php">
+                  <span class="material-icons-outlined">wysiwyg</span> Setup Website
+               </a>
+            </li>
+            <li class="sidebar-list-item">
+               <a href="CRUD.php">
+                  <span class="material-icons-outlined">inventory</span> Manage Products
+               </a>
+            </li>
+            <li class="sidebar-list-item">
+               <a href="user_accounts.php">
+                  <span class="material-icons-outlined">group</span> Accounts
+               </a>
+            </li>
+            <li class="sidebar-list-item">
+               <a href="order_status.php">
+                  <span class="material-icons-outlined">inventory</span> Manage Order Status
+               </a>
+            </li>
+            <li class="sidebar-list-item">
+               <a href="admin_logs.php">
+                  <span class="material-icons-outlined">face</span> Admin Logs
+               </a>
+            </li>
+         </ul>
+
+      </aside>
+
+      </main>
+
+      <style>
+         .center {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 50%;
+            height: inherit;
+         }
+      </style>
+
+      <?php
+
+      $select = mysqli_query($conn, "SELECT * FROM products WHERE id = '$id'");
+      while ($row = mysqli_fetch_assoc($select)) {
+
+         ?>
+         <!-- End Main -->
+         <div>
+
+         </div>
+
+
+         <div class="column " style="border: 1px solid red; padding: 20px;">
+
+            <form action="" method="post" enctype="multipart/form-data">
+               <ul class="list-group" style="margin-top: 20px">
+                  <li class="list-group-item d-flex justify-content-start">
+                     <a href="CRUD.php" class="btn btn-secondary">BACK</a>
+                  </li>
+                  <li class="list-group-item"> <img class="center border border-dark" src="../<?php echo $row['image']; ?>"
+                        height="100" alt="logo"></td>
+
+                     <h4 style="text-align: center">NAME:
+                        <?php echo $row['name']; ?>
+                     </h4>
+                     <h4 style="text-align: center">PRICE: ₱
+                        <?php echo $row['price']; ?>
+                     </h4>
+                     <p style="text-align: justify">
+                        <?php echo $row['description']; ?>
+                     </p>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-center">
+                     <input type="text" class="box me-1 pe-5" name="product_name" value="" placeholder="new product name">
+                     <input type="submit" value="UPDATE" name="update_product_name" class="btn btn-dark">
+                  </li>
+                  <li class="list-group-item d-flex justify-content-center">
+                     <input type="number" min="0" class="box me-1 pe-5" name="product_price" value=""
+                        placeholder="new product price">
+
+                     <input type="submit" value="UPDATE" name="update_price" class="btn btn-dark">
+                  </li>
+                  <li class="list-group-item d-flex justify-content-center">
+                     <input type="text" class="box me-1 pe-5" name="product_description" value=""
+                        placeholder="new description">
+
+                     <input type="submit" value="UPDATE" name="update_description" class="btn btn-dark">
+                  </li>
+                  <li class="list-group-item d-flex justify-content-center">
+                     <input type="file" class="box me-1 pe-4" name="product_image"
+                        accept="image/png, image/jpeg, image/jpg">
+
+                     <input type="submit" value="UPDATE MAIN IMAGE" name="update_image" class="btn btn-dark">
+                  </li>
+                  <li class="list-group-item d-flex justify-content-center">
+                     <input type="file" class="box me-1 pe-4" name="product_gallery"
+                        accept="image/png, image/jpeg, image/jpg">
+
+                     <input type="submit" value="UPLOAD TO GALLERY" name="upload_image" class="btn btn-dark">
+                  </li>
+
+
+
+               </ul>
+               <br>
+               <br>
+            </form>
+
+            <?php
+
+            $select = mysqli_query($conn, "SELECT * FROM product_gallery WHERE product_id = '$id' ORDER BY id DESC");
+
+            ?>
+
+            <br>
+            <table class="table align-middle mb-0 bg-white" style="border: 1px solid #EEEEEE; border-radius: 5px;">
+               <thead class="bg-light">
+                  <tr>
+
+                     <th>Product Image</th>
+                     <th>Date Uploaded</th>
+                     <th>Action</th>
+
+
+                  </tr>
+               </thead>
+               <?php while ($row = mysqli_fetch_assoc($select)) { ?>
+                  <tr>
+
+                     <td><img src="uploaded_img/<?php echo $row['product_image']; ?>" height="100" width="100" alt="logo">
+                     </td>
+                     <td>
+                        <?php echo $row['date_uploaded']; ?>
+                     </td>
+
+                     <td>
+                        <a href="admin_update.php?delete=<?php echo $row['id']; ?>" class="btn detail-btn"> <i
+                              class="fas fa-trash"></i>
+                           Delete </a>
+                     </td>
+                  </tr>
+               <?php } ?>
+            </table>
+         </div>
+
+
       </div>
 
-      <ul class="sidebar-list">
-         <li class="sidebar-list-item">
-            <a href="admin_creation/regular_admin_page.php">
-               <span class="material-icons-outlined">dashboard</span> Dashboard
-            </a>
-         </li>
-         <li class="sidebar-list-item">
-            <a href="uploads.php">
-               <span class="material-icons-outlined">wysiwyg</span> Setup Website
-            </a>
-         </li>
-         <li class="sidebar-list-item">
-            <a href="CRUD.php">
-               <span class="material-icons-outlined">inventory</span> Manage Products
-            </a>
-         </li>
-         <li class="sidebar-list-item">
-            <a href="user_accounts.php">
-               <span class="material-icons-outlined">group</span> Accounts
-            </a>
-         </li>
-         <li class="sidebar-list-item">
-            <a href="order_status.php">
-               <span class="material-icons-outlined">inventory</span> Manage Order Status
-            </a>
-         </li>
-         <li class="sidebar-list-item">
-            <a href="admin_logs.php">
-               <span class="material-icons-outlined">face</span> Admin Logs
-            </a>
-         </li>
-      </ul>
-
-   </aside>
-
-   </main>
-
-   <style>
-      .center {
-         display: block;
-         margin-left: auto;
-         margin-right: auto;
-         width: 50%;
-         height: inherit;
-      }
-   </style>
-
-   <?php
-
-   $select = mysqli_query($conn, "SELECT * FROM products WHERE id = '$id'");
-   while ($row = mysqli_fetch_assoc($select)) {
+      <?php
 
       ?>
-      <!-- End Main -->
-      <div class="container">
-
-
-      </div>
-
-      <form action="" method="post" enctype="multipart/form-data">
-         <ul class="list-group" style="margin-top: 20px">
-            <li class="list-group-item d-flex justify-content-start">
-               <a href="CRUD.php" class="btn btn-secondary">BACK</a>
-            </li>
-            <li class="list-group-item"> <img class="center border border-dark" src="../<?php echo $row['image']; ?>"
-                  height="100" alt="logo"></td>
-
-               <h4 style="text-align: center">NAME:
-                  <?php echo $row['name']; ?>
-               </h4>
-               <h4 style="text-align: center">PRICE: ₱
-                  <?php echo $row['price']; ?>
-               </h4>
-               <p style="text-align: justify">
-                  <?php echo $row['description']; ?>
-               </p>
-            </li>
-            <li class="list-group-item d-flex justify-content-center">
-               <input type="text" class="box me-1 pe-5" name="product_name" value="" placeholder="new product name">
-               <input type="submit" value="UPDATE" name="update_product_name" class="btn btn-dark">
-            </li>
-            <li class="list-group-item d-flex justify-content-center">
-               <input type="number" min="0" class="box me-1 pe-5" name="product_price" value=""
-                  placeholder="new product price">
-
-               <input type="submit" value="UPDATE" name="update_price" class="btn btn-dark">
-            </li>
-            <li class="list-group-item d-flex justify-content-center">
-               <input type="text" class="box me-1 pe-5" name="product_description" value="" placeholder="new description">
-
-               <input type="submit" value="UPDATE" name="update_description" class="btn btn-dark">
-            </li>
-            <li class="list-group-item d-flex justify-content-center">
-               <input type="file" class="box me-1 pe-4" name="product_image" accept="image/png, image/jpeg, image/jpg">
-
-               <input type="submit" value="UPDATE IMAGE" name="update_image" class="btn btn-dark">
-            </li>
-
-         </ul>
-         <br>
-         <br>
-      </form>
-
 
 
    <?php }
-   ; ?>
+      ; ?>
 
 
 

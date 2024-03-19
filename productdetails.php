@@ -930,6 +930,7 @@ if ($result->num_rows > 0) {
                       </div>
 
 
+
                     </div>
 
                     <br><br><br>
@@ -1181,10 +1182,68 @@ if ($result->num_rows > 0) {
 
 
 
+      <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="2000">
+        <ol class="carousel-indicators">
+          <?php
+          $select_products = mysqli_query($conn, "SELECT * FROM `products`");
+          if (mysqli_num_rows($select_products) > 0) {
+            $active = 'active';
+            $loop_count = 0;
+            while ($fetch_product = mysqli_fetch_assoc($select_products)) {
+              ?>
+              <li data-target="#carouselExampleIndicators" data-slide-to="<?php echo htmlspecialchars($loop_count); ?>"
+                class="<?php echo $active; ?>"></li>
+              <?php
+              $active = '';
+              $loop_count++;
+            }
+          }
+          ?>
+        </ol>
+        <div class="carousel-inner">
+          <?php
+          $select_products = mysqli_query($conn, "SELECT * FROM `product_gallery`");
+          if (mysqli_num_rows($select_products) > 0) {
+            $active = 'active';
+            $loop_count = 0;
+            while ($fetch_product = mysqli_fetch_assoc($select_products)) {
+              ?>
+              <div class="carousel-item <?php echo $active; ?>">
+                <a href=" productdetails.php?id=<?php echo htmlspecialchars($fetch_product["id"]); ?>">
+                  <div class="product-item">
+                    <div class="product-card" tabindex="0">
+                      <figure class="card-banner" style="border: 2px solid #f6b035; width: auto; height: auto;">
+                        <img src="admin/uploaded_img/<?php echo htmlspecialchars($fetch_product['product_image']); ?>"
+                          loading="lazy" alt="PRODUCTS" class="image-contain">
+                        <ul class="card-action-list">
+                        </ul>
+                      </figure>
+
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <?php
+              $active = '';
+              $loop_count++;
+            }
+          }
+          ?>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
 
 
 
       <div style="margin-top: 100px; margin-bottom: 40px;" class="d-flex justify-content-center">
+
         <h1>SIMILAR TO THIS PRODUCT</h1>
 
 
