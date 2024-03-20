@@ -5,11 +5,11 @@ ini_set('session.cookie_secure', 1);
 ini_set('session.cookie_httponly', 1);
 ini_set('session.use_only_cookies', 1);
 
-$secure = isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "";
+$secure = isset ($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "";
 if (!$secure) {
   $r = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
   header("Location: $r");
-  exit("use https!");
+  exit ("use https!");
 }
 //if($secure) {
 session_start();
@@ -66,7 +66,7 @@ if ($result->num_rows > 0) {
 
     </head>
 
-    <body id="top" style="background-color: white;">
+    <body id="top" style="background-color:rgba(0,0,0,0.025);">
 
       <!-- 
     - #HEADER
@@ -183,7 +183,7 @@ if ($result->num_rows > 0) {
       -->
 
 
-              <h2 class="h2 section-title">OUR PRODUCTS</h2>
+              <h2 class="h2 section-title" style="color: #4a4747;">OUR PRODUCTS</h2>
               <ul>
                 <style>
                   .category-container::-webkit-scrollbar {

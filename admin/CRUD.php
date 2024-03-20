@@ -37,9 +37,14 @@ if (isset ($_POST['add_product'])) {
          VALUES('$category', '$product_name', '$product_price', 'admin/uploaded_img/$product_image', '$product_description', CURRENT_DATE(), CURRENT_TIME())";
       $product_logs = "INSERT INTO product_log(username, date_log, time_log,  edit_create) 
          VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'$create : $product_name')";
+
       $data_check = mysqli_query($conn, $product_logs);
       $upload = mysqli_query($conn, $insert);
       if ($upload) {
+         $product_id = mysqli_insert_id($conn);
+         $insert_gallery = "INSERT INTO product_gallery (product_id, product_image, date_uploaded) 
+         VALUES('$product_id', '$product_image', CURRENT_TIME())";
+         $upload_img = mysqli_query($conn, $insert_gallery);
          move_uploaded_file($product_image_tmp_name, $product_image_folder);
          echo "<script>alert('New Product Added Successfully');</script>";
       } else {
@@ -372,7 +377,7 @@ if (isset ($_GET['color_delete'])) {
             </div>
             <br>
             <div class="card-body">
-               <input type="submit" class="btn btn-primary" name="add_product" value="SUBMIT">
+               <input type="submit" class="btn detail-btn" name="add_product" value="SUBMIT">
                </form>
             </div>
 

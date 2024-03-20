@@ -151,7 +151,7 @@ if (isset ($_POST['upload_image'])) {
       $upload = mysqli_query($conn, $insert);
       if ($upload) {
          move_uploaded_file($product_gallery_tmp_name, $product_image_folder);
-         echo "<script>alert('New Product Added Successfully');</script>";
+         echo "<script>alert('New Image Added Successfully');</script>";
       } else {
          echo "<script>alert('Could not add the product');</script>";
       }
@@ -344,39 +344,73 @@ if (isset ($_GET['delete'])) {
 
             <?php
 
-            $select = mysqli_query($conn, "SELECT * FROM product_gallery WHERE product_id = '$id' ORDER BY id DESC");
+            $select = mysqli_query($conn, "SELECT * FROM product_gallery WHERE product_id = '$id' ORDER BY gallery_id DESC");
 
             ?>
 
-            <br>
-            <table class="table align-middle mb-0 bg-white" style="border: 1px solid #EEEEEE; border-radius: 5px;">
-               <thead class="bg-light">
-                  <tr>
+            <div style="padding: 20px;">
+               <form action="" method="post">
+                  <table class="table align-middle mb-0 bg-white" style="border: 1px solid #EEEEEE; border-radius: 5px; ">
+                     <thead class="bg-light">
+                        <tr>
+                           <th>
+                              Select
+                           </th>
+                           <th>Image ID</th>
+                           <th>Product Image</th>
+                           <th>Date Uploaded</th>
 
-                     <th>Product Image</th>
-                     <th>Date Uploaded</th>
-                     <th>Action</th>
+                        </tr>
+                     </thead>
+                     <?php while ($row = mysqli_fetch_assoc($select)) { ?>
+                        <tr>
+
+                           <td>
+                              <input type="checkbox" name="delete_ids[]" value="<?php echo $row['gallery_id']; ?>">
+                           </td>
+                           <td style="text-align: center;">
+                              <input type="hidden" name="image_id" value=" <?php echo $row['gallery_id']; ?>">
+                              <?php echo $row['gallery_id']; ?>
+                           </td>
+                           <td><img src="uploaded_img/<?php echo $row['product_image']; ?>" height="100" width="100"
+                                 alt="logo">
+                           </td>
+                           <td>
+                              <?php echo $row['date_uploaded']; ?>
+                           </td>
+
+                        </tr>
+                     <?php } ?>
+                  </table>
+                  <br>
+                  <br>
+                  <button type="submit" name="delete_submit" class="btn btn-danger">Delete Selected</button>
+               </form>
+            </div>
+            <?php
+
+            if (isset ($_POST['delete_submit'])) {
+               // Get the list of checkbox values
+               $delete_ids = $_POST['delete_ids'];
+               $image_id = $_POST['image_id'];
+
+               // Loop through the list of IDs to delete
+               foreach ($delete_ids as $gallery_id) {
+                  // Prepare a delete statement
+                  $delete_stmt = $conn->prepare("DELETE FROM product_gallery WHERE gallery_id = ?");
+                  $delete_stmt->bind_param("i", $image_id);
+                  $delete_stmt->execute();
+               }
 
 
-                  </tr>
-               </thead>
-               <?php while ($row = mysqli_fetch_assoc($select)) { ?>
-                  <tr>
+               // Display the alert messages
+               echo "<script>alert('Removed Successfully');</script>";
 
-                     <td><img src="uploaded_img/<?php echo $row['product_image']; ?>" height="100" width="100" alt="logo">
-                     </td>
-                     <td>
-                        <?php echo $row['date_uploaded']; ?>
-                     </td>
-
-                     <td>
-                        <a href="admin_update.php?delete=<?php echo $row['id']; ?>" class="btn detail-btn"> <i
-                              class="fas fa-trash"></i>
-                           Delete </a>
-                     </td>
-                  </tr>
-               <?php } ?>
-            </table>
+               // Redirect back to the admin page with the ID of the item being edited
+               echo "<script>window.location.href = 'admin_update.php?edit=$id';</script>";
+               exit;
+            }
+            ?>
          </div>
 
 
