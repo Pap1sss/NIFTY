@@ -1073,9 +1073,9 @@ if ($result->num_rows > 0) {
       ?>
             <div class="d-flex jutify-content-between">
               <div class="container" style="padding: 50px;">
-                <div style="color:#5F5E5E; text-align:center; background: linear-gradient(to right, #f9c47f, #F4B39D); 
-                  box-shadow: 0px 4px 4px rgba(0, 0, 0, .05); padding: 5px; border-radius: 5px; margin-bottom: 35px;">
-                  <h1>
+                <div style="color:#5F5E5E; text-align:center; padding: 5px; border-radius: 5px; margin-bottom: 35px; margin-top:35px;">
+                  <hr style=" border-top: 0.3px solid #5F5E5E; ">
+                <h1>
                     - SIMILAR TO THIS PRODUCT -</h1>
                 </div>
                 <form action="" method="post">

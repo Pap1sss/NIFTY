@@ -35,8 +35,8 @@ if (isset ($_POST['add_product'])) {
    } else {
       $insert = "INSERT INTO products(category,name, price, image, description, date_created, time_created) 
          VALUES('$category', '$product_name', '$product_price', 'admin/uploaded_img/$product_image', '$product_description', CURRENT_DATE(), CURRENT_TIME())";
-      $product_logs = "INSERT INTO product_log(username, date_log, time_log,  edit_create) 
-         VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'$create : $product_name')";
+      $product_logs = "INSERT INTO admin_activity_log(username, date_log, time_log, action) 
+         VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'$create : (\"$product_name\")')";
 
       $data_check = mysqli_query($conn, $product_logs);
       $upload = mysqli_query($conn, $insert);
@@ -47,21 +47,13 @@ if (isset ($_POST['add_product'])) {
          $upload_img = mysqli_query($conn, $insert_gallery);
          move_uploaded_file($product_image_tmp_name, $product_image_folder);
          echo "<script>alert('New Product Added Successfully');</script>";
+
+         exit;
       } else {
          echo "<script>alert('Could not add the product');</script>";
       }
    }
 
-}
-;
-
-if (isset ($_GET['delete'])) {
-   $id = $_GET['delete'];
-   mysqli_query($conn, "DELETE FROM products WHERE id = $id");
-   mysqli_query($conn, "DELETE FROM stocks WHERE product_id = $id");
-   mysqli_query($conn, "INSERT INTO product_log(username, date_log, time_log,  edit_create) 
-      VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'deleted a product')");
-   echo "<script>alert('Removed Successfully');</script>";
 }
 ;
 
@@ -73,47 +65,44 @@ if (isset ($_GET['delete'])) {
 if (isset ($_POST['add_product_category'])) {
    $create = 'created a category';
    $username = $_SESSION['user_name'];
-   $category = mysqli_real_escape_string($conn, $_POST['category']);
+   $category = $_POST['category'];
 
    // Check if category already exists
-   $duplicate_check = "SELECT * FROM category WHERE category = '$category'";
-   $duplicate_result = mysqli_query($conn, $duplicate_check);
-   if (mysqli_num_rows($duplicate_result) > 0) {
+   $duplicate_check = "SELECT * FROM category WHERE category = ?";
+   $stmt = $conn->prepare($duplicate_check);
+   $stmt->bind_param("s", $category);
+   $stmt->execute();
+   $result = $stmt->get_result();
+   if ($result->num_rows > 0) {
       echo "<script>alert('Category Already Exists');</script>";
-
    } else {
-
       if (empty ($category)) {
          echo "<script>alert('Please fill out all fields.');</script>";
       } else {
          // Insert category
-         $insert = "INSERT INTO category (category) VALUES('$category')";
-         $upload = mysqli_query($conn, $insert);
+         $insert = "INSERT INTO category (category) VALUES(?)";
+
+         $stmt = $conn->prepare($insert);
+         $stmt->bind_param("s", $category);
+         $stmt->execute();
 
          // Insert log
-         $product_logs = "INSERT INTO product_log(username, date_log, time_log,  edit_create) 
-            VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'$create : $category')";
-         $data_check = mysqli_query($conn, $product_logs);
+         $product_logs = "INSERT INTO admin_activity_log(username, date_log, time_log,  action) VALUES(?, CURRENT_DATE(), CURRENT_TIME(), ?)";
+         $stmt = $conn->prepare($product_logs);
+         $action = $create . ': ("' . $category . '")';
+         $stmt->bind_param("ss", $username, $action);
+         $stmt->execute();
+         echo "<script>alert('Category Added Successfully');</script>";
 
-         if ($upload) {
-            echo "<script>alert('Category Added Successfully');</script>";
-         } else {
-            echo "<script>alert('We Encountered a Problem');</script>";
-         }
+         exit;
+
+
       }
    }
 }
 ;
 
-if (isset ($_GET['category_delete'])) {
-   $id = $_GET['category_delete'];
-   mysqli_query($conn, "DELETE FROM category WHERE id = $id");
-   mysqli_query($conn, "INSERT INTO product_log(username, date_log, time_log,  edit_create) 
-      VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'deleted category')");
-   echo "<script>alert('Removed Successfully');</script>";
 
-}
-;
 
 ?>
 
@@ -134,12 +123,21 @@ if (isset ($_POST['add_product_unit'])) {
    } else {
       // Prepare the INSERT statement
       $stmt = $conn->prepare("INSERT INTO product_units (unit_name) VALUES (?)");
+
       // Bind the parameters
       $stmt->bind_param("s", $unit);
 
       // Execute the statement
       if ($stmt->execute()) {
+         // Insert log
+         $logs = "INSERT INTO admin_activity_log(username, date_log, time_log,  action) VALUES(?, CURRENT_DATE(), CURRENT_TIME(), ?)";
+         $stmt = $conn->prepare($logs);
+         $action = $create . ': ("' . $unit . '")';
+         $stmt->bind_param("ss", $username, $action);
+         $stmt->execute();
          echo "<script>alert('Added successfully');</script>";
+
+         exit;
       } else {
          echo "<script>alert('We encountered an error!');</script>";
       }
@@ -148,39 +146,39 @@ if (isset ($_POST['add_product_unit'])) {
       $stmt->close();
    }
 }
-;
-
-
-
 if (isset ($_POST['add_product_color'])) {
    $create = 'created a color';
    $username = $_SESSION['user_name'];
    $color = $_POST['color'];
 
-   // Check if category already exists
-   $duplicate_check = "SELECT * FROM color WHERE color_name = '$color'";
-   $duplicate_result = mysqli_query($conn, $duplicate_check);
-   if (mysqli_num_rows($duplicate_result) > 0) {
-      echo "<script>alert('Color Already Exists');</script>";
-
+   // Check if color already exists
+   $stmt = $conn->prepare("SELECT * FROM color WHERE color_name = ?");
+   $stmt->bind_param("s", $color);
+   $stmt->execute();
+   $result = $stmt->get_result();
+   if ($result->num_rows > 0) {
+      echo "<script>alert('Color already exists');</script>";
    } else {
+      // Prepare the INSERT statement
+      $stmt = $conn->prepare("INSERT INTO color (color_name) VALUES (?)");
 
-      if (empty ($color)) {
-         echo "<script>alert('Please fill out all fields.');</script>";
+      // Bind the parameters
+      $stmt->bind_param("s", $color);
+      if ($stmt->execute()) {
+         // Insert log
+         $logs = "INSERT INTO admin_activity_log(username, date_log, time_log,  action) VALUES(?, CURRENT_DATE(), CURRENT_TIME(), ?)";
+         $stmt = $conn->prepare($logs);
+         $action = $create . ': ("' . $color . '")';
+         $stmt->bind_param("ss", $username, $action);
+         $stmt->execute();
+         // Execute the statementif ($stmt->execute()) {
+         echo "<script>alert('New color added successfully.');</script>";
 
+         exit;
       } else {
-         // Prepare the INSERT statement
-         $stmt = $conn->prepare("INSERT INTO color (color_name) VALUES (?)");
-         // Bind the parameters
-         $stmt->bind_param("s", $color);
-
-         // Execute the statement
-         if ($stmt->execute()) {
-            echo "<script>alert('New color added successfully.');</script>";
-         } else {
-            echo "<script>alert('We encountered a problem');</script>";
-         }
+         echo "<script>alert('We encountered a problem');</script>";
       }
+
       // Close the prepared statement
       $stmt->close();
    }
@@ -188,23 +186,85 @@ if (isset ($_POST['add_product_color'])) {
 ;
 
 
-if (isset ($_GET['unit_delete'])) {
-   $id = $_GET['unit_delete'];
-   mysqli_query($conn, "DELETE FROM product_units WHERE id = $id");
-   mysqli_query($conn, "INSERT INTO product_log(username, date_log, time_log,  edit_create) 
-      VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'deleted a unit')");
+//delete query//
+if (isset ($_GET['delete'])) {
+   $id = $_GET['delete'];
+
+   // Get product name
+   $result = mysqli_query($conn, "SELECT name FROM products WHERE id = $id");
+   $product_name = '';
+   if (mysqli_num_rows($result) > 0) {
+      $row = mysqli_fetch_assoc($result);
+      $product_name = $row['name'];
+   }
+
+   mysqli_query($conn, "DELETE FROM products WHERE id = $id");
+   mysqli_query($conn, "DELETE FROM stocks WHERE product_id = $id");
+   mysqli_query($conn, "INSERT INTO admin_activity_log(username, date_log, time_log, action) 
+      VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'deleted a product (\"$product_name\")')");
    echo "<script>alert('Removed Successfully');</script>";
+
+   exit;
 }
 ;
+if (isset ($_GET['category_delete'])) {
+   $id = $_GET['category_delete'];
+
+   // Get category name
+   $result = mysqli_query($conn, "SELECT category FROM category WHERE id = $id");
+   $category_name = '';
+   if (mysqli_num_rows($result) > 0) {
+      $row = mysqli_fetch_assoc($result);
+      $category_name = $row['category'];
+   }
+
+   mysqli_query($conn, "DELETE FROM category WHERE id = $id");
+   mysqli_query($conn, "INSERT INTO admin_activity_log(username, date_log, time_log, action) 
+      VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'deleted category (\"$category_name\")')");
+   echo "<script>alert('Removed Successfully');</script>";
+
+   exit;
+
+}
+;
+if (isset ($_GET['unit_delete'])) {
+   $id = $_GET['unit_delete'];
+
+   // Get unit name
+   $result = mysqli_query($conn, "SELECT unit_name FROM product_units WHERE id = $id");
+   $unit_name = '';
+   if (mysqli_num_rows($result) > 0) {
+      $row = mysqli_fetch_assoc($result);
+      $unit_name = $row['unit_name'];
+   }
+
+   mysqli_query($conn, "DELETE FROM product_units WHERE id = $id");
+   mysqli_query($conn, "INSERT INTO admin_activity_log(username, date_log, time_log, action) 
+      VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'deleted a unit (\"$unit_name\")')");
+   echo "<script>alert('Removed Successfully');</script>";
+
+   exit;
+
+}
 
 if (isset ($_GET['color_delete'])) {
    $id = $_GET['color_delete'];
+
+   // Get color name
+   $result = mysqli_query($conn, "SELECT color_name FROM color WHERE id = $id");
+   $color_name = '';
+   if (mysqli_num_rows($result) > 0) {
+      $row = mysqli_fetch_assoc($result);
+      $color_name = $row['color_name'];
+   }
+
    mysqli_query($conn, "DELETE FROM color WHERE id = $id");
-   mysqli_query($conn, "INSERT INTO product_log(username, date_log, time_log,  edit_create) 
-      VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'deleted a color')");
+   mysqli_query($conn, "INSERT INTO admin_activity_log(username, date_log, time_log, action) 
+      VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'deleted a color (\"$color_name\")')");
    echo "<script>alert('Removed Successfully');</script>";
+
+   exit;
 }
-;
 ?>
 
 
@@ -358,10 +418,11 @@ if (isset ($_GET['color_delete'])) {
                         }
                         ?>
                      </select>
-                     <input type="text" placeholder="Enter product name" name="product_name" class="box">
-                     <input type="text" placeholder="Enter product description" name="product_description" class="box">
+                     <input type="text" placeholder="Enter product name" name="product_name" class="box" required>
+                     <input type="text" placeholder="Enter product description" name="product_description" class="box"
+                        required>
                      <input type="number" placeholder="Enter product price" name="product_price" class="box"
-                        id="productPriceInput">
+                        id="productPriceInput" required>
                      <script>
                         document.getElementById('productPriceInput').addEventListener('input', function (e) {
                            // Only allow numbers and decimal point
@@ -373,7 +434,8 @@ if (isset ($_GET['color_delete'])) {
                      </script>
                   </div>
                   <br>
-                  <input type="file" accept="image/png, image/jpeg, image/jpg" name="product_image" class="box">
+                  <input type="file" accept="image/png, image/jpeg, image/jpg" name="product_image" class="box"
+                     required>
             </div>
             <br>
             <div class="card-body">
@@ -464,7 +526,7 @@ if (isset ($_GET['color_delete'])) {
             <div class="card-body">
                <h5>Add Category</h5>
                <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" enctype="multipart/form-data">
-                  <input type="text" placeholder="Enter Category name" name="category" class="box">
+                  <input type="text" placeholder="Enter Category name" name="category" class="box" required>
                   <input type="submit" class="btn btn-secondary" name="add_product_category" value="SUBMIT">
                </form>
                <br>
@@ -500,7 +562,7 @@ if (isset ($_GET['color_delete'])) {
             <div class="card-body">
                <h5>Add Unit/Size</h5>
                <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" enctype="multipart/form-data">
-                  <input type="text" placeholder="Enter Unit/Size name" name="unit" class="box">
+                  <input type="text" placeholder="Enter Unit/Size name" name="unit" class="box" required>
                   <input type="submit" class="btn btn-secondary" name="add_product_unit" value="SUBMIT">
                </form>
                <br>
@@ -536,7 +598,7 @@ if (isset ($_GET['color_delete'])) {
             <div class="card-body">
                <h5>Add Color</h5>
                <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" enctype="multipart/form-data">
-                  <input type="text" placeholder="Enter Color" name="color" class="box">
+                  <input type="text" placeholder="Enter Color" name="color" class="box" required>
                   <input type="submit" class="btn btn-secondary" name="add_product_color" value="SUBMIT">
                </form>
                <br>

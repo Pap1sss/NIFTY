@@ -123,8 +123,8 @@ if ($username != false && $name != false) {
           <nav aria-label="Page navigation example">
             <ul class="pagination">
               <?php
-              $limit = isset($_GET['limit']) ? (int) $_GET['limit'] : 10;
-              $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+              $limit = isset ($_GET['limit']) ? (int) $_GET['limit'] : 10;
+              $page = isset ($_GET['page']) ? (int) $_GET['page'] : 1;
               $offset = ($page - 1) * $limit;
               $sql = "SELECT COUNT(*) as total from admin_log";
               $result = $conn->query($sql);
@@ -184,14 +184,14 @@ if ($username != false && $name != false) {
         </div>
 
         <div style="margin-left:45px; margin-right: 45px;">
-          <h2>Product Logs</h2>
+          <h2>Admin Activity Logs</h2>
           <nav aria-label="Page navigation example">
             <ul class="pagination">
               <?php
-              $limit = isset($_GET['limit_product']) ? (int) $_GET['limit_product'] : 10;
-              $page = isset($_GET['page_product']) ? (int) $_GET['page_product'] : 1;
+              $limit = isset ($_GET['limit_product']) ? (int) $_GET['limit_product'] : 10;
+              $page = isset ($_GET['page_product']) ? (int) $_GET['page_product'] : 1;
               $offset = ($page - 1) * $limit;
-              $sql = "SELECT COUNT(*) as total from product_log";
+              $sql = "SELECT COUNT(*) as total from admin_activity_log";
               $result = $conn->query($sql);
               $row = $result->fetch_assoc();
               $total_rows = $row["total"];
@@ -228,7 +228,7 @@ if ($username != false && $name != false) {
               </tr>
             </thead>
             <?php
-            $sql = "SELECT * from product_log ORDER BY id DESC LIMIT $limit OFFSET $offset";
+            $sql = "SELECT * from admin_activity_log ORDER BY id DESC LIMIT $limit OFFSET $offset";
             $result = $conn->query($sql);
             if ($result->num_rows > 0) {
               while ($row = $result->fetch_assoc()) {
@@ -242,7 +242,7 @@ if ($username != false && $name != false) {
                     <?= $row["time_log"] ?>
                   </td>
                   <td>
-                    <?= $row["edit_create"] ?>
+                    <?= $row["action"] ?>
                   </td>
 
                 </tr>

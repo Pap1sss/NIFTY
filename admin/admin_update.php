@@ -28,13 +28,13 @@ if (isset ($_POST['update_product_name'])) {
    // Validate the input
    $product_name = $_POST['product_name'];
    if (!preg_match("/^[a-zA-Z0-9 ]*$/", $product_name)) {
-      $message[] = 'Only letters, numbers, and whitespace are allowed in product name';
-      goto end;
+      echo "<script>alert('Only letters, numbers, and whitespace are allowed in product name');</script>";
+
    }
 
    if (empty ($product_name)) {
-      $message[] = 'Please fill out product name';
-      goto end;
+      echo "<script>alert('Please fill out product name');</script>";
+
    }
 
    // Use prepared statements to prevent SQL injection
@@ -44,10 +44,10 @@ if (isset ($_POST['update_product_name'])) {
 
    // Log the activity
    $editproductname = 'edit product name';
-   $stmt = $conn->prepare("INSERT INTO product_log(username, date_log, time_log, edit_create) VALUES(?, CURRENT_DATE(), CURRENT_TIME(),?)");
+   $stmt = $conn->prepare("INSERT INTO admin_activity_log(username, date_log, time_log, action) VALUES(?, CURRENT_DATE(), CURRENT_TIME(),?)");
    $stmt->bind_param("ss", $username, $editproductname);
    $stmt->execute();
-
+   exit;
 
 }
 ;
@@ -57,13 +57,12 @@ if (isset ($_POST['update_price'])) {
    // Validate the input
    $product_price = $_POST['product_price'];
    if (!is_numeric($product_price)) {
-      $message[] = 'Price must be a number';
-      goto end;
+      echo "<script>alert('Something went wrong');</script>";
    }
 
    if (empty ($product_price)) {
-      $message[] = 'Please fill out price';
-      goto end;
+      echo "<script>alert('Please fill out properly');</script>";
+
    }
 
    // Use prepared statements to prevent SQL injection
@@ -73,9 +72,10 @@ if (isset ($_POST['update_price'])) {
 
    // Log the activity
    $editproductprice = 'edit product price';
-   $stmt = $conn->prepare("INSERT INTO product_log(username, date_log, time_log, edit_create) VALUES(?, CURRENT_DATE(), CURRENT_TIME(),?)");
+   $stmt = $conn->prepare("INSERT INTO admin_activity_log(username, date_log, time_log, action) VALUES(?, CURRENT_DATE(), CURRENT_TIME(),?)");
    $stmt->bind_param("ss", $username, $editproductprice);
    $stmt->execute();
+   exit;
 
 
 }
@@ -87,13 +87,15 @@ if (isset ($_POST['update_description'])) {
    // Validate the input
    $product_description = trim($_POST['product_description']);
    if (strlen($product_description) > 500) {
-      $message[] = 'Description should not exceed 500 characters';
-      goto end;
+
+      echo "<script>alert('Description should not exceed 500 characters');</script>";
+
    }
 
    if (empty ($product_description)) {
-      $message[] = 'Please fill out description';
-      goto end;
+
+      echo "<script>alert('Please fill out the description');</script>";
+
    }
 
    // Use prepared statements to prevent SQL injection
@@ -103,11 +105,9 @@ if (isset ($_POST['update_description'])) {
 
    // Log the activity
    $editproductdescription = 'edit product description';
-   $stmt = $conn->prepare("INSERT INTO product_log(username, date_log, time_log, edit_create) VALUES(?, CURRENT_DATE(), CURRENT_TIME(),?)");
+   $stmt = $conn->prepare("INSERT INTO admin_activity_log(username, date_log, time_log, action) VALUES(?, CURRENT_DATE(), CURRENT_TIME(),?)");
    $stmt->bind_param("ss", $username, $editproductdescription);
    $stmt->execute();
-
-   end:
 }
 
 
@@ -118,11 +118,12 @@ if (isset ($_POST['update_image'])) {
    $product_image_folder = 'uploaded_img/' . $product_image;
 
    if (empty ($product_image)) {
-      $message[] = 'please fill attach image';
+
+      echo "<script>alert('Please fill required attachment');</script>";
    } else {
       $editproductimage = 'change product image';
       $update_data = "UPDATE products SET image='admin/uploaded_img/$product_image', date_edited =CURRENT_DATE(), time_edited=CURRENT_TIME() WHERE id = '$id'";
-      $product_logs = "INSERT INTO product_log(username, date_log, time_log, edit_create) 
+      $product_logs = "INSERT INTO admin_activity_log(username, date_log, time_log, action) 
       VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'$editproductimage')";
       $upload = mysqli_query($conn, $update_data);
       $data_check = mysqli_query($conn, $product_logs);
@@ -130,7 +131,8 @@ if (isset ($_POST['update_image'])) {
          move_uploaded_file($product_image_tmp_name, $product_image_folder);
 
       } else {
-         $message[] = 'please fill attach image';
+
+         echo "<script>alert('Please fill required attachment');</script>";
       }
    }
 
@@ -145,7 +147,7 @@ if (isset ($_POST['upload_image'])) {
    } else {
       $insert = "INSERT INTO product_gallery(product_id, product_image, date_uploaded) 
          VALUES('$id', '$product_gallery', CURRENT_TIME())";
-      $product_logs = "INSERT INTO product_log(username, date_log, time_log,  edit_create) 
+      $product_logs = "INSERT INTO admin_activity_log(username, date_log, time_log,  action) 
          VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'uploaded a file on product #$id')";
       $data_check = mysqli_query($conn, $product_logs);
       $upload = mysqli_query($conn, $insert);
@@ -161,7 +163,7 @@ if (isset ($_POST['upload_image'])) {
 if (isset ($_GET['delete'])) {
    $id = $_GET['delete'];
    mysqli_query($conn, "DELETE FROM product_gallery WHERE id = $id");
-   mysqli_query($conn, "INSERT INTO product_log(username, date_log, time_log,  edit_create) 
+   mysqli_query($conn, "INSERT INTO admin_activity_log(username, date_log, time_log,  action) 
       VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'deleted a image in the gallery [product # $id]')");
    echo "<script>alert('Removed Successfully');</script>";
 }

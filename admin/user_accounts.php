@@ -121,9 +121,9 @@ if ($username != false && $name != false) {
             <nav aria-label="Page navigation example">
               <ul class="pagination">
                 <?php
-                $status = isset($_GET['status']) ? $_GET['status'] : 'all';
-                $limit = isset($_GET['limit_user']) ? (int) $_GET['limit_user'] : 10;
-                $page = isset($_GET['user_page']) ? (int) $_GET['user_page'] : 1;
+                $status = isset ($_GET['status']) ? $_GET['status'] : 'all';
+                $limit = isset ($_GET['limit_user']) ? (int) $_GET['limit_user'] : 10;
+                $page = isset ($_GET['user_page']) ? (int) $_GET['user_page'] : 1;
                 $offset = ($page - 1) * $limit;
                 if ($status == 'all') {
                   $sql = "SELECT COUNT(*) as total from usertable";
@@ -164,54 +164,93 @@ if ($username != false && $name != false) {
               </select>
             </form>
             <br>
-            <table class="table table-bordered border-primary">
-              <thead>
-                <tr>
-                  <th>User ID</th>
-                  <th>User's Name</th>
-                  <th>User's Email</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <?php
-              if ($status == 'all') {
-                $sql = "SELECT * from usertable LIMIT $limit OFFSET $offset";
-              } else {
-                $sql = "SELECT * from usertable WHERE status = '$status' LIMIT $limit OFFSET $offset";
-              }
-              $result = $conn->query($sql);
-
-              if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                  ?>
+            <form method="POST" action="">
+              <table class="table table-bordered border-primary">
+                <thead>
                   <tr>
-                    <td>
-                      <?= htmlspecialchars($row["id"]) ?>
-                    </td>
-                    <td>
-                      <?= htmlspecialchars($row["name"]) ?>
-                    </td>
-                    <td>
-                      <?= htmlspecialchars($row["email"]) ?>
-                    </td>
-                    <td>
-                      <?= htmlspecialchars($row["status"]) ?>
-                    </td>
+                    <th>
+                      Select User
+                    </th>
+                    <th>User ID</th>
+                    <th>User's Name</th>
+                    <th>User's Email</th>
+                    <th>Status</th>
                   </tr>
-                  <?php
+                </thead>
+                <?php
+                if ($status == 'all') {
+                  $sql = "SELECT * from usertable LIMIT $limit OFFSET $offset";
+                } else {
+                  $sql = "SELECT * from usertable WHERE status = '$status' LIMIT $limit OFFSET $offset";
                 }
+                $result = $conn->query($sql);
+
+                if ($result->num_rows > 0) {
+                  while ($row = $result->fetch_assoc()) {
+                    ?>
+                    <tr>
+                      <td>
+                        <input type="checkbox" name="delete_ids[]" value="<?php echo $row['id']; ?>">
+                      </td>
+                      <td>
+                        <input type="hidden" name="user_id" value=" <?php echo $row['id']; ?>">
+                        <?= htmlspecialchars($row["id"]) ?>
+                      </td>
+                      <td>
+                        <?= htmlspecialchars($row["name"]) ?>
+                      </td>
+                      <td>
+                        <?= htmlspecialchars($row["email"]) ?>
+                      </td>
+                      <td>
+                        <?= htmlspecialchars($row["status"]) ?>
+                      </td>
+                    </tr>
+                    <?php
+                  }
+                }
+                ?>
+              </table>
+              <input type="submit" value="Delete selected" name="delete_submit" class="btn btn-danger">
+            </form>
+            <?php
+
+            if (isset ($_POST['delete_submit'])) {
+              // Get the list of checkbox values
+              $delete_ids = $_POST['delete_ids'];
+              $user_id = $_POST['user_id'];
+
+              // Loop through the list of IDs to delete
+              foreach ($delete_ids as $user_id) {
+                // Prepare a delete statement
+                $delete_stmt = $conn->prepare("DELETE FROM usertable WHERE id = ?");
+                $delete_stmt->bind_param("i", $user_id);
+                $delete_stmt->execute();
               }
-              ?>
-            </table>
+
+
+              // Display the alert messages
+              echo "<script>alert('Removed Successfully');</script>";
+
+              // Redirect back to the admin page with the ID of the item being edited
+              echo "<script>window.location.href = 'user_accounts.php';</script>";
+              exit;
+            }
+            ?>
           </div>
 
+
+
+
+
+          <!-- end-->
           <div style="margin-left:45px; margin-right: 45px;">
             <h2>USERS LOGS</h2>
             <nav aria-label="Page navigation example">
               <ul class="pagination">
                 <?php
-                $limit = isset($_GET['limit']) ? (int) $_GET['limit'] : 10;
-                $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+                $limit = isset ($_GET['limit']) ? (int) $_GET['limit'] : 10;
+                $page = isset ($_GET['page']) ? (int) $_GET['page'] : 1;
                 $offset = ($page - 1) * $limit;
                 $sql = "SELECT COUNT(*) as total from logs";
                 $result = $conn->query($sql);

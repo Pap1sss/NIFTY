@@ -22,7 +22,7 @@ if ($username != false && $name != false) {
 
 
 
-if (isset($_POST['upload'])) {
+if (isset ($_POST['upload'])) {
    $title = $_POST['title'];
    $description = $_POST['description'];
    $email = $_POST['email'];
@@ -40,7 +40,7 @@ if (isset($_POST['upload'])) {
    $address = filter_var($address, FILTER_SANITIZE_STRING);
    $contact = filter_var($contact, FILTER_SANITIZE_NUMBER_INT);
 
-   if (empty($title) || empty($description) || empty($email) || empty($address) || empty($contact) || empty($company_logo) || empty($display_image)) {
+   if (empty ($title) || empty ($description) || empty ($email) || empty ($address) || empty ($contact) || empty ($company_logo) || empty ($display_image)) {
       echo "<script>alert('Please fill out all');</script>";
    } else {
       // Use prepared statements to prevent SQL injection attacks
@@ -179,22 +179,23 @@ if (isset($_POST['upload'])) {
             <ul class="list-group" style="margin-top: 20px;">
 
                <li class="list-group-item d-flex justify-content-center">
-                  <input type="text" placeholder="Business Name" name="title" class="box" style="width: 80%;">
+                  <input type="text" placeholder="Business Name" name="title" class="box" style="width: 80%;" required>
                </li>
                <li class="list-group-item d-flex justify-content-center">
                   <input type="text" placeholder="Business Description" name="description" class="box"
-                     style="width: 80%;">
+                     style="width: 80%;" required>
                </li>
                <li class="list-group-item d-flex justify-content-center">
-                  <input type="text" placeholder="Business Email Address" name="email" class="box" style="width: 80%;">
+                  <input type="text" placeholder="Business Email Address" name="email" class="box" style="width: 80%;"
+                     required>
                </li>
                <li class="list-group-item d-flex justify-content-center">
                   <input type="text" placeholder="Business Address" name="company_address" class="box"
-                     style="width: 80%;">
+                     style="width: 80%;" required>
                </li>
                <li class="list-group-item d-flex justify-content-center">
                   <input type="tel" placeholder="Business Contact number" name="company_contact" class="box"
-                     style="width: 80%;">
+                     style="width: 80%;" required>
                </li>
 
                <li class="list-group-item d-flex justify-content-center">
