@@ -53,7 +53,7 @@ if ($result->num_rows > 0) {
 
     @include 'connection.php';
 
-    if (isset($_POST['order_btn'])) {
+    if (isset ($_POST['order_btn'])) {
 
       $name = $_POST['name'];
       $number = $_POST['number'];
@@ -63,7 +63,7 @@ if ($result->num_rows > 0) {
       $reference_number = $_POST['reference'];
       $gcash_number = $_POST['gcash_number'];
       $product_image = $_POST['product_image'];
-      if (isset($product_image['product_image'])) {
+      if (isset ($product_image['product_image'])) {
         $product_image_folder = 'uploaded_img/' . $product_image['product_image'];
       } else {
         $product_image_folder = 'default_image.jpg'; // Provide a default value if the key doesn't exist
@@ -91,7 +91,7 @@ if ($result->num_rows > 0) {
       $total_product = implode($glue, $product_name);
 
       $detail_query = mysqli_prepare($conn, "INSERT INTO `orders`(name, number, email, method, address, total_products, total_price, user_id, status, date_created, time_created, reference_number, gcash_number, screenshot) 
-      VALUES(?, ?, ?, ?, ?, ?, ?, ?, 'to ship', CURRENT_DATE(), CURRENT_TIME(), ?,?,?)");
+      VALUES(?, ?, ?, ?, ?, ?, ?, ?, 'pending', CURRENT_DATE(), CURRENT_TIME(), ?,?,?)");
       mysqli_stmt_bind_param($detail_query, "ssssssdiiis", $name, $number, $email, $method, $address, $total_product, $price_total, $user_id, $reference_number, $gcash_number, $product_image);
       mysqli_stmt_execute($detail_query);
       $order_id = mysqli_insert_id($conn);

@@ -457,7 +457,8 @@ if (isset ($_GET['color_delete'])) {
          ?>
 
          <br>
-         <table class="table align-middle mb-0 bg-white" style="border: 1px solid #EEEEEE; border-radius: 5px;">
+         <table class="table align-middle mb-0 bg-white"
+            style="border: 1px solid #EEEEEE; border-radius: 5px;     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);">
             <thead class="bg-light">
                <tr>
 

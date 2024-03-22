@@ -165,7 +165,7 @@ if ($username != false && $name != false) {
             </form>
             <br>
             <form method="POST" action="">
-              <table class="table table-bordered border-primary">
+              <table class="table table-bordered border-primary" style="box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);">
                 <thead>
                   <tr>
                     <th>
@@ -279,7 +279,7 @@ if ($username != false && $name != false) {
               </select>
             </form>
             <br>
-            <table class="table table-bordered border-primary">
+            <table class="table table-bordered border-primary" style="box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);">
               <thead>
                 <tr>
                   <th>Email</th>

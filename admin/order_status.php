@@ -21,13 +21,13 @@ if ($username != false && $name != false) {
 
 
 
-if (isset($_GET['delete'])) {
+if (isset ($_GET['delete'])) {
     $id = $_GET['delete'];
     mysqli_query($conn, "INSERT INTO product_log(username, date_log, time_log,  edit_create) 
     VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'deleted an order')");
     mysqli_query($conn, "DELETE FROM orders WHERE id = $id");
     echo "<script>alert('Removed Successfully');</script>";
- }
+}
 ?>
 
 
@@ -54,6 +54,26 @@ if (isset($_GET['delete'])) {
 </head>
 
 <body>
+    <style>
+        .detail-btn {
+            background-color: #f9c47f;
+
+        }
+
+        .detail-btn:hover {
+            background-color: #F4B39D;
+            color: white;
+
+        }
+
+        table {
+            width: 800px;
+            border-collapse: collapse;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+
+        }
+    </style>
     <div class="grid-container" style="background-color: #fffdf6;">
 
         <!-- Header -->
@@ -124,22 +144,33 @@ if (isset($_GET['delete'])) {
 
 
         <?php
-
-        if (isset($_GET['receive'])) {
-            $id = $_GET['receive'];
-            mysqli_query($conn, "UPDATE orders SET status='to receive'WHERE id = '$id'");
-            mysqli_query($conn, "INSERT INTO product_log(username, date_log, time_log,  edit_create) 
-   VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'updated order status (to receive) : order number $id')");
+        if (isset ($_GET['ship'])) {
+            $id = $_GET['ship'];
+            mysqli_query($conn, "UPDATE orders SET status='to ship'WHERE id = '$id'");
+            mysqli_query($conn, "INSERT INTO admin_activity_log(username, date_log, time_log, action) 
+   VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'updated order status (to ship) : order number $id')");
             header('location:order_status.php');
+            exit;
         }
         ;
 
-        if (isset($_GET['complete'])) {
+        if (isset ($_GET['receive'])) {
+            $id = $_GET['receive'];
+            mysqli_query($conn, "UPDATE orders SET status='to receive'WHERE id = '$id'");
+            mysqli_query($conn, "INSERT INTO admin_activity_log(username, date_log, time_log,  action) 
+   VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'updated order status (to receive) : order number $id')");
+            header('location:order_status.php');
+            exit;
+        }
+        ;
+
+        if (isset ($_GET['complete'])) {
             $id = $_GET['complete'];
             mysqli_query($conn, "UPDATE orders SET status='order completed'WHERE id = '$id'");
-            mysqli_query($conn, "INSERT INTO product_log(username, date_log, time_log,  edit_create) 
+            mysqli_query($conn, "INSERT INTO admin_acitivity_log(username, date_log, time_log,  action) 
    VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'updated order status (completed) : order number $id')");
             header('location:order_status.php');
+            exit;
         }
         ;
 
@@ -148,78 +179,83 @@ if (isset($_GET['delete'])) {
         ?>
 
         <main class="main-container">
-            <div class="column" style="overflow-x:auto;">
+            <div class="column" style="overflow-x:none;">
                 <div class="row">
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination">
-                            <?php
-                            $status = isset($_GET['status']) ? $_GET['status'] : 'all';
-                            $limit = isset($_GET['limit']) ? (int) $_GET['limit'] : 10;
-                            $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
-                            $offset = ($page - 1) * $limit;
-                            if ($status == 'all') {
-                                $sql = "SELECT COUNT(*) as total from orders";
-                            } else {
-                                $sql = "SELECT COUNT(*) as total from orders WHERE status = '$status'";
-                            }
-                            $result = $conn->query($sql);
-                            $row = $result->fetch_assoc();
-                            $total_rows = $row["total"];
-                            $total_pages = ceil($total_rows / $limit);
-                            for ($i = 1; $i <= $total_pages; $i++) {
-                                ?>
-                                <li class="page-item <?= $i == $page ? 'active' : '' ?>">
-                                    <a class="page-link" href="?status=<?= $status ?>&limit=<?= $limit ?>&page=<?= $i ?>">
-                                        <?= $i ?>
-                                    </a>
-                                </li>
+                    <div class="d-flex justify-content-between">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination">
                                 <?php
-                            }
-                            ?>
-                        </ul>
-                    </nav>
-                    <form method="get">
-                        <p>Select number of rows:</p>
-                        <select name="limit" onchange="this.form.submit()" class="btn btn-primary dropdown-toggle">
-                            <option value="3" <?= $limit == 3 ? 'selected' : '' ?>>3 Rows</option>
-                            <option value="10" <?= $limit == 10 ? 'selected' : '' ?>>10 Rows</option>
-                            <option value="20" <?= $limit == 20 ? 'selected' : '' ?>>20 Rows</option>
-                            <option value="50" <?= $limit == 50 ? 'selected' : '' ?>>50 Rows</option>
-                            <option value="100" <?= $limit == 100 ? 'selected' : '' ?>>100 Rows</option>
-                        </select>
-                    </form>
+                                $status = isset ($_GET['status']) ? $_GET['status'] : 'all';
+                                $limit = isset ($_GET['limit']) ? (int) $_GET['limit'] : 10;
+                                $page = isset ($_GET['page']) ? (int) $_GET['page'] : 1;
+                                $offset = ($page - 1) * $limit;
+                                if ($status == 'all') {
+                                    $sql = "SELECT COUNT(*) as total from orders";
+                                } else {
+                                    $sql = "SELECT COUNT(*) as total from orders WHERE status = '$status'";
+                                }
+                                $result = $conn->query($sql);
+                                $row = $result->fetch_assoc();
+                                $total_rows = $row["total"];
+                                $total_pages = ceil($total_rows / $limit);
+                                for ($i = 1; $i <= $total_pages; $i++) {
+                                    ?>
+                                    <li class="page-item <?= $i == $page ? 'active' : '' ?>">
+                                        <a class="page-link"
+                                            href="?status=<?= $status ?>&limit=<?= $limit ?>&page=<?= $i ?>">
+                                            <?= $i ?>
+                                        </a>
+                                    </li>
+                                    <?php
+                                }
+                                ?>
+                            </ul>
+                        </nav>
+                        <form method="get">
+                            <p>Select number of rows:</p>
+                            <select name="limit" onchange="this.form.submit()" class="btn btn-primary dropdown-toggle">
+                                <option value="3" <?= $limit == 3 ? 'selected' : '' ?>>3 Rows</option>
+                                <option value="10" <?= $limit == 10 ? 'selected' : '' ?>>10 Rows</option>
+                                <option value="20" <?= $limit == 20 ? 'selected' : '' ?>>20 Rows</option>
+                                <option value="50" <?= $limit == 50 ? 'selected' : '' ?>>50 Rows</option>
+                                <option value="100" <?= $limit == 100 ? 'selected' : '' ?>>100 Rows</option>
+                            </select>
+                        </form>
 
-                    <form method="get">
+                        <form method="get">
+                            <br>
+                            <p>Filter by status:</p>
+                            <select name="status" onchange="this.form.submit()" class="btn btn-primary dropdown-toggle">
+                                <option value="all" <?= $status == 'all' ? 'selected' : '' ?>>All</option>
+                                <option value="pending" <?= $status == 'pending' ? 'selected' : '' ?>>Pending Orders
+                                </option>
+                                <option value="to ship" <?= $status == 'to ship' ? 'selected' : '' ?>>To Ship</option>
+                                <option value="to receive" <?= $status == 'to receive' ? 'selected' : '' ?>>To Receive
+                                </option>
+                                <option value="order completed" <?= $status == 'order completed' ? 'selected' : '' ?>>Order
+                                    Completed
+                                </option>
+                            </select>
+                        </form>
+                    </div>
+                    <div class="col-md-12" style="padding: 20px;">
                         <br>
-                        <p>Filter by status:</p>
-                        <select name="status" onchange="this.form.submit()" class="btn btn-primary dropdown-toggle">
-                            <option value="all" <?= $status == 'all' ? 'selected' : '' ?>>All</option>
-                            <option value="to ship" <?= $status == 'to ship' ? 'selected' : '' ?>>To Ship</option>
-                            <option value="to receive" <?= $status == 'to receive' ? 'selected' : '' ?>>To Receive
-                            </option>
-                            <option value="order completed" <?= $status == 'order completed' ? 'selected' : '' ?>>Order
-                                Completed
-                            </option>
-                        </select>
-                    </form>
-
-                    <div class="col-md-12" style="max-width: 100%;">
-                        <br>
-                        <table class="table table-bordered border-secondary overflow-x-auto" style="border-radius: 5px;">
+                        <table class="table table-bordered border-secondary overflow-x-auto"
+                            style="border-radius: 5px;">
                             <thead class="thead-dark" style="display: table-row-group; text-align: center; ">
                                 <tr>
-                                    <th>Order ID</th>
-                                    <th>Customer ID & Name</th>
-                                    <th>Number</th>
-                                    <th>Email</th>
-                                    <th>Payment Method</th>
-                                    <th>Address</th>
-                                    <th>Products</th>
-                                    <th style="width: 10%;">Price & Status</th>
-                                    <th>Order Date & Time</th>
-                                    <th>GCASH Payment Information</th>
-                                    <th>Receipt</th>
-                                    <th>Actions</th>
+                                    <th style="text-transform: uppercase;">Order ID</th>
+                                    <th style="text-transform: uppercase;">Customer ID | Name & Email</th>
+                                    <th style="text-transform: uppercase;">Contact Number</th>
+
+                                    <th style="text-transform: uppercase;">Address</th>
+                                    <th style="text-transform: uppercase;">Products</th>
+                                    <th style="text-transform: uppercase;">Payment Method | Total | Status
+                                    </th>
+                                    <th style="text-transform: uppercase;">Order Date & Time</th>
+                                    <th style="text-transform: uppercase;">GCASH Payment Information</th>
+
+                                    <th style="text-transform: uppercase;">Actions</th>
                                 </tr>
                             </thead>
                             <?php
@@ -242,26 +278,30 @@ if (isset($_GET['delete'])) {
                                                 <?= htmlspecialchars($row['user_id']) ?>
                                                 |
                                                 <?= htmlspecialchars($row['name']) ?>
+                                                <?= htmlspecialchars($row['email']) ?>
                                             </td>
                                             <td>
                                                 <?= htmlspecialchars($row['number']) ?>
                                             </td>
-                                            <td>
-                                                <?= htmlspecialchars($row['email']) ?>
-                                            </td>
-                                            <td>
-                                                <?= htmlspecialchars($row['method']) ?>
-                                            </td>
+
+
                                             <td>
                                                 <?= htmlspecialchars($row['address']) ?>
                                             </td>
                                             <td>
                                                 <?= htmlspecialchars($row['total_products']) ?>
                                             </td>
-                                            <td>₱
+                                            <td style="text-transform: capitalize; text-align:center;">₱
                                                 <?= htmlspecialchars($row['total_price']) ?>
-                                                |
-                                                <?= htmlspecialchars($row['status']) ?>
+                                                _________________________
+
+                                                <div style="background-color: #F4B39D; border-radius: 10px; margin-top: 10px;">
+                                                    <p>
+                                                        <?= htmlspecialchars($row['status']) ?>
+                                                    </p>
+                                                </div>
+                                                _________________________
+                                                <?= htmlspecialchars($row['method']) ?>
                                             </td>
                                             <td>
                                                 <?= htmlspecialchars($row['date_created'] . ' ' . $row['time_created']) ?>
@@ -271,27 +311,34 @@ if (isset($_GET['delete'])) {
                                                 <?= htmlspecialchars($row['reference_number']) ?>
                                                 Gcash Number:
                                                 <?= htmlspecialchars($row['gcash_number']) ?>
-                                            </td>
-                                            <td>
+                                                <br>
+                                                <br>
                                                 <img src="./uploaded_img/<?= $row['screenshot'] ?>" alt="Image"
                                                     class="img-fluid">
-
                                             </td>
+
                                             <td>
-                                                <a class="btn btn-secondary"
+                                                <a class="btn detail-btn"
+                                                    href="order_status.php?ship=<?= htmlspecialchars($row['id']) ?>">
+                                                    Ship
+                                                </a>
+                                                <br>
+                                                <br>
+                                                <a class="btn detail-btn"
                                                     href="order_status.php?receive=<?= htmlspecialchars($row['id']) ?>">
-                                                    To receive
+                                                    Receive
                                                 </a>
                                                 <br><br>
                                                 <a href="order_status.php?complete=<?= htmlspecialchars($row['id']); ?>"
-                                                    class="btn btn-success">
-                                                    <i class="fas "></i> Order complete
+                                                    class="btn detail-btn">
+                                                    <i class="fas "></i> Complete
                                                 </a>
                                                 <br>
                                                 <br>
+                                                _______________
                                                 <a href="order_status.php?delete=<?= htmlspecialchars($row['id']); ?>"
                                                     class="btn btn-danger">
-                                                    <i class="fas "></i> Remove Order
+                                                    <i class="fas "></i> Remove
                                                 </a>
                                             </td>
                                         </tr>
