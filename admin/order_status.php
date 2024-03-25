@@ -180,6 +180,7 @@ if (isset ($_GET['delete'])) {
 
         <main class="main-container">
             <div class="column" style="overflow-x:none;">
+
                 <div class="row">
                     <div class="d-flex justify-content-between">
                         <nav aria-label="Page navigation example">

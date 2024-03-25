@@ -21,7 +21,7 @@ if ($username != false && $name != false) {
 $id = $_GET['manage'];
 
 if (isset ($_POST['add_stocks'])) {
-   $create = 'add a stock of product id';
+   $create = 'add a stock on product id';
    $unit = $_POST['unit'];
    $color = $_POST['color'];
    $username = $_SESSION['user_name'];
@@ -127,9 +127,7 @@ if (isset ($_POST['add_stocks'])) {
          </div>
          <div class="header-left">
 
-            <a href="stocks_update.php">
-               <span class="material-icons-outlined">refresh</span>
-            </a>
+
 
          </div>
          <div class="header-right">
