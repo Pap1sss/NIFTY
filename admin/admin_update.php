@@ -47,7 +47,7 @@ if (isset ($_POST['update_product_name'])) {
    $stmt = $conn->prepare("INSERT INTO admin_activity_log(username, date_log, time_log, action) VALUES(?, CURRENT_DATE(), CURRENT_TIME(),?)");
    $stmt->bind_param("ss", $username, $editproductname);
    $stmt->execute();
-   exit;
+
 
 }
 ;
@@ -75,7 +75,7 @@ if (isset ($_POST['update_price'])) {
    $stmt = $conn->prepare("INSERT INTO admin_activity_log(username, date_log, time_log, action) VALUES(?, CURRENT_DATE(), CURRENT_TIME(),?)");
    $stmt->bind_param("ss", $username, $editproductprice);
    $stmt->execute();
-   exit;
+
 
 
 }
@@ -288,7 +288,7 @@ if (isset ($_GET['delete'])) {
          </div>
 
 
-         <div class="column " style="border: 1px solid red; padding: 20px;">
+         <div class="column " style="padding: 20px;">
 
             <form action="" method="post" enctype="multipart/form-data">
                <ul class="list-group" style="margin-top: 20px">
@@ -410,7 +410,7 @@ if (isset ($_GET['delete'])) {
 
                // Redirect back to the admin page with the ID of the item being edited
                echo "<script>window.location.href = 'admin_update.php?edit=$id';</script>";
-               exit;
+
             }
             ?>
          </div>

@@ -559,8 +559,8 @@ if ($result->num_rows > 0) {
                                         if (!empty ($option['unit_name']) && !in_array($option['unit_name'], $size_names)) {
                                           $size_names[] = $option['unit_name'];
                                           echo ' <div class ="form-check" >';
-                                          echo '<input class="form-check-input" type="radio" name="size" id="size' . $option['id'] . '" value="' . $option['unit_name'] . '" required>';
-                                          echo '<label class="form-check-label" for="size' . $option['id'] . '">' . $option['unit_name'] . '</label>';
+                                          echo '<input class="form-check-input" type="radio" name="size" id="size' . $option['stocks_id'] . '" value="' . $option['unit_name'] . '" required>';
+                                          echo '<label class="form-check-label" for="size' . $option['stocks_id'] . '">' . $option['unit_name'] . '</label>';
                                           echo '</div>';
                                         }
                                       }
@@ -586,8 +586,8 @@ if ($result->num_rows > 0) {
                                   if (!empty ($option['color_name']) && !in_array($option['color_name'], $color_names)) {
                                     $color_names[] = $option['color_name'];
                                     echo '<div class="form-check">';
-                                    echo '<input class="form-check-input" type="radio" name="color" id="color' . $option['id'] . '" value="' . $option['color_name'] . '" required>';
-                                    echo '<label class="form-check-label" for="color' . $option['id'] . '">' . $option['color_name'] . '</label>';
+                                    echo '<input class="form-check-input" type="radio" name="color" id="color' . $option['stocks_id'] . '" value="' . $option['color_name'] . '" required>';
+                                    echo '<label class="form-check-label" for="color' . $option['stocks_id'] . '">' . $option['color_name'] . '</label>';
                                     echo '</div>';
                                   }
                                 }
@@ -643,11 +643,6 @@ if ($result->num_rows > 0) {
 
                 ?>
                 <br><br>
-
-
-
-
-
                 <!-- 
             - #REVIEW with login
           -->
@@ -975,8 +970,8 @@ if ($result->num_rows > 0) {
                                         if (!empty ($option['unit_name']) && !in_array($option['unit_name'], $size_names)) {
                                           $size_names[] = $option['unit_name'];
                                           echo ' <div class ="form-check" >';
-                                          echo '<input class="form-check-input" type="radio" name="size" id="size' . $option['id'] . '" value="' . $option['unit_name'] . '" required>';
-                                          echo '<label class="form-check-label" for="size' . $option['id'] . '">' . $option['unit_name'] . '</label>';
+                                          echo '<input class="form-check-input" type="radio" name="size" id="size' . $option['stocks_id'] . '" value="' . $option['unit_name'] . '" required>';
+                                          echo '<label class="form-check-label" for="size' . $option['stocks_id'] . '">' . $option['unit_name'] . '</label>';
                                           echo '</div>';
                                         }
                                       }
@@ -1002,8 +997,8 @@ if ($result->num_rows > 0) {
                                   if (!empty ($option['color_name']) && !in_array($option['color_name'], $color_names)) {
                                     $color_names[] = $option['color_name'];
                                     echo '<div class="form-check">';
-                                    echo '<input class="form-check-input" type="radio" name="color" id="color' . $option['id'] . '" value="' . $option['color_name'] . '" required>';
-                                    echo '<label class="form-check-label" for="color' . $option['id'] . '">' . $option['color_name'] . '</label>';
+                                    echo '<input class="form-check-input" type="radio" name="color" id="color' . $option['stocks_id'] . '" value="' . $option['color_name'] . '" required>';
+                                    echo '<label class="form-check-label" for="color' . $option['stocks_id'] . '">' . $option['color_name'] . '</label>';
                                     echo '</div>';
                                   }
                                 }
@@ -1073,9 +1068,10 @@ if ($result->num_rows > 0) {
       ?>
             <div class="d-flex jutify-content-between">
               <div class="container" style="padding: 50px;">
-                <div style="color:#5F5E5E; text-align:center; padding: 5px; border-radius: 5px; margin-bottom: 35px; margin-top:35px;">
+                <div
+                  style="color:#5F5E5E; text-align:center; padding: 5px; border-radius: 5px; margin-bottom: 35px; margin-top:35px;">
                   <hr style=" border-top: 0.3px solid #5F5E5E; ">
-                <h1>
+                  <h1>
                     - SIMILAR TO THIS PRODUCT -</h1>
                 </div>
                 <form action="" method="post">
@@ -1150,6 +1146,14 @@ if ($result->num_rows > 0) {
 
               </div>
 
+
+            </div>
+
+            <div
+              style="color:#5F5E5E; text-align:center; padding: 5px; border-radius: 5px; margin-bottom: 35px; margin-top:35px;">
+              <hr style=" border-top: 0.3px solid #5F5E5E; ">
+              <h3>
+                - Customer Reviews -</h3>
             </div>
 
             <style>
@@ -1383,7 +1387,7 @@ if ($result->num_rows > 0) {
 
 
 
-
+      <br><br>
     </body>
 
     <!-- 

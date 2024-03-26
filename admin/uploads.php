@@ -22,44 +22,200 @@ if ($username != false && $name != false) {
 
 
 
-if (isset ($_POST['upload'])) {
+
+if (isset ($_POST['update_business_name'])) {
+
+   // Validate the input
    $title = $_POST['title'];
+
+   if (!preg_match("/^[a-zA-Z0-9 ]*$/", $title)) {
+      echo "<script>alert('Only letters, numbers, and whitespace are allowed');</script>";
+
+   }
+
+   if (empty ($title)) {
+      echo "<script>alert('Please fill out the field');</script>";
+
+   }
+
+   // Use prepared statements to prevent SQL injection
+   $stmt = $conn->prepare("UPDATE upload SET title=?");
+   $stmt->bind_param("s", $title);
+   $stmt->execute();
+
+   // Log the activity
+   $editbusinessname = 'edit business name';
+   $stmt = $conn->prepare("INSERT INTO admin_activity_log(username, date_log, time_log, action) VALUES(?, CURRENT_DATE(), CURRENT_TIME(),?)");
+   $stmt->bind_param("ss", $username, $editbusinessname);
+   $stmt->execute();
+
+
+}
+;
+if (isset ($_POST['update_business_description'])) {
+
+   // Validate the input
    $description = $_POST['description'];
+   if (!preg_match("/^[a-zA-Z0-9 ]*$/", $description)) {
+      echo "<script>alert('Only letters, numbers, and whitespace are allowed');</script>";
+
+   }
+
+   if (empty ($description)) {
+      echo "<script>alert('Please fill out the field');</script>";
+
+   }
+
+   // Use prepared statements to prevent SQL injection
+   $stmt = $conn->prepare("UPDATE upload SET description=?");
+   $stmt->bind_param("s", $description);
+   $stmt->execute();
+
+   // Log the activity
+   $editbusinessdescription = 'edit business description';
+   $stmt = $conn->prepare("INSERT INTO admin_activity_log(username, date_log, time_log, action) VALUES(?, CURRENT_DATE(), CURRENT_TIME(),?)");
+   $stmt->bind_param("ss", $username, $editbusinessdescription);
+   $stmt->execute();
+
+
+}
+;
+
+if (isset ($_POST['update_business_email'])) {
+
+   // Validate the input
    $email = $_POST['email'];
+   if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+      echo "<script>alert('Please enter a valid email address');</script>";
+
+   }
+
+   // Use prepared statements to prevent SQL injection
+   $stmt = $conn->prepare("UPDATE upload SET email=?");
+   $stmt->bind_param("s", $email);
+   $stmt->execute();
+
+   // Log the activity
+   $editemail = 'edited company email';
+   $stmt = $conn->prepare("INSERT INTO admin_activity_log(username, date_log, time_log, action) VALUES(?, CURRENT_DATE(), CURRENT_TIME(),?)");
+   $stmt->bind_param("ss", $username, $editemail);
+   $stmt->execute();
+
+
+}
+;
+if (isset ($_POST['update_business_address'])) {
+
+   // Validate the input
    $address = $_POST['company_address'];
+   if (!preg_match("/^[a-zA-Z0-9 ]*$/", $address)) {
+      echo "<script>alert('Only letters, numbers, and whitespace are allowed');</script>";
+
+   }
+
+   if (empty ($address)) {
+      echo "<script>alert('Please fill out the field');</script>";
+
+   }
+
+   // Use prepared statements to prevent SQL injection
+   $stmt = $conn->prepare("UPDATE upload SET address=?");
+   $stmt->bind_param("s", $address);
+   $stmt->execute();
+
+   // Log the activity
+   $editbusinessaddress = 'edit business address';
+   $stmt = $conn->prepare("INSERT INTO admin_activity_log(username, date_log, time_log, action) VALUES(?, CURRENT_DATE(), CURRENT_TIME(),?)");
+   $stmt->bind_param("ss", $username, $editbusinessaddress);
+   $stmt->execute();
+
+
+}
+;
+if (isset ($_POST['update_business_contact'])) {
+
+   // Validate the input
    $contact = $_POST['company_contact'];
+   if (!preg_match("/^[0-9]{11}$/", $contact)) {
+      echo "<script>alert('Please enter exactly 11 numbers');</script>";
+   }
+
+   if (empty ($contact)) {
+      echo "<script>alert('Please fill out the field');</script>";
+   }
+
+   // Use prepared statements to prevent SQL injection
+   $stmt = $conn->prepare("UPDATE upload SET contact=?");
+   $stmt->bind_param("i", $contact);
+   $stmt->execute();
+
+   // Log the activity
+   $editbusinesscontact = 'edit business contact number';
+   $stmt = $conn->prepare("INSERT INTO admin_activity_log(username, date_log, time_log, action) VALUES(?, CURRENT_DATE(), CURRENT_TIME(),?)");
+   $stmt->bind_param("ss", $username, $editbusinesscontact);
+   $stmt->execute();
+
+
+}
+
+if (isset ($_POST['update_business_logo'])) {
    $company_logo = $_FILES['company_logo']['name'];
    $company_logo_tmp_name = $_FILES['company_logo']['tmp_name'];
+
+   if (empty ($company_logo)) {
+      echo "<script>alert('Please fill out all');</script>";
+   } else {
+      $stmt = $conn->prepare("UPDATE upload SET logo=?");
+      $stmt->bind_param("s", $company_logo);
+      $stmt->execute();
+
+      $target_dir = "uploaded_img/";
+      $target_file_logo = $target_dir . basename($company_logo);
+      move_uploaded_file($company_logo_tmp_name, $target_file_logo);
+
+   }
+}
+;
+if (isset ($_POST['update_business_home'])) {
    $display_image = $_FILES['display_image']['name'];
    $display_image_tmp_name = $_FILES['display_image']['tmp_name'];
 
-   // Validate and sanitize user inputs
-   $title = filter_var($title, FILTER_SANITIZE_STRING);
-   $description = filter_var($description, FILTER_SANITIZE_STRING);
-   $email = filter_var($email, FILTER_SANITIZE_EMAIL);
-   $address = filter_var($address, FILTER_SANITIZE_STRING);
-   $contact = filter_var($contact, FILTER_SANITIZE_NUMBER_INT);
 
-   if (empty ($title) || empty ($description) || empty ($email) || empty ($address) || empty ($contact) || empty ($company_logo) || empty ($display_image)) {
+   if (empty ($display_image)) {
       echo "<script>alert('Please fill out all');</script>";
    } else {
-      // Use prepared statements to prevent SQL injection attacks
-      $stmt = $conn->prepare("TRUNCATE TABLE upload");
+      $stmt = $conn->prepare("UPDATE upload SET homepage_image=?");
+      $stmt->bind_param("s", $display_image);
       $stmt->execute();
 
-      $stmt = $conn->prepare("INSERT INTO upload(title, description, address, contact, email, logo, homepage_image) VALUES(?, ?, ?, ?, ?, ?, ? )");
-      $stmt->bind_param("sssssss", $title, $description, $address, $contact, $email, $company_logo, $display_image);
-      $stmt->execute();
-
-      // Move the uploaded files to a secure location
       $target_dir = "uploaded_img/";
-      $target_file_logo = $target_dir . basename($company_logo);
       $target_file_image = $target_dir . basename($display_image);
-      move_uploaded_file($company_logo_tmp_name, $target_file_logo);
       move_uploaded_file($display_image_tmp_name, $target_file_image);
 
    }
 }
+;
+
+if (isset ($_POST['update_business_gcash'])) {
+   $gcash_qr = $_FILES['gcash_qr']['name'];
+   $gcash_qr_tmp_name = $_FILES['gcash_qr']['tmp_name'];
+
+
+   if (empty ($gcash_qr)) {
+      echo "<script>alert('Please fill out all');</script>";
+   } else {
+      $stmt = $conn->prepare("UPDATE upload SET gcash_ss=?");
+      $stmt->bind_param("s", $gcash_qr);
+      $stmt->execute();
+
+      $target_dir = "uploaded_img/";
+      $target_file_image = $target_dir . basename($gcash_qr);
+      move_uploaded_file($gcash_qr_tmp_name, $target_file_image);
+
+   }
+}
+;
+
 
 ?>
 
@@ -168,7 +324,18 @@ if (isset ($_POST['upload'])) {
       </main>
       <div class="container">
 
+         <style>
+            .detail-btn {
+               background-color: #f9c47f;
+               border-radius: 0px;
 
+            }
+
+            .detail-btn:hover {
+               background-color: #F4B39D;
+               color: white;
+            }
+         </style>
       </div>
       <div class="admin-product-form-container">
 
@@ -179,37 +346,66 @@ if (isset ($_POST['upload'])) {
             <ul class="list-group" style="margin-top: 20px;">
 
                <li class="list-group-item d-flex justify-content-center">
-                  <input type="text" placeholder="Business Name" name="title" class="box" style="width: 80%;" required>
+                  <input type="text" placeholder="Business Name" name="title" class="box" style="width: 80%;">
+                  <input type="submit" value="&#x2713;" name="update_business_name" class="btn detail-btn">
                </li>
                <li class="list-group-item d-flex justify-content-center">
                   <input type="text" placeholder="Business Description" name="description" class="box"
-                     style="width: 80%;" required>
+                     style="width: 80%;">
+                  <input type="submit" value="&#x2713;" name="update_business_description" class="btn detail-btn">
                </li>
                <li class="list-group-item d-flex justify-content-center">
-                  <input type="text" placeholder="Business Email Address" name="email" class="box" style="width: 80%;"
-                     required>
+                  <input type="text" placeholder="Business Email Address" name="email" class="box" style="width: 80%;">
+                  <input type="submit" value="&#x2713;" name="update_business_email" class="btn detail-btn">
                </li>
                <li class="list-group-item d-flex justify-content-center">
                   <input type="text" placeholder="Business Address" name="company_address" class="box"
-                     style="width: 80%;" required>
+                     style="width: 80%;">
+                  <input type="submit" value="&#x2713;" name="update_business_address" class="btn detail-btn">
                </li>
                <li class="list-group-item d-flex justify-content-center">
                   <input type="tel" placeholder="Business Contact number" name="company_contact" class="box"
-                     style="width: 80%;" required>
+                     style="width: 80%;">
+                  <input type="submit" value="&#x2713;" name="update_business_contact" class="btn detail-btn">
                </li>
 
-               <li class="list-group-item d-flex justify-content-center">
-                  <p>COMPANY LOGO |150X50px size required</p>
-                  <input type="file" accept="image/png, image/jpeg, image/jpg" name="company_logo" class="box">
+               <li class="list-group-item" style="text-align: center;">
+                  <div style="margin-left: 37px;">
+                     <h4>COMPANY LOGO |150X50px size required </h4>
+                  </div>
+                  <div style="margin-left: 120px; margin-bottom: 20px;">
+                     <input type="file" accept="image/png, image/jpeg, image/jpg" name="company_logo" class="box">
+                  </div>
+                  <input type="submit" value="Upload Logo" name="update_business_logo" class="btn detail-btn">
                </li>
 
-               <li class="list-group-item d-flex justify-content-center">
-                  <p>UPLOAD HOMEPAGE IMAGE</p>
-                  <input type="file" accept="image/png, image/jpeg, image/jpg" name="display_image" class="box">
+
+               <li class="list-group-item" style="text-align: center;">
+                  <h4>UPLOAD HOMEPAGE IMAGE</h4>
+                  <div style="margin-left: 50px;">
+
+                  </div>
+
+                  <div style="margin-left: 120px; margin-bottom: 20px;">
+                     <input type="file" accept="image/png, image/jpeg, image/jpg" name="display_image" class="box">
+                  </div>
+
+                  <input type="submit" value="Upload Home Image" name="update_business_home" class="btn detail-btn">
                </li>
-               <li class="list-group-item list-group-item-success d-flex justify-content-center">
-                  <input type="submit" name="upload" class="btn" value="UPLOAD">
+               <li class="list-group-item" style="text-align: center;">
+                  <h4>UPLOAD GCASH QR SCREENSHOT</h4>
+                  <div style="margin-left: 50px;">
+
+                  </div>
+
+                  <div style="margin-left: 120px; margin-bottom: 20px;">
+                     <input type="file" accept="image/png, image/jpeg, image/jpg" name="gcash_qr" class="box">
+                  </div>
+
+                  <input type="submit" value="Upload" name="update_business_gcash" class="btn detail-btn">
                </li>
+
+
 
             </ul>
          </form>
@@ -230,11 +426,12 @@ if (isset ($_POST['upload'])) {
 
                         <th style="border: 1px solid black;">Company Name</th>
                         <th style="border: 1px solid black;">Company Description</th>
+                        <th style="border: 1px solid black">Email Address</th>
                         <th style="border: 1px solid black;">Company Address</th>
                         <th style="border: 1px solid black;">Contact Number</th>
-                        <th style="border: 1px solid black">Email Address</th>
                         <th style="border: 1px solid black">Logo</th>
                         <th style="border: 1px solid black">Display Image</th>
+                        <th style="border: 1px solid black">GCASH</th>
 
                      </tr>
                   </thead>
@@ -248,15 +445,13 @@ if (isset ($_POST['upload'])) {
                         <?php echo htmlspecialchars($row['description']); ?>
                      </td>
                      <td style="border: 1px solid black;">
+                        <?php echo htmlspecialchars($row['email']); ?>
+                     </td>
+                     <td style="border: 1px solid black;">
                         <?php echo htmlspecialchars($row['address']); ?>
                      </td>
-
-
                      <td style="border: 1px solid black;">
                         <?php echo htmlspecialchars($row['contact']); ?>
-                     </td>
-                     <td style="border: 1px solid black;">
-                        <?php echo htmlspecialchars($row['email']); ?>
                      </td>
                      <td style="border: 1px solid black;">
                         <img src="uploaded_img/<?php echo htmlspecialchars($row['logo']); ?>" height="50" width="150"
@@ -265,6 +460,10 @@ if (isset ($_POST['upload'])) {
                      <td style="border: 1px solid black;">
                         <img src="uploaded_img/<?php echo htmlspecialchars($row['homepage_image']); ?>" height="50"
                            width="150" alt="logo">
+                     </td>
+                     <td style="border: 1px solid black;">
+                        <img src="uploaded_img/<?php echo htmlspecialchars($row['gcash_ss']); ?>" height="50" width="150"
+                           alt="gcash">
                      </td>
 
                   </tr>

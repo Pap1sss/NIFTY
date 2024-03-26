@@ -173,7 +173,7 @@ if ($result->num_rows > 0) {
         $mail->send();
 
         header('location: home.php');
-        exit();
+
       } catch (Exception $e) {
         $errors['otp-error'] = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
       }
@@ -258,7 +258,8 @@ if ($result->num_rows > 0) {
     - #HEADER
   -->
 
-        <header class="header" data-header>
+        <header class=" header" data-header
+          style="background: linear-gradient(to right, #f9c47f, #F4B39D); box-shadow: 0px 4px 4px rgba(0, 0, 0, .05);">
           <div class="container">
 
             <div class="overlay" data-overlay></div>
@@ -285,41 +286,28 @@ if ($result->num_rows > 0) {
               <a href="../index.php" class="logo">
                 <img src="../admin/uploaded_img/<?= $row["logo"] ?>" width="190" height="50" alt="logo">
               </a>
-              <style>
-                .navbar-link {
-                  text-decoration: none;
-                  color: inherit;
-                }
 
-                .navbar-link:hover {
-                  text-decoration: none;
-
-                }
-              </style>
               <ul class="navbar-list">
 
                 <li class="navbar-item">
-                  <a href="../index.php" class="navbar-link">Home</a>
-                </li>
 
-
-
-                <li class="navbar-item">
-                  <a href="../products.php" class="navbar-link">Products</a>
                 </li>
 
                 <li class="navbar-item">
-                  <a href="logout-user.php" class="navbar-link">Logout</a>
+
                 </li>
+
+
 
 
               </ul>
 
               <ul class="nav-action-list">
 
+
                 <li>
-                  <a href="../login_user/home.php" class="nav-action-btn">
-                    <ion-icon name="person-outline" aria-hidden="true"></ion-icon>
+                  <a href="home.php" class="nav-action-btn">
+                    <ion-icon name="person-outline" aria-hidden="false"></ion-icon>
 
                     <span class="nav-action-text">Login / Register</span>
                   </a>
@@ -328,21 +316,28 @@ if ($result->num_rows > 0) {
 
 
                 <li>
-                  <a href="../login_user/cart.php" class="nav-action-btn">
+                  <a href="cart.php" class="nav-action-btn">
                     <ion-icon name="bag-outline" aria-hidden="true"></ion-icon>
 
-                    <data class="nav-action-text">Basket: <strong></strong></data>
+                    <data class="nav-action-text">Cart: <strong></strong></data>
 
 
                   </a>
                 </li>
+                <li>
+                  <a href="logout-user.php" class="nav-action-btn" onclick="return confirm('Are you sure you want to logout?')">
+                    <ion-icon name="log-out-outline" aria-hidden="true"></ion-icon>
+                    <data class="nav-action-text">Logout: <strong></strong></data>
+                  </a>
+                </li>
+
+
 
               </ul>
 
             </nav>
 
           </div>
-
         </header>
 
 
@@ -350,114 +345,142 @@ if ($result->num_rows > 0) {
     - #END HEADER
   -->
 
-        <body>
+        <body style="background-color:rgba(0,0,0,0.025);">
+          <style>
+            .detail-btn {
+              background-color: #f9c47f;
+              border: 1px solid white;
 
+            }
 
-          <div class="container mt-5">
-            <h1 class="heading text-center mb-5">Complete Your Order</h1>
-            <form action="" method="post">
-              <div class="display-order mb-4 p-3 bg-light">
+            .detail-btn:hover {
+              background-color: #F4B39D;
+              color: white;
+            }
+          </style>
+          <div class="container">
+            <div class="container mt-5">
+              <hr style=" border-top: 0.3px solid #5F5E5E; ">
+              <br>
+              <h1 class="heading text-center mb-5"> - Complete Your Order - </h1>
+              <hr style=" border-top: 0.3px solid #5F5E5E; ">
+              <br>
+              <br>
+              <form action="" method="post">
+                <div class="display-order mb-4 p-3 bg-light">
 
-                <div class="row justify-content-center">
-                  <div class="col-md-8">
-                    <div class="card">
-                      <div class="card-body">
-                        <div class="display-order text-center">
-                          <?php
-                          $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'");
-                          $total = 0;
-                          $grand_total = 0;
-                          if (mysqli_num_rows($select_cart) > 0) {
-                            while ($fetch_cart = mysqli_fetch_assoc($select_cart)) {
-                              $total_price = ($fetch_cart['price'] * $fetch_cart['quantity']);
-                              $grand_total += $total_price;
-                              $shipping = "80";
-                              $Total = 0;
-                              $Total = $grand_total + $shipping;
+                  <div class="row justify-content-center">
+                    <div class="col-md-8">
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="display-order text-center">
+                            <?php
+                            $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'");
+                            $total = 0;
+                            $grand_total = 0;
+                            if (mysqli_num_rows($select_cart) > 0) {
+                              while ($fetch_cart = mysqli_fetch_assoc($select_cart)) {
+                                $total_price = ($fetch_cart['price'] * $fetch_cart['quantity']);
+                                $grand_total += $total_price;
+                                $shipping = "80";
+                                $Total = 0;
+                                $Total = $grand_total + $shipping;
 
-                              ?>
-                              <span>
-                                <?= $fetch_cart['name']; ?>
-                                <?= $fetch_cart['unit']; ?> (
-                                <?= $fetch_cart['quantity']; ?>)
-                              </span>
-                              <?php
+                                ?>
+                                <span>
+                                  <h4>
+                                    <?= $fetch_cart['name']; ?>
+                                    [
+                                    <?= $fetch_cart['unit']; ?> ]
+                                    [ Quantity:
+                                    <?= $fetch_cart['quantity']; ?> ]
+                                  </h4>
+                                </span>
+                                <?php
+                              }
+                            } else {
+
                             }
-                          } else {
+                            ?>
 
-                          }
-                          ?>
-
-                          <span class="grand-total ms-3">Grand Total: ₱
-                            <?php echo $Total; ?>
-                          </span>
+                            <span class="grand-total ms-3">Grand Total: ₱
+                              <?php echo $Total; ?>
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <?php
-              if ($grand_total == 0) {
-                echo "<script>alert('Your cart is empty.'); history.back();</script>";
-              } else {
-                ?>
-                <h4>INPUT YOUR ORDER INFORMATION</h4>
-                <div class="row g-3">
-                  <div class="col-md-6">
-                    <div class="inputBox p-3 mb-3 bg-light">
-                      <span class="fs-5">Name</span>
-                      <input type="text" placeholder="Enter your name" name="name"
-                        value="<?php echo htmlspecialchars($user_name); ?>" required class="form-control">
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="inputBox p-3 mb-3 bg-light">
-                      <span class="fs-5">Mobile Number</span>
-                      <input type="number" placeholder="Enter your number" name="number"
-                        value="<?php echo htmlspecialchars($contact); ?>" required class="form-control">
-                    </div>
-                  </div>
-
-                  <div class="col-md-6">
-                    <div class="inputBox p-3 mb-3 bg-light">
-                      <span class="fs-5">Email address</span>
-                      <input type="email" placeholder="Enter your email" name="email"
-                        value="<?php echo htmlspecialchars($email); ?>" required class="form-control">
-                    </div>
-                  </div>
-                  <script>
-                    function showGcashInput() {
-                      document.getElementById('gcash-input').style.display = 'block';
-                    }
-
-                    function hideGcashInput() {
-                      document.getElementById('gcash-input').style.display = 'none';
-                    }
-
-                    function uploadGcashQRCode() {
-                      const input = document.createElement('input');
-                      input.type = 'file';
-                      input.accept = 'image/*';
-                      input.onchange = function (e) {
-                        const file = e.target.files[0];
-                        const reader = new FileReader();
-                        reader.onload = function (e) {
-                          const img = document.createElement('img');
-                          img.src = e.target.result;
-                          document.getElementById('gcash-qr-code').appendChild(img);
-                        };
-                        reader.readAsDataURL(file);
-                      };
-                      input.click();
-                    }
-                  </script>
-                  </head>
-
-                  <body>
+                <?php
+                if ($grand_total == 0) {
+                  echo "<script>alert('Your cart is empty.'); history.back();</script>";
+                } else {
+                  ?>
+                  <h4>INPUT YOUR ORDER INFORMATION</h4>
+                  <div class="row g-3">
                     <div class="col-md-6">
                       <div class="inputBox p-3 mb-3 bg-light">
-                        <span class="fs-5">Payment</span>
+                        <span class="fs-5">Name</span>
+                        <input type="text" style="font-size: 20px;" placeholder="Enter your name" name="name"
+                          value="<?php echo htmlspecialchars($user_name); ?>" required class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="inputBox p-3 mb-3 bg-light">
+                        <span class="fs-5">Mobile Number</span>
+                        <input type="number" style="font-size: 20px;" placeholder="Enter your number" name="number"
+                          value="<?php echo htmlspecialchars($contact); ?>" required class="form-control">
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="inputBox p-3 mb-3 bg-light">
+                        <span class="fs-5">Email address</span>
+                        <input type="email" style="font-size: 20px;" placeholder="Enter your email" name="email"
+                          value="<?php echo htmlspecialchars($email); ?>" required class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="inputBox p-3 mb-3 bg-light">
+                        <span class="fs-5">Full Address</span>
+                        <input type="text" style="font-size: 20px;"
+                          placeholder="e.g. House Number. Street, Barangay, City, Province" name="address"
+                          value="<?php echo htmlspecialchars($address); ?>" required class="form-control">
+                      </div>
+                    </div>
+                    <script>
+                      function showGcashInput() {
+                        document.getElementById('gcash-input').style.display = 'block';
+                      }
+
+                      function hideGcashInput() {
+                        document.getElementById('gcash-input').style.display = 'none';
+                      }
+
+                      function uploadGcashQRCode() {
+                        const input = document.createElement('input');
+                        input.type = 'file';
+                        input.accept = 'image/*';
+                        input.onchange = function (e) {
+                          const file = e.target.files[0];
+                          const reader = new FileReader();
+                          reader.onload = function (e) {
+                            const img = document.createElement('img');
+                            img.src = e.target.result;
+                            document.getElementById('gcash-qr-code').appendChild(img);
+                          };
+                          reader.readAsDataURL(file);
+                        };
+                        input.click();
+                      }
+                    </script>
+                    </head>
+
+
+                    <div class="col-md-6">
+                      <div class="inputBox p-3 mb-3 bg-light">
+                        <span class="fs-5">Payment Method:</span>
                         <div class="form-check">
                           <input class="form-check-input" type="radio" name="method" id="cash-on-delivery"
                             value="cash on delivery" required onchange="hideGcashInput()">
@@ -482,12 +505,14 @@ if ($result->num_rows > 0) {
                               <div class="col-md-6">
                                 <div class="inputBox p-3 mb-3 bg-light">
                                   <span class="fs-5">Enter REFERENCE NO.</span>
-                                  <input type="text" placeholder="" name="reference" class="form-control">
+                                  <input type="text" style="font-size: 20px;" placeholder="" name="reference"
+                                    class="form-control">
                                 </div>
 
                                 <div class="inputBox p-3 mb-3 bg-light">
                                   <span class="fs-5">Enter Gcash Number Used:</span>
-                                  <input type="text" placeholder="" name="gcash_number" pattern="[0-9]{11}" class="form-control">
+                                  <input type="text" style="font-size: 20px;" placeholder="" name="gcash_number"
+                                    pattern="[0-9]{11}" class="form-control">
                                 </div>
 
 
@@ -507,33 +532,122 @@ if ($result->num_rows > 0) {
 
 
                     </div>
-                    <div class="col-md-6">
-                      <div class="inputBox p-3 mb-3 bg-light">
-                        <span class="fs-5">Full Address</span>
-                        <input type="text" placeholder="e.g. House Number. Street, Barangay, City, Province" name="address"
-                          value="<?php echo htmlspecialchars($address); ?>" required class="form-control">
-                      </div>
-                    </div>
 
-                </div>
-                <div class="text-center mt-5">
-                  <button type="submit" name="order_btn" id="orderButton" class="btn">Order Now</button>
-                </div>
+
+                  </div>
+                  <div class="text-center mt-5">
+                    <button type="submit" name="order_btn" id="orderButton" class="btn detail-btn">Order Now</button>
+                  </div>
 
 
 
-              </form>
-            </div>
+                </form>
+              </div>
 
             </div>
-
+            </div>
             <?php
-              }
+                }
       }
     }
   }
 }
 ?>
+
+  <!-- 
+    - #FOOTER
+  -->
+  <?php
+  $sql = "SELECT * from upload";
+  $result = mysqli_query($conn, $sql);
+  if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+
+      ?>
+      <footer class="footer">
+        <br><br>
+
+        <div class="footer-top section"
+          style="background: linear-gradient(to right, #f9c47f, #F4B39D); box-shadow: 0px 4px 4px rgba(0, 0, 0, .05);">
+          <div class="container">
+
+
+            <div class="footer-link-box">
+
+              <ul class="footer-list">
+
+                <li>
+                  <p class="footer-list-title">Contact Us</p>
+                </li>
+
+                <li>
+                  <address class="footer-link">
+                    <ion-icon name="location"></ion-icon>
+
+                    <span class="footer-link-text">
+                      <?= htmlspecialchars($row["address"]); ?>
+                    </span>
+                  </address>
+                </li>
+
+                <li>
+                  <a href="tel:<?= htmlspecialchars($row["contact"]); ?>" class="footer-link">
+                    <ion-icon name="call"></ion-icon>
+
+                    <span class="footer-link-text">
+                      <?= htmlspecialchars($row["contact"]); ?>
+                    </span>
+                  </a>
+                </li>
+
+                <li>
+                  <a href="mailto:<?= htmlspecialchars($row["email"]); ?>" class="footer-link">
+                    <ion-icon name="mail"></ion-icon>
+
+                    <span class="footer-link-text">
+                      <?= htmlspecialchars($row["email"]); ?>
+                    </span>
+                  </a>
+                </li>
+
+              </ul>
+
+
+
+
+
+            </div>
+
+          </div>
+        </div>
+
+
+        <?php
+    }
+  }
+  ?>
+  </footer>
+
+
+
+
+  <!-- 
+- #GO TO TOP
+-->
+
+  <a href="#top" class="go-top-btn" data-go-top>
+    <ion-icon name="arrow-up-outline"></ion-icon>
+  </a>
+
+
+
+
+
+  <!-- 
+- custom js link
+-->
+  <script src="./assets/js/script.js"></script>
+
   <!-- custom js file link  -->
   <script>
     var close = document.getElementsByClassName("closebtn");
