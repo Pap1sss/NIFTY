@@ -497,8 +497,8 @@ if ($result->num_rows > 0) {
                           <div id="gcash-input" style="display: none;">
                             <div class="input-group mb-3">
 
-                              <div id="gcash-input" style="display: block;">
-                                <img src="../assets/images/gcashQR.jpg" alt="GCash QR Code" class="img-fluid">
+                              <div id="gcash-input" style="display: block; max-width: 150px; max-height: 250px;">
+                                <img src="../admin/uploaded_img/<?= $row["gcash_ss"] ?>" alt="GCash QR Code" class="img-fluid">
                               </div>
 
                               <div id="gcash-qr-code"></div>

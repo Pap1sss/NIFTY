@@ -454,16 +454,14 @@ if (isset ($_POST['update_business_gcash'])) {
                         <?php echo htmlspecialchars($row['contact']); ?>
                      </td>
                      <td style="border: 1px solid black;">
-                        <img src="uploaded_img/<?php echo htmlspecialchars($row['logo']); ?>" height="50" width="150"
+                        <img src="uploaded_img/<?php echo htmlspecialchars($row['logo']); ?>" width="150" alt="logo">
+                     </td>
+                     <td style="border: 1px solid black;">
+                        <img src="uploaded_img/<?php echo htmlspecialchars($row['homepage_image']); ?>" width="150"
                            alt="logo">
                      </td>
                      <td style="border: 1px solid black;">
-                        <img src="uploaded_img/<?php echo htmlspecialchars($row['homepage_image']); ?>" height="50"
-                           width="150" alt="logo">
-                     </td>
-                     <td style="border: 1px solid black;">
-                        <img src="uploaded_img/<?php echo htmlspecialchars($row['gcash_ss']); ?>" height="50" width="150"
-                           alt="gcash">
+                        <img src="uploaded_img/<?php echo htmlspecialchars($row['gcash_ss']); ?>" width="150" alt="gcash">
                      </td>
 
                   </tr>
