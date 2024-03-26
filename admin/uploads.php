@@ -56,10 +56,6 @@ if (isset ($_POST['update_business_description'])) {
 
    // Validate the input
    $description = $_POST['description'];
-   if (!preg_match("/^[a-zA-Z0-9 ]*$/", $description)) {
-      echo "<script>alert('Only letters, numbers, and whitespace are allowed');</script>";
-
-   }
 
    if (empty ($description)) {
       echo "<script>alert('Please fill out the field');</script>";
@@ -85,10 +81,7 @@ if (isset ($_POST['update_business_email'])) {
 
    // Validate the input
    $email = $_POST['email'];
-   if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-      echo "<script>alert('Please enter a valid email address');</script>";
 
-   }
 
    // Use prepared statements to prevent SQL injection
    $stmt = $conn->prepare("UPDATE upload SET email=?");
@@ -108,10 +101,6 @@ if (isset ($_POST['update_business_address'])) {
 
    // Validate the input
    $address = $_POST['company_address'];
-   if (!preg_match("/^[a-zA-Z0-9 ]*$/", $address)) {
-      echo "<script>alert('Only letters, numbers, and whitespace are allowed');</script>";
-
-   }
 
    if (empty ($address)) {
       echo "<script>alert('Please fill out the field');</script>";
@@ -138,23 +127,23 @@ if (isset ($_POST['update_business_contact'])) {
    $contact = $_POST['company_contact'];
    if (!preg_match("/^[0-9]{11}$/", $contact)) {
       echo "<script>alert('Please enter exactly 11 numbers');</script>";
+   } else {
+      if (empty ($contact)) {
+         echo "<script>alert('Please fill out the field');</script>";
+      }
+
+      // Use prepared statements to prevent SQL injection
+      $stmt = $conn->prepare("UPDATE upload SET contact=?");
+      $stmt->bind_param("i", $contact);
+      $stmt->execute();
+
+      // Log the activity
+      $editbusinesscontact = 'edit business contact number';
+      $stmt = $conn->prepare("INSERT INTO admin_activity_log(username, date_log, time_log, action) VALUES(?, CURRENT_DATE(), CURRENT_TIME(),?)");
+      $stmt->bind_param("ss", $username, $editbusinesscontact);
+      $stmt->execute();
+
    }
-
-   if (empty ($contact)) {
-      echo "<script>alert('Please fill out the field');</script>";
-   }
-
-   // Use prepared statements to prevent SQL injection
-   $stmt = $conn->prepare("UPDATE upload SET contact=?");
-   $stmt->bind_param("i", $contact);
-   $stmt->execute();
-
-   // Log the activity
-   $editbusinesscontact = 'edit business contact number';
-   $stmt = $conn->prepare("INSERT INTO admin_activity_log(username, date_log, time_log, action) VALUES(?, CURRENT_DATE(), CURRENT_TIME(),?)");
-   $stmt->bind_param("ss", $username, $editbusinesscontact);
-   $stmt->execute();
-
 
 }
 
@@ -376,7 +365,8 @@ if (isset ($_POST['update_business_gcash'])) {
                   <div style="margin-left: 120px; margin-bottom: 20px;">
                      <input type="file" accept="image/png, image/jpeg, image/jpg" name="company_logo" class="box">
                   </div>
-                  <input type="submit" value="Upload Logo" name="update_business_logo" class="btn detail-btn">
+                  <input type="submit" value="Upload Logo" name="update_business_logo" class="btn detail-btn"
+                     style="border-radius:20px">
                </li>
 
 
@@ -390,7 +380,8 @@ if (isset ($_POST['update_business_gcash'])) {
                      <input type="file" accept="image/png, image/jpeg, image/jpg" name="display_image" class="box">
                   </div>
 
-                  <input type="submit" value="Upload Home Image" name="update_business_home" class="btn detail-btn">
+                  <input type="submit" value="Upload Home Image" name="update_business_home" class="btn detail-btn"
+                     style="border-radius:20px">
                </li>
                <li class="list-group-item" style="text-align: center;">
                   <h4>UPLOAD GCASH QR SCREENSHOT</h4>
@@ -402,7 +393,8 @@ if (isset ($_POST['update_business_gcash'])) {
                      <input type="file" accept="image/png, image/jpeg, image/jpg" name="gcash_qr" class="box">
                   </div>
 
-                  <input type="submit" value="Upload" name="update_business_gcash" class="btn detail-btn">
+                  <input type="submit" value="Upload GCASH QR" name="update_business_gcash" class="btn detail-btn"
+                     style="border-radius:20px">
                </li>
 
 
