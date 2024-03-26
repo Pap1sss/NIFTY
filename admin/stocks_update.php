@@ -20,19 +20,44 @@ if ($username != false && $name != false) {
 
 $id = $_GET['manage'];
 
-if (isset ($_POST['add_stocks'])) {
-   $create = 'add a stock on product id';
+if (isset ($_POST['add_unit'])) {
+   $create = 'added a unit stock on product id';
    $unit = $_POST['unit'];
-   $color = $_POST['color'];
    $username = $_SESSION['user_name'];
 
-   $product_check = "SELECT * FROM stocks WHERE unit_name = '$unit' AND color_name = '$color' AND product_id = '$id' ";
+   $product_check = "SELECT * FROM stocks_unit WHERE unit_name = '$unit' AND product_id = '$id' ";
    $res = mysqli_query($conn, $product_check);
    if (mysqli_num_rows($res) > 0) {
       $message[] = 'stocks already added!!';
    } else {
-      $insert = "INSERT INTO stocks(product_id,unit_name, color_name, date_created, time_created) 
-      VALUES('$id', '$unit', '$color', CURRENT_DATE(), CURRENT_TIME())";
+      $insert = "INSERT INTO stocks_unit(product_id,unit_name, date_created, time_created) 
+      VALUES('$id', '$unit',  CURRENT_DATE(), CURRENT_TIME())";
+      $stocks_logs = "INSERT INTO admin_activity_log(username, date_log, time_log,  action) 
+      VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'$create : $id')";
+      $data_check = mysqli_query($conn, $stocks_logs);
+      $upload = mysqli_query($conn, $insert);
+      if ($upload) {
+         $message[] = 'new stocks added successfully';
+      } else {
+         $message[] = 'could not add the stocks';
+      }
+   }
+}
+;
+
+if (isset ($_POST['add_color'])) {
+   $create = 'add a color stock on product id';
+
+   $color = $_POST['color'];
+   $username = $_SESSION['user_name'];
+
+   $product_check = "SELECT * FROM stocks_color WHERE color_name = '$color' AND product_id = '$id' ";
+   $res = mysqli_query($conn, $product_check);
+   if (mysqli_num_rows($res) > 0) {
+      $message[] = 'stocks already added!!';
+   } else {
+      $insert = "INSERT INTO stocks_color(product_id, color_name, date_created, time_created) 
+      VALUES('$id', '$color', CURRENT_DATE(), CURRENT_TIME())";
       $stocks_logs = "INSERT INTO admin_activity_log(username, date_log, time_log,  action) 
       VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'$create : $id')";
       $data_check = mysqli_query($conn, $stocks_logs);
@@ -81,6 +106,18 @@ if (isset ($_POST['add_stocks'])) {
 </head>
 
 <body>
+   <style>
+      .detail-btn {
+         background-color: #f9c47f;
+         border: 1px solid white;
+
+      }
+
+      .detail-btn:hover {
+         background-color: #F4B39D;
+         color: white;
+      }
+   </style>
    <style>
       .alert {
          padding: 20px;
@@ -199,84 +236,135 @@ if (isset ($_POST['add_stocks'])) {
 
       <?php
 
-      $select_stocks = mysqli_query($conn, "SELECT * FROM stocks WHERE product_id = '$id'");
-      while ($row = mysqli_fetch_assoc($select_stocks)) {
-         $unit_name = $row['unit_name'];
-         $color_name = $row['color_name'];
-
-
-         if (isset ($_GET['delete'])) {
-            $id = $_GET['manage'];
-            mysqli_query($conn, "DELETE FROM stocks WHERE unit_name = '$unit_name' AND color_name = '$color_name' AND product_id = '$id'");
-            header('location:stocks_update.php?id=' . $id);
-         }
-      }
-
 
       ?>
       <div class="d-flex justify-content-center " style="margin-top: 20px">
-         <ul class="list-group float-left mr-3">
-            <li class="list-group-item d-flex justify-content-center">
-               <h5>AVAILABLE STOCKS</h5>
-            </li>
-            <li class="list-group-item d-flex justify-content-center">
-               <form action="" method="post">
-                  <table class="product-display-table table-bordered border-dark">
-                     <thead>
-                        <tr>
-                           <th>
-                              <input type="checkbox" id="select-all"> Select all
-                           </th>
-                           <th>unit name</th>
-                           <th>color name</th>
+         <div>
+            <ul class="list-group float-left mr-3">
+               <li class="list-group-item d-flex justify-content-center">
+                  <h5>AVAILABLE UNITS</h5>
+               </li>
+               <li class="list-group-item d-flex justify-content-center">
+                  <form action="" method="post">
+                     <table class="product-display-table table-bordered border-dark">
+                        <thead>
+                           <tr>
+                              <th>
+                                 <input type="checkbox" id="select-all"> Select all
+                              </th>
+                              <th>unit name</th>
 
-                        </tr>
-                     </thead>
-                     <?php
-                     $select_stocks = mysqli_query($conn, "SELECT * FROM stocks WHERE product_id = '$id'");
-                     while ($row = mysqli_fetch_assoc($select_stocks)) {
-                        ?>
-                        <tr>
-                           <td>
-                              <input type="checkbox" name="delete_ids[]" value="<?php echo $row['stocks_id']; ?>">
-                              <input type="hidden" name="stocks_id" value="<?php echo $row['stocks_id']; ?>">
-                           </td>
-                           <td>
-                              <?php echo $row['unit_name']; ?>
-                           </td>
-                           <td>
-                              <?php echo $row['color_name']; ?>
-                           </td>
-                        </tr>
-                     <?php } ?>
-                  </table>
-                  <button type="submit" name="delete_submit" class="btn btn-danger">Delete</button>
-               </form>
-            </li>
-         </ul>
-      </div>
-      <?php
-      if (isset ($_POST['delete_submit'])) {
-         // Get the list of checkbox values
-         $delete_ids = $_POST['delete_ids'];
-         $stocks_id = $_POST['stocks_id'];
 
-         // Loop through the list of IDs to delete
-         foreach ($delete_ids as $gallery_id) {
-            // Prepare a delete statement
-            $delete_stmt = $conn->prepare("DELETE FROM stocks WHERE stocks_id = ?");
-            $delete_stmt->bind_param("i", $stocks_id);
-            $delete_stmt->execute();
+                           </tr>
+                        </thead>
+                        <?php
+                        $select_stocks_unit = mysqli_query($conn, "SELECT * FROM stocks_unit WHERE product_id = '$id'");
+                        while ($row = mysqli_fetch_assoc($select_stocks_unit)) {
+                           ?>
+                           <tr>
+                              <td>
+                                 <input type="checkbox" name="delete_ids[]" value="<?php echo $row['stocks_unit_id']; ?>">
+                                 <input type="hidden" name="stocks_unit_id" value="<?php echo $row['stocks_unit_id']; ?>">
+                              </td>
+                              <td>
+                                 <?php echo $row['unit_name']; ?>
+                              </td>
+
+                           </tr>
+                        <?php } ?>
+                     </table>
+                     <button type="submit" name="delete_unit_submit" class="btn btn-danger">Delete</button>
+                  </form>
+               </li>
+            </ul>
+
+            <?php
+            if (isset ($_POST['delete_unit_submit'])) {
+               // Get the list of checkbox values
+               $delete_ids = $_POST['delete_ids'];
+               $stocks_unit_id = $_POST['stocks_unit_id'];
+
+               // Loop through the list of IDs to delete
+               foreach ($delete_ids as $stocks_id) {
+                  // Prepare a delete statement
+                  $delete_stmt = $conn->prepare("DELETE FROM stocks_unit WHERE stocks_unit_id = ?");
+                  $delete_stmt->bind_param("i", $stocks_unit_id);
+                  $delete_stmt->execute();
+               }
+
+               // Display the alert messages
+               echo "<script>alert('Removed Successfully');</script>";
+
+               // Redirect back to the admin page with the ID of the item being edited
+               echo "<script>window.location.href = 'stocks_update.php?manage=$id';</script>";
+               exit;
+            }
+            ?>
+
+            <br><br>
+            <ul class="list-group float-left mr-3">
+               <li class="list-group-item d-flex justify-content-center">
+                  <h5>AVAILABLE COLOR </h5>
+               </li>
+               <li class="list-group-item d-flex justify-content-center">
+                  <form action="" method="post">
+                     <table class="product-display-table table-bordered border-dark">
+                        <thead>
+                           <tr>
+                              <th>
+                                 <input type="checkbox" id="select-all"> Select all
+                              </th>
+                              <th>color name</th>
+
+
+                           </tr>
+                        </thead>
+                        <?php
+
+                        $select_stocks_color = mysqli_query($conn, "SELECT * FROM stocks_color WHERE product_id = '$id'");
+                        while ($row = mysqli_fetch_assoc($select_stocks_color)) {
+                           ?>
+                           <tr>
+                              <td>
+                                 <input type="checkbox" name="delete_ids[]" value="<?php echo $row['stocks_color_id']; ?>">
+                                 <input type="hidden" name="stocks_color_id"
+                                    value="<?php echo $row['stocks_color_id']; ?>">
+                              </td>
+                              <td>
+                                 <?php echo $row['color_name']; ?>
+                              </td>
+
+                           </tr>
+                        <?php } ?>
+                     </table>
+                     <button type="submit" name="delete_color_submit" class="btn btn-danger">Delete</button>
+                  </form>
+               </li>
+            </ul>
+         </div>
+         <?php
+         if (isset ($_POST['delete_color_submit'])) {
+            // Get the list of checkbox values
+            $delete_ids = $_POST['delete_ids'];
+            $stocks_color_id = $_POST['stocks_color_id'];
+
+            // Loop through the list of IDs to delete
+            foreach ($delete_ids as $stocks_id) {
+               // Prepare a delete statement
+               $delete_stmt = $conn->prepare("DELETE FROM stocks_color WHERE stocks_color_id = ?");
+               $delete_stmt->bind_param("i", $stocks_color_id);
+               $delete_stmt->execute();
+            }
+
+            // Display the alert messages
+            echo "<script>alert('Removed Successfully');</script>";
+
+            // Redirect back to the admin page with the ID of the item being edited
+            echo "<script>window.location.href = 'stocks_update.php?manage=$id';</script>";
+            exit;
          }
-
-         // Display the alert messages
-         echo "<script>alert('Removed Successfully');</script>";
-
-         // Redirect back to the admin page with the ID of the item being edited
-         echo "<script>window.location.href = 'stocks_update.php?manage=$id';</script>";
-         exit;
-      }
-      ?>
+         ?>
+      </div>
 
       <!-- fetch units  -->
 
@@ -345,6 +433,7 @@ if (isset ($_POST['add_stocks'])) {
                      }
                      ?>
                   </select>
+                  <input type="submit" class="btn detail-btn" name="add_unit" value="confirm">
                </li>
                <li class="list-group-item d-flex justify-content-center">
                   <select class="box" name="color">
@@ -359,10 +448,9 @@ if (isset ($_POST['add_stocks'])) {
                      }
                      ?>
                   </select>
+                  <input type="submit" class="btn detail-btn" name="add_color" value="confirm">
                </li>
-               <li class="list-group-item d-flex justify-content-center">
-                  <input type="submit" class="btn btn-dark" name="add_stocks" value="confirm">
-               </li>
+
             </ul>
 
          </form>

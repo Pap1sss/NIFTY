@@ -394,6 +394,8 @@ if ($result->num_rows > 0) {
                                     <?= $fetch_cart['unit']; ?> ]
                                     [ Quantity:
                                     <?= $fetch_cart['quantity']; ?> ]
+                                    [₱
+                                    <?= $fetch_cart['price']; ?>]
                                   </h4>
                                 </span>
                                 <?php

@@ -313,10 +313,10 @@ if ($result->num_rows > 0) {
           color: white;
         }
       </style>
-      <section class="h-100 gradient-custom">
+      <section class="h-100 gradient-custom container" style="padding: 50px;">
         <div class="row d-flex justify-content-center">
 
-          <div class="card mb-4" style="border: 2px solid black; width: 90%; margin:3%;">
+          <div class="card mb-4" style="border: 2px solid black; width: 90%;">
 
             <div class="card-header py-3">
               <h5 class="mb-0">YOUR CART</h5>
@@ -440,81 +440,82 @@ if ($result->num_rows > 0) {
               </div>
             </div>
 
-            <div class="col-md-4">
-              <div class="card mb-4" style="border: 2px solid black; width: 90%; margin:3%;">
-                <div class="card-header py-3">
-                  <h5 class="mb-0">Summary</h5>
-                </div>
-                <div class="card-body">
-                  <ul class="list-group list-group-flush">
-                    <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-                      Products
-                      <span>₱
-                        <?php echo $grand_total; ?>
-                      </span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                      Shipping
-                      <?php
-                      $shipping = "80";
-                      ?>
-                      <span>₱
-                        <?php echo $shipping; ?>
-                      </span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
-                      <div>
-                        <strong>Total amount</strong>
 
-                      </div>
-                      <?php
-                      $Total = $grand_total + $shipping;
-                      ?>
-                      <span><strong>₱
-                          <?php echo $Total; ?>
-                        </strong></span>
-                    </li>
-                  </ul>
-                </div>
-
-
-
-                <?php
-
-                if ($grand_total == 0) {
-
-                  ?>
-                  <?php
-                } else {
-                  ?>
-                  <div class="column d-flex justify-content-between" style="padding: 10px;">
-                    <div style="padding: 10px;">
-                      <form action="checkout.php">
-
-                        <button type="submit" class="btn detail-btn">
-                          Go to checkout
-                        </button>
-                      </form>
-                    </div>
-                    <div style="padding: 10px;">
-                      <form action="../products.php">
-                        <button type="submit" class="btn detail-btn">
-                          Back
-                        </button>
-                      </form>
-                    </div>
-                  </div>
-                  <?php
-                }
-                ?>
-
-
-
-
-
-
+            <div class="card mb-4" style="border: 2px solid black; width: 90%; margin:3%;">
+              <div class="card-header py-3">
+                <h5 class="mb-0">Summary</h5>
               </div>
+              <div class="card-body">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                    Products
+                    <span>₱
+                      <?php echo $grand_total; ?>
+                    </span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                    Shipping
+                    <?php
+                    $shipping = "80";
+                    ?>
+                    <span>₱
+                      <?php echo $shipping; ?>
+                    </span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                    <div>
+                      <strong>Total amount</strong>
+
+                    </div>
+                    <?php
+                    $Total = $grand_total + $shipping;
+                    ?>
+                    <span><strong>₱
+                        <?php echo $Total; ?>
+                      </strong></span>
+                  </li>
+                </ul>
+              </div>
+
+
+
+              <?php
+
+              if ($grand_total == 0) {
+
+                ?>
+                <?php
+              } else {
+                ?>
+                <div class="column d-flex justify-content-between" style="padding: 10px;">
+                  <div style="padding: 10px;">
+                    <form action="checkout.php">
+
+                      <button type="submit" class="btn detail-btn">
+                        Go to checkout
+                      </button>
+                    </form>
+                  </div>
+                  <div style="padding: 10px;">
+                    <form action="../products.php">
+                      <button type="submit" class="btn detail-btn">
+                        Back
+                      </button>
+                    </form>
+                  </div>
+                </div>
+                <?php
+              }
+              ?>
+
+
+
+
+
+
             </div>
+
+          </div>
 
       </section>
     </body>
