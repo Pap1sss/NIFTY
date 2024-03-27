@@ -48,7 +48,7 @@ if (isset ($_POST['add_product'])) {
          move_uploaded_file($product_image_tmp_name, $product_image_folder);
          echo "<script>alert('New Product Added Successfully');</script>";
 
-         exit;
+       
       } else {
          echo "<script>alert('Could not add the product');</script>";
       }
