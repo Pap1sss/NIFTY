@@ -938,7 +938,7 @@ if ($result->num_rows > 0) {
                         </div>
                         <!--PRODUCT OPTIONS-->
                           <!--PRODUCT SIZE-->
-                          <style>
+                        <style>
                           .form-check-label {
                             padding-left: 5px;
                             margin-bottom: 0;
