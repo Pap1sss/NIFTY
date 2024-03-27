@@ -192,11 +192,14 @@ if ($result->num_rows > 0) {
 
 
 
-    <body style="background-color:white;">
+    <body style="background-color:rgba(0,0,0,0.025);">
       <style>
         .detail-btn {
-          background-color: #f9c47f;
+          background-color: #E7AF65;
           border: transparent;
+          border-radius: 20px;
+          box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.20);
+
 
         }
 
@@ -209,11 +212,11 @@ if ($result->num_rows > 0) {
 
 
 
-      <div class="container py-4" style=" display: flex; justify-content: center;">
+      <div class=" container py-4" style=" display: flex; justify-content: center;">
 
 
         <div class="col-lg-8">
-          <div class="card mb-4">
+          <div class="card mb-4" style="border-radius:10px; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.20);">
             <div class="card-body">
               <form method="post" action="">
                 <div class="row">
@@ -275,7 +278,7 @@ if ($result->num_rows > 0) {
                 <div class="row">
                   <div class="col-sm-12">
                     <button type="submit" name="submit" class="btn detail-btn"
-                      style=" display: inline-block; width:100%;">Update
+                      style=" display: inline-block; width:100%; ">Update
                       Information</button>
 
                     <?php
@@ -306,21 +309,100 @@ if ($result->num_rows > 0) {
               </form>
             </div>
           </div>
+          <br><br>
 
-
+          <hr style=" border-top: 0.5px solid #F9C47F; ">
 
           <div class="container" style="padding: 5px;">
-
-            <div class="column d-flex justify-content-evenly" style="padding: 20px;">
-
-
-              <button class="btn detail-btn" id="toShipBtn">TO SHIP</button>
-              <button class="btn detail-btn" id="toReceiveBtn">TO RECEIVED</button>
-              <button class="btn detail-btn" id="orderCompletedBtn">ORDER COMPLETED</button>
+            <style>
+              .tab_font {
+                color: black;
+              }
+            </style>
+            <div style="text-align: center; ">
+              <H2>Your Orders</H2>
             </div>
-            <div id="toShipSection" class="card card-order-status 4 mb-md-0">
+
+            <div class="column d-flex justify-content-evenly" style="padding: 20px; ">
+              <ul class="nav nav-tabs" style="font-color: black;">
+                <li class="nav-item">
+                  <a class="nav-link tab_font" id="pendingOrderTab" data-toggle="tab" href="#pendingOrderPanel"
+                    role="tab">PENDING
+                    ORDER</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link tab_font" id="toShipTab" data-toggle="tab" href="#toShipPanel" role="tab">TO SHIP</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link tab_font" id="toReceiveTab" data-toggle="tab" href="#toReceivePanel" role="tab">TO
+                    RECEIVED</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link tab_font" id="orderCompletedTab" data-toggle="tab" href="#orderCompletedPanel"
+                    role="tab">ORDER
+                    COMPLETED</a>
+                </li>
+              </ul>
+            </div>
+            <br>
+
+
+
+            <div id="pendingOrderSection" class="card card-order-status 4 mb-md-0"
+              style="box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.20);">
               <div class="card-body">
-                <h4>TO SHIP</h4>
+                <h4>Pending Orders</h4>
+                <table class="table table-striped table-bordered">
+                  <thead style="display: table-row-group;">
+                    <tr>
+                      <th style="width: 50%;">Products</th>
+                      <th style="width: 25%;">Total Price</th>
+                      <th style="width: 25%;">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody style="display: table-row-group;">
+                    <?php
+                    include_once "connection.php";
+                    $pending = "pending";
+                    $stmt = $conn->prepare("SELECT * FROM orders WHERE user_id = ? AND status = ?");
+                    $stmt->bind_param("is", $user_id, $pending);
+                    $pending = "pending";
+                    $stmt->execute();
+                    $resultpending = $stmt->get_result();
+
+                    if ($resultpending->num_rows > 0) {
+                      while ($row = $resultpending->fetch_assoc()) {
+                        ?>
+                        <tr>
+                          <td>
+                            <?= htmlspecialchars($row["total_products"]) ?>
+                          </td>
+                          <td>
+                            <?= htmlspecialchars($row["total_price"]) ?>
+                          </td>
+                          <td style=" text-transform: uppercase;">
+                            <?= htmlspecialchars($row["status"]) ?>
+                          </td>
+                        </tr>
+                        <?php
+                      }
+                    } else {
+                      ?>
+                      <tr>
+                        <td colspan="4">No user orders found.</td>
+                      </tr>
+                      <?php
+                    }
+                    ?>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div id="toShipSection" class="card card-order-status 4 mb-md-0"
+              style="box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.20);">
+              <div class="card-body">
+                <h4>To Ship</h4>
                 <table class="table table-striped table-bordered">
                   <thead style="display: table-row-group;">
                     <tr>
@@ -358,7 +440,7 @@ if ($result->num_rows > 0) {
                     } else {
                       ?>
                       <tr>
-                        <td colspan="3">No user orders found.</td>
+                        <td colspan="4">No user orders found.</td>
                       </tr>
                       <?php
                     }
@@ -368,11 +450,9 @@ if ($result->num_rows > 0) {
               </div>
             </div>
 
-
-
             <div id="toReceiveSection" class="card card-order-status 4 mb-md-0">
               <div class="card-body">
-                <h4>TO RECEIVED</h4>
+                <h4>To Received</h4>
                 <table class="table table-striped table-bordered">
                   <thead style="display: table-row-group;">
                     <tr>
@@ -421,7 +501,7 @@ if ($result->num_rows > 0) {
             </div>
             <div id="orderCompletedSection" class="card card-order-status 4 mb-md-0">
               <div class="card-body">
-                <h4>ORDER COMPLETED</h4>
+                <h4>Order Completed</h4>
                 <table class="table table-striped table-bordered">
                   <thead style="display: table-row-group;">
                     <tr>
@@ -476,33 +556,32 @@ if ($result->num_rows > 0) {
       </div>
       </div>
       </div>
-
-
       <script>
-        document.getElementById('toShipBtn').addEventListener('click', function () {
-          toggleVisibility('toShipSection');
+        document.getElementById('pendingOrderTab').addEventListener('click', function () {
+          toggleVisibility('pendingOrderSection');
+          toggleVisibility('toShipSection', false);
           toggleVisibility('toReceiveSection', false);
           toggleVisibility('orderCompletedSection', false);
-        });
 
-        document.getElementById('toReceiveBtn').addEventListener('click', function () {
+        }); document.getElementById('toShipTab').addEventListener('click', function () {
+          toggleVisibility('toShipSection');
+          toggleVisibility('pendingOrderSection', false);
+          toggleVisibility('toReceiveSection', false);
+          toggleVisibility('orderCompletedSection', false);
+
+        }); document.getElementById('toReceiveTab').addEventListener('click', function () {
           toggleVisibility('toShipSection', false);
+          toggleVisibility('pendingOrderSection', false);
           toggleVisibility('toReceiveSection');
           toggleVisibility('orderCompletedSection', false);
-        });
 
-        document.getElementById('orderCompletedBtn').addEventListener('click', function () {
+        }); document.getElementById('orderCompletedTab').addEventListener('click', function () {
           toggleVisibility('toShipSection', false);
+          toggleVisibility('pendingOrderSection', false);
           toggleVisibility('toReceiveSection', false);
           toggleVisibility('orderCompletedSection');
-        });
-
-        function toggleVisibility(sectionId, shouldShow = true) {
-          const section = document.getElementById(sectionId);
-          section.style.display = shouldShow ? 'block' : 'none';
-        }
-      </script>
-
+        }); function
+          toggleVisibility(sectionId, shouldShow = true) { const section = document.getElementById(sectionId); section.style.display = shouldShow ? 'block' : 'none'; } </script>
       <style>
         .card-order-status {
           display: none;
@@ -537,7 +616,8 @@ if ($result->num_rows > 0) {
     ?>
 
     <footer class="footer">
-      <div class="footer-top section" style="background-color: #f9c47f;">
+      <div class="footer-top section"
+        style="background: linear-gradient(to right, #f9c47f, #F4B39D); box-shadow: 0px 4px 4px rgba(0, 0, 0, .05);">
         <div class="container">
 
 

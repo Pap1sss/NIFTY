@@ -119,7 +119,9 @@ if ($username != false && $name != false) {
       <div class=" column">
 
         <div style="margin-left:45px; margin-right: 45px;">
+
           <h2>Admin Logs</h2>
+
           <nav aria-label="Page navigation example">
             <ul class="pagination">
               <?php
@@ -185,21 +187,52 @@ if ($username != false && $name != false) {
 
         <div style="margin-left:45px; margin-right: 45px;">
           <h2>Admin Activity Logs</h2>
+          <form method="get">
+            <div class="row">
+              <div class="col-md-4">
+                <label for="start_date">Start Date:</label>
+                <input type="date" name="start_date" id="start_date"
+                  value="<?= isset ($_GET['start_date']) ? htmlspecialchars($_GET['start_date']) : '' ?>"
+                  class="form-control" />
+              </div>
+              <div class="col-md-4">
+                <label for="end_date">End Date:</label>
+                <input type="date" name="end_date" id="end_date"
+                  value="<?= isset ($_GET['end_date']) ? htmlspecialchars($_GET['end_date']) : '' ?>"
+                  class="form-control" />
+              </div>
+              <div class="col-md-4">
+                <input type="submit" name="submit_date_log" value="Search" class="btn btn-primary" />
+              </div>
+            </div>
+          </form>
           <nav aria-label="Page navigation example">
             <ul class="pagination">
               <?php
               $limit = isset ($_GET['limit_product']) ? (int) $_GET['limit_product'] : 10;
               $page = isset ($_GET['page_product']) ? (int) $_GET['page_product'] : 1;
               $offset = ($page - 1) * $limit;
-              $sql = "SELECT COUNT(*) as total from admin_activity_log";
+
+              $start_date = isset ($_GET['start_date']) ? $_GET['start_date'] : '';
+              $end_date = isset ($_GET['end_date']) ? $_GET['end_date'] : '';
+
+              $sql = "SELECT COUNT(*) as total from admin_activity_log WHERE 1=1";
+
+              if (!empty ($start_date) && !empty ($end_date)) {
+                $sql .= " AND date_log BETWEEN '$start_date' AND '$end_date'";
+              }
+
               $result = $conn->query($sql);
               $row = $result->fetch_assoc();
               $total_rows = $row["total"];
               $total_pages = ceil($total_rows / $limit);
+
               for ($i = 1; $i <= $total_pages; $i++) {
                 ?>
                 <li class="page-item <?= $i == $page ? 'active' : '' ?>">
-                  <a class="page-link" href="?limit_product=<?= $limit ?>&page_product=<?= $i ?>">
+                  <a class="page-link" href="?limit_product=<?= $limit ?>&page_product=<?= $i ?><?php if (!empty ($start_date) && !empty ($end_date)) {
+                        echo '&start_date=' . $start_date . '&end_date=' . $end_date;
+                      } ?>">
                     <?= $i ?>
                   </a>
                 </li>
@@ -208,29 +241,31 @@ if ($username != false && $name != false) {
               ?>
             </ul>
           </nav>
-          <form method="get">
-            <p>Select number of rows:</p>
-            <select name="limit_product" onchange="this.form.submit()" class="btn btn-primary dropdown-toggle">
-              <option value="10" <?= $limit == 10 ? 'selected' : '' ?>>10 Rows</option>
-              <option value="20" <?= $limit == 20 ? 'selected' : '' ?>>20 Rows</option>
-              <option value="50" <?= $limit == 50 ? 'selected' : '' ?>>50 Rows</option>
-              <option value="100" <?= $limit == 100 ? 'selected' : '' ?>>100 Rows</option>
-            </select>
-          </form>
-          <br>
+          <?php
+          if (isset ($_GET['submit_date_log'])) {
+            $start_date = $_GET['start_date'];
+            $end_date = $_GET['end_date'];
+
+            $sql = "SELECT * FROM admin_activity_log WHERE date_log BETWEEN ? AND ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("ss", $start_date, $end_date);
+            $stmt->execute();
+            $result = $stmt->get_result();
+          } else {
+            $sql = "SELECT * from admin_activity_log WHERE 1=1 ORDER BY id DESC LIMIT $limit OFFSET $offset";
+            $result = $conn->query($sql);
+          }
+          ?>
           <table class="table table-bordered border-primary">
             <thead>
               <tr>
                 <th>Username</th>
                 <th>Date & Time</th>
                 <th>Purpose</th>
-
               </tr>
             </thead>
-            <?php
-            $sql = "SELECT * from admin_activity_log ORDER BY id DESC LIMIT $limit OFFSET $offset";
-            $result = $conn->query($sql);
-            if ($result->num_rows > 0) {
+            <tbody>
+              <?php
               while ($row = $result->fetch_assoc()) {
                 ?>
                 <tr>
@@ -244,19 +279,19 @@ if ($username != false && $name != false) {
                   <td>
                     <?= $row["action"] ?>
                   </td>
-
                 </tr>
                 <?php
               }
-            }
-            ?>
+              ?>
+            </tbody>
           </table>
+          <?php
+          $conn->close();
+          ?>
         </div>
 
-      </div>
 
-
-      <br><br>
+        <br><br>
 
 
 

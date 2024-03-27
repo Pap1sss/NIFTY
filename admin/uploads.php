@@ -326,81 +326,87 @@ if (isset ($_POST['update_business_gcash'])) {
             }
          </style>
       </div>
-      <div class="admin-product-form-container">
+      <div class="admin-product-form-container" style="">
 
          <form action="" method="post" enctype="multipart/form-data">
             <br>
             <br>
             <h3>SETUP YOUR WEBSITE</h3>
-            <ul class="list-group" style="margin-top: 20px;">
+            <div style="box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.20);">
+               <ul class="list-group" style="margin-top: 20px;" style="">
 
-               <li class="list-group-item d-flex justify-content-center">
-                  <input type="text" placeholder="Business Name" name="title" class="box" style="width: 80%;">
-                  <input type="submit" value="&#x2713;" name="update_business_name" class="btn detail-btn">
-               </li>
-               <li class="list-group-item d-flex justify-content-center">
-                  <input type="text" placeholder="Business Description" name="description" class="box"
-                     style="width: 80%;">
-                  <input type="submit" value="&#x2713;" name="update_business_description" class="btn detail-btn">
-               </li>
-               <li class="list-group-item d-flex justify-content-center">
-                  <input type="text" placeholder="Business Email Address" name="email" class="box" style="width: 80%;">
-                  <input type="submit" value="&#x2713;" name="update_business_email" class="btn detail-btn">
-               </li>
-               <li class="list-group-item d-flex justify-content-center">
-                  <input type="text" placeholder="Business Address" name="company_address" class="box"
-                     style="width: 80%;">
-                  <input type="submit" value="&#x2713;" name="update_business_address" class="btn detail-btn">
-               </li>
-               <li class="list-group-item d-flex justify-content-center">
-                  <input type="tel" placeholder="Business Contact number" name="company_contact" class="box"
-                     style="width: 80%;">
-                  <input type="submit" value="&#x2713;" name="update_business_contact" class="btn detail-btn">
-               </li>
+                  <li class="list-group-item d-flex justify-content-center">
+                     <input type="text" placeholder="Business Name" name="title" class="box" style="width: 80%;">
+                     <input type="submit" value="&#x2713;" name="update_business_name" class="btn detail-btn">
+                  </li>
+                  <li class="list-group-item d-flex justify-content-center">
+                     <input type="text" placeholder="Business Description" name="description" class="box"
+                        style="width: 80%;">
+                     <input type="submit" value="&#x2713;" name="update_business_description" class="btn detail-btn">
+                  </li>
+                  <li class="list-group-item d-flex justify-content-center">
+                     <input type="text" placeholder="Business Email Address" name="email" class="box"
+                        style="width: 80%;">
+                     <input type="submit" value="&#x2713;" name="update_business_email" class="btn detail-btn">
+                  </li>
+                  <li class="list-group-item d-flex justify-content-center">
+                     <input type="text" placeholder="Business Address" name="company_address" class="box"
+                        style="width: 80%;">
+                     <input type="submit" value="&#x2713;" name="update_business_address" class="btn detail-btn">
+                  </li>
+                  <li class="list-group-item d-flex justify-content-center">
+                     <input type="tel" placeholder="Business Contact number" name="company_contact" class="box"
+                        style="width: 80%;">
+                     <input type="submit" value="&#x2713;" name="update_business_contact" class="btn detail-btn">
+                  </li>
 
-               <li class="list-group-item" style="text-align: center;">
-                  <div style="margin-left: 37px;">
-                     <h4>COMPANY LOGO |150X50px size required </h4>
-                  </div>
-                  <div style="margin-left: 120px; margin-bottom: 20px;">
-                     <input type="file" accept="image/png, image/jpeg, image/jpg" name="company_logo" class="box">
-                  </div>
-                  <input type="submit" value="Upload Logo" name="update_business_logo" class="btn detail-btn"
-                     style="border-radius:20px">
-               </li>
-
-
-               <li class="list-group-item" style="text-align: center;">
-                  <h4>UPLOAD HOMEPAGE IMAGE</h4>
-                  <div style="margin-left: 50px;">
-
-                  </div>
-
-                  <div style="margin-left: 120px; margin-bottom: 20px;">
-                     <input type="file" accept="image/png, image/jpeg, image/jpg" name="display_image" class="box">
-                  </div>
-
-                  <input type="submit" value="Upload Home Image" name="update_business_home" class="btn detail-btn"
-                     style="border-radius:20px">
-               </li>
-               <li class="list-group-item" style="text-align: center;">
-                  <h4>UPLOAD GCASH QR SCREENSHOT</h4>
-                  <div style="margin-left: 50px;">
-
-                  </div>
-
-                  <div style="margin-left: 120px; margin-bottom: 20px;">
-                     <input type="file" accept="image/png, image/jpeg, image/jpg" name="gcash_qr" class="box">
-                  </div>
-
-                  <input type="submit" value="Upload GCASH QR" name="update_business_gcash" class="btn detail-btn"
-                     style="border-radius:20px">
-               </li>
+                  <li class="list-group-item" style="text-align: center;">
+                     <div style="margin-left: 37px;">
+                        <h4>COMPANY LOGO |150X50px size required </h4>
+                     </div>
+                     <div style="margin-left: 120px; margin-bottom: 20px;">
+                        <input type="file" accept="image/png, image/jpeg, image/jpg" name="company_logo" class="box">
+                     </div>
+                     <input type="submit" value="Upload Logo" name="update_business_logo" class="btn detail-btn"
+                        style="border-radius:20px">
+                  </li>
 
 
+                  <li class="list-group-item" style="text-align: center;">
+                     <h4>UPLOAD HOMEPAGE IMAGE</h4>
+                     <div style="margin-left: 50px;">
 
-            </ul>
+                     </div>
+
+                     <div style="margin-left: 120px; margin-bottom: 20px;">
+                        <input type="file" accept="image/png, image/jpeg, image/jpg" name="display_image" class="box">
+                     </div>
+
+                     <input type="submit" value="Upload Home Image" name="update_business_home" class="btn detail-btn"
+                        style="border-radius:20px">
+                  </li>
+                  <li class="list-group-item" style="text-align: center;">
+                     <h4>UPLOAD GCASH QR SCREENSHOT</h4>
+                     <div style="margin-left: 50px;">
+
+                     </div>
+
+                     <div style="margin-left: 120px; margin-bottom: 20px;">
+                        <input type="file" accept="image/png, image/jpeg, image/jpg" name="gcash_qr" class="box">
+                     </div>
+
+                     <input type="submit" value="Upload GCASH QR" name="update_business_gcash" class="btn detail-btn"
+                        style="border-radius:20px">
+                  </li>
+
+
+
+               </ul>
+            </div>
          </form>
+
+
+
 
          <div class="admin-product-form-container">
             <?php

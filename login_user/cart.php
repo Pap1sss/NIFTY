@@ -316,12 +316,9 @@ if ($result->num_rows > 0) {
       <section class="h-100 gradient-custom container" style="padding: 50px;">
         <div class="row d-flex justify-content-center">
 
-          <div class="card mb-4" style="border: 2px solid black; width: 90%;">
+          <div class="card mb-4" style="box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.20); width: 90%;">
 
-            <div class="card-header py-3">
-              <h5 class="mb-0">YOUR CART</h5>
 
-            </div>
             <?php
             $cart_query = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die ('query failed');
             $grand_total = 0;
@@ -441,7 +438,7 @@ if ($result->num_rows > 0) {
             </div>
 
 
-            <div class="card mb-4" style="border: 2px solid black; width: 90%; margin:3%;">
+            <div class="card mb-4" style="box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.20); width: 90%; margin:3%;">
               <div class="card-header py-3">
                 <h5 class="mb-0">Summary</h5>
               </div>

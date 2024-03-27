@@ -48,6 +48,17 @@ if ($username != false && $name != false) {
   <link rel="stylesheet" href="../css/analyticstyle.css">
 
 </head>
+<style>
+  .detail-btn {
+    background-color: #BF9C5C;
+
+  }
+
+  .detail-btn:hover {
+    background-color: #F4B39D;
+    color: white;
+  }
+</style>
 
 <body>
   <div class="grid-container">
@@ -122,301 +133,287 @@ if ($username != false && $name != false) {
 
 
     <!-- Main -->
-    <main class="main-container d-flex justify-content-evenly">
+    <main class="main-container">
 
       <!-- SALES -->
-      <section style="padding-top:10px;">
-        <div class="handler">
-          <div class="row">
-            <h1>SALES</h1>
-            <form method="post" action="" onsubmit="return checkPassword()">
-              <div class="col-lg-4">
-                <div class="form-group" style="width: 230%;">
-                  <input type="date" name="start_date" class="form-control">
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="form-group" style="width: 230%;">
-                  <input type="date" name="end_date" class="form-control">
-                </div>
+      <div class="container ">
+        <section style=" padding-top:10px;">
+          <div class="handler">
+            <div class="row">
 
-              </div>
+              <div
+                style="border: 1px solid white; border-radius: 10px; background-color: #F9C47F; padding: 20px; margin-bottom: 10px; text-align: center;">
+                <h5>SALES LOGS</h5>
+                <form method="post" action="" onsubmit="return checkPassword()">
 
+                  <div class="form-group">
+                    <input type="date" name="start_date" class="form-control">
+                  </div>
+                  <br>
 
-              <div class="col-lg-4">
-                <br>
-                <div class="form-group">
-                  <input type="submit" name="submit_date_sales" class="btn btn-primary" class="material-icons-outlined"
-                    value="Continue">
-                </div>
-              </div>
-            </form>
+                  <div class="form-group">
+                    <input type="date" name="end_date" class="form-control">
 
-          </div>
-
-
-
-          <script>
-            function checkPassword() {
-              var password = prompt("Please enter the password to proceed.");
-              if (password === "12345678") {
-                return true;
-              } else {
-                alert("Something went wrong.");
-                return false;
-              }
-            }
-          </script>
-
-
-
-          <?php
-          if (isset ($_POST['submit_date_sales'])) {
-
-            $start_date = mysqli_real_escape_string($conn, $_POST['start_date']);
-            $end_date = mysqli_real_escape_string($conn, $_POST['end_date']);
-
-            // Prepare the SQL statement
-            $stmt = $conn->prepare("SELECT * FROM sales WHERE date_created BETWEEN ? AND ?");
-            $stmt->bind_param("ss", $start_date, $end_date);
-            $stmt->execute();
-            $result = $stmt->get_result();
-
-            // Check if there are any rows
-            if ($result->num_rows > 0) {
-
-              // Prepare the SQL statement for sum
-              $stmtSum = $conn->prepare("SELECT SUM(total_price) AS total_sales FROM sales WHERE date_created BETWEEN ? AND ?");
-              $stmtSum->bind_param("ss", $start_date, $end_date);
-              $stmtSum->execute();
-              $resultSum = $stmtSum->get_result();
-              $rowSum = $resultSum->fetch_assoc();
-              $total_sales = $rowSum['total_sales'];
-              $query = mysqli_query($conn, "SELECT * FROM sales WHERE date_created BETWEEN '$start_date' AND '$end_date' ORDER BY sales_id DESC");
-
-              // Loop through the rows and display the data
-              if (mysqli_num_rows($query) > 0) {
-
-                foreach ($query as $value) {
-
-                  // Use htmlspecialchars to prevent XSS attacks
-                  $start_date = htmlspecialchars($start_date);
-                  $end_date = htmlspecialchars($end_date);
-                  $total_sales = htmlspecialchars($total_sales);
-
-
-                  ?>
-
-                  <div class="col-md-6">
-                    <div class="col-lg-12">
-                      <h3>Total Sales between
-                        <?= $start_date ?> and
-                        <?= $end_date ?>:
-
-                      </h3>
-                      <h1>₱
-                        <?= $total_sales ?>
-                      </h1>
-                    </div>
                   </div>
 
-                  <div class="col-lg-12">
-                    <table class="table table-striped table-bordered">
-                      <thead>
-                        <th style="border: 1px solid black;">SALES ID</th>
-                        <th style="border: 1px solid black;">ORDER ID</th>
-                        <th style="border: 1px solid black;">TOTAL ORDER PRICE</th>
-                        <th style="border: 1px solid black;">DATE</th>
-                      </thead>
 
-                      <tbody>
+
+
+                  <br>
+                  <div class="form-group">
+                    <input type="submit" name="submit_date_sales" class="btn detail-btn" class="material-icons-outlined"
+                      value="🔎">
+                  </div>
+
+                </form>
+                <hr style=" border-top: 0.3px solid #5F5E5E; ">
+
+
+
+
+                <script>
+                  function checkPassword() {
+                    var password = prompt("Please enter the password to proceed.");
+                    if (password === "12345678") {
+                      return true;
+                    } else {
+                      alert("Something went wrong.");
+                      return false;
+                    }
+                  }
+                </script>
+
+
+
+                <?php
+                if (isset ($_POST['submit_date_sales'])) {
+
+                  $start_date = mysqli_real_escape_string($conn, $_POST['start_date']);
+                  $end_date = mysqli_real_escape_string($conn, $_POST['end_date']);
+
+                  // Prepare the SQL statement
+                  $stmt = $conn->prepare("SELECT * FROM sales WHERE date_created BETWEEN ? AND ?");
+                  $stmt->bind_param("ss", $start_date, $end_date);
+                  $stmt->execute();
+                  $result = $stmt->get_result();
+
+                  // Check if there are any rows
+                  if ($result->num_rows > 0) {
+
+                    // Prepare the SQL statement for sum
+                    $stmtSum = $conn->prepare("SELECT SUM(total_price) AS total_sales FROM sales WHERE date_created BETWEEN ? AND ?");
+                    $stmtSum->bind_param("ss", $start_date, $end_date);
+                    $stmtSum->execute();
+                    $resultSum = $stmtSum->get_result();
+                    $rowSum = $resultSum->fetch_assoc();
+                    $total_sales = $rowSum['total_sales'];
+                    $query = mysqli_query($conn, "SELECT * FROM sales WHERE date_created BETWEEN '$start_date' AND '$end_date' ORDER BY sales_id DESC");
+
+                    // Loop through the rows and display the data
+                    if (mysqli_num_rows($query) > 0) {
+
+                      foreach ($query as $value) {
+
+                        // Use htmlspecialchars to prevent XSS attacks
+                        $start_date = htmlspecialchars($start_date);
+                        $end_date = htmlspecialchars($end_date);
+                        $total_sales = htmlspecialchars($total_sales);
+
+
+                        ?>
+
+                        <div class="col-md-6">
+                          <div class="col-lg-12">
+                            <h3>Total Sales between
+                              <?= $start_date ?> and
+                              <?= $end_date ?>:
+
+                            </h3>
+                            <h1>₱
+                              <?= $total_sales ?>
+                            </h1>
+                          </div>
+                        </div>
+
+                        <div class="col-lg-12">
+                          <table class="table table-striped table-bordered" style=" box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);">
+                            <thead>
+                              <th style="border: 1px solid black;">SALES ID</th>
+                              <th style="border: 1px solid black;">ORDER ID</th>
+                              <th style="border: 1px solid black;">TOTAL ORDER PRICE</th>
+                              <th style="border: 1px solid black;">DATE</th>
+                            </thead>
+
+                            <tbody>
+
+                              <?php
+                              foreach ($query as $value) { ?>
+                                <tr>
+                                  <td>
+                                    <?= htmlspecialchars($value['sales_id']) ?>
+                                  </td>
+                                  <td>
+                                    <?= htmlspecialchars($value['orders_id']) ?>
+                                  </td>
+                                  <td>
+                                    <?= htmlspecialchars($value['total_price']) ?>
+                                  </td>
+                                  <td>
+                                    <?= htmlspecialchars($value['date_created']) ?>
+                                  </td>
+                                </tr>
+                                <?php
+                              }
+                              ?>
+                            </tbody>
+
+                          </table>
+                        </div>
+
+
 
                         <?php
-                        foreach ($query as $value) { ?>
-                          <tr>
-                            <td>
-                              <?= htmlspecialchars($value['sales_id']) ?>
-                            </td>
-                            <td>
-                              <?= htmlspecialchars($value['orders_id']) ?>
-                            </td>
-                            <td>
-                              <?= htmlspecialchars($value['total_price']) ?>
-                            </td>
-                            <td>
-                              <?= htmlspecialchars($value['date_created']) ?>
-                            </td>
-                          </tr>
-                          <?php
-                        }
-                        ?>
-                      </tbody>
-
-                    </table>
-                  </div>
 
 
-                  <?php
+                      }
 
-
-                }
-
-              } else {
-                ?>
-                <div class="col-lg-12">
-                  <h3>NO SALES CAN BE FOUND</h3>
-                </div>
-
-              </div>
-
-              <?php
-              }
-            }
-          }
-          ?>
-
-      </section>
-
-      <br><br>
-      <!-- ORDERS -->
-      <section style="padding-top:10px;">
-        <div class="handler">
-          <div class="row">
-            <h1>ORDERS</h1>
-            <form method="post" action="" onsubmit="return checkPassword()">
-              <div class="col-lg-4">
-                <div class="form-group" style="width: 200%;">
-                  <input type="date" name="start_date" class="form-control">
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="form-group" style="width: 200%;">
-                  <input type="date" name="end_date" class="form-control">
-                </div>
-
-              </div>
-
-
-              <div class="col-lg-4">
-                <br>
-                <div class="form-group">
-                  <input type="submit" name="submit_date_orders" class="btn btn-primary" class="material-icons-outlined"
-                    value="Continue">
-                </div>
-              </div>
-            </form>
-          </div>
-
-        </div>
-
-
-
-        <?php
-        if (isset ($_POST['submit_date_orders'])) {
-
-          $start_date = mysqli_real_escape_string($conn, $_POST['start_date']);
-          $end_date = mysqli_real_escape_string($conn, $_POST['end_date']);
-
-          // Prepare the SQL statement
-          $stmt = $conn->prepare("SELECT * FROM orders WHERE date_created BETWEEN ? AND ?");
-          $stmt->bind_param("ss", $start_date, $end_date);
-          $stmt->execute();
-          $result = $stmt->get_result();
-
-          // Check if there are any rows
-          if ($result->num_rows > 0) {
-            $query = mysqli_query($conn, "SELECT * FROM orders WHERE date_created BETWEEN '$start_date' AND '$end_date' ORDER BY id DESC");
-
-            if (mysqli_num_rows($query) > 0) {
-
-              foreach ($query as $value) {
-
-                // Use htmlspecialchars to prevent XSS attacks
-                $start_date = htmlspecialchars($start_date);
-                $end_date = htmlspecialchars($end_date);
-
-                ?>
-
-                <div class="col-lg-12">
-                  <table class="table table-striped table-bordered">
-                    <thead>
-                      <th>ORDER ID</th>
-                      <th>STATUS</th>
-                      <th>DATE & TIME</th>
-                      <th>NAME</th>
-                      <th>MOBILE NUMBER</th>
-                      <th>EMAIL</th>
-                      <th>PAYMENT METHOD</th>
-                      <th>ADDRESS</th>
-                      <th>ORDERS</th>
-                      <th>TOTAL PRICE</th>
-
-                    </thead>
-
-                    <tbody>
+                    } else {
+                      ?>
+                      <div class="col-lg-12">
+                        <h3>NO SALES CAN BE FOUND</h3>
+                      </div>
 
                       <?php
-                      foreach ($query as $value) { ?>
-                        <tr>
-                          <td>
-                            <?= htmlspecialchars($value['id']) ?>
-                          </td>
-                          <td>
-                            <?= htmlspecialchars($value['status']) ?>
-                          </td>
-                          <td>
+                    }
+                  }
+                }
+                ?>
+              </div>
+            </div>
+          </div>
+        </section>
 
-                            <?= htmlspecialchars($value['time_created']) ?>
-                          </td>
+        <br><br>
+        <!-- ADMIN LOGS -->
+        <section style="padding-top:10px;">
+          <div class="handler">
+            <div class="row">
+              <div
+                style="border: 1px solid white; border-radius: 10px; background-color: #F9C47F; padding: 20px; margin-bottom: 10px; text-align: center;">
+                <h5>ADMIN LOGS </h5>
 
-                          <td>
-                            <?= htmlspecialchars($value['name']) ?>
-                          </td>
-                          <td>
-                            <?= htmlspecialchars($value['number']) ?>
-                          </td>
-                          <td>
-                            <?= htmlspecialchars($value['email']) ?>
-                          </td>
-                          <td>
-                            <?= htmlspecialchars($value['method']) ?>
-                          </td>
-                          <td>
-                            <?= htmlspecialchars($value['address']) ?>
-                          </td>
-                          <td>
-                            <?= htmlspecialchars($value['total_products']) ?>
-                          </td>
-                          <td>
-                            <?= htmlspecialchars($value['total_price']) ?>
-                          </td>
+                <form method="post" action="" onsubmit="return checkPassword()">
 
-                        </tr>
-                        <?php
-                      }
-                      ?>
-                    </tbody>
+                  <div class="form-group">
+                    <input type="date" name="start_date" class="form-control">
+                  </div>
 
-                  </table>
-                </div>
+                  <br>
+                  <div class="form-group">
+                    <input type="date" name="end_date" class="form-control">
+                  </div>
+
+
+
+
+
+                  <br>
+                  <div class="form-group">
+                    <input type="submit" name="submit_date_admin_logs" class="btn detail-btn"
+                      class="material-icons-outlined" value="🔎">
+                  </div>
+
+                </form>
+                <hr style=" border-top: 0.3px solid #5F5E5E; ">
+
+
+
                 <?php
+                if (isset ($_POST['submit_date_admin_logs'])) {
+
+                  $start_date = mysqli_real_escape_string($conn, $_POST['start_date']);
+                  $end_date = mysqli_real_escape_string($conn, $_POST['end_date']);
+
+                  // Prepare the SQL statement
+                  $stmt = $conn->prepare("SELECT * FROM admin_log WHERE date BETWEEN ? AND ?");
+                  $stmt->bind_param("ss", $start_date, $end_date);
+                  $stmt->execute();
+                  $result = $stmt->get_result();
+
+                  // Check if there are any rows
+                  if ($result->num_rows > 0) {
+                    $query = mysqli_query($conn, "SELECT * FROM admin_log WHERE date BETWEEN '$start_date' AND '$end_date' ORDER BY id DESC");
+
+                    if (mysqli_num_rows($query) > 0) {
+
+                      foreach ($query as $value) {
+
+                        // Use htmlspecialchars to prevent XSS attacks
+                        $start_date = htmlspecialchars($start_date);
+                        $end_date = htmlspecialchars($end_date);
+
+                        ?>
+
+                        <div class="col-lg-12">
+                          <table class="table table-striped table-bordered">
+                            <thead>
+                              <th>Admin</th>
+                              <th>Time of Access</th>
+                              <th>DATE</th>
+
+                            </thead>
+
+                            <tbody>
+
+                              <?php
+                              foreach ($query as $value) { ?>
+                                <tr>
+                                  <td>
+                                    <?= htmlspecialchars($value['username']) ?>
+                                  </td>
+                                  <td>
+                                    <?= htmlspecialchars($value['timein']) ?>
+                                  </td>
+                                  <td>
+
+                                    <?= htmlspecialchars($value['date']) ?>
+                                  </td>
+
+                                </tr>
+                                <?php
+                              }
+                              ?>
+                            </tbody>
+
+                          </table>
+                        </div>
+                        <?php
 
 
-              }
-            }
+                      }
+                    }
 
-          } else {
-            ?>
-            <div class="col-lg-12">
-              <h3>NO ORDERS CAN BE FOUND</h3>
+                  } else {
+                    ?>
+                    <div class="col-lg-12">
+                      <h3>NO LOGS CAN BE FOUND</h3>
+                    </div>
+
+
+                    <?php
+                  }
+                }
+                ?>
+              </div>
+
+
             </div>
 
+          </div>
+        </section>
 
-            <?php
-          }
-        }
-        ?>
-      </section>
+      </div>
+
 
 
 
