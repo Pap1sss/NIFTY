@@ -94,7 +94,7 @@ if (isset ($_POST['add_product_category'])) {
          $stmt->execute();
          echo "<script>alert('Category Added Successfully');</script>";
 
-         exit;
+       
 
 
       }
@@ -137,7 +137,7 @@ if (isset ($_POST['add_product_unit'])) {
          $stmt->execute();
          echo "<script>alert('Added successfully');</script>";
 
-         exit;
+      
       } else {
          echo "<script>alert('We encountered an error!');</script>";
       }
@@ -174,7 +174,7 @@ if (isset ($_POST['add_product_color'])) {
          // Execute the statementif ($stmt->execute()) {
          echo "<script>alert('New color added successfully.');</script>";
 
-         exit;
+       
       } else {
          echo "<script>alert('We encountered a problem');</script>";
       }
@@ -205,7 +205,7 @@ if (isset ($_GET['delete'])) {
       VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'deleted a product (\"$product_name\")')");
    echo "<script>alert('Removed Successfully');</script>";
 
-   exit;
+   
 }
 ;
 if (isset ($_GET['category_delete'])) {
@@ -224,7 +224,7 @@ if (isset ($_GET['category_delete'])) {
       VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'deleted category (\"$category_name\")')");
    echo "<script>alert('Removed Successfully');</script>";
 
-   exit;
+
 
 }
 ;
@@ -244,7 +244,6 @@ if (isset ($_GET['unit_delete'])) {
       VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'deleted a unit (\"$unit_name\")')");
    echo "<script>alert('Removed Successfully');</script>";
 
-   exit;
 
 }
 
@@ -264,7 +263,7 @@ if (isset ($_GET['color_delete'])) {
       VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'deleted a color (\"$color_name\")')");
    echo "<script>alert('Removed Successfully');</script>";
 
-   exit;
+  
 }
 ?>
 
