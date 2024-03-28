@@ -555,7 +555,8 @@ if ($result->num_rows > 0) {
                                           <?php
 
                                           if (empty ($options)) {
-                                            echo "OUT OF STOCK";
+                                            ?> <p>Out of Stock</p>
+                                            <?php
                                           } else {
 
                                             $size_names = array();
@@ -595,7 +596,8 @@ if ($result->num_rows > 0) {
 
                                   <?php
                                   if (empty ($options)) {
-                                    echo "OUT OF STOCK";
+                                    ?> <p>Out of Stock</p>
+                                    <?php
                                   } else {
                                     $color_names = array();
                                     foreach ($options as $option) {
@@ -984,7 +986,8 @@ if ($result->num_rows > 0) {
                                           <?php
 
                                           if (empty ($options)) {
-                                            echo "OUT OF STOCK";
+                                            ?> <p>Out of Stock</p>
+                                            <?php
                                           } else {
 
                                             $size_names = array();
@@ -1024,7 +1027,8 @@ if ($result->num_rows > 0) {
 
                                   <?php
                                   if (empty ($options)) {
-                                    echo "OUT OF STOCK";
+                                    ?> <p>Out of Stock</p>
+                                    <?php
                                   } else {
                                     $color_names = array();
                                     foreach ($options as $option) {
