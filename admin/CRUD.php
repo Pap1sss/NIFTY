@@ -199,7 +199,8 @@ if (isset ($_GET['delete'])) {
    }
 
    mysqli_query($conn, "DELETE FROM products WHERE id = $id");
-   mysqli_query($conn, "DELETE FROM stocks WHERE product_id = $id");
+   mysqli_query($conn, "DELETE FROM stocks_unit WHERE product_id = $id");
+   mysqli_query($conn, "DELETE FROM stocks_color WHERE product_id = $id");
    mysqli_query($conn, "INSERT INTO admin_activity_log(username, date_log, time_log, action) 
       VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'deleted a product (\"$product_name\")')");
    echo "<script>alert('Removed Successfully');</script>";
