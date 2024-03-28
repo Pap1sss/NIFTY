@@ -33,8 +33,8 @@ if (isset ($_POST['add_product'])) {
    if (empty ($product_name) || empty ($product_price) || empty ($product_image)) {
       echo "<script>alert('Please fill out all');</script>";
    } else {
-      $insert = "INSERT INTO products(category,name, price, image, description, date_created, time_created) 
-         VALUES('$category', '$product_name', '$product_price', 'admin/uploaded_img/$product_image', '$product_description', CURRENT_DATE(), CURRENT_TIME())";
+      $insert = "INSERT INTO products(category,name, price, image, description, date_created, time_created date_edited, time_edited)  
+         VALUES('$category', '$product_name', '$product_price', 'admin/uploaded_img/$product_image', '$product_description', CURRENT_DATE(), CURRENT_TIME(), CURRENT_DATE(), CURRENT_TIME())";
       $product_logs = "INSERT INTO admin_activity_log(username, date_log, time_log, action) 
          VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'$create : (\"$product_name\")')";
 
