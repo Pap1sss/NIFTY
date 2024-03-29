@@ -405,7 +405,7 @@ if ($result->num_rows > 0) {
 
                             <form action="" method="post">
                               <input type="hidden" name="order_id" value="<?= htmlspecialchars($row["id"]) ?>">
-                              <button type="cancel" class="btn btn-danger">Cancel Order</button>
+                              <button type="submit" class="btn btn-danger" name="cancel">Cancel Order</button>
                             </form>
                           </td>
 
