@@ -525,7 +525,7 @@ if ($result->num_rows > 0) {
                 </table>
               </div>
             </div>
-            <div id="orderCompletedSection" class="card card-order-status 4 mb-md-0">
+            <div id="cancelSection" class="card card-order-status 4 mb-md-0">
               <div class="card-body">
                 <h4>Order Completed</h4>
                 <table class="table table-striped table-bordered">
@@ -662,6 +662,7 @@ if ($result->num_rows > 0) {
           toggleVisibility('pendingOrderSection', false);
           toggleVisibility('toReceiveSection', false);
           toggleVisibility('orderCompletedSection', false);
+          toggleVisibility('cancelSection');
         }); 
         
         function
