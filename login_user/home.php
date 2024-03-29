@@ -638,28 +638,28 @@ if ($result->num_rows > 0) {
           toggleVisibility('toShipSection', false);
           toggleVisibility('toReceiveSection', false);
           toggleVisibility('orderCompletedSection', false);
-          toggleVisibility('cancelSection' false);
+          toggleVisibility('cancelSection', false);
 
         }); document.getElementById('toShipTab').addEventListener('click', function () {
           toggleVisibility('toShipSection');
           toggleVisibility('pendingOrderSection', false);
           toggleVisibility('toReceiveSection', false);
           toggleVisibility('orderCompletedSection', false);
-          toggleVisibility('cancelSection' false);
+          toggleVisibility('cancelSection', false);
 
         }); document.getElementById('toReceiveTab').addEventListener('click', function () {
           toggleVisibility('toShipSection', false);
           toggleVisibility('pendingOrderSection', false);
           toggleVisibility('toReceiveSection');
           toggleVisibility('orderCompletedSection', false);
-          toggleVisibility('cancelSection' false);
+          toggleVisibility('cancelSection', false);
 
         }); document.getElementById('orderCompletedTab').addEventListener('click', function () {
           toggleVisibility('toShipSection', false);
           toggleVisibility('pendingOrderSection', false);
           toggleVisibility('toReceiveSection', false);
           toggleVisibility('orderCompletedSection');
-          toggleVisibility('cancelSection' false);
+          toggleVisibility('cancelSection', false);
         }); 
         document.getElementById('CancelTab').addEventListener('click', function () {
           toggleVisibility('toShipSection', false);
