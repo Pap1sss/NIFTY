@@ -16,6 +16,7 @@ if ($username != false && $name != false) {
    }
 } else {
    header('Location: admin_creation/login_form.php');
+   exit();
 }
 
 
@@ -47,10 +48,14 @@ if (isset ($_POST['add_product'])) {
          $upload_img = mysqli_query($conn, $insert_gallery);
          move_uploaded_file($product_image_tmp_name, $product_image_folder);
          echo "<script>alert('New Product Added Successfully');</script>";
+         header("Location: " . $_SERVER['PHP_SELF']);
+         exit();
 
        
       } else {
          echo "<script>alert('Could not add the product');</script>";
+         header("Location: " . $_SERVER['PHP_SELF']);
+         exit();
       }
    }
 
@@ -93,6 +98,8 @@ if (isset ($_POST['add_product_category'])) {
          $stmt->bind_param("ss", $username, $action);
          $stmt->execute();
          echo "<script>alert('Category Added Successfully');</script>";
+         header("Location: " . $_SERVER['PHP_SELF']);
+         exit();
 
        
 

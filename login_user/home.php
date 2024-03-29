@@ -400,7 +400,7 @@ if ($result->num_rows > 0) {
                             $stmt->bind_param("si", $pending, $order_id);
                             $pending = "cancelled";
                             $stmt->execute();
-                            header("Location: " . $_SERVER['PHP_SELF']);
+                            header("Location: home.php");
                             exit();
                             }
                             ?>
