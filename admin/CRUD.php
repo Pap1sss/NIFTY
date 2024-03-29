@@ -143,10 +143,13 @@ if (isset ($_POST['add_product_unit'])) {
          $stmt->bind_param("ss", $username, $action);
          $stmt->execute();
          echo "<script>alert('Added successfully');</script>";
+         header("Location: " . $_SERVER['PHP_SELF']);
+         exit();
 
       
       } else {
          echo "<script>alert('We encountered an error!');</script>";
+         
       }
 
       // Close the prepared statement
@@ -180,7 +183,8 @@ if (isset ($_POST['add_product_color'])) {
          $stmt->execute();
          // Execute the statementif ($stmt->execute()) {
          echo "<script>alert('New color added successfully.');</script>";
-
+         header("Location: " . $_SERVER['PHP_SELF']);
+         exit();
        
       } else {
          echo "<script>alert('We encountered a problem');</script>";
@@ -211,6 +215,8 @@ if (isset ($_GET['delete'])) {
    mysqli_query($conn, "INSERT INTO admin_activity_log(username, date_log, time_log, action) 
       VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'deleted a product (\"$product_name\")')");
    echo "<script>alert('Removed Successfully');</script>";
+   header("Location: " . $_SERVER['PHP_SELF']);
+   exit();
 
    
 }
@@ -230,6 +236,8 @@ if (isset ($_GET['category_delete'])) {
    mysqli_query($conn, "INSERT INTO admin_activity_log(username, date_log, time_log, action) 
       VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'deleted category (\"$category_name\")')");
    echo "<script>alert('Removed Successfully');</script>";
+   header("Location: " . $_SERVER['PHP_SELF']);
+   exit();
 
 
 
@@ -250,6 +258,8 @@ if (isset ($_GET['unit_delete'])) {
    mysqli_query($conn, "INSERT INTO admin_activity_log(username, date_log, time_log, action) 
       VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'deleted a unit (\"$unit_name\")')");
    echo "<script>alert('Removed Successfully');</script>";
+   header("Location: " . $_SERVER['PHP_SELF']);
+   exit();
 
 
 }
@@ -269,6 +279,8 @@ if (isset ($_GET['color_delete'])) {
    mysqli_query($conn, "INSERT INTO admin_activity_log(username, date_log, time_log, action) 
       VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'deleted a color (\"$color_name\")')");
    echo "<script>alert('Removed Successfully');</script>";
+   header("Location: " . $_SERVER['PHP_SELF']);
+   exit();
 
   
 }

@@ -62,9 +62,9 @@ if ($result->num_rows > 0) {
       $address = $_POST['address'];
       $reference_number = $_POST['reference'];
       $gcash_number = $_POST['gcash_number'];
-      $product_image = $_POST['product_image'];
-      if (isset ($product_image['product_image'])) {
-        $product_image_folder = 'uploaded_img/' . $product_image['product_image'];
+      $screenshot = $_FILES['screenshot'];
+      if (isset ($product_image['screenshot'])) {
+        $product_image_folder = 'uploaded_img/' . $screenshot['screenshot'];
       } else {
         $product_image_folder = 'default_image.jpg'; // Provide a default value if the key doesn't exist
       }
@@ -92,7 +92,7 @@ if ($result->num_rows > 0) {
 
       $detail_query = mysqli_prepare($conn, "INSERT INTO `orders`(name, number, email, method, address, total_products, total_price, user_id, status, date_created, time_created, reference_number, gcash_number, screenshot) 
       VALUES(?, ?, ?, ?, ?, ?, ?, ?, 'pending', CURRENT_DATE(), CURRENT_TIME(), ?,?,?)");
-      mysqli_stmt_bind_param($detail_query, "ssssssdiiis", $name, $number, $email, $method, $address, $total_product, $price_total, $user_id, $reference_number, $gcash_number, $product_image);
+      mysqli_stmt_bind_param($detail_query, "ssssssdiiis", $name, $number, $email, $method, $address, $total_product, $price_total, $user_id, $reference_number, $gcash_number, $screenshot);
       mysqli_stmt_execute($detail_query);
       $order_id = mysqli_insert_id($conn);
       $sales_query = mysqli_prepare($conn, "INSERT INTO `sales`(orders_id, total_price, date_created) VALUES (?, ?, CURRENT_DATE())");
@@ -520,7 +520,7 @@ if ($result->num_rows > 0) {
 
                                 <div class="inputBox p-3 mb-3 bg-light">
                                   <span class="fs-5">Upload Receipt Screenshot:</span>
-                                  <input type="file" accept="image/png, image/jpeg, image/jpg" name="product_image" class="box">
+                                  <input type="file" accept="image/png, image/jpeg, image/jpg" name="screenshot" class="box">
                                 </div>
                               </div>
                             </div>
