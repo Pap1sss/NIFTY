@@ -393,7 +393,7 @@ if ($result->num_rows > 0) {
                           </td>
                           <td style="width: 25%;">
                           <?php
-                            if (isset($_POST['submit'])) {
+                            if (isset($_POST['cancel'])) {
                             $order_id = $_POST['order_id'];
 
                             $stmt = $conn->prepare("UPDATE orders SET status = ? WHERE id = ?");
@@ -577,7 +577,7 @@ if ($result->num_rows > 0) {
 
             <div id="cancelSection" class="card card-order-status 4 mb-md-0">
               <div class="card-body">
-                <h4>CANCELED ORDERS</h4>
+                <h4>Cancelled orders</h4>
                 <table class="table table-striped table-bordered">
                   <thead style="display: table-row-group;">
                     <tr>
