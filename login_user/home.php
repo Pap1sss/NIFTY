@@ -345,6 +345,10 @@ if ($result->num_rows > 0) {
                     role="tab">ORDER
                     COMPLETED</a>
                 </li>
+                <li class="nav-item">
+                  <a class="nav-link tab_font" id="CancelTab" data-toggle="tab" href="#orderCompletedPanel"
+                    role="tab">CANCELED ORDERS</a>
+                </li>
               </ul>
             </div>
             <br>
@@ -571,6 +575,56 @@ if ($result->num_rows > 0) {
               </div>
             </div>
 
+            <div id="orderCompletedSection" class="card card-order-status 4 mb-md-0">
+              <div class="card-body">
+                <h4>CANCELED ORDERS</h4>
+                <table class="table table-striped table-bordered">
+                  <thead style="display: table-row-group;">
+                    <tr>
+                      <th style="width: 50%;">Products</th>
+                      <th style="width: 25%;">Total Price</th>
+                      <th style="width: 25%;">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody style="display: table-row-group;">
+                    <?php
+                    include_once "connection.php";
+                    $cancel = "cancelled";
+                    $stmt = $conn->prepare("SELECT * FROM orders WHERE user_id = ? AND status = ?");
+                    $stmt->bind_param("is", $user_id, $cancel);
+                    $cancel = "cancelled";
+                    $stmt->execute();
+                    $resultcomplete = $stmt->get_result();
+
+                    if ($resultcomplete->num_rows > 0) {
+                      while ($row = $resultcomplete->fetch_assoc()) {
+                        ?>
+                        <tr>
+                          <td>
+                            <?= htmlspecialchars($row["total_products"]) ?>
+                          </td>
+                          <td>
+                            <?= htmlspecialchars($row["total_price"]) ?>
+                          </td>
+                          <td style=" text-transform: uppercase;">
+                            <?= htmlspecialchars($row["status"]) ?>
+                          </td>
+                        </tr>
+                        <?php
+                      }
+                    } else {
+                      ?>
+                      <tr>
+                        <td colspan="4">No user orders found.</td>
+                      </tr>
+                      <?php
+                    }
+                    ?>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
@@ -602,7 +656,15 @@ if ($result->num_rows > 0) {
           toggleVisibility('pendingOrderSection', false);
           toggleVisibility('toReceiveSection', false);
           toggleVisibility('orderCompletedSection');
-        }); function
+        }); 
+        document.getElementById('CancelTab').addEventListener('click', function () {
+          toggleVisibility('toShipSection', false);
+          toggleVisibility('pendingOrderSection', false);
+          toggleVisibility('toReceiveSection', false);
+          toggleVisibility('orderCompletedSection', false);
+        }); 
+        
+        function
           toggleVisibility(sectionId, shouldShow = true) { const section = document.getElementById(sectionId); section.style.display = shouldShow ? 'block' : 'none'; } </script>
       <style>
         .card-order-status {
