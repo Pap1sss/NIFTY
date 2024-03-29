@@ -21,12 +21,14 @@ if ($username != false && $name != false) {
 
 
 
-if (isset ($_GET['delete'])) {
+if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
-    mysqli_query($conn, "INSERT INTO product_log(username, date_log, time_log,  edit_create) 
+    mysqli_query($conn, "INSERT INTO admin_activity_log(username, date_log, time_log,  action) 
     VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'deleted an order')");
     mysqli_query($conn, "DELETE FROM orders WHERE id = $id");
     echo "<script>alert('Removed Successfully');</script>";
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
 }
 ?>
 
@@ -144,7 +146,7 @@ if (isset ($_GET['delete'])) {
 
 
         <?php
-        if (isset ($_GET['ship'])) {
+        if (isset($_GET['ship'])) {
             $id = $_GET['ship'];
             mysqli_query($conn, "UPDATE orders SET status='to ship'WHERE id = '$id'");
             mysqli_query($conn, "INSERT INTO admin_activity_log(username, date_log, time_log, action) 
@@ -154,7 +156,7 @@ if (isset ($_GET['delete'])) {
         }
         ;
 
-        if (isset ($_GET['receive'])) {
+        if (isset($_GET['receive'])) {
             $id = $_GET['receive'];
             mysqli_query($conn, "UPDATE orders SET status='to receive'WHERE id = '$id'");
             mysqli_query($conn, "INSERT INTO admin_activity_log(username, date_log, time_log,  action) 
@@ -164,7 +166,7 @@ if (isset ($_GET['delete'])) {
         }
         ;
 
-        if (isset ($_GET['complete'])) {
+        if (isset($_GET['complete'])) {
             $id = $_GET['complete'];
             mysqli_query($conn, "UPDATE orders SET status='order completed'WHERE id = '$id'");
             mysqli_query($conn, "INSERT INTO admin_acitivity_log(username, date_log, time_log,  action) 
@@ -186,9 +188,9 @@ if (isset ($_GET['delete'])) {
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
                                 <?php
-                                $status = isset ($_GET['status']) ? $_GET['status'] : 'all';
-                                $limit = isset ($_GET['limit']) ? (int) $_GET['limit'] : 10;
-                                $page = isset ($_GET['page']) ? (int) $_GET['page'] : 1;
+                                $status = isset($_GET['status']) ? $_GET['status'] : 'all';
+                                $limit = isset($_GET['limit']) ? (int) $_GET['limit'] : 10;
+                                $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
                                 $offset = ($page - 1) * $limit;
                                 if ($status == 'all') {
                                     $sql = "SELECT COUNT(*) as total from orders";
