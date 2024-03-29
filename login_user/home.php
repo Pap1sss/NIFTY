@@ -36,6 +36,9 @@ $sql = "SELECT * from upload";
 $result = mysqli_query($conn, $sql);
 if ($result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {
+
+
+
     ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -282,7 +285,7 @@ if ($result->num_rows > 0) {
                       Information</button>
 
                     <?php
-                    if (isset ($_POST['submit'])) {
+                    if (isset($_POST['submit'])) {
                       $contact = filter_var($_POST['contact'], FILTER_SANITIZE_NUMBER_INT);
                       $address = filter_var($_POST['address'], FILTER_SANITIZE_STRING);
                       $user_name = filter_var($_POST['fullname'], FILTER_SANITIZE_STRING);
@@ -358,6 +361,7 @@ if ($result->num_rows > 0) {
                       <th style="width: 50%;">Products</th>
                       <th style="width: 25%;">Total Price</th>
                       <th style="width: 25%;">Status</th>
+                      <th style="width: 25%;">Cancel Order</th>
                     </tr>
                   </thead>
                   <tbody style="display: table-row-group;">
@@ -383,6 +387,24 @@ if ($result->num_rows > 0) {
                           <td style=" text-transform: uppercase;">
                             <?= htmlspecialchars($row["status"]) ?>
                           </td>
+                          <td style="width: 25%;">
+                          <?php
+                            if (isset($_POST['submit'])) {
+                            $order_id = $_POST['order_id'];
+
+                            $stmt = $conn->prepare("UPDATE orders SET status = ? WHERE id = ?");
+                            $stmt->bind_param("si", $pending, $order_id);
+                            $pending = "cancelled";
+                            $stmt->execute();
+                            }
+                            ?>
+
+                            <form action="" method="post">
+                              <input type="hidden" name="order_id" value="<?= htmlspecialchars($row["id"]) ?>">
+                              <button type="cancel" class="btn btn-danger">Cancel Order</button>
+                            </form>
+                          </td>
+
                         </tr>
                         <?php
                       }
