@@ -319,8 +319,8 @@ if (isset ($_GET['delete'])) {
                      <input type="submit" value="UPDATE" name="update_price" class="btn btn-dark">
                   </li>
                   <li class="list-group-item d-flex justify-content-center">
-                     <input type="text" class="box me-1 pe-5" name="product_description" value=""
-                        placeholder="new description">
+                     <textarea class="box me-1 pe-5" name="product_description" value=""
+                        placeholder="new description"></textarea>
 
                      <input type="submit" value="UPDATE" name="update_description" class="btn btn-dark">
                   </li>
