@@ -186,7 +186,7 @@ if ($username != false && $name != false) {
 
 
                 <?php
-                if (isset ($_POST['submit_date_sales'])) {
+                if (isset($_POST['submit_date_sales'])) {
 
                   $start_date = mysqli_real_escape_string($conn, $_POST['start_date']);
                   $end_date = mysqli_real_escape_string($conn, $_POST['end_date']);
@@ -329,7 +329,7 @@ if ($username != false && $name != false) {
 
 
                 <?php
-                if (isset ($_POST['submit_date_admin_logs'])) {
+                if (isset($_POST['submit_date_admin_logs'])) {
 
                   $start_date = mysqli_real_escape_string($conn, $_POST['start_date']);
                   $end_date = mysqli_real_escape_string($conn, $_POST['end_date']);
@@ -411,7 +411,123 @@ if ($username != false && $name != false) {
 
           </div>
         </section>
+        <section style="padding-top:10px;">
+          <div class="handler">
+            <div class="row">
+              <div
+                style="border: 1px solid white; border-radius: 10px; background-color: #F9C47F; padding: 20px; margin-bottom: 10px; text-align: center;">
+                <h5>ADMIN ACTIVITY LOGS </h5>
 
+                <form method="post" action="" onsubmit="return checkPassword()">
+
+                  <div class="form-group">
+                    <input type="date" name="start_date" class="form-control">
+                  </div>
+
+                  <br>
+                  <div class="form-group">
+                    <input type="date" name="end_date" class="form-control">
+                  </div>
+
+
+
+
+
+                  <br>
+                  <div class="form-group">
+                    <input type="submit" name="submit_date_admin_activity_logs" class="btn detail-btn"
+                      class="material-icons-outlined" value="🔎">
+                  </div>
+
+                </form>
+                <hr style=" border-top: 0.3px solid #5F5E5E; ">
+
+
+
+                <?php
+                if (isset($_POST['submit_date_admin_activity_logs'])) {
+
+                  $start_date = mysqli_real_escape_string($conn, $_POST['start_date']);
+                  $end_date = mysqli_real_escape_string($conn, $_POST['end_date']);
+
+                  // Prepare the SQL statement
+                  $stmt = $conn->prepare("SELECT * FROM admin_activity_log WHERE date_log BETWEEN ? AND ?");
+                  $stmt->bind_param("ss", $start_date, $end_date);
+                  $stmt->execute();
+                  $result = $stmt->get_result();
+
+                  // Check if there are any rows
+                  if ($result->num_rows > 0) {
+                    $query = mysqli_query($conn, "SELECT * FROM admin_activity_log WHERE date_log BETWEEN '$start_date' AND '$end_date' ORDER BY id DESC");
+
+                    if (mysqli_num_rows($query) > 0) {
+
+                      foreach ($query as $value) {
+
+                        // Use htmlspecialchars to prevent XSS attacks
+                        $start_date = htmlspecialchars($start_date);
+                        $end_date = htmlspecialchars($end_date);
+
+                        ?>
+
+                        <div class="col-lg-12">
+                          <table class="table table-striped table-bordered">
+                            <thead>
+                              <th>Admin</th>
+                              <th>Date & Time</th>
+                              <th>Activity</th>
+
+                            </thead>
+
+                            <tbody>
+
+                              <?php
+                              foreach ($query as $value) { ?>
+                                <tr>
+                                  <td>
+                                    <?= htmlspecialchars($value['username']) ?>
+                                  </td>
+                                  <td>
+                                    <?= htmlspecialchars($value['date_log']) ?>
+                                    <?= htmlspecialchars($value['time_log']) ?>
+                                  </td>
+                                  <td>
+
+                                    <?= htmlspecialchars($value['action']) ?>
+                                  </td>
+
+                                </tr>
+                                <?php
+                              }
+                              ?>
+                            </tbody>
+
+                          </table>
+                        </div>
+                        <?php
+
+
+                      }
+                    }
+
+                  } else {
+                    ?>
+                    <div class="col-lg-12">
+                      <h3>NO LOGS CAN BE FOUND</h3>
+                    </div>
+
+
+                    <?php
+                  }
+                }
+                ?>
+              </div>
+
+
+            </div>
+
+          </div>
+        </section>
       </div>
 
 
