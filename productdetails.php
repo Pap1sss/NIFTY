@@ -1114,7 +1114,7 @@ if ($result->num_rows > 0) {
                     - SIMILAR TO THIS PRODUCT -</h1>
                 </div>
                 <form action="" method="post">
-                  <ul class="product-list d-flex justify-content-left">
+                  <ul class="product-list">
 
                     <?php
 
