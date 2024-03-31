@@ -53,18 +53,18 @@ if ($result->num_rows > 0) {
 
     @include 'connection.php';
 
-    if (isset ($_POST['order_btn'])) {
+    if (isset($_POST['order_btn_COD'])) {
 
       $name = $_POST['name'];
       $number = $_POST['number'];
       $email = $_POST['email'];
       $method = $_POST['method'];
       $address = $_POST['address'];
-      $reference_number = $_POST['reference'];
-      $gcash_number = $_POST['gcash_number'];
-      $screenshot = $_FILES['screenshot'];
-      if (isset ($product_image['screenshot'])) {
-        $product_image_folder = 'uploaded_img/' . $screenshot['screenshot'];
+      $reference_number = "0";
+      $gcash_number = "0";
+      $product_image = $_POST['receipt'];
+      if (isset($product_image['receipt'])) {
+        $product_image_folder = 'uploaded_img/' . $product_image['receipt'];
       } else {
         $product_image_folder = 'default_image.jpg'; // Provide a default value if the key doesn't exist
       }
@@ -88,11 +88,12 @@ if ($result->num_rows > 0) {
       }
       ;
 
+
       $total_product = implode($glue, $product_name);
 
       $detail_query = mysqli_prepare($conn, "INSERT INTO `orders`(name, number, email, method, address, total_products, total_price, user_id, status, date_created, time_created, reference_number, gcash_number, screenshot) 
       VALUES(?, ?, ?, ?, ?, ?, ?, ?, 'pending', CURRENT_DATE(), CURRENT_TIME(), ?,?,?)");
-      mysqli_stmt_bind_param($detail_query, "ssssssdiiis", $name, $number, $email, $method, $address, $total_product, $price_total, $user_id, $reference_number, $gcash_number, $screenshot);
+      mysqli_stmt_bind_param($detail_query, "ssssssdiiis", $name, $number, $email, $method, $address, $total_product, $price_total, $user_id, $reference_number, $gcash_number, $product_image);
       mysqli_stmt_execute($detail_query);
       $order_id = mysqli_insert_id($conn);
       $sales_query = mysqli_prepare($conn, "INSERT INTO `sales`(orders_id, total_price, date_created) VALUES (?, ?, CURRENT_DATE())");
@@ -182,6 +183,136 @@ if ($result->num_rows > 0) {
 
 
 
+    }
+
+
+    if (isset($_POST['order_btn_gcash'])) {
+
+      $name = mysqli_real_escape_string($conn, $_POST['name']);
+      $number = mysqli_real_escape_string($conn, $_POST['number']);
+      $email = mysqli_real_escape_string($conn, $_POST['email']);
+      $method = mysqli_real_escape_string($conn, $_POST['method']);
+      $address = mysqli_real_escape_string($conn, $_POST['address']);
+      $reference_number = mysqli_real_escape_string($conn, $_POST['reference']);
+      $gcash_number = mysqli_real_escape_string($conn, $_POST['gcash_number']);
+      $receipt_image = mysqli_real_escape_string($conn, $_FILES['receipt']['name']);
+      $receipt_image_tmp_name = $_FILES['receipt']['tmp_name'];
+    
+      if (empty($receipt_image)) {
+        echo "<script>alert('Please upload the receipt image');</script>";
+      } else {
+        $target_dir = "../admin/uploaded_img/";
+        $target_file_image = $target_dir . basename($receipt_image);
+        move_uploaded_file($receipt_image_tmp_name, $target_file_image);
+    
+        $cart_query = mysqli_prepare($conn, "SELECT * FROM `cart` WHERE user_id = ?");
+        mysqli_stmt_bind_param($cart_query, "i", $user_id);
+        mysqli_stmt_execute($cart_query);
+        $result = mysqli_stmt_get_result($cart_query);
+    
+        $price_total = 0;
+        $glue = "\n \n";
+        if (mysqli_num_rows($result) > 0) {
+          $index = 0;
+          while ($product_item = mysqli_fetch_assoc($result)) {
+              $product_name[$index] = 'Item: [' . $product_item['name'] . '] SIZE & COLOR [' . $product_item['unit'] . '] Quantity: [' . $product_item['quantity'] . '] ';
+      
+              $product_price = ($product_item['price'] * $product_item['quantity']);
+              $price_total += $product_price;
+              $total_price = $price_total;
+      
+              // Add a line break after each product name
+              $product_name[$index] .= "\n";
+              $index++;
+          }
+      }
+    
+        $total_product = implode($glue, $product_name);
+    
+        $detail_query = mysqli_prepare($conn, "INSERT INTO `orders`(name, number, email, method, address, total_products, total_price, user_id, status, date_created, time_created, reference_number, gcash_number, screenshot) 
+          VALUES(?, ?, ?, ?, ?, ?, ?, ?, 'pending', CURRENT_DATE(), CURRENT_TIME(), ?,?,?)");
+        mysqli_stmt_bind_param($detail_query, "ssssssdiiis", $name, $number, $email, $method, $address, $total_product, $price_total, $user_id, $reference_number, $gcash_number, $receipt_image);
+        mysqli_stmt_execute($detail_query);
+    
+        $order_id = mysqli_insert_id($conn);
+        $sales_query = mysqli_prepare($conn, "INSERT INTO `sales`(orders_id, total_price, date_created) VALUES (?, ?, CURRENT_DATE())");
+        mysqli_stmt_bind_param($sales_query, "di", $order_id, $price_total);
+        mysqli_stmt_execute($sales_query);
+    
+        $delete_query = mysqli_prepare($conn, "DELETE FROM `cart` WHERE user_id = ?");
+        mysqli_stmt_bind_param($delete_query, "i", $user_id);
+        mysqli_stmt_execute($delete_query);
+    
+        $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+        $number = filter_var($number, FILTER_SANITIZE_NUMBER_INT);
+    
+        $mail = new PHPMailer(true);
+        $now = new DateTime();
+        $date = date('Y-m-d');
+        $time = date('H:i:s');
+        $minDaysToAdd = 3;
+        $maxDaysToAdd = 5;
+        $daysToAdd = rand($minDaysToAdd, $maxDaysToAdd); // Randomly choose between 3 and 5 days to add
+        $now->add(new DateInterval('P' . $daysToAdd . 'D'));
+        $expectedDeliveryDate = $now->format('Y-m-d');
+    
+        $subject = "NIFTY SHOES ORDER CONFIRMATION";
+        $message = "
+    
+          Thank you for placing an order of our product $name 
+    
+          We have received your order on $date $time and your payment method is $method
+          We’re getting your order ready and will let you know once it’s on the way. We wish you enjoy shopping with us 
+          and hope to see you again real soon!
+    
+          ________________________________________________________________________
+    
+    
+          DELIVERY DETAILS:
+    
+          Name: $name
+          Address: $address
+          Phone: $number
+          Email: $email
+    
+          Orders: $total_product
+    
+          _________________________________________________________________________
+    
+          Estimated Delivery Dates: $expectedDeliveryDate
+    
+          Delivery date will depends on the availability of the product you ordered
+          For inquires and questions you can email us on this address";
+    
+        try {
+          //Server settings
+          $mail->isSMTP();
+          $mail->Host = 'smtp.gmail.com';
+          $mail->SMTPAuth = true;
+          $mail->Username = 'papisssgg@gmail.com';
+          $mail->Password = 'mnxc djee wiln kzje';
+          $mail->SMTPSecure = 'tls';
+          $mail->Port = 587;
+    
+          // Sender and recipient settings
+          $mail->setFrom('niftyshoes@gmail.com', 'Nifty Shoes');
+          $mail->addAddress($email);
+    
+          // Email content
+          $mail->isHTML(false);
+          $mail->Subject = $subject;
+          $mail->Body = $message;
+    
+          $mail->send();
+    
+          header('location: home.php');
+    
+        } catch (Exception $e) {
+          $errors['otp-error'] = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        }
+    
+      }
+    
     }
     ?>
 
@@ -366,7 +497,7 @@ if ($result->num_rows > 0) {
               <hr style=" border-top: 0.3px solid #5F5E5E; ">
               <br>
               <br>
-              <form action="" method="post">
+              <form action="" method="post" enctype="multipart/form-data">
                 <div class="display-order mb-4 p-3 bg-light">
 
                   <div class="row justify-content-center">
@@ -489,6 +620,10 @@ if ($result->num_rows > 0) {
                           <label class="form-check-label" for="cash-on-delivery">
                             Cash on Delivery
                           </label>
+                          <div class="text-center mt-5" id="cashOrderButtonContainer" style="display: none;">
+                            <button type="submit" name="order_btn_COD" id="cashOrderButton" class="btn detail-btn">Order
+                              Now</button>
+                          </div>
                         </div>
                         <div class="form-check">
                           <input class="form-check-input" type="radio" name="method" id="gcash" value="gcash" required
@@ -498,52 +633,61 @@ if ($result->num_rows > 0) {
                           </label>
                           <div id="gcash-input" style="display: none;">
                             <div class="input-group mb-3">
-
-                              <div id="gcash-input" style="display: block; max-width: 150px; max-height: 250px;">
-                                <img src="../admin/uploaded_img/<?= $row["gcash_ss"] ?>" alt="GCash QR Code" class="img-fluid">
-                              </div>
-
                               <div id="gcash-qr-code"></div>
                               <div class="col-md-6">
                                 <div class="inputBox p-3 mb-3 bg-light">
                                   <span class="fs-5">Enter REFERENCE NO.</span>
-                                  <input type="text" style="font-size: 20px;" placeholder="" name="reference"
-                                    class="form-control">
+                                  <input type="text" style="font-size: 20px;" placeholder="" name="reference" class="form-control"
+                                    id="gcashReference">
                                 </div>
-
                                 <div class="inputBox p-3 mb-3 bg-light">
                                   <span class="fs-5">Enter Gcash Number Used:</span>
                                   <input type="text" style="font-size: 20px;" placeholder="" name="gcash_number"
-                                    pattern="[0-9]{11}" class="form-control">
+                                    class="form-control" id="gcashNumber" pattern="[0-9]{11}">
                                 </div>
-
-
                                 <div class="inputBox p-3 mb-3 bg-light">
                                   <span class="fs-5">Upload Receipt Screenshot:</span>
-                                  <input type="file" accept="image/png, image/jpeg, image/jpg" name="screenshot" class="box">
+                                  <input type="file" accept="image/png, image/jpeg, image/jpg" name="receipt" class="box"
+                                    id="gcashReceipt">
                                 </div>
                               </div>
                             </div>
-
-
+                            <div class="text-center mt-5" id="gcashOrderButtonContainer" style="display: none;">
+                              <button type="submit" name="order_btn_gcash" id="gcashOrderButton" class="btn detail-btn">Order
+                                Now</button>
+                            </div>
                           </div>
                         </div>
                       </div>
-
-
-
-
                     </div>
-
-
-                  </div>
-                  <div class="text-center mt-5">
-                    <button type="submit" name="order_btn" id="orderButton" class="btn detail-btn">Order Now</button>
-                  </div>
-
-
-
                 </form>
+
+                <script>
+                  // Enable/Hide submit buttons based on the radio button's state
+                  const cashOnDeliveryRadio = document.getElementById("cash-on-delivery");
+                  const gcashRadio = document.getElementById("gcash");
+                  const cashOrderButtonContainer = document.getElementById("cashOrderButtonContainer");
+                  const gcashOrderButtonContainer = document.getElementById("gcashOrderButtonContainer");
+                  const gcashReference = document.getElementById("gcashReference");
+                  const gcashNumber = document.getElementById("gcashNumber");
+                  const gcashReceipt = document.getElementById("gcashReceipt");
+
+                  cashOnDeliveryRadio.addEventListener("change", () => {
+                    if (cashOnDeliveryRadio.checked) {
+                      cashOrderButtonContainer.style.display = "block";
+                      gcashOrderButtonContainer.style.display = "none";
+
+                    }
+                  });
+
+                  gcashRadio.addEventListener("change", () => {
+                    if (gcashRadio.checked) {
+                      gcashOrderButtonContainer.style.display = "block";
+                      cashOrderButtonContainer.style.display = "none";
+
+                    }
+                  });
+                </script>
               </div>
 
             </div>

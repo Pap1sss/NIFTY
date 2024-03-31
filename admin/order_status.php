@@ -23,12 +23,10 @@ if ($username != false && $name != false) {
 
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
-    mysqli_query($conn, "INSERT INTO admin_activity_log(username, date_log, time_log,  action) 
+    mysqli_query($conn, "INSERT INTO product_log(username, date_log, time_log,  edit_create) 
     VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'deleted an order')");
     mysqli_query($conn, "DELETE FROM orders WHERE id = $id");
     echo "<script>alert('Removed Successfully');</script>";
-    header("Location: " . $_SERVER['PHP_SELF']);
-    exit();
 }
 ?>
 
@@ -243,113 +241,120 @@ if (isset($_GET['delete'])) {
                     </div>
                     <div class="col-md-12" style="padding: 20px;">
                         <br>
-                        <table class="table table-bordered border-secondary overflow-x-auto"
-                            style="border-radius: 5px;">
-                            <thead class="thead-dark" style="display: table-row-group; text-align: center; ">
-                                <tr>
-                                    <th style="text-transform: uppercase;">Order ID</th>
-                                    <th style="text-transform: uppercase;">Customer ID | Name & Email</th>
-                                    <th style="text-transform: uppercase;">Contact Number</th>
+                        <div class="container">
+                            <table class="table table-bordered border-secondary overflow-x-auto"
+                                style="border-radius: 5px;">
+                                <thead class="thead-dark" style="display: table-row-group; text-align: center; ">
+                                    <tr>
+                                        <th style="text-transform: uppercase;">Change status</th>
+                                        <th style="text-transform: uppercase;">Order ID</th>
+                                        <th style="text-transform: uppercase;">Customer ID | Name & Email</th>
+                                        <th style="text-transform: uppercase;">Contact Number</th>
 
-                                    <th style="text-transform: uppercase;">Address</th>
-                                    <th style="text-transform: uppercase;">Products</th>
-                                    <th style="text-transform: uppercase;">Payment Method | Total | Status
-                                    </th>
-                                    <th style="text-transform: uppercase;">Order Date & Time</th>
-                                    <th style="text-transform: uppercase;">GCASH Payment Information</th>
+                                        <th style="text-transform: uppercase;">Address</th>
+                                        <th style="text-transform: uppercase;">Products</th>
+                                        <th style="text-transform: uppercase;">Order Information
+                                        </th>
 
-                                    <th style="text-transform: uppercase;">Actions</th>
-                                </tr>
-                            </thead>
-                            <?php
-                            if ($status == 'all') {
-                                $sql = "SELECT * from orders  ORDER BY id DESC LIMIT $limit OFFSET $offset";
-                            } else {
-                                $sql = "SELECT * from orders  WHERE status = '$status'  ORDER BY id DESC LIMIT $limit OFFSET $offset";
-                            }
-                            $result = $conn->query($sql);
-
-                            if ($result->num_rows > 0) {
-                                while ($row = $result->fetch_assoc()) {
-                                    ?>
-                                    <tbody style="display: table-row-group;">
-                                        <tr>
-                                            <td>
-                                                <?= htmlspecialchars($row['id']) ?>
-                                            </td>
-                                            <td>
-                                                <?= htmlspecialchars($row['user_id']) ?>
-                                                |
-                                                <?= htmlspecialchars($row['name']) ?>
-                                                <?= htmlspecialchars($row['email']) ?>
-                                            </td>
-                                            <td>
-                                                <?= htmlspecialchars($row['number']) ?>
-                                            </td>
+                                        <th style="text-transform: uppercase;">GCASH Payment Information</th>
 
 
-                                            <td>
-                                                <?= htmlspecialchars($row['address']) ?>
-                                            </td>
-                                            <td>
-                                                <?= htmlspecialchars($row['total_products']) ?>
-                                            </td>
-                                            <td style="text-transform: capitalize; text-align:center;">₱
-                                                <?= htmlspecialchars($row['total_price']) ?>
-                                                _________________________
+                                        <th style="text-transform: uppercase;">Order Date & Time</th>
+                                    </tr>
+                                </thead>
+                                <?php
+                                if ($status == 'all') {
+                                    $sql = "SELECT * from orders  ORDER BY id DESC LIMIT $limit OFFSET $offset";
+                                } else {
+                                    $sql = "SELECT * from orders  WHERE status = '$status'  ORDER BY id DESC LIMIT $limit OFFSET $offset";
+                                }
+                                $result = $conn->query($sql);
 
-                                                <div style="background-color: #F4B39D; border-radius: 10px; margin-top: 10px;">
-                                                    <p>
-                                                        <?= htmlspecialchars($row['status']) ?>
-                                                    </p>
-                                                </div>
-                                                _________________________
-                                                <?= htmlspecialchars($row['method']) ?>
-                                            </td>
-                                            <td>
-                                                <?= htmlspecialchars($row['date_created'] . ' ' . $row['time_created']) ?>
-                                            </td>
-                                            <td>
-                                                Reference Number:
-                                                <?= htmlspecialchars($row['reference_number']) ?>
-                                                Gcash Number:
-                                                <?= htmlspecialchars($row['gcash_number']) ?>
-                                                <br>
-                                                <br>
-                                                <img src="./uploaded_img/<?= $row['screenshot'] ?>" alt="Image"
-                                                    class="img-fluid">
-                                            </td>
+                                if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) {
+                                        ?>
+                                        <tbody style="display: table-row-group;">
+                                            <tr>
+                                                <td>
+                                                    <div style="display: flex; flex-direction: column; align-items: center;">
+                                                        <a class="btn detail-btn" style="width: 100%;"
+                                                            href="order_status.php?ship=<?= htmlspecialchars($row['id']) ?>">
+                                                            Ship
+                                                        </a>
+                                                        <br>
+                                                        <a class="btn detail-btn"style="width: 100%;"
+                                                            href="order_status.php?receive=<?= htmlspecialchars($row['id']) ?>">
+                                                            Receive
+                                                        </a>
+                                                        <br>
+                                                        <a href="order_status.php?complete=<?= htmlspecialchars($row['id']); ?>"
+                                                            class="btn detail-btn"style="width: 100%;">
+                                                            <i class="fas "></i> Complete
+                                                        </a>
+                                                        <br>
+                                                        <a href="order_status.php?delete=<?= htmlspecialchars($row['id']); ?>"
+                                                            class="btn btn-danger"style="width: 100%;">
+                                                            <i class="fas "></i> Remove
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <?= htmlspecialchars($row['id']) ?>
+                                                </td>
+                                                <td>
+                                                    <?= htmlspecialchars($row['user_id']) ?>
+                                                    |
+                                                    <?= htmlspecialchars($row['name']) ?>
+                                                    <?= htmlspecialchars($row['email']) ?>
+                                                </td>
+                                                <td>
+                                                    <?= htmlspecialchars($row['number']) ?>
+                                                </td>
 
-                                            <td>
-                                                <a class="btn detail-btn"
-                                                    href="order_status.php?ship=<?= htmlspecialchars($row['id']) ?>">
-                                                    Ship
-                                                </a>
-                                                <br>
-                                                <br>
-                                                <a class="btn detail-btn"
-                                                    href="order_status.php?receive=<?= htmlspecialchars($row['id']) ?>">
-                                                    Receive
-                                                </a>
-                                                <br><br>
-                                                <a href="order_status.php?complete=<?= htmlspecialchars($row['id']); ?>"
-                                                    class="btn detail-btn">
-                                                    <i class="fas "></i> Complete
-                                                </a>
-                                                <br>
-                                                <br>
-                                                _______________
-                                                <a href="order_status.php?delete=<?= htmlspecialchars($row['id']); ?>"
-                                                    class="btn btn-danger">
-                                                    <i class="fas "></i> Remove
-                                                </a>
-                                            </td>
-                                        </tr>
 
-                                    <?php }
-                            } ?>
-                            </tbody>
-                        </table>
+                                                <td>
+                                                    <?= htmlspecialchars($row['address']) ?>
+                                                </td>
+                                                <td>
+                                                    <?= htmlspecialchars($row['total_products']) ?>
+                                                </td>
+                                                <td style="text-transform: capitalize; text-align:center;">₱
+                                                    <?= htmlspecialchars($row['total_price']) ?>
+                                                    _________________________
+
+                                                    <div
+                                                        style="background-color: #F4B39D; border-radius: 10px; margin-top: 10px;">
+                                                        <p>
+                                                            <?= htmlspecialchars($row['status']) ?>
+                                                        </p>
+                                                    </div>
+                                                    _________________________
+                                                    <?= htmlspecialchars($row['method']) ?>
+                                                </td>
+
+                                                <td>
+                                                    Reference Number:
+                                                    <?= htmlspecialchars($row['reference_number']) ?>
+                                                    Gcash Number:
+                                                    <?= htmlspecialchars($row['gcash_number']) ?>
+                                                    <br>
+                                                    <br>
+                                                    <img style="width: 200px; height: 150px;"
+                                                        src="./uploaded_img/<?= $row['screenshot'] ?>" alt="Image"
+                                                        class="img-fluid">
+                                                </td>
+
+
+                                                <td>
+                                                    <?= htmlspecialchars($row['date_created'] . ' ' . $row['time_created']) ?>
+                                                </td>
+                                            </tr>
+
+                                        <?php }
+                                } ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 
