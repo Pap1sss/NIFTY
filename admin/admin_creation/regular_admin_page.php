@@ -122,11 +122,7 @@ if ($username != false && $name != false) {
             <span class="material-icons-outlined">inventory</span> Manage Order Status
           </a>
         </li>
-        <li class="sidebar-list-item" style="opacity: 0.5;">
-          <a href="../admin_logs.php">
-            <span class="material-icons-outlined">face</span> Admin Logs
-          </a>
-        </li>
+
       </ul>
     </aside>
     <!-- End Sidebar -->
