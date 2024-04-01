@@ -586,29 +586,48 @@ if ($result->num_rows > 0) {
 
                                 ?>
                               <div style=" padding: 0px 10px 10px 10px; ">
-                                <h2 style="padding-bottom: 5px;">Color:</h2>
-                                <div class="form-check-inline">
+    <h2 style="padding-bottom: 5px;">Color:</h2>
+    <div class="form-check-inline">
+        <?php
+        if (empty($options)) {
+            ?> <p>Out of Stock</p>
+            <?php
+        } else {
+            $color_names = array();
+            foreach ($options as $option) {
+                if (!empty($option['color_name']) && !in_array($option['color_name'], $color_names)) {
+                    $color_names[] = $option['color_name'];
+                    echo '<div class="form-check color-option" data-color="' . $option['color_name'] . '">';
+                    echo '<input class="form-check-input" type="radio" name="color" id="color' . $option['stocks_color_id'] . '" value="' . $option['color_name'] . '" required>';
+                    echo '<div style="border: 1px solid #BABABA;   display:flex; justify-content: between; padding: 5px; border-radius: 5px; padding-right:10px;"><label class="form-check-label" for="color' . $option['stocks_color_id'] . '">' . $option['color_name'] . '</label>';
+                    echo '</div></div>';
+                }
+            }
+        }
+        ?>
+    </div>
+</div>
 
-                                  <?php
-                                  if (empty ($options)) {
-                                    ?> <p>Out of Stock</p>
-                                    <?php
-                                  } else {
-                                    $color_names = array();
-                                    foreach ($options as $option) {
-                                      if (!empty ($option['color_name']) && !in_array($option['color_name'], $color_names)) {
-                                        $color_names[] = $option['color_name'];
-                                        echo ' <div class ="form-check" >';
-                                        echo '<input class="form-check-input" type="radio" name="color" id="color' . $option['stocks_color_id'] . '" value="' . $option['color_name'] . '" required>';
-                                        echo '<div  style="border: 1px solid #BABABA;   display:flex; justify-content: between; padding: 5px; border-radius: 5px; padding-right:10px;"><label class="form-check-label" for="color' . $option['stocks_color_id'] . '">' . $option['color_name'] . '</label>';
-                                        echo '</div></div>';
-                                      }
-                                    }
-                                  }
-                            }
-                              ?>
-                            </div>
-                          </div>
+<script>
+// Add event listener to each color option
+document.querySelectorAll('.color-option').forEach(function(option) {
+    option.addEventListener('click', function() {
+        // Remove highlight class from all options
+        document.querySelectorAll('.color-option').forEach(function(option) {
+            option.classList.remove('highlight');
+        });
+
+        // Add highlight class to selected option
+        this.classList.add('highlight');
+    });
+});
+</script>
+
+<style>
+.color-option.highlight {
+    background-color: #f5f5f5;
+}
+</style>
 
                           <div class="form-group" style="padding: 5px;">
                             <br>
