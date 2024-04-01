@@ -10,6 +10,8 @@ if (isset($_POST["rating_data"])) {
 	$user_name = $_POST["user_name"];
 	$product_id = $_POST["product_id"];
 
+
+
 	// Check if the user has already submitted a review
 	$query = "
 	SELECT * FROM review_table

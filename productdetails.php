@@ -5,6 +5,9 @@ $result = mysqli_query($conn, $sql);
 if ($result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {
 
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+
     ?>
 
 
