@@ -1289,7 +1289,7 @@ if ($result->num_rows > 0) {
               });
 
 
-              $('#save_review').click(function () {
+              $('#add_review').click(function () {
 
 
 
