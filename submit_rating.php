@@ -2,9 +2,10 @@
 
 //submit_rating.php
 
-$connect = new PDO("mysql:host=172.31.13.12;dbname=website", "NIFTYSHOES", "pa$$word1");
+$connect = new PDO("mysql:host=localhost;dbname=website", "NIFTYSHOES", "pa$$word1");
 
-
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 if (isset($_POST["rating_data"])) {
 	$user_name = $_POST["user_name"];
