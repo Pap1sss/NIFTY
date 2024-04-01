@@ -26,6 +26,7 @@ if (isset($_GET['delete'])) {
     mysqli_query($conn, "INSERT INTO admin_activity_log(username, date_log, time_log,  action) 
     VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'deleted an order')");
     mysqli_query($conn, "DELETE FROM orders WHERE id = $id");
+    mysqli_query($conn, "DELETE FROM sales WHERE orders_id = $id");
     echo "<script>alert('Removed Successfully');</script>";
 }
 ?>
