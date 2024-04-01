@@ -237,15 +237,10 @@ if ($result->num_rows > 0) {
 
                 mysqli_query($conn, "INSERT INTO `cart`(user_id, image, name, price, unit, quantity) VALUES('$user_id', '$product_image','$product_name', '$product_price', '$unit', '$product_quantity')");
                 ?>
-                <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-                  <div class="toast-header">
-                    <strong class="me-auto">Success</strong>
-                    <small>1 sec ago</small>
-                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                  </div>
-                  <div class="toast-body">
-                    Product added to cart successfully. <a href="login_user/cart.php">Go to cart</a>
-                  </div>
+              <div class="alert success">
+                  <span class="closebtn">&times; </span>
+                  <strong><a href="login_user/cart.php">Go to cart</a> </strong> Product added to cart.
+
                 </div>
 
 
