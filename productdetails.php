@@ -551,7 +551,7 @@ if ($result->num_rows > 0) {
                                   <form action="" method="post">
                                     <div class="row">
                                       <div class="box">
-                                        <div class="form-check-inline d-flex justify-content-left">
+                                        <div style="margin: 10px;" class="form-check-inline d-flex justify-content-left">
                                           <?php
 
                                           if (empty ($options)) {
@@ -982,7 +982,7 @@ if ($result->num_rows > 0) {
                                   <form action="" method="post">
                                     <div class="row">
                                       <div class="box">
-                                        <div class="form-check-inline d-flex justify-content-left">
+                                        <div style="margin: 10px;" class="form-check-inline d-flex justify-content-left">
                                           <?php
 
                                           if (empty ($options)) {
@@ -995,7 +995,7 @@ if ($result->num_rows > 0) {
                                               if (!empty ($option['unit_name']) && !in_array($option['unit_name'], $size_names)) {
                                                 $size_names[] = $option['unit_name'];
                                              
-                                                echo '<input style="margin: 10px;" class="form-check-input" type="radio" name="size" id="size' . $option['stocks_unit_id'] . '" value="' . $option['unit_name'] . '" required>';
+                                                echo '<input  class="form-check-input" type="radio" name="size" id="size' . $option['stocks_unit_id'] . '" value="' . $option['unit_name'] . '" required>';
                                                 echo '<div  style="border: 1px solid #BABABA; display:flex; justify-content: between; padding: 5px; padding-right:10px; border-radius: 5px;"><label class="form-check-label" for="size' . $option['stocks_unit_id'] . '">' . $option['unit_name'] . '</label>';
                                                 echo '</div>';
                                               }
