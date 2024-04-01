@@ -2,7 +2,7 @@
 
 //submit_rating.php
 
-@include 'admin/admin_creation/config.php';
+$connect = new PDO("mysql:host=172.31.13.12;dbname=website", "NIFTYSHOES", "pa$$word1");
 
 
 
