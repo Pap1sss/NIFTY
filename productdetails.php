@@ -377,7 +377,7 @@ if ($result->num_rows > 0) {
 
                               .detail-btn:hover {
                                 background-color: #F4B39D;
-                                color: white;
+                                color: rgba(0,0,0,0.025);;
                               }
                             </style>
                             <button type="button" class="btn detail-btn" style="border-color: transparent; border-radius: 5px;"
