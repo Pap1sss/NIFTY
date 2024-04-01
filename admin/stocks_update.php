@@ -20,7 +20,7 @@ if ($username != false && $name != false) {
 
 $id = $_GET['manage'];
 
-if (isset ($_POST['add_unit'])) {
+if (isset($_POST['add_unit'])) {
    $create = 'added a unit stock on product id';
    $unit = $_POST['unit'];
    $username = $_SESSION['user_name'];
@@ -45,7 +45,7 @@ if (isset ($_POST['add_unit'])) {
 }
 ;
 
-if (isset ($_POST['add_color'])) {
+if (isset($_POST['add_color'])) {
    $create = 'add a color stock on product id';
 
    $color = $_POST['color'];
@@ -210,11 +210,7 @@ if (isset ($_POST['add_color'])) {
                   <span class="material-icons-outlined">inventory</span> Manage Order Status
                </a>
             </li>
-            <li class="sidebar-list-item">
-               <a href="admin_logs.php">
-                  <span class="material-icons-outlined">face</span> Admin Logs
-               </a>
-            </li>
+
          </ul>
 
 
@@ -279,7 +275,7 @@ if (isset ($_POST['add_color'])) {
             </ul>
 
             <?php
-            if (isset ($_POST['delete_unit_submit'])) {
+            if (isset($_POST['delete_unit_submit'])) {
                // Get the list of checkbox values
                $delete_ids = $_POST['delete_ids'];
                $stocks_unit_id = $_POST['stocks_unit_id'];
@@ -343,7 +339,7 @@ if (isset ($_POST['add_color'])) {
             </ul>
          </div>
          <?php
-         if (isset ($_POST['delete_color_submit'])) {
+         if (isset($_POST['delete_color_submit'])) {
             // Get the list of checkbox values
             $delete_ids = $_POST['delete_ids'];
             $stocks_color_id = $_POST['stocks_color_id'];

@@ -293,7 +293,7 @@ if ($username != false && $name != false) {
           </div>
         </section>
 
-        <br><br>
+        <br>
         <!-- ADMIN LOGS -->
         <section style="padding-top:10px;">
           <div class="handler">

@@ -23,7 +23,7 @@ if ($username != false && $name != false) {
 
 
 
-if (isset ($_POST['update_product_name'])) {
+if (isset($_POST['update_product_name'])) {
 
    // Validate the input
    $product_name = $_POST['product_name'];
@@ -32,7 +32,7 @@ if (isset ($_POST['update_product_name'])) {
 
    }
 
-   if (empty ($product_name)) {
+   if (empty($product_name)) {
       echo "<script>alert('Please fill out product name');</script>";
 
    }
@@ -52,7 +52,7 @@ if (isset ($_POST['update_product_name'])) {
 }
 ;
 
-if (isset ($_POST['update_price'])) {
+if (isset($_POST['update_price'])) {
 
    // Validate the input
    $product_price = $_POST['product_price'];
@@ -60,7 +60,7 @@ if (isset ($_POST['update_price'])) {
       echo "<script>alert('Something went wrong');</script>";
    }
 
-   if (empty ($product_price)) {
+   if (empty($product_price)) {
       echo "<script>alert('Please fill out properly');</script>";
 
    }
@@ -82,7 +82,7 @@ if (isset ($_POST['update_price'])) {
 ;
 
 
-if (isset ($_POST['update_description'])) {
+if (isset($_POST['update_description'])) {
 
    // Validate the input
    $product_description = trim($_POST['product_description']);
@@ -92,7 +92,7 @@ if (isset ($_POST['update_description'])) {
 
    }
 
-   if (empty ($product_description)) {
+   if (empty($product_description)) {
 
       echo "<script>alert('Please fill out the description');</script>";
 
@@ -111,13 +111,13 @@ if (isset ($_POST['update_description'])) {
 }
 
 
-if (isset ($_POST['update_image'])) {
+if (isset($_POST['update_image'])) {
 
    $product_image = $_FILES['product_image']['name'];
    $product_image_tmp_name = $_FILES['product_image']['tmp_name'];
    $product_image_folder = 'uploaded_img/' . $product_image;
 
-   if (empty ($product_image)) {
+   if (empty($product_image)) {
 
       echo "<script>alert('Please fill required attachment');</script>";
    } else {
@@ -137,12 +137,12 @@ if (isset ($_POST['update_image'])) {
    }
 
 }
-if (isset ($_POST['upload_image'])) {
+if (isset($_POST['upload_image'])) {
    $product_gallery = mysqli_real_escape_string($conn, $_FILES['product_gallery']['name']);
    $product_gallery_tmp_name = $_FILES['product_gallery']['tmp_name'];
    $product_image_folder = 'uploaded_img/' . $product_gallery;
 
-   if (empty ($product_gallery)) {
+   if (empty($product_gallery)) {
       echo "<script>alert('Please insert a file');</script>";
    } else {
       $insert = "INSERT INTO product_gallery(product_id, product_image, date_uploaded) 
@@ -160,7 +160,7 @@ if (isset ($_POST['upload_image'])) {
    }
 
 }
-if (isset ($_GET['delete'])) {
+if (isset($_GET['delete'])) {
    $id = $_GET['delete'];
    mysqli_query($conn, "DELETE FROM product_gallery WHERE id = $id");
    mysqli_query($conn, "INSERT INTO admin_activity_log(username, date_log, time_log,  action) 
@@ -255,11 +255,7 @@ if (isset ($_GET['delete'])) {
                   <span class="material-icons-outlined">inventory</span> Manage Order Status
                </a>
             </li>
-            <li class="sidebar-list-item">
-               <a href="admin_logs.php">
-                  <span class="material-icons-outlined">face</span> Admin Logs
-               </a>
-            </li>
+
          </ul>
 
       </aside>
@@ -391,7 +387,7 @@ if (isset ($_GET['delete'])) {
             </div>
             <?php
 
-            if (isset ($_POST['delete_submit'])) {
+            if (isset($_POST['delete_submit'])) {
                // Get the list of checkbox values
                $delete_ids = $_POST['delete_ids'];
                $image_id = $_POST['image_id'];

@@ -20,7 +20,7 @@ if ($username != false && $name != false) {
 }
 
 
-if (isset ($_POST['add_product'])) {
+if (isset($_POST['add_product'])) {
    $create = 'create a product';
    $category = mysqli_real_escape_string($conn, $_POST['category']);
    $username = mysqli_real_escape_string($conn, $_SESSION['user_name']);
@@ -31,7 +31,7 @@ if (isset ($_POST['add_product'])) {
    $product_image_tmp_name = $_FILES['product_image']['tmp_name'];
    $product_image_folder = 'uploaded_img/' . $product_image;
 
-   if (empty ($product_name) || empty ($product_price) || empty ($product_image)) {
+   if (empty($product_name) || empty($product_price) || empty($product_image)) {
       echo "<script>alert('Please fill out all');</script>";
    } else {
       $insert = "INSERT INTO products(category,name, price, image, description, date_created, time_created, date_edited, time_edited)  
@@ -51,7 +51,7 @@ if (isset ($_POST['add_product'])) {
          header("Location: " . $_SERVER['PHP_SELF']);
          exit();
 
-       
+
       } else {
          echo "<script>alert('Could not add the product');</script>";
          header("Location: " . $_SERVER['PHP_SELF']);
@@ -67,7 +67,7 @@ if (isset ($_POST['add_product'])) {
 <!-- for categories -->
 <?php
 
-if (isset ($_POST['add_product_category'])) {
+if (isset($_POST['add_product_category'])) {
    $create = 'created a category';
    $username = $_SESSION['user_name'];
    $category = $_POST['category'];
@@ -81,7 +81,7 @@ if (isset ($_POST['add_product_category'])) {
    if ($result->num_rows > 0) {
       echo "<script>alert('Category Already Exists');</script>";
    } else {
-      if (empty ($category)) {
+      if (empty($category)) {
          echo "<script>alert('Please fill out all fields.');</script>";
       } else {
          // Insert category
@@ -101,7 +101,7 @@ if (isset ($_POST['add_product_category'])) {
          header("Location: " . $_SERVER['PHP_SELF']);
          exit();
 
-       
+
 
 
       }
@@ -115,7 +115,7 @@ if (isset ($_POST['add_product_category'])) {
 
 <!-- for colors and sizes -->
 <?php
-if (isset ($_POST['add_product_unit'])) {
+if (isset($_POST['add_product_unit'])) {
    $create = 'created a unit';
    $username = $_SESSION['user_name'];
    $unit = $_POST['unit'];
@@ -146,17 +146,17 @@ if (isset ($_POST['add_product_unit'])) {
          header("Location: " . $_SERVER['PHP_SELF']);
          exit();
 
-      
+
       } else {
          echo "<script>alert('We encountered an error!');</script>";
-         
+
       }
 
       // Close the prepared statement
       $stmt->close();
    }
 }
-if (isset ($_POST['add_product_color'])) {
+if (isset($_POST['add_product_color'])) {
    $create = 'created a color';
    $username = $_SESSION['user_name'];
    $color = $_POST['color'];
@@ -185,7 +185,7 @@ if (isset ($_POST['add_product_color'])) {
          echo "<script>alert('New color added successfully.');</script>";
          header("Location: " . $_SERVER['PHP_SELF']);
          exit();
-       
+
       } else {
          echo "<script>alert('We encountered a problem');</script>";
       }
@@ -198,7 +198,7 @@ if (isset ($_POST['add_product_color'])) {
 
 
 //delete query//
-if (isset ($_GET['delete'])) {
+if (isset($_GET['delete'])) {
    $id = $_GET['delete'];
 
    // Get product name
@@ -218,10 +218,10 @@ if (isset ($_GET['delete'])) {
    header("Location: " . $_SERVER['PHP_SELF']);
    exit();
 
-   
+
 }
 ;
-if (isset ($_GET['category_delete'])) {
+if (isset($_GET['category_delete'])) {
    $id = $_GET['category_delete'];
 
    // Get category name
@@ -243,7 +243,7 @@ if (isset ($_GET['category_delete'])) {
 
 }
 ;
-if (isset ($_GET['unit_delete'])) {
+if (isset($_GET['unit_delete'])) {
    $id = $_GET['unit_delete'];
 
    // Get unit name
@@ -264,7 +264,7 @@ if (isset ($_GET['unit_delete'])) {
 
 }
 
-if (isset ($_GET['color_delete'])) {
+if (isset($_GET['color_delete'])) {
    $id = $_GET['color_delete'];
 
    // Get color name
@@ -282,7 +282,7 @@ if (isset ($_GET['color_delete'])) {
    header("Location: " . $_SERVER['PHP_SELF']);
    exit();
 
-  
+
 }
 ?>
 
@@ -378,11 +378,7 @@ if (isset ($_GET['color_delete'])) {
                   <span class="material-icons-outlined">inventory</span> Manage Order Status
                </a>
             </li>
-            <li class="sidebar-list-item" style="opacity: 0.5;">
-               <a href="admin_logs.php">
-                  <span class="material-icons-outlined">face</span> Admin Logs
-               </a>
-            </li>
+
          </ul>
 
       </aside>
@@ -438,8 +434,7 @@ if (isset ($_GET['color_delete'])) {
                         ?>
                      </select>
                      <input type="text" placeholder="Enter product name" name="product_name" class="box" required>
-                     <textarea  placeholder="Enter product description" name="product_description" class="box"
-                        required>
+                     <textarea placeholder="Enter product description" name="product_description" class="box" required>
                      </textarea>
                      <input type="number" placeholder="Enter product price" name="product_price" class="box"
                         id="productPriceInput" required>
