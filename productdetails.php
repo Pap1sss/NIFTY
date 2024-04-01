@@ -566,7 +566,7 @@ if ($result->num_rows > 0) {
                                             $size_names[] = $option['unit_name'];
                                             echo ' <div class ="form-check" >';
                                             echo '<input class="form-check-input" type="radio" name="size" id="size' . $option['stocks_unit_id'] . '" value="' . $option['unit_name'] . '" required>';
-                                            echo '<div style="border: 1px solid #BABABA;   display:flex; justify-content: between; padding: 5px; border-radius: 2px; padding-right:10px;"><label class="form-check-label detail-btn" for="size' . $option['stocks_unit_id'] . '">' . $option['unit_name'] . '</label>';
+                                            echo '<div class="detail-btn" style="border: 1px solid #BABABA;   display:flex; justify-content: between; padding: 5px; border-radius: 2px; padding-right:10px;"><label class="form-check-label " for="size' . $option['stocks_unit_id'] . '">' . $option['unit_name'] . '</label>';
                                             echo '</div></div>';
                                           }
                                         }
