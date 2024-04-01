@@ -23,7 +23,7 @@ if ($username != false && $name != false) {
 
 
 
-if (isset ($_POST['update_business_name'])) {
+if (isset($_POST['update_business_name'])) {
 
    // Validate the input
    $title = $_POST['title'];
@@ -33,7 +33,7 @@ if (isset ($_POST['update_business_name'])) {
 
    }
 
-   if (empty ($title)) {
+   if (empty($title)) {
       echo "<script>alert('Please fill out the field');</script>";
 
    }
@@ -52,12 +52,12 @@ if (isset ($_POST['update_business_name'])) {
 
 }
 ;
-if (isset ($_POST['update_business_description'])) {
+if (isset($_POST['update_business_description'])) {
 
    // Validate the input
    $description = $_POST['description'];
 
-   if (empty ($description)) {
+   if (empty($description)) {
       echo "<script>alert('Please fill out the field');</script>";
 
    }
@@ -77,7 +77,7 @@ if (isset ($_POST['update_business_description'])) {
 }
 ;
 
-if (isset ($_POST['update_business_email'])) {
+if (isset($_POST['update_business_email'])) {
 
    // Validate the input
    $email = $_POST['email'];
@@ -97,12 +97,12 @@ if (isset ($_POST['update_business_email'])) {
 
 }
 ;
-if (isset ($_POST['update_business_address'])) {
+if (isset($_POST['update_business_address'])) {
 
    // Validate the input
    $address = $_POST['company_address'];
 
-   if (empty ($address)) {
+   if (empty($address)) {
       echo "<script>alert('Please fill out the field');</script>";
 
    }
@@ -121,14 +121,14 @@ if (isset ($_POST['update_business_address'])) {
 
 }
 ;
-if (isset ($_POST['update_business_contact'])) {
+if (isset($_POST['update_business_contact'])) {
 
    // Validate the input
    $contact = $_POST['company_contact'];
    if (!preg_match("/^[0-9]{11}$/", $contact)) {
       echo "<script>alert('Please enter exactly 11 numbers');</script>";
    } else {
-      if (empty ($contact)) {
+      if (empty($contact)) {
          echo "<script>alert('Please fill out the field');</script>";
       }
 
@@ -147,11 +147,11 @@ if (isset ($_POST['update_business_contact'])) {
 
 }
 
-if (isset ($_POST['update_business_logo'])) {
+if (isset($_POST['update_business_logo'])) {
    $company_logo = $_FILES['company_logo']['name'];
    $company_logo_tmp_name = $_FILES['company_logo']['tmp_name'];
 
-   if (empty ($company_logo)) {
+   if (empty($company_logo)) {
       echo "<script>alert('Please fill out all');</script>";
    } else {
       $stmt = $conn->prepare("UPDATE upload SET logo=?");
@@ -165,12 +165,12 @@ if (isset ($_POST['update_business_logo'])) {
    }
 }
 ;
-if (isset ($_POST['update_business_home'])) {
+if (isset($_POST['update_business_home'])) {
    $display_image = $_FILES['display_image']['name'];
    $display_image_tmp_name = $_FILES['display_image']['tmp_name'];
 
 
-   if (empty ($display_image)) {
+   if (empty($display_image)) {
       echo "<script>alert('Please fill out all');</script>";
    } else {
       $stmt = $conn->prepare("UPDATE upload SET homepage_image=?");
@@ -185,12 +185,12 @@ if (isset ($_POST['update_business_home'])) {
 }
 ;
 
-if (isset ($_POST['update_business_gcash'])) {
+if (isset($_POST['update_business_gcash'])) {
    $gcash_qr = $_FILES['gcash_qr']['name'];
    $gcash_qr_tmp_name = $_FILES['gcash_qr']['tmp_name'];
 
 
-   if (empty ($gcash_qr)) {
+   if (empty($gcash_qr)) {
       echo "<script>alert('Please fill out all');</script>";
    } else {
       $stmt = $conn->prepare("UPDATE upload SET gcash_ss=?");

@@ -4,8 +4,7 @@
 
 $connect = new PDO("mysql:host=localhost;dbname=website", "NIFTYSHOES", "pa$$word1");
 
-if(isset($_POST["rating_data"]))
-{
+if (isset($_POST["rating_data"])) {
 	$user_name = $_POST["user_name"];
 	$product_id = $_POST["product_id"];
 
@@ -18,8 +17,8 @@ if(isset($_POST["rating_data"]))
 	$statement = $connect->prepare($query);
 	$statement->execute(
 		array(
-			':user_name'	=>	$user_name,
-			':product_id'	=>	$product_id
+			':user_name' => $user_name,
+			':product_id' => $product_id
 		)
 	);
 
@@ -27,31 +26,30 @@ if(isset($_POST["rating_data"]))
 		// User has already submitted a review
 		echo "You have already given a review.";
 	} else {
-	$data = array(
-		':user_name'		=>	$_POST["user_name"],
-		':user_rating'		=>	$_POST["rating_data"],
-		':user_review'		=>	$_POST["user_review"],
-		':product_id'		=>	$_POST["product_id"],
-		':datetime'			=>	time()
-	);
+		$data = array(
+			':user_name' => $_POST["user_name"],
+			':user_rating' => $_POST["rating_data"],
+			':user_review' => $_POST["user_review"],
+			':product_id' => $_POST["product_id"],
+			':datetime' => time()
+		);
 
-	$query = "
+		$query = "
 	INSERT INTO review_table 
 	(user_name, user_rating, user_review, datetime, product_id) 
 	VALUES (:user_name, :user_rating, :user_review, :datetime, :product_id)
 	";
 
-	$statement = $connect->prepare($query);
+		$statement = $connect->prepare($query);
 
-	$statement->execute($data);
+		$statement->execute($data);
 
-	echo "Your Review & Rating Successfully Submitted";
+		echo "Your Review & Rating Successfully Submitted";
 
+	}
 }
-}
 
-if(isset($_POST["action"]))
-{
+if (isset($_POST["action"])) {
 	$product_id = $_POST["product_id"];
 
 	$average_rating = 0;
@@ -72,43 +70,37 @@ if(isset($_POST["action"]))
 	$statement = $connect->prepare($query);
 	$statement->execute(
 		array(
-			':product_id'	=>	$product_id
+			':product_id' => $product_id
 		)
 	);
 
 	$result = $statement->fetchAll();
 
-	foreach($result as $row)
-	{
+	foreach ($result as $row) {
 		$review_content[] = array(
-			'user_name'		=>	$row["user_name"],
-			'user_review'	=>	$row["user_review"],
-			'rating'		=>	$row["user_rating"],
-			'datetime'		=>	date('l jS, F Y h:i:s A', $row["datetime"])
+			'user_name' => $row["user_name"],
+			'user_review' => $row["user_review"],
+			'rating' => $row["user_rating"],
+			'datetime' => date('l jS, F Y h:i:s A', $row["datetime"])
 		);
 
-		if($row["user_rating"] == '5')
-		{
+		if ($row["user_rating"] == '5') {
 			$five_star_review++;
 		}
 
-		if($row["user_rating"] == '4')
-		{
+		if ($row["user_rating"] == '4') {
 			$four_star_review++;
 		}
 
-		if($row["user_rating"] == '3')
-		{
+		if ($row["user_rating"] == '3') {
 			$three_star_review++;
 		}
 
-		if($row["user_rating"] == '2')
-		{
+		if ($row["user_rating"] == '2') {
 			$two_star_review++;
 		}
 
-		if($row["user_rating"] == '1')
-		{
+		if ($row["user_rating"] == '1') {
 			$one_star_review++;
 		}
 
@@ -121,14 +113,14 @@ if(isset($_POST["action"]))
 	$average_rating = $total_user_rating / $total_review;
 
 	$output = array(
-		'average_rating'	=>	number_format($average_rating, 1),
-		'total_review'		=>	$total_review,
-		'five_star_review'	=>	$five_star_review,
-		'four_star_review'	=>	$four_star_review,
-		'three_star_review'	=>	$three_star_review,
-		'two_star_review'	=>	$two_star_review,
-		'one_star_review'	=>	$one_star_review,
-		'review_data'		=>	$review_content
+		'average_rating' => number_format($average_rating, 1),
+		'total_review' => $total_review,
+		'five_star_review' => $five_star_review,
+		'four_star_review' => $four_star_review,
+		'three_star_review' => $three_star_review,
+		'two_star_review' => $two_star_review,
+		'one_star_review' => $one_star_review,
+		'review_data' => $review_content
 	);
 
 	echo json_encode($output);
