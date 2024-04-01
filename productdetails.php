@@ -551,7 +551,7 @@ if ($result->num_rows > 0) {
                                   <form action="" method="post">
                                     <div class="row">
                                       <div class="box">
-                                        <div style="margin: 10px;" class="form-check-inline d-flex justify-content-left">
+                                        <div style="margin-right: 25px;" class="form-check-inline d-flex justify-content-left">
                                           <?php
 
                                           if (empty ($options)) {
@@ -982,7 +982,7 @@ if ($result->num_rows > 0) {
                                   <form action="" method="post">
                                     <div class="row">
                                       <div class="box">
-                                        <div style="margin: 10px;" class="form-check-inline d-flex justify-content-left">
+                                        <div style="margin-right: 25px;" class="form-check-inline d-flex justify-content-left">
                                           <?php
 
                                           if (empty ($options)) {
