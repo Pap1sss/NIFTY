@@ -377,11 +377,11 @@ if ($result->num_rows > 0) {
 
                               .detail-btn:hover {
                                 background-color: #F4B39D;
-                                color: rgba(0,0,0,0.025);;
+                                color: white;
                               }
                             </style>
                             <button type="button" class="btn detail-btn" style="border-color: transparent; border-radius: 5px;"
-                              id="add_review" name="rating_data">Submit</button>
+                              id="save_review">Submit</button>
                           </div>
                         </div>
                       </div>
@@ -810,7 +810,7 @@ if ($result->num_rows > 0) {
                               }
                             </style>
                             <button type="button" class="btn detail-btn"
-                              style="border-color: transparent; border-radius: 5px;" id="add_review" name="rating_data">Submit</button>
+                              style="border-color: transparent; border-radius: 5px;" id="save_review">Submit</button>
                           </div>
                         </div>
                       </div>
@@ -1239,7 +1239,7 @@ if ($result->num_rows > 0) {
 
               var rating_data = 0;
 
-              $('#add_review').click(function () {
+              $('#save_review').click(function () {
 
                 $('#review_modal').modal('show');
 
@@ -1289,7 +1289,7 @@ if ($result->num_rows > 0) {
               });
 
 
-              $('#add_review').click(function () {
+              $('#save_review').click(function () {
 
 
 
