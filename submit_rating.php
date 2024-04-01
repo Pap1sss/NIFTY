@@ -2,7 +2,7 @@
 
 //submit_rating.php
 
-$connect = new PDO("mysql:host=localhost;dbname=website", "NIFTYSHOES", "pa$$word1");
+$connect = new PDO("mysql:host=localhost;dbname=website", 'NIFTYSHOES', 'pa$$word1');
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
