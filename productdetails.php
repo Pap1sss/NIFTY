@@ -565,7 +565,7 @@ if ($result->num_rows > 0) {
                                                 $size_names[] = $option['unit_name'];
                                                 echo ' <div class ="form-check >';
                                                 echo '<input class="form-check-input" type="radio" name="size" id="size' . $option['stocks_unit_id'] . '" value="' . $option['unit_name'] . '" required>';
-                                                echo '<div style="background-color: #F7F3F3;   width: 50px; display:flex; justify-content: center; margin-right: 5px;"><label class="form-check-label" for="size' . $option['stocks_unit_id'] . '">' . $option['unit_name'] . '</label>';
+                                                echo '<div style="background-color: #F7F3F3;   width: 50px; display:flex; justify-content: center; margin-right: 5px; border-radius: 2px;"><label class="form-check-label" for="size' . $option['stocks_unit_id'] . '">' . $option['unit_name'] . '</label>';
                                                 echo '</div></div>';
                                               }
                                             }
@@ -605,8 +605,8 @@ if ($result->num_rows > 0) {
                                         $color_names[] = $option['color_name'];
                                         echo '<div class="form-check">';
                                         echo '<input class="form-check-input" type="radio" name="color" id="color' . $option['stocks_color_id'] . '" value="' . $option['color_name'] . '" required>';
-                                        echo '<label class="form-check-label" for="color' . $option['stocks_color_id'] . '">' . $option['color_name'] . '</label>';
-                                        echo '</div>';
+                                        echo '<div  style="background-color: #F7F3F3;   width: 50px; display:flex; justify-content: center; margin-right: 5px; border-radius: 2px;"><label class="form-check-label" for="color' . $option['stocks_color_id'] . '">' . $option['color_name'] . '</label>';
+                                        echo '</div></div>';
                                       }
                                     }
                                   }
@@ -996,8 +996,8 @@ if ($result->num_rows > 0) {
                                                 $size_names[] = $option['unit_name'];
                                                 echo ' <div class ="form-check" >';
                                                 echo '<input class="form-check-input" type="radio" name="size" id="size' . $option['stocks_unit_id'] . '" value="' . $option['unit_name'] . '" required>';
-                                                echo '<label class="form-check-label" for="size' . $option['stocks_unit_id'] . '">' . $option['unit_name'] . '</label>';
-                                                echo '</div>';
+                                                echo '<div  style="background-color: #F7F3F3;   width: 50px; display:flex; justify-content: center; margin-right: 5px; border-radius: 2px;"><label class="form-check-label" for="size' . $option['stocks_unit_id'] . '">' . $option['unit_name'] . '</label>';
+                                                echo '</div></div>';
                                               }
                                             }
                                           }
@@ -1036,8 +1036,8 @@ if ($result->num_rows > 0) {
                                         $color_names[] = $option['color_name'];
                                         echo '<div class="form-check">';
                                         echo '<input class="form-check-input" type="radio" name="color" id="color' . $option['stocks_color_id'] . '" value="' . $option['color_name'] . '" required>';
-                                        echo '<label class="form-check-label" for="color' . $option['stocks_color_id'] . '">' . $option['color_name'] . '</label>';
-                                        echo '</div>';
+                                        echo '<div style="background-color: #F7F3F3;   width: 50px; display:flex; justify-content: center; margin-right: 5px; border-radius: 2px;"><label class="form-check-label" for="color' . $option['stocks_color_id'] . '">' . $option['color_name'] . '</label>';
+                                        echo '</div></div>';
                                       }
                                     }
                                   }
