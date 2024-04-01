@@ -381,7 +381,7 @@ if ($result->num_rows > 0) {
                               }
                             </style>
                             <button type="button" class="btn detail-btn" style="border-color: transparent; border-radius: 5px;"
-                              id="save_review" name="rating_data">Submit</button>
+                              id="add_review" name="rating_data">Submit</button>
                           </div>
                         </div>
                       </div>
@@ -810,7 +810,7 @@ if ($result->num_rows > 0) {
                               }
                             </style>
                             <button type="button" class="btn detail-btn"
-                              style="border-color: transparent; border-radius: 5px;" id="save_review" name="rating_data">Submit</button>
+                              style="border-color: transparent; border-radius: 5px;" id="add_review" name="rating_data">Submit</button>
                           </div>
                         </div>
                       </div>
