@@ -563,9 +563,9 @@ if ($result->num_rows > 0) {
                                             foreach ($options as $option) {
                                               if (!empty ($option['unit_name']) && !in_array($option['unit_name'], $size_names)) {
                                                 $size_names[] = $option['unit_name'];
-                                                echo ' <div class ="form-check style="background-color: #F7F3F3;   width: 50px; display:flex; justify-content: center; margin-right: 5px;">';
+                                                echo ' <div class ="form-check >';
                                                 echo '<input class="form-check-input" type="radio" name="size" id="size' . $option['stocks_unit_id'] . '" value="' . $option['unit_name'] . '" required>';
-                                                echo '<div><label class="form-check-label" for="size' . $option['stocks_unit_id'] . '">' . $option['unit_name'] . '</label>';
+                                                echo '<div style="background-color: #F7F3F3;   width: 50px; display:flex; justify-content: center; margin-right: 5px;"><label class="form-check-label" for="size' . $option['stocks_unit_id'] . '">' . $option['unit_name'] . '</label>';
                                                 echo '</div></div>';
                                               }
                                             }
