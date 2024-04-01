@@ -1036,7 +1036,7 @@ if ($result->num_rows > 0) {
                                       $color_names[] = $option['color_name'];
                                       echo ' <div class ="form-check" >';
                                       echo '<input class="form-check-input" type="radio" name="color" id="color' . $option['stocks_color_id'] . '" value="' . $option['color_name'] . '" required>';
-                                      echo '<div style="background-color:#BABABA;    display:flex; justify-content: between; padding: 5px; border-radius: 5px; padding-right:10px;"><label class="form-check-label" for="color' . $option['stocks_color_id'] . '">' . $option['color_name'] . '</label>';
+                                      echo '<div style="border: 1px solid #BABABA;    display:flex; justify-content: between; padding: 5px; border-radius: 5px; padding-right:10px;"><label class="form-check-label" for="color' . $option['stocks_color_id'] . '">' . $option['color_name'] . '</label>';
                                       echo '</div></div>';
                                     }
                                   }
