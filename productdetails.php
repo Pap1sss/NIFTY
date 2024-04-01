@@ -202,7 +202,7 @@ if ($result->num_rows > 0) {
 
       <?php
       @include 'connection.php';
-      if (isset ($_SESSION['email']) && isset ($_SESSION['password'])) {
+      if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
         $email = $_SESSION['email'];
         $password = $_SESSION['password'];
         if ($email != false && $password != false) {
@@ -215,7 +215,7 @@ if ($result->num_rows > 0) {
             $user_id = $fetch_info['id'];
             $user_name = $fetch_info['name'];
 
-            if (isset ($_POST['add_to_cart'])) {
+            if (isset($_POST['add_to_cart'])) {
               $product_image = $_POST['image'];
               $product_name = $_POST['name'];
               $product_price = $_POST['price'];
@@ -237,7 +237,7 @@ if ($result->num_rows > 0) {
 
                 mysqli_query($conn, "INSERT INTO `cart`(user_id, image, name, price, unit, quantity) VALUES('$user_id', '$product_image','$product_name', '$product_price', '$unit', '$product_quantity')");
                 ?>
-              <div class="alert success">
+                <div class="alert success">
                   <span class="closebtn">&times; </span>
                   <strong><a href="login_user/cart.php">Go to cart</a> </strong> Product added to cart.
 
@@ -270,7 +270,7 @@ if ($result->num_rows > 0) {
                     <br>
                     <?php
                     $id = "";
-                    if (isset ($_GET['id'])) {
+                    if (isset($_GET['id'])) {
                       $id = $_GET['id'];
                     }
                     ?>
@@ -391,7 +391,7 @@ if ($result->num_rows > 0) {
                 @include 'admin/config.php';
 
                 $id = "";
-                if (isset ($_GET['id'])) {
+                if (isset($_GET['id'])) {
                   $id = $_GET['id'];
                 }
 
@@ -402,7 +402,7 @@ if ($result->num_rows > 0) {
 
                   while ($fetch_product = mysqli_fetch_assoc($select_products)) {
 
-                    
+
 
                     ?>
 
@@ -533,101 +533,84 @@ if ($result->num_rows > 0) {
                         <div>
                           <?php
                           $query_unit = "SELECT * FROM stocks_unit WHERE `product_id` = '$id'";
-                  
+
                           $result = $conn->query($query_unit);
                           if ($result->num_rows > 0) {
                             $options = mysqli_fetch_all($result, MYSQLI_ASSOC);
-                          
 
-                                ?>
 
-                                <div style="padding: 0px 10px 10px 10px;">
-                                  <h2 style="padding-bottom: 5px;">Size:</h2>
-                                  <form action="" method="post">
-                                    <div class="row">
-                                      <div class="box">
-                                        <div style="margin-right: 25px;" class="form-check-inline d-flex justify-content-left">
-                                          <?php
+                            ?>
 
-                                          if (empty ($options)) {
-                                            ?> <p>Out of Stock</p>
-                                            <?php
-                                          } else {
+                            <div style="padding: 0px 10px 10px 10px;">
+                              <h2 style="padding-bottom: 5px;">Size:</h2>
+                              <form action="" method="post">
+                                <div class="row">
+                                  <div class="box">
+                                    <div style="margin-right: 25px;" class="form-check-inline d-flex justify-content-left">
+                                      <?php
 
-                                            $size_names = array();
-                                            foreach ($options as $option) {
-                                              if (!empty ($option['unit_name']) && !in_array($option['unit_name'], $size_names)) {
-                                                $size_names[] = $option['unit_name'];
-                                                echo ' <div class ="form-check" >';
-                                                echo '<input class="form-check-input" type="radio" name="size" id="size' . $option['stocks_unit_id'] . '" value="' . $option['unit_name'] . '" required>';
-                                                echo '<div style="border: 1px solid #BABABA;   display:flex; justify-content: between; padding: 5px; border-radius: 2px; padding-right:10px;"><label class="form-check-label" for="size' . $option['stocks_unit_id'] . '">' . $option['unit_name'] . '</label>';
-                                                echo '</div></div>';
-                                              }
-                                            }
+                                      if (empty($options)) {
+                                        ?>
+                                        <p>Out of Stock</p>
+                                        <?php
+                                      } else {
+
+                                        $size_names = array();
+                                        foreach ($options as $option) {
+                                          if (!empty($option['unit_name']) && !in_array($option['unit_name'], $size_names)) {
+                                            $size_names[] = $option['unit_name'];
+                                            echo ' <div class ="form-check" >';
+                                            echo '<input class="form-check-input" type="radio" name="size" id="size' . $option['stocks_unit_id'] . '" value="' . $option['unit_name'] . '" required>';
+                                            echo '<div style="border: 1px solid #BABABA;   display:flex; justify-content: between; padding: 5px; border-radius: 2px; padding-right:10px;"><label class="form-check-label" for="size' . $option['stocks_unit_id'] . '">' . $option['unit_name'] . '</label>';
+                                            echo '</div></div>';
                                           }
-                                          ?>
-                                        </div>
-                                      </div>
-
+                                        }
+                                      }
+                                      ?>
                                     </div>
+                                  </div>
+
                                 </div>
-                                <?php
-                              }
-                                ?>
+                            </div>
+                            <?php
+                          }
+                          ?>
 
                           <!--PRODUCT COLOR-->
                           <?php
                           $query_color = "SELECT * FROM stocks_color WHERE `product_id` = '$id'";
-                  
+
                           $result = $conn->query($query_color);
                           if ($result->num_rows > 0) {
                             $options = mysqli_fetch_all($result, MYSQLI_ASSOC);
-                          
 
-                                ?>
-                              <div style=" padding: 0px 10px 10px 10px; ">
-    <h2 style="padding-bottom: 5px;">Color:</h2>
-    <div class="form-check-inline">
-        <?php
-        if (empty($options)) {
-            ?> <p>Out of Stock</p>
-            <?php
-        } else {
-            $color_names = array();
-            foreach ($options as $option) {
-                if (!empty($option['color_name']) && !in_array($option['color_name'], $color_names)) {
-                    $color_names[] = $option['color_name'];
-                    echo '<div class="form-check color-option" data-color="' . $option['color_name'] . '">';
-                    echo '<input class="form-check-input" type="radio" name="color" id="color' . $option['stocks_color_id'] . '" value="' . $option['color_name'] . '" required>';
-                    echo '<div style="border: 1px solid #BABABA;   display:flex; justify-content: between; padding: 5px; border-radius: 5px; padding-right:10px;"><label class="form-check-label" for="color' . $option['stocks_color_id'] . '">' . $option['color_name'] . '</label>';
-                    echo '</div></div>';
-                }
-            }
-        }
-        ?>
-    </div>
-</div>
 
-<script>
-// Add event listener to each color option
-document.querySelectorAll('.color-option').forEach(function(option) {
-    option.addEventListener('click', function() {
-        // Remove highlight class from all options
-        document.querySelectorAll('.color-option').forEach(function(option) {
-            option.classList.remove('highlight');
-        });
+                            ?>
+                            <div style=" padding: 0px 10px 10px 10px; ">
+                              <h2 style="padding-bottom: 5px;">Color:</h2>
+                              <div class="form-check-inline">
 
-        // Add highlight class to selected option
-        this.classList.add('highlight');
-    });
-});
-</script>
-
-<style>
-.color-option.highlight {
-    background-color: #f5f5f5;
-}
-</style>
+                                <?php
+                                if (empty($options)) {
+                                  ?>
+                                  <p>Out of Stock</p>
+                                  <?php
+                                } else {
+                                  $color_names = array();
+                                  foreach ($options as $option) {
+                                    if (!empty($option['color_name']) && !in_array($option['color_name'], $color_names)) {
+                                      $color_names[] = $option['color_name'];
+                                      echo ' <div class ="form-check" >';
+                                      echo '<input class="form-check-input" type="radio" name="color" id="color' . $option['stocks_color_id'] . '" value="' . $option['color_name'] . '" required>';
+                                      echo '<div  style="border: 1px solid #BABABA;   display:flex; justify-content: between; padding: 5px; border-radius: 5px; padding-right:10px;"><label class="form-check-label" for="color' . $option['stocks_color_id'] . '">' . $option['color_name'] . '</label>';
+                                      echo '</div></div>';
+                                    }
+                                  }
+                                }
+                          }
+                          ?>
+                            </div>
+                          </div>
 
                           <div class="form-group" style="padding: 5px;">
                             <br>
@@ -718,7 +701,7 @@ document.querySelectorAll('.color-option').forEach(function(option) {
                     <br>
                     <?php
                     $id = "";
-                    if (isset ($_GET['id'])) {
+                    if (isset($_GET['id'])) {
                       $id = $_GET['id'];
                     }
                     ?>
@@ -839,7 +822,7 @@ document.querySelectorAll('.color-option').forEach(function(option) {
                 @include 'admin/config.php';
 
                 $id = "";
-                if (isset ($_GET['id'])) {
+                if (isset($_GET['id'])) {
                   $id = $_GET['id'];
                 }
 
@@ -871,7 +854,8 @@ document.querySelectorAll('.color-option').forEach(function(option) {
                           </h2>
                           <div
                             style=" text-align:center; color: #393939; background: linear-gradient(to right, #f9c47f, #F4B39D); box-shadow: 0px 4px 4px rgba(0, 0, 0, .05); width:150px; padding:5px; border-radius:5px;">
-                            <h2 style=" font-family: Montserrat, sans-serif;" class=p2>Price: ₱<?php echo $fetch_product['price']; ?>
+                            <h2 style=" font-family: Montserrat, sans-serif;" class="p2"> Price: ₱
+                              <?php echo $fetch_product['price']; ?>
                             </h2>
                           </div>
                         </div>
@@ -953,7 +937,7 @@ document.querySelectorAll('.color-option').forEach(function(option) {
                           </div>
                         </div>
                         <!--PRODUCT OPTIONS-->
-                          <!--PRODUCT SIZE-->
+                        <!--PRODUCT SIZE-->
                         <style>
                           .form-check-label {
                             padding-left: 5px;
@@ -983,80 +967,82 @@ document.querySelectorAll('.color-option').forEach(function(option) {
                         <div>
                           <?php
                           $query_unit = "SELECT * FROM stocks_unit WHERE `product_id` = '$id'";
-                  
+
                           $result = $conn->query($query_unit);
                           if ($result->num_rows > 0) {
                             $options = mysqli_fetch_all($result, MYSQLI_ASSOC);
-                          
 
-                                ?>
 
-                                <div style="padding: 0px 10px 10px 10px;">
-                                  <h2 style="padding-bottom: 5px;">Size:</h2>
-                                  <form action="" method="post">
-                                    <div class="row">
-                                      <div class="box">
-                                        <div style="margin-right: 25px;" class="form-check-inline d-flex justify-content-left">
-                                          <?php
+                            ?>
 
-                                          if (empty ($options)) {
-                                            ?> <p>Out of Stock</p>
-                                            <?php
-                                          } else {
+                            <div style="padding: 0px 10px 10px 10px;">
+                              <h2 style="padding-bottom: 5px;">Size:</h2>
+                              <form action="" method="post">
+                                <div class="row">
+                                  <div class="box">
+                                    <div style="margin-right: 25px;" class="form-check-inline d-flex justify-content-left">
+                                      <?php
 
-                                            $size_names = array();
-                                            foreach ($options as $option) {
-                                              if (!empty ($option['unit_name']) && !in_array($option['unit_name'], $size_names)) {
-                                                $size_names[] = $option['unit_name'];
-                                                echo ' <div class ="form-check" >';
-                                                echo '<input  class="form-check-input" type="radio" name="size" id="size' . $option['stocks_unit_id'] . '" value="' . $option['unit_name'] . '" required>';
-                                                echo '<div  style="border: 1px solid #BABABA; display:flex; justify-content: between; padding: 5px; padding-right:10px; border-radius: 5px;"><label class="form-check-label" for="size' . $option['stocks_unit_id'] . '">' . $option['unit_name'] . '</label>';
-                                                echo '</div></div>';
-                                              }
-                                            }
+                                      if (empty($options)) {
+                                        ?>
+                                        <p>Out of Stock</p>
+                                        <?php
+                                      } else {
+
+                                        $size_names = array();
+                                        foreach ($options as $option) {
+                                          if (!empty($option['unit_name']) && !in_array($option['unit_name'], $size_names)) {
+                                            $size_names[] = $option['unit_name'];
+                                            echo ' <div class ="form-check" >';
+                                            echo '<input  class="form-check-input" type="radio" name="size" id="size' . $option['stocks_unit_id'] . '" value="' . $option['unit_name'] . '" required>';
+                                            echo '<div  style="border: 1px solid #BABABA; display:flex; justify-content: between; padding: 5px; padding-right:10px; border-radius: 5px;"><label class="form-check-label" for="size' . $option['stocks_unit_id'] . '">' . $option['unit_name'] . '</label>';
+                                            echo '</div></div>';
                                           }
-                                          ?>
-                                        </div>
-                                      </div>
-
+                                        }
+                                      }
+                                      ?>
                                     </div>
+                                  </div>
+
                                 </div>
-                                <?php
-                              }
-                                ?>
+                            </div>
+                            <?php
+                          }
+                          ?>
 
                           <!--PRODUCT COLOR-->
                           <?php
                           $query_color = "SELECT * FROM stocks_color WHERE `product_id` = '$id'";
-                  
+
                           $result = $conn->query($query_color);
                           if ($result->num_rows > 0) {
                             $options = mysqli_fetch_all($result, MYSQLI_ASSOC);
-                          
 
-                                ?>
-                              <div style=" padding: 0px 10px 10px 10px; ">
-                                <h2 style="padding-bottom: 5px;">Color:</h2>
-                                <div class="form-check-inline">
 
+                            ?>
+                            <div style=" padding: 0px 10px 10px 10px; ">
+                              <h2 style="padding-bottom: 5px;">Color:</h2>
+                              <div class="form-check-inline">
+
+                                <?php
+                                if (empty($options)) {
+                                  ?>
+                                  <p>Out of Stock</p>
                                   <?php
-                                  if (empty ($options)) {
-                                    ?> <p>Out of Stock</p>
-                                    <?php
-                                  } else {
-                                    $color_names = array();
-                                    foreach ($options as $option) {
-                                      if (!empty ($option['color_name']) && !in_array($option['color_name'], $color_names)) {
-                                        $color_names[] = $option['color_name'];
-                                        echo ' <div class ="form-check" >';
-                                        echo '<input class="form-check-input" type="radio" name="color" id="color' . $option['stocks_color_id'] . '" value="' . $option['color_name'] . '" required>';
-                                        echo '<div style="background-color:#BABABA;    display:flex; justify-content: between; padding: 5px; border-radius: 5px; padding-right:10px;"><label class="form-check-label" for="color' . $option['stocks_color_id'] . '">' . $option['color_name'] . '</label>';
-                                        echo '</div></div>';
-                                      }
+                                } else {
+                                  $color_names = array();
+                                  foreach ($options as $option) {
+                                    if (!empty($option['color_name']) && !in_array($option['color_name'], $color_names)) {
+                                      $color_names[] = $option['color_name'];
+                                      echo ' <div class ="form-check" >';
+                                      echo '<input class="form-check-input" type="radio" name="color" id="color' . $option['stocks_color_id'] . '" value="' . $option['color_name'] . '" required>';
+                                      echo '<div style="background-color:#BABABA;    display:flex; justify-content: between; padding: 5px; border-radius: 5px; padding-right:10px;"><label class="form-check-label" for="color' . $option['stocks_color_id'] . '">' . $option['color_name'] . '</label>';
+                                      echo '</div></div>';
                                     }
                                   }
-                            }
-                              ?>
+                                }
+                          }
+                          ?>
                             </div>
                           </div>
 
