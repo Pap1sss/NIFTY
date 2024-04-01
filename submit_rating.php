@@ -4,6 +4,8 @@
 
 $connect = new PDO("mysql:host=localhost;dbname=website", "NIFTYSHOES", "pa$$word1");
 
+
+
 if (isset($_POST["rating_data"])) {
 	$user_name = $_POST["user_name"];
 	$product_id = $_POST["product_id"];
