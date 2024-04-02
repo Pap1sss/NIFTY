@@ -174,6 +174,7 @@ if ($result->num_rows > 0) {
         $mail->send();
 
         header('location: home.php');
+        exit;
 
       } catch (Exception $e) {
         $errors['otp-error'] = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";

@@ -392,16 +392,16 @@ if ($result->num_rows > 0) {
                             <?= htmlspecialchars($row["status"]) ?>
                           </td>
                           <td style="width: 25%;">
-                          <?php
+                            <?php
                             if (isset($_POST['cancel'])) {
-                            $order_id = $_POST['order_id'];
+                              $order_id = $_POST['order_id'];
 
-                            $stmt = $conn->prepare("UPDATE orders SET status = ? WHERE id = ?");
-                            $stmt->bind_param("si", $pending, $order_id);
-                            $pending = "cancelled";
-                            $stmt->execute();
-                            header("Location: home.php");
-                            exit();
+                              $stmt = $conn->prepare("UPDATE orders SET status = ? WHERE id = ?");
+                              $stmt->bind_param("si", $pending, $order_id);
+                              $pending = "cancelled";
+                              $stmt->execute();
+                              header("Location: home.php");
+
                             }
                             ?>
 
@@ -662,15 +662,15 @@ if ($result->num_rows > 0) {
           toggleVisibility('toReceiveSection', false);
           toggleVisibility('orderCompletedSection');
           toggleVisibility('cancelSection', false);
-        }); 
+        });
         document.getElementById('CancelTab').addEventListener('click', function () {
           toggleVisibility('toShipSection', false);
           toggleVisibility('pendingOrderSection', false);
           toggleVisibility('toReceiveSection', false);
           toggleVisibility('orderCompletedSection', false);
           toggleVisibility('cancelSection');
-        }); 
-        
+        });
+
         function
           toggleVisibility(sectionId, shouldShow = true) { const section = document.getElementById(sectionId); section.style.display = shouldShow ? 'block' : 'none'; } </script>
       <style>
