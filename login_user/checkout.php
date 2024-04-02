@@ -174,6 +174,7 @@ if ($result->num_rows > 0) {
         $mail->send();
 
         header('location: home.php');
+        exit;
 
       } catch (Exception $e) {
         $errors['otp-error'] = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
@@ -197,55 +198,55 @@ if ($result->num_rows > 0) {
       $gcash_number = mysqli_real_escape_string($conn, $_POST['gcash_number']);
       $receipt_image = mysqli_real_escape_string($conn, $_FILES['receipt']['name']);
       $receipt_image_tmp_name = $_FILES['receipt']['tmp_name'];
-    
+
       if (empty($receipt_image)) {
         echo "<script>alert('Please upload the receipt image');</script>";
       } else {
         $target_dir = "../admin/uploaded_img/";
         $target_file_image = $target_dir . basename($receipt_image);
         move_uploaded_file($receipt_image_tmp_name, $target_file_image);
-    
+
         $cart_query = mysqli_prepare($conn, "SELECT * FROM `cart` WHERE user_id = ?");
         mysqli_stmt_bind_param($cart_query, "i", $user_id);
         mysqli_stmt_execute($cart_query);
         $result = mysqli_stmt_get_result($cart_query);
-    
+
         $price_total = 0;
         $glue = "\n \n";
         if (mysqli_num_rows($result) > 0) {
           $index = 0;
           while ($product_item = mysqli_fetch_assoc($result)) {
-              $product_name[$index] = 'Item: [' . $product_item['name'] . '] SIZE & COLOR [' . $product_item['unit'] . '] Quantity: [' . $product_item['quantity'] . '] ';
-      
-              $product_price = ($product_item['price'] * $product_item['quantity']);
-              $price_total += $product_price;
-              $total_price = $price_total;
-      
-              // Add a line break after each product name
-              $product_name[$index] .= "\n";
-              $index++;
+            $product_name[$index] = 'Item: [' . $product_item['name'] . '] SIZE & COLOR [' . $product_item['unit'] . '] Quantity: [' . $product_item['quantity'] . '] ';
+
+            $product_price = ($product_item['price'] * $product_item['quantity']);
+            $price_total += $product_price;
+            $total_price = $price_total;
+
+            // Add a line break after each product name
+            $product_name[$index] .= "\n";
+            $index++;
           }
-      }
-    
+        }
+
         $total_product = implode($glue, $product_name);
-    
+
         $detail_query = mysqli_prepare($conn, "INSERT INTO `orders`(name, number, email, method, address, total_products, total_price, user_id, status, date_created, time_created, reference_number, gcash_number, screenshot) 
           VALUES(?, ?, ?, ?, ?, ?, ?, ?, 'pending', CURRENT_DATE(), CURRENT_TIME(), ?,?,?)");
         mysqli_stmt_bind_param($detail_query, "ssssssdiiis", $name, $number, $email, $method, $address, $total_product, $price_total, $user_id, $reference_number, $gcash_number, $receipt_image);
         mysqli_stmt_execute($detail_query);
-    
+
         $order_id = mysqli_insert_id($conn);
         $sales_query = mysqli_prepare($conn, "INSERT INTO `sales`(orders_id, total_price, date_created) VALUES (?, ?, CURRENT_DATE())");
         mysqli_stmt_bind_param($sales_query, "di", $order_id, $price_total);
         mysqli_stmt_execute($sales_query);
-    
+
         $delete_query = mysqli_prepare($conn, "DELETE FROM `cart` WHERE user_id = ?");
         mysqli_stmt_bind_param($delete_query, "i", $user_id);
         mysqli_stmt_execute($delete_query);
-    
+
         $email = filter_var($email, FILTER_SANITIZE_EMAIL);
         $number = filter_var($number, FILTER_SANITIZE_NUMBER_INT);
-    
+
         $mail = new PHPMailer(true);
         $now = new DateTime();
         $date = date('Y-m-d');
@@ -255,7 +256,7 @@ if ($result->num_rows > 0) {
         $daysToAdd = rand($minDaysToAdd, $maxDaysToAdd); // Randomly choose between 3 and 5 days to add
         $now->add(new DateInterval('P' . $daysToAdd . 'D'));
         $expectedDeliveryDate = $now->format('Y-m-d');
-    
+
         $subject = "NIFTY SHOES ORDER CONFIRMATION";
         $message = "
     
@@ -283,7 +284,7 @@ if ($result->num_rows > 0) {
     
           Delivery date will depends on the availability of the product you ordered
           For inquires and questions you can email us on this address";
-    
+
         try {
           //Server settings
           $mail->isSMTP();
@@ -293,26 +294,27 @@ if ($result->num_rows > 0) {
           $mail->Password = 'mnxc djee wiln kzje';
           $mail->SMTPSecure = 'tls';
           $mail->Port = 587;
-    
+
           // Sender and recipient settings
           $mail->setFrom('niftyshoes@gmail.com', 'Nifty Shoes');
           $mail->addAddress($email);
-    
+
           // Email content
           $mail->isHTML(false);
           $mail->Subject = $subject;
           $mail->Body = $message;
-    
+
           $mail->send();
-    
+
           header('location: home.php');
-    
+          exit;
+
         } catch (Exception $e) {
           $errors['otp-error'] = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }
-    
+
       }
-    
+
     }
     ?>
 
