@@ -62,7 +62,7 @@ if ($result->num_rows > 0) {
       $address = $_POST['address'];
       $reference_number = "0";
       $gcash_number = "0";
-      $product_image = $_POST['receipt'];
+      $product_image = "none";
       if (isset($product_image['receipt'])) {
         $product_image_folder = 'uploaded_img/' . $product_image['receipt'];
       } else {
@@ -77,7 +77,7 @@ if ($result->num_rows > 0) {
       $glue = "\n";
       if (mysqli_num_rows($result) > 0) {
         while ($product_item = mysqli_fetch_assoc($result)) {
-          $product_name[] = 'Item: [' . $product_item['name'] . '] SIZE & COLOR [' . $product_item['unit'] . '] Quantity: [' . $product_item['quantity'] . '] ';
+          $product_name[] = 'Item: [' . $product_item['name'] . ']  SIZE & COLOR [' . $product_item['unit'] . ']  Quantity: [' . $product_item['quantity'] . '] ';
 
           $product_price = ($product_item['price'] * $product_item['quantity']);
           $price_total += $product_price;
@@ -174,7 +174,6 @@ if ($result->num_rows > 0) {
         $mail->send();
 
         header('location: home.php');
-        exit;
 
       } catch (Exception $e) {
         $errors['otp-error'] = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
@@ -307,7 +306,6 @@ if ($result->num_rows > 0) {
           $mail->send();
 
           header('location: home.php');
-          exit;
 
         } catch (Exception $e) {
           $errors['otp-error'] = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
