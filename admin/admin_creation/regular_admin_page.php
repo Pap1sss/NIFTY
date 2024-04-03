@@ -218,16 +218,18 @@ if ($username != false && $name != false) {
 
                         ?>
 
-                        <div class="col-md-6">
-                          <div class="col-lg-12">
-                            <h3>Total Sales between
-                              <?= $start_date ?> and
-                              <?= $end_date ?>:
+                        <div class="d-flex justify-content-center">
+                          <div class="col-md-6">
+                            <div class="col-lg-12">
+                              <h3>Total Sales between
+                                <?= $start_date ?> and
+                                <?= $end_date ?>:
 
-                            </h3>
-                            <h1>₱
-                              <?= $total_sales ?>
-                            </h1>
+                              </h3>
+                              <h1>₱
+                                <?= $total_sales ?>
+                              </h1>
+                            </div>
                           </div>
                         </div>
 
