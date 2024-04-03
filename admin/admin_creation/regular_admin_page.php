@@ -225,6 +225,7 @@ if ($username != false && $name != false) {
                             <?= $end_date ?>:
 
                           </h3>
+                          <h1></h1>
                           <h1>₱
                             <?= $total_sales ?>
                           </h1>
@@ -289,7 +290,7 @@ if ($username != false && $name != false) {
           </div>
         </section>
 
-        <br>
+
         <!-- ADMIN LOGS -->
         <section style="padding-top:10px;">
           <div class="handler">

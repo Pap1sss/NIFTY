@@ -519,8 +519,8 @@ if (isset($_GET['color_delete'])) {
                            class="fas fa-edit"></i> Manage </a>
                   </td>
                   <td>
-                     <a href="CRUD.php?delete=<?php echo $row['id']; ?>" class="btn detail-btn"> <i
-                           class="fas fa-trash"></i>
+                     <a href="CRUD.php?delete=<?php echo $row['id']; ?>" class="btn detail-btn"
+                        onclick="return confirm('Are you sure you want to delete?')"> <i class=" fas fa-trash"></i>
                         Delete </a>
                   </td>
                </tr>
@@ -563,8 +563,8 @@ if (isset($_GET['color_delete'])) {
                               <?php echo $row['category']; ?>
                            </td>
                            <td style="border: 1px solid black;">
-                              <a href="CRUD.php?category_delete=<?php echo $row['id']; ?>" class="btn btn-danger"> <i
-                                    class="fas fa-trash"></i>
+                              <a href="CRUD.php?category_delete=<?php echo $row['id']; ?>" class="btn btn-danger"
+                                 onclick="return confirm('Are you sure you want to delete?')"> <i class="fas fa-trash"></i>
                                  delete </a>
                            </td>
                         </tr>
@@ -599,8 +599,8 @@ if (isset($_GET['color_delete'])) {
                               <?php echo $row['unit_name']; ?>
                            </td>
                            <td style="border: 1px solid black;">
-                              <a href="CRUD.php?unit_delete=<?php echo $row['id']; ?>" class="btn btn-danger"> <i
-                                    class="fas fa-trash"></i>
+                              <a href="CRUD.php?unit_delete=<?php echo $row['id']; ?>" class="btn btn-danger"
+                                 onclick="return confirm('Are you sure you want to delete?')"> <i class="fas fa-trash"></i>
                                  delete </a>
                            </td>
                         </tr>
@@ -635,8 +635,8 @@ if (isset($_GET['color_delete'])) {
                               <?php echo $row['color_name']; ?>
                            </td>
                            <td style="border: 1px solid black;">
-                              <a href="CRUD.php?color_delete=<?php echo $row['id']; ?>" class="btn btn-danger"> <i
-                                    class="fas fa-trash"></i>
+                              <a href="CRUD.php?color_delete=<?php echo $row['id']; ?>" class="btn btn-danger"
+                                 onclick="return confirm('Are you sure you want to delete?')"> <i class="fas fa-trash"></i>
                                  delete </a>
                            </td>
                         </tr>
