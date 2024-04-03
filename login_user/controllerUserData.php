@@ -20,13 +20,16 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 //if user signup button
-if (isset ($_POST['signup'])) {
+if (isset($_POST['signup'])) {
     $name = mysqli_real_escape_string($conn, $_POST['name']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
     $cpassword = mysqli_real_escape_string($conn, $_POST['cpassword']);
     $contact = mysqli_real_escape_string($conn, $_POST['contact']);
     $address = mysqli_real_escape_string($conn, $_POST['address']);
+    if (strlen($password) < 8) {
+        $errors['password'] = "Password should be at least 8 characters long!";
+    }
     if ($password !== $cpassword) {
         $errors['password'] = "Confirm password not matched!";
     }
@@ -86,7 +89,7 @@ if (isset ($_POST['signup'])) {
 
 
 //if user click verification code submit button
-if (isset ($_POST['check'])) {
+if (isset($_POST['check'])) {
     $_SESSION['info'] = "";
     $otp_code = mysqli_real_escape_string($conn, $_POST['otp']);
     $check_code = "SELECT * FROM usertable WHERE code = $otp_code";
@@ -113,7 +116,7 @@ if (isset ($_POST['check'])) {
 }
 
 //if user click login button
-if (isset ($_POST['login'])) {
+if (isset($_POST['login'])) {
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
 
@@ -151,7 +154,7 @@ if (isset ($_POST['login'])) {
 }
 
 //if user click continue button in forgot password form
-if (isset ($_POST['check-email'])) {
+if (isset($_POST['check-email'])) {
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $check_email = "SELECT * FROM usertable WHERE email='$email'";
     $run_sql = mysqli_query($conn, $check_email);
@@ -200,7 +203,7 @@ if (isset ($_POST['check-email'])) {
 }
 
 //if user click check reset otp button
-if (isset ($_POST['check-reset-otp'])) {
+if (isset($_POST['check-reset-otp'])) {
     $_SESSION['info'] = "";
     $otp_code = mysqli_real_escape_string($conn, $_POST['otp']);
     $check_code = "SELECT * FROM usertable WHERE code = $otp_code";
@@ -219,7 +222,7 @@ if (isset ($_POST['check-reset-otp'])) {
 }
 
 //if user click change password button
-if (isset ($_POST['change-password'])) {
+if (isset($_POST['change-password'])) {
     $_SESSION['info'] = "";
     $password = mysqli_real_escape_string($conn, $_POST['password']);
     $cpassword = mysqli_real_escape_string($conn, $_POST['cpassword']);
@@ -242,7 +245,7 @@ if (isset ($_POST['change-password'])) {
 }
 
 //if login now button click
-if (isset ($_POST['login-now'])) {
+if (isset($_POST['login-now'])) {
     header('Location: login-user.php');
 }
 

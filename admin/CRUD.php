@@ -434,7 +434,8 @@ if (isset($_GET['color_delete'])) {
                         ?>
                      </select>
                      <input type="text" placeholder="Enter product name" name="product_name" class="box" required>
-                     <textarea placeholder="Enter product description" name="product_description" class="box" required>
+                     <textarea placeholder="Enter product description" name="product_description" class="box"
+                        maxlength="255" required>
                      </textarea>
                      <input type="number" placeholder="Enter product price" name="product_price" class="box"
                         id="productPriceInput" required>
