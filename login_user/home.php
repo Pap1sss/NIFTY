@@ -329,6 +329,10 @@ if ($result->num_rows > 0) {
             <div class="column d-flex justify-content-evenly" style="padding: 20px; ">
               <ul class="nav nav-tabs" style="font-color: black;">
                 <li class="nav-item">
+                  <a class="nav-link tab_font" id="topayOrderTab" data-toggle="tab" href="#topayOrderPanel" role="tab">TO
+                    PAY</a>
+                </li>
+                <li class="nav-item">
                   <a class="nav-link tab_font" id="pendingOrderTab" data-toggle="tab" href="#pendingOrderPanel"
                     role="tab">PENDING
                     ORDER</a>
@@ -342,19 +346,89 @@ if ($result->num_rows > 0) {
                 </li>
                 <li class="nav-item">
                   <a class="nav-link tab_font" id="orderCompletedTab" data-toggle="tab" href="#orderCompletedPanel"
-                    role="tab">ORDER
+                    role="tab">
                     COMPLETED</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link tab_font" id="CancelTab" data-toggle="tab" href="#orderCompletedPanel"
-                    role="tab">CANCELED ORDERS</a>
+                    role="tab">CANCELED</a>
                 </li>
               </ul>
             </div>
             <br>
 
 
+            <div id="topayOrderSection" class="card card-order-status 4 mb-md-0"
+              style="box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.20);">
+              <div class="card-body">
+                <h4>To Pay Orders</h4>
+                <table class="table table-striped table-bordered">
+                  <thead style="display: table-row-group;">
+                    <tr>
+                      <th style="width: 50%;">Products</th>
+                      <th style="width: 25%;">Total Price</th>
+                      <th style="width: 25%;">Status</th>
+                      <th style="width: 25%;">Cancel Order</th>
+                    </tr>
+                  </thead>
+                  <tbody style="display: table-row-group;">
+                    <?php
+                    include_once "connection.php";
+                    $topay = "to pay";
+                    $stmt = $conn->prepare("SELECT * FROM orders WHERE user_id = ? AND status = ?");
+                    $stmt->bind_param("is", $user_id, $topay);
+                    $topay = "to pay";
+                    $stmt->execute();
+                    $resultpending = $stmt->get_result();
 
+                    if ($resultpending->num_rows > 0) {
+                      while ($row = $resultpending->fetch_assoc()) {
+                        ?>
+                        <tr>
+                          <td>
+                            <?= htmlspecialchars($row["total_products"]) ?> 
+                          </td>
+                          <td>
+                            <?= htmlspecialchars($row["total_price"]) ?>
+                          </td>
+                          <td style=" text-transform: uppercase;">
+                            <?= htmlspecialchars($row["status"]) ?>
+                          </td>
+                          <td style="width: 25%;">
+                            <?php
+                            if (isset($_POST['cancel'])) {
+                              $order_id = $_POST['order_id'];
+
+                              $stmt = $conn->prepare("UPDATE orders SET status = ? WHERE id = ?");
+                              $stmt->bind_param("si", $pending, $order_id);
+                              $pending = "cancelled";
+                              $stmt->execute();
+                              header("Location: home.php");
+                              exit();
+                            }
+                            ?>
+
+                            <form action="" method="post">
+                              <input type="hidden" name="order_id" value="<?= htmlspecialchars($row["id"]) ?>">
+                              <button type="submit" class="btn btn-danger" name="cancel">Cancel Order</button>
+                            </form>
+                          </td>
+
+                        </tr>
+                        <?php
+                      }
+                    } else {
+                      ?>
+                      <tr>
+                        <td colspan="4">No user orders found.</td>
+                      </tr>
+                      <?php
+                    }
+                    ?>
+                  </tbody>
+                </table>
+              </div>
+            </div>
             <div id="pendingOrderSection" class="card card-order-status 4 mb-md-0"
               style="box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.20);">
               <div class="card-body">
@@ -392,16 +466,16 @@ if ($result->num_rows > 0) {
                             <?= htmlspecialchars($row["status"]) ?>
                           </td>
                           <td style="width: 25%;">
-                          <?php
+                            <?php
                             if (isset($_POST['cancel'])) {
-                            $order_id = $_POST['order_id'];
+                              $order_id = $_POST['order_id'];
 
-                            $stmt = $conn->prepare("UPDATE orders SET status = ? WHERE id = ?");
-                            $stmt->bind_param("si", $pending, $order_id);
-                            $pending = "cancelled";
-                            $stmt->execute();
-                            header("Location: home.php");
-                            exit();
+                              $stmt = $conn->prepare("UPDATE orders SET status = ? WHERE id = ?");
+                              $stmt->bind_param("si", $pending, $order_id);
+                              $pending = "cancelled";
+                              $stmt->execute();
+                              header("Location: home.php");
+                              exit();
                             }
                             ?>
 
@@ -635,7 +709,18 @@ if ($result->num_rows > 0) {
       </div>
       </div>
       <script>
+         document.getElementById('topayOrderTab').addEventListener('click', function () {
+          toggleVisibility('topayOrderSection');
+          toggleVisibility('pendingOrderSection', false);
+          toggleVisibility('toShipSection', false);
+          toggleVisibility('toReceiveSection', false);
+          toggleVisibility('orderCompletedSection', false);
+          toggleVisibility('cancelSection', false);
+
+        });
+
         document.getElementById('pendingOrderTab').addEventListener('click', function () {
+          toggleVisibility('topayOrderSection', false);
           toggleVisibility('pendingOrderSection');
           toggleVisibility('toShipSection', false);
           toggleVisibility('toReceiveSection', false);
@@ -643,6 +728,7 @@ if ($result->num_rows > 0) {
           toggleVisibility('cancelSection', false);
 
         }); document.getElementById('toShipTab').addEventListener('click', function () {
+          toggleVisibility('topayOrderSection', false);
           toggleVisibility('toShipSection');
           toggleVisibility('pendingOrderSection', false);
           toggleVisibility('toReceiveSection', false);
@@ -650,6 +736,7 @@ if ($result->num_rows > 0) {
           toggleVisibility('cancelSection', false);
 
         }); document.getElementById('toReceiveTab').addEventListener('click', function () {
+          toggleVisibility('topayOrderSection', false);
           toggleVisibility('toShipSection', false);
           toggleVisibility('pendingOrderSection', false);
           toggleVisibility('toReceiveSection');
@@ -657,20 +744,22 @@ if ($result->num_rows > 0) {
           toggleVisibility('cancelSection', false);
 
         }); document.getElementById('orderCompletedTab').addEventListener('click', function () {
+          toggleVisibility('topayOrderSection', false);
           toggleVisibility('toShipSection', false);
           toggleVisibility('pendingOrderSection', false);
           toggleVisibility('toReceiveSection', false);
           toggleVisibility('orderCompletedSection');
           toggleVisibility('cancelSection', false);
-        }); 
+        });
         document.getElementById('CancelTab').addEventListener('click', function () {
+          toggleVisibility('topayOrderSection', false);
           toggleVisibility('toShipSection', false);
           toggleVisibility('pendingOrderSection', false);
           toggleVisibility('toReceiveSection', false);
           toggleVisibility('orderCompletedSection', false);
           toggleVisibility('cancelSection');
-        }); 
-        
+        });
+
         function
           toggleVisibility(sectionId, shouldShow = true) { const section = document.getElementById(sectionId); section.style.display = shouldShow ? 'block' : 'none'; } </script>
       <style>

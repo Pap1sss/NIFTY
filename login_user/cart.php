@@ -35,7 +35,7 @@ if ($email != false && $password != false) {
 
 @include 'connection.php';
 
-if (isset ($_POST['update_cart'])) {
+if (isset($_POST['update_cart'])) {
   $update_quantity = strip_tags($_POST['cart_quantity']);
   $update_id = strip_tags($_POST['cart_id']);
 
@@ -49,7 +49,7 @@ if (isset ($_POST['update_cart'])) {
 
 }
 
-if (isset ($_GET['remove'])) {
+if (isset($_GET['remove'])) {
   $remove_id = $_GET['remove'];
 
   // Prepare the delete statement
@@ -63,7 +63,7 @@ if (isset ($_GET['remove'])) {
   header('location:cart.php');
 }
 
-if (isset ($_GET['delete_all'])) {
+if (isset($_GET['delete_all'])) {
   // Prepare the delete statement
   $stmt = $conn->prepare("DELETE FROM `cart` WHERE user_id = ?");
   // Bind the parameter
@@ -233,7 +233,7 @@ if ($result->num_rows > 0) {
 
     <?php
 
-    $select_rows = mysqli_query($conn, "SELECT * FROM `cart` ") or die ('query failed');
+    $select_rows = mysqli_query($conn, "SELECT * FROM `cart` ") or die('query failed');
     $row_count = mysqli_num_rows($select_rows);
 
     ?>
@@ -317,10 +317,8 @@ if ($result->num_rows > 0) {
         <div class="row d-flex justify-content-center">
 
           <div class="card mb-4" style="box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.20); width: 90%;">
-
-
             <?php
-            $cart_query = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die ('query failed');
+            $cart_query = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
             $grand_total = 0;
             if (mysqli_num_rows($cart_query) > 0) {
               while ($fetch_cart = mysqli_fetch_assoc($cart_query)) {
@@ -344,11 +342,11 @@ if ($result->num_rows > 0) {
                     }
                   </style>
                   <!-- Single item -->
-                  <div class="row">
-                    <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
+                  <div class="row" style="margin: 10px;">
+                    <div class="col-lg-4 col-md-4 mb-4 mb-lg-0">
                       <!-- Image -->
                       <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
-                        <div class="img-box">
+                        <div class="img-box" style="box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.20);">
                           <img src="../<?php echo $fetch_cart['image']; ?>"
                             alt="<?php echo htmlspecialchars($fetch_cart['name']); ?>" class="image-contain">
                         </div>
@@ -357,54 +355,48 @@ if ($result->num_rows > 0) {
                         </a>
                       </div>
                       <!-- Image -->
-
-
                     </div>
 
-                    <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
+                    <div class="col-lg-4 col-md-4 mb-4 mb-lg-0">
                       <ul class="list-group">
                         <!-- Data -->
-
-
-                        <li class="list-group-item">
-                          <h2 style="font-size: 25px;"><strong>
-                              Product Name:
+                        <li class="list-group-item" style="background: #f9c47f;">
+                          <h2 style="text-transform: uppercase;"><strong>
                               <?php echo htmlspecialchars(strip_tags($fetch_cart['name'])); ?>
                             </strong></h2>
                         </li>
                         <li class="list-group-item">
-                          <h5 style="font-size: 25px;">Size and Color:
+                          <h5>Size:
                             <?php echo htmlspecialchars(strip_tags($fetch_cart['unit'])); ?>
                           </h5>
                         </li>
                         <li class="list-group-item">
-                          <h5 style="font-size: 25px;">Item Price: ₱
-                            <?php echo htmlspecialchars(strip_tags($fetch_cart['price'])); ?>
+                          <h5>Color:
+                            <?php echo htmlspecialchars(strip_tags($fetch_cart['color'])); ?>
                           </h5>
                         </li>
-                        <br>
-                        <a href="cart.php?remove=<?php echo $fetch_cart['id']; ?>" class="btn detail-btn"
-                          onclick="return confirm('remove item from cart?');">
-                          REMOVE
-                        </a>
 
+                        <li class="list-group-item">
+                          <a href="cart.php?remove=<?php echo $fetch_cart['id']; ?>" class="fas fa-fw fa-trash"
+                            style="color: red; text-align: right;" onclick="return confirm('remove item from cart?');">
+                          </a>
+                        </li>
                         <!-- Data -->
                       </ul>
                     </div>
 
-
-                    <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+                    <div class="col-lg-4 col-md-4 mb-4 mb-lg-0">
                       <!-- Quantity -->
                       <label class="form-label" for="quantity">Quantity:</label>
                       <form action="" method="post">
                         <input type="hidden" name="cart_id" value="<?php echo $fetch_cart['id']; ?>">
                         <div class="input-group">
-                          <input type="number" style="resize:none; height:55px; font-size: 20px;" min="1" name="cart_quantity"
+                          <input type="number" style="resize:none; font-size: 15px;" min="1" name="cart_quantity"
                             value="<?php echo $fetch_cart['quantity']; ?>" class="form-control" />
                           <br>
-                          <button type="submit" name="update_cart" value="update" class="btn detail-btn">Update</button>
+                          <button style="padding: 10px;" type="submit" name="update_cart" value="update" class="">✔</button>
                         </div>
-                        <strong id="subtotal" style="font-size: 35px;">₱
+                        <strong id="subtotal"> Total: ₱
                           <?php echo $sub_total = ($fetch_cart['price'] * $fetch_cart['quantity']); ?>
                         </strong>
                       </form>
@@ -412,14 +404,14 @@ if ($result->num_rows > 0) {
                     <!-- Quantity -->
 
                     <!-- Price -->
-
-
                     <?php
                     $grand_total += $sub_total;
                     ?>
                     <!-- Price -->
+                    
+                 
                   </div>
-
+                  <hr style=" border-top: 0.3px solid #5F5E5E; ">
                 </div>
                 <!-- Single item -->
                 <?php
@@ -429,14 +421,13 @@ if ($result->num_rows > 0) {
             }
             ?>
 
-            <div class="card mb-4" style="padding: 20px;">
+            <div class="card mb-4" style="padding: 20px; width: 90%; margin: 3%;">
               <div class="card-body">
                 <p><strong>Expected shipping delivery</strong></p>
-                <p class="mb-0">The expected delivery date should be 3 days onwards depending on the availability of the
-                  product.</p>
+                <p class="mb-0">The expected delivery date should be 3 days onwards depending on the availability of
+                  theproduct.</p>
               </div>
             </div>
-
 
             <div class="card mb-4" style="box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.20); width: 90%; margin:3%;">
               <div class="card-header py-3">
@@ -474,8 +465,6 @@ if ($result->num_rows > 0) {
                 </ul>
               </div>
 
-
-
               <?php
 
               if ($grand_total == 0) {
@@ -484,7 +473,7 @@ if ($result->num_rows > 0) {
                 <?php
               } else {
                 ?>
-                <div class="column d-flex justify-content-between" style="padding: 10px;">
+                <div class="row d-flex justify-content-between" style="padding: 10px;">
                   <div style="padding: 10px;">
                     <form action="checkout.php">
 
@@ -504,11 +493,6 @@ if ($result->num_rows > 0) {
                 <?php
               }
               ?>
-
-
-
-
-
 
             </div>
 

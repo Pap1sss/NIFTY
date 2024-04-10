@@ -1,26 +1,24 @@
 <?php
-ini_set('display_errors', 1);
+
 @include 'config.php';
 require_once "admin_creation/controllerUserData.php";
 
-$username = $_SESSION['user_name'];
-$name = $_SESSION['name'];
+$username = $_SESSION['username'];
 
-if ($username != false && $name != false) {
+
+if ($username != false) {
    $sql = "SELECT * FROM admin_accounts WHERE username = '$username'";
    $run_Sql = mysqli_query($conn, $sql);
    if ($run_Sql) {
       $fetch_info = mysqli_fetch_assoc($run_Sql);
       $username = $fetch_info['username'];
-      $name = $fetch_info['name'];
    }
 } else {
    header('Location: admin_creation/login_form.php');
-   exit();
 }
 
 
-if (isset ($_POST['add_product'])) {
+if (isset($_POST['add_product'])) {
    $create = 'create a product';
    $category = mysqli_real_escape_string($conn, $_POST['category']);
    $username = mysqli_real_escape_string($conn, $_SESSION['user_name']);
@@ -31,11 +29,11 @@ if (isset ($_POST['add_product'])) {
    $product_image_tmp_name = $_FILES['product_image']['tmp_name'];
    $product_image_folder = 'uploaded_img/' . $product_image;
 
-   if (empty ($product_name) || empty ($product_price) || empty ($product_image)) {
+   if (empty($product_name) || empty($product_price) || empty($product_image)) {
       echo "<script>alert('Please fill out all');</script>";
    } else {
-      $insert = "INSERT INTO products(category,name, price, image, description, date_created, time_created, date_edited, time_edited)  
-         VALUES('$category', '$product_name', '$product_price', 'admin/uploaded_img/$product_image', '$product_description', CURRENT_DATE(), CURRENT_TIME(), CURRENT_DATE(), CURRENT_TIME())";
+      $insert = "INSERT INTO products(category,name, price, image, description, date_created, time_created) 
+         VALUES('$category', '$product_name', '$product_price', 'admin/uploaded_img/$product_image', '$product_description', CURRENT_DATE(), CURRENT_TIME())";
       $product_logs = "INSERT INTO admin_activity_log(username, date_log, time_log, action) 
          VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'$create : (\"$product_name\")')";
 
@@ -48,17 +46,10 @@ if (isset ($_POST['add_product'])) {
          $upload_img = mysqli_query($conn, $insert_gallery);
          move_uploaded_file($product_image_tmp_name, $product_image_folder);
          echo "<script>alert('New Product Added Successfully');</script>";
-         header("Location: " . $_SERVER['PHP_SELF']);
-         exit();
-
-       
       } else {
          echo "<script>alert('Could not add the product');</script>";
-         header("Location: " . $_SERVER['PHP_SELF']);
-         exit();
       }
    }
-
 }
 ;
 
@@ -67,9 +58,10 @@ if (isset ($_POST['add_product'])) {
 <!-- for categories -->
 <?php
 
-if (isset ($_POST['add_product_category'])) {
+if (isset($_POST['add_product_category'])) {
    $create = 'created a category';
    $username = $_SESSION['user_name'];
+   $category_code = $_POST['category_code'];
    $category = $_POST['category'];
 
    // Check if category already exists
@@ -81,14 +73,14 @@ if (isset ($_POST['add_product_category'])) {
    if ($result->num_rows > 0) {
       echo "<script>alert('Category Already Exists');</script>";
    } else {
-      if (empty ($category)) {
+      if (empty($category)) {
          echo "<script>alert('Please fill out all fields.');</script>";
       } else {
          // Insert category
-         $insert = "INSERT INTO category (category) VALUES(?)";
+         $insert = "INSERT INTO category (category, category_code) VALUES(?,?)";
 
          $stmt = $conn->prepare($insert);
-         $stmt->bind_param("s", $category);
+         $stmt->bind_param("ss", $category, $category_code);
          $stmt->execute();
 
          // Insert log
@@ -98,12 +90,8 @@ if (isset ($_POST['add_product_category'])) {
          $stmt->bind_param("ss", $username, $action);
          $stmt->execute();
          echo "<script>alert('Category Added Successfully');</script>";
-         header("Location: " . $_SERVER['PHP_SELF']);
-         exit();
 
-       
-
-
+         exit;
       }
    }
 }
@@ -115,7 +103,7 @@ if (isset ($_POST['add_product_category'])) {
 
 <!-- for colors and sizes -->
 <?php
-if (isset ($_POST['add_product_unit'])) {
+if (isset($_POST['add_product_unit'])) {
    $create = 'created a unit';
    $username = $_SESSION['user_name'];
    $unit = $_POST['unit'];
@@ -143,20 +131,17 @@ if (isset ($_POST['add_product_unit'])) {
          $stmt->bind_param("ss", $username, $action);
          $stmt->execute();
          echo "<script>alert('Added successfully');</script>";
-         header("Location: " . $_SERVER['PHP_SELF']);
-         exit();
 
-      
+         exit;
       } else {
          echo "<script>alert('We encountered an error!');</script>";
-         
       }
 
       // Close the prepared statement
       $stmt->close();
    }
 }
-if (isset ($_POST['add_product_color'])) {
+if (isset($_POST['add_product_color'])) {
    $create = 'created a color';
    $username = $_SESSION['user_name'];
    $color = $_POST['color'];
@@ -183,9 +168,8 @@ if (isset ($_POST['add_product_color'])) {
          $stmt->execute();
          // Execute the statementif ($stmt->execute()) {
          echo "<script>alert('New color added successfully.');</script>";
-         header("Location: " . $_SERVER['PHP_SELF']);
-         exit();
-       
+
+         exit;
       } else {
          echo "<script>alert('We encountered a problem');</script>";
       }
@@ -198,7 +182,7 @@ if (isset ($_POST['add_product_color'])) {
 
 
 //delete query//
-if (isset ($_GET['delete'])) {
+if (isset($_GET['delete'])) {
    $id = $_GET['delete'];
 
    // Get product name
@@ -210,18 +194,15 @@ if (isset ($_GET['delete'])) {
    }
 
    mysqli_query($conn, "DELETE FROM products WHERE id = $id");
-   mysqli_query($conn, "DELETE FROM stocks_unit WHERE product_id = $id");
-   mysqli_query($conn, "DELETE FROM stocks_color WHERE product_id = $id");
+   mysqli_query($conn, "DELETE FROM stocks WHERE product_id = $id");
    mysqli_query($conn, "INSERT INTO admin_activity_log(username, date_log, time_log, action) 
       VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'deleted a product (\"$product_name\")')");
    echo "<script>alert('Removed Successfully');</script>";
-   header("Location: " . $_SERVER['PHP_SELF']);
-   exit();
 
-   
+   exit;
 }
 ;
-if (isset ($_GET['category_delete'])) {
+if (isset($_GET['category_delete'])) {
    $id = $_GET['category_delete'];
 
    // Get category name
@@ -236,14 +217,11 @@ if (isset ($_GET['category_delete'])) {
    mysqli_query($conn, "INSERT INTO admin_activity_log(username, date_log, time_log, action) 
       VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'deleted category (\"$category_name\")')");
    echo "<script>alert('Removed Successfully');</script>";
-   header("Location: " . $_SERVER['PHP_SELF']);
-   exit();
 
-
-
+   exit;
 }
 ;
-if (isset ($_GET['unit_delete'])) {
+if (isset($_GET['unit_delete'])) {
    $id = $_GET['unit_delete'];
 
    // Get unit name
@@ -258,13 +236,11 @@ if (isset ($_GET['unit_delete'])) {
    mysqli_query($conn, "INSERT INTO admin_activity_log(username, date_log, time_log, action) 
       VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'deleted a unit (\"$unit_name\")')");
    echo "<script>alert('Removed Successfully');</script>";
-   header("Location: " . $_SERVER['PHP_SELF']);
-   exit();
 
-
+   exit;
 }
 
-if (isset ($_GET['color_delete'])) {
+if (isset($_GET['color_delete'])) {
    $id = $_GET['color_delete'];
 
    // Get color name
@@ -279,10 +255,8 @@ if (isset ($_GET['color_delete'])) {
    mysqli_query($conn, "INSERT INTO admin_activity_log(username, date_log, time_log, action) 
       VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'deleted a color (\"$color_name\")')");
    echo "<script>alert('Removed Successfully');</script>";
-   header("Location: " . $_SERVER['PHP_SELF']);
-   exit();
 
-  
+   exit;
 }
 ?>
 
@@ -312,6 +286,7 @@ if (isset ($_GET['color_delete'])) {
 
    <!-- Custom CSS -->
    <link rel="stylesheet" href="css/analyticstyle.css">
+
 
 </head>
 
@@ -438,9 +413,8 @@ if (isset ($_GET['color_delete'])) {
                         ?>
                      </select>
                      <input type="text" placeholder="Enter product name" name="product_name" class="box" required>
-                     <textarea  placeholder="Enter product description" name="product_description" class="box"
+                     <input type="text" placeholder="Enter product description" name="product_description" class="box"
                         required>
-                     </textarea>
                      <input type="number" placeholder="Enter product price" name="product_price" class="box"
                         id="productPriceInput" required>
                      <script>
@@ -547,6 +521,7 @@ if (isset ($_GET['color_delete'])) {
             <div class="card-body">
                <h5>Add Category</h5>
                <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" enctype="multipart/form-data">
+                  <input type="text" placeholder="Enter Category code" name="category_code" class="box" required>
                   <input type="text" placeholder="Enter Category name" name="category" class="box" required>
                   <input type="submit" class="btn btn-secondary" name="add_product_category" value="SUBMIT">
                </form>
@@ -554,6 +529,7 @@ if (isset ($_GET['color_delete'])) {
                <table class="table table-bordered border-primary">
                   <thead>
                      <tr>
+                        <th style="border: 1px solid black;">Category Code</th>
                         <th style="border: 1px solid black;">Category Name</th>
                         <th style="border: 1px solid black;">Action</th>
                      </tr>
@@ -564,6 +540,9 @@ if (isset ($_GET['color_delete'])) {
                      while ($row = mysqli_fetch_assoc($select)) {
                         ?>
                         <tr>
+                           <td style="border: 1px solid black">
+                              <?php echo $row['category_code']; ?>
+                           </td>
                            <td style="border: 1px solid black">
                               <?php echo $row['category']; ?>
                            </td>
@@ -669,20 +648,43 @@ if (isset ($_GET['color_delete'])) {
       }
    </style>
    <script>
-      document.getElementById('addCategoryBtn').addEventListener('click', function () { toggleVisibility('addCategorySection'); toggleVisibility('addUnitSection', false); toggleVisibility('addColorSection', false); });
-      document.getElementById('addUnitBtn').addEventListener('click', function () {
-         toggleVisibility('addCategorySection', false); toggleVisibility('addUnitSection');
+      document.getElementById('addCategoryBtn').addEventListener('click', function () {
+         toggleVisibility('addCategorySection');
+         toggleVisibility('addUnitSection', false);
          toggleVisibility('addColorSection', false);
-      }); document.getElementById('addColorBtn').addEventListener('click', function () {
+      });
+      document.getElementById('addUnitBtn').addEventListener('click', function () {
          toggleVisibility('addCategorySection', false);
-         toggleVisibility('addUnitSection', false); toggleVisibility('addColorSection');
-      }); function toggleVisibility(sectionId, shouldShow = true) { const section = document.getElementById(sectionId); section.style.display = shouldShow ? 'block' : 'none'; } </script>
+         toggleVisibility('addUnitSection');
+         toggleVisibility('addColorSection', false);
+      });
+      document.getElementById('addColorBtn').addEventListener('click', function () {
+         toggleVisibility('addCategorySection', false);
+         toggleVisibility('addUnitSection', false);
+         toggleVisibility('addColorSection');
+      });
+
+      function toggleVisibility(sectionId, shouldShow = true) {
+         const section = document.getElementById(sectionId);
+         section.style.display = shouldShow ? 'block' : 'none';
+      }
+   </script>
    <style>
       .card-order-status {
          display: none;
       }
+   </style>
+   </main>
+</body>
+<!-- 
+    - custom js link
+  -->
+<script src="./assets/js/script.js"></script>
 
+<!-- 
+- ionicon link
+-->
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
-
-
-      </main>< !-- End Main --></body></html>
+</html>

@@ -1,7 +1,7 @@
 <?php
 
 @include '../config.php';
-require_once "admin_creation/controllerUserData.php";
+require_once "controllerUserData.php";
 
 $username = $_SESSION['user_name'];
 $name = $_SESSION['name'];
@@ -29,16 +29,12 @@ if ($username != false && $name != false) {
   <title>Admin Logs</title>
 
   <!-- Montserrat Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <!-- Material Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-    crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="css/analyticstyle.css">
@@ -118,8 +114,6 @@ if ($username != false && $name != false) {
     <main class="main-container" style="background-color: #fffdf6;">
       <div class=" column">
 
-
-
         <div style="margin-left:45px; margin-right: 45px;">
 
           <h2>Admin Logs</h2>
@@ -136,13 +130,13 @@ if ($username != false && $name != false) {
               $total_rows = $row["total"];
               $total_pages = ceil($total_rows / $limit);
               for ($i = 1; $i <= $total_pages; $i++) {
-                ?>
+              ?>
                 <li class=" page-item <?= $i == $page ? 'active' : '' ?>">
                   <a class="page-link" href="?limit=<?= $limit ?>&page=<?= $i ?>">
                     <?= $i ?>
                   </a>
                 </li>
-                <?php
+              <?php
               }
               ?>
             </ul>
@@ -170,7 +164,7 @@ if ($username != false && $name != false) {
             $result = $conn->query($sql);
             if ($result->num_rows > 0) {
               while ($row = $result->fetch_assoc()) {
-                ?>
+            ?>
                 <tr>
                   <td>
                     <?= $row["username"] ?>
@@ -180,19 +174,116 @@ if ($username != false && $name != false) {
                   </td>
 
                 </tr>
-                <?php
+            <?php
               }
             }
             ?>
           </table>
         </div>
-        <?php
-        $conn->close();
-        ?>
-      </div>
+
+        <div style="margin-left:45px; margin-right: 45px;">
+          <h2>Admin Activity Logs</h2>
+          <form method="get">
+            <div class="row">
+              <div class="col-md-4">
+                <label for="start_date">Start Date:</label>
+                <input type="date" name="start_date" id="start_date" value="<?= isset($_GET['start_date']) ? htmlspecialchars($_GET['start_date']) : '' ?>" class="form-control" />
+              </div>
+              <div class="col-md-4">
+                <label for="end_date">End Date:</label>
+                <input type="date" name="end_date" id="end_date" value="<?= isset($_GET['end_date']) ? htmlspecialchars($_GET['end_date']) : '' ?>" class="form-control" />
+              </div>
+              <div class="col-md-4">
+                <input type="submit" name="submit_date_log" value="Search" class="btn btn-primary" />
+              </div>
+            </div>
+          </form>
+          <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              <?php
+              $limit = isset($_GET['limit_product']) ? (int) $_GET['limit_product'] : 10;
+              $page = isset($_GET['page_product']) ? (int) $_GET['page_product'] : 1;
+              $offset = ($page - 1) * $limit;
+
+              $start_date = isset($_GET['start_date']) ? $_GET['start_date'] : '';
+              $end_date = isset($_GET['end_date']) ? $_GET['end_date'] : '';
+
+              $sql = "SELECT COUNT(*) as total from admin_activity_log WHERE 1=1";
+
+              if (!empty($start_date) && !empty($end_date)) {
+                $sql .= " AND date_log BETWEEN '$start_date' AND '$end_date'";
+              }
+
+              $result = $conn->query($sql);
+              $row = $result->fetch_assoc();
+              $total_rows = $row["total"];
+              $total_pages = ceil($total_rows / $limit);
+
+              for ($i = 1; $i <= $total_pages; $i++) {
+              ?>
+                <li class="page-item <?= $i == $page ? 'active' : '' ?>">
+                  <a class="page-link" href="?limit_product=<?= $limit ?>&page_product=<?= $i ?><?php if (!empty($start_date) && !empty($end_date)) {
+                                                                                                  echo '&start_date=' . $start_date . '&end_date=' . $end_date;
+                                                                                                } ?>">
+                    <?= $i ?>
+                  </a>
+                </li>
+              <?php
+              }
+              ?>
+            </ul>
+          </nav>
+          <?php
+          if (isset($_GET['submit_date_log'])) {
+            $start_date = $_GET['start_date'];
+            $end_date = $_GET['end_date'];
+
+            $sql = "SELECT * FROM admin_activity_log WHERE date_log BETWEEN ? AND ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("ss", $start_date, $end_date);
+            $stmt->execute();
+            $result = $stmt->get_result();
+          } else {
+            $sql = "SELECT * from admin_activity_log WHERE 1=1 ORDER BY id DESC LIMIT $limit OFFSET $offset";
+            $result = $conn->query($sql);
+          }
+          ?>
+          <table class="table table-bordered border-primary">
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Date & Time</th>
+                <th>Purpose</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php
+              while ($row = $result->fetch_assoc()) {
+              ?>
+                <tr>
+                  <td>
+                    <?= $row["username"] ?>
+                  </td>
+                  <td>
+                    <?= $row["date_log"] ?>
+                    <?= $row["time_log"] ?>
+                  </td>
+                  <td>
+                    <?= $row["action"] ?>
+                  </td>
+                </tr>
+              <?php
+              }
+              ?>
+            </tbody>
+          </table>
+          <?php
+          $conn->close();
+          ?>
+        </div>
 
 
-      <br><br>
+        <br><br>
 
 
 

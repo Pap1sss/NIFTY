@@ -6,16 +6,15 @@ $id = $_GET['edit'];
 
 
 
-$username = $_SESSION['user_name'];
-$name = $_SESSION['name'];
+$username = $_SESSION['username'];
 
-if ($username != false && $name != false) {
+
+if ($username != false) {
    $sql = "SELECT * FROM admin_accounts WHERE username = '$username'";
    $run_Sql = mysqli_query($conn, $sql);
    if ($run_Sql) {
       $fetch_info = mysqli_fetch_assoc($run_Sql);
       $username = $fetch_info['username'];
-      $name = $fetch_info['name'];
    }
 } else {
    header('Location: admin_creation/login_form.php');
@@ -23,18 +22,17 @@ if ($username != false && $name != false) {
 
 
 
-if (isset ($_POST['update_product_name'])) {
+
+if (isset($_POST['update_product_name'])) {
 
    // Validate the input
    $product_name = $_POST['product_name'];
    if (!preg_match("/^[a-zA-Z0-9 ]*$/", $product_name)) {
       echo "<script>alert('Only letters, numbers, and whitespace are allowed in product name');</script>";
-
    }
 
-   if (empty ($product_name)) {
+   if (empty($product_name)) {
       echo "<script>alert('Please fill out product name');</script>";
-
    }
 
    // Use prepared statements to prevent SQL injection
@@ -47,12 +45,10 @@ if (isset ($_POST['update_product_name'])) {
    $stmt = $conn->prepare("INSERT INTO admin_activity_log(username, date_log, time_log, action) VALUES(?, CURRENT_DATE(), CURRENT_TIME(),?)");
    $stmt->bind_param("ss", $username, $editproductname);
    $stmt->execute();
-
-
 }
 ;
 
-if (isset ($_POST['update_price'])) {
+if (isset($_POST['update_price'])) {
 
    // Validate the input
    $product_price = $_POST['product_price'];
@@ -60,9 +56,8 @@ if (isset ($_POST['update_price'])) {
       echo "<script>alert('Something went wrong');</script>";
    }
 
-   if (empty ($product_price)) {
+   if (empty($product_price)) {
       echo "<script>alert('Please fill out properly');</script>";
-
    }
 
    // Use prepared statements to prevent SQL injection
@@ -75,27 +70,22 @@ if (isset ($_POST['update_price'])) {
    $stmt = $conn->prepare("INSERT INTO admin_activity_log(username, date_log, time_log, action) VALUES(?, CURRENT_DATE(), CURRENT_TIME(),?)");
    $stmt->bind_param("ss", $username, $editproductprice);
    $stmt->execute();
-
-
-
 }
 ;
 
 
-if (isset ($_POST['update_description'])) {
+if (isset($_POST['update_description'])) {
 
    // Validate the input
    $product_description = trim($_POST['product_description']);
    if (strlen($product_description) > 500) {
 
       echo "<script>alert('Description should not exceed 500 characters');</script>";
-
    }
 
-   if (empty ($product_description)) {
+   if (empty($product_description)) {
 
       echo "<script>alert('Please fill out the description');</script>";
-
    }
 
    // Use prepared statements to prevent SQL injection
@@ -111,13 +101,13 @@ if (isset ($_POST['update_description'])) {
 }
 
 
-if (isset ($_POST['update_image'])) {
+if (isset($_POST['update_image'])) {
 
    $product_image = $_FILES['product_image']['name'];
    $product_image_tmp_name = $_FILES['product_image']['tmp_name'];
    $product_image_folder = 'uploaded_img/' . $product_image;
 
-   if (empty ($product_image)) {
+   if (empty($product_image)) {
 
       echo "<script>alert('Please fill required attachment');</script>";
    } else {
@@ -129,20 +119,18 @@ if (isset ($_POST['update_image'])) {
       $data_check = mysqli_query($conn, $product_logs);
       if ($upload) {
          move_uploaded_file($product_image_tmp_name, $product_image_folder);
-
       } else {
 
          echo "<script>alert('Please fill required attachment');</script>";
       }
    }
-
 }
-if (isset ($_POST['upload_image'])) {
+if (isset($_POST['upload_image'])) {
    $product_gallery = mysqli_real_escape_string($conn, $_FILES['product_gallery']['name']);
    $product_gallery_tmp_name = $_FILES['product_gallery']['tmp_name'];
    $product_image_folder = 'uploaded_img/' . $product_gallery;
 
-   if (empty ($product_gallery)) {
+   if (empty($product_gallery)) {
       echo "<script>alert('Please insert a file');</script>";
    } else {
       $insert = "INSERT INTO product_gallery(product_id, product_image, date_uploaded) 
@@ -158,9 +146,8 @@ if (isset ($_POST['upload_image'])) {
          echo "<script>alert('Could not add the product');</script>";
       }
    }
-
 }
-if (isset ($_GET['delete'])) {
+if (isset($_GET['delete'])) {
    $id = $_GET['delete'];
    mysqli_query($conn, "DELETE FROM product_gallery WHERE id = $id");
    mysqli_query($conn, "INSERT INTO admin_activity_log(username, date_log, time_log,  action) 
@@ -319,8 +306,8 @@ if (isset ($_GET['delete'])) {
                      <input type="submit" value="UPDATE" name="update_price" class="btn btn-dark">
                   </li>
                   <li class="list-group-item d-flex justify-content-center">
-                     <textarea class="box me-1 pe-5" name="product_description" value=""
-                        placeholder="new description"></textarea>
+                     <input type="text" class="box me-1 pe-5" name="product_description" value=""
+                        placeholder="new description">
 
                      <input type="submit" value="UPDATE" name="update_description" class="btn btn-dark">
                   </li>
@@ -391,7 +378,7 @@ if (isset ($_GET['delete'])) {
             </div>
             <?php
 
-            if (isset ($_POST['delete_submit'])) {
+            if (isset($_POST['delete_submit'])) {
                // Get the list of checkbox values
                $delete_ids = $_POST['delete_ids'];
                $image_id = $_POST['image_id'];
@@ -410,7 +397,6 @@ if (isset ($_GET['delete'])) {
 
                // Redirect back to the admin page with the ID of the item being edited
                echo "<script>window.location.href = 'admin_update.php?edit=$id';</script>";
-
             }
             ?>
          </div>

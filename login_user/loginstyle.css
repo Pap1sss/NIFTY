@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+
 html,body{
-    background: rgb(182, 159, 119);
+    
+    background: linear-gradient(to right, #f9c47f, #F4B39D);
     font-family: 'Poppins', sans-serif;
 }
 ::selection{
@@ -54,3 +56,9 @@ html,body{
 .container .row .alert{
     font-size: 14px;
 }
+
+.submit_button{
+    background-color: #BB4D00;
+    border-radius: 10px;
+}
+

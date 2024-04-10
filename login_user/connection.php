@@ -1,5 +1,3 @@
-<?php
-
-$conn = mysqli_connect('localhost','NIFTYSHOES','pa$$word1','website');
-
+<?php 
+$conn = mysqli_connect('localhost','root','','website');
 ?>

@@ -20,31 +20,29 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 //if user signup button
-if (isset ($_POST['signup'])) {
-    $name = mysqli_real_escape_string($conn, $_POST['name']);
+if (isset($_POST['signup'])) {
+
     $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $password = mysqli_real_escape_string($conn, $_POST['password']);
-    $cpassword = mysqli_real_escape_string($conn, $_POST['cpassword']);
-    $contact = mysqli_real_escape_string($conn, $_POST['contact']);
-    $address = mysqli_real_escape_string($conn, $_POST['address']);
-    if ($password !== $cpassword) {
-        $errors['password'] = "Confirm password not matched!";
-    }
+
     $email_check = "SELECT * FROM usertable WHERE email = '$email'";
     $res = mysqli_query($conn, $email_check);
     if (mysqli_num_rows($res) > 0) {
         $errors['email'] = "Email that you have entered is already exist!";
     }
     if (count($errors) === 0) {
-        $encpass = password_hash($password, PASSWORD_BCRYPT);
-        // Your existing code
-        $code = rand(999999, 111111);
         $status = "notverified";
-        $insert_data = "INSERT INTO usertable (name, email, password, code, status, contact, address ) values('$name', '$email', '$encpass', '$code', '$status', '$contact', '$address')";
+        $code = rand(999999, 111111);
+        $insert_data = "INSERT INTO usertable (email, code, status) values('$email', '$code', '$status')";
         $data_check = mysqli_query($conn, $insert_data);
         if ($data_check) {
-            $subject = "Email Verification Code";
-            $message = "Thank you for creating an account! Your verification code is $code";
+            $subject = "Your One-Time Password (OTP) for Verification for NIFTY SHOES account";
+            $message = "Thank you for creating an account! To ensure the security of your account, we have generated a one-time password (OTP) for you to complete the authentication process. 
+            Please find your OTP below:
+            OTP: [$code]
+            
+            Thank you for your cooperation in maintaining the security of your account.
+            Best regards,
+            Nifty Shoes";
             // Create an instance of PHPMailer
             $mail = new PHPMailer(true);
 
@@ -53,8 +51,9 @@ if (isset ($_POST['signup'])) {
                 $mail->isSMTP();
                 $mail->Host = 'smtp.gmail.com';
                 $mail->SMTPAuth = true;
-                $mail->Username = 'papisssgg@gmail.com';
-                $mail->Password = 'mnxc djee wiln kzje';
+                $mail->Username = 'papisss@gmail.com';
+                $mail->Password = 'mnxc djee wiln kzje
+                ';
                 $mail->SMTPSecure = 'tls';
                 $mail->Port = 587;
 
@@ -86,7 +85,7 @@ if (isset ($_POST['signup'])) {
 
 
 //if user click verification code submit button
-if (isset ($_POST['check'])) {
+if (isset($_POST['check'])) {
     $_SESSION['info'] = "";
     $otp_code = mysqli_real_escape_string($conn, $_POST['otp']);
     $check_code = "SELECT * FROM usertable WHERE code = $otp_code";
@@ -102,7 +101,7 @@ if (isset ($_POST['check'])) {
         if ($update_res) {
             $_SESSION['name'] = $name;
             $_SESSION['email'] = $email;
-            header('location: login-user.php');
+            header('location: new-password.php');
             exit();
         } else {
             $errors['otp-error'] = "Failed while updating code!";
@@ -113,7 +112,7 @@ if (isset ($_POST['check'])) {
 }
 
 //if user click login button
-if (isset ($_POST['login'])) {
+if (isset($_POST['login'])) {
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
 
@@ -136,7 +135,8 @@ if (isset ($_POST['login'])) {
                 $insert_logs = "INSERT INTO logs (email, timein, date)
                         values( '$email', CURRENT_TIME(), CURRENT_DATE())";
                 $data_check = mysqli_query($conn, $insert_logs);
-                header("location: ../products.php");
+                header("location: home.php");
+
             } else {
                 $info = "It's look like you haven't still verify your email - $email";
                 $_SESSION['info'] = $info;
@@ -144,14 +144,16 @@ if (isset ($_POST['login'])) {
             }
         } else {
             $errors['email'] = "Incorrect email or password!";
+
         }
     } else {
         $errors['email'] = "It's look like you're not yet a member! Click on the bottom link to signup.";
+
     }
 }
 
 //if user click continue button in forgot password form
-if (isset ($_POST['check-email'])) {
+if (isset($_POST['check-email'])) {
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $check_email = "SELECT * FROM usertable WHERE email='$email'";
     $run_sql = mysqli_query($conn, $check_email);
@@ -200,7 +202,7 @@ if (isset ($_POST['check-email'])) {
 }
 
 //if user click check reset otp button
-if (isset ($_POST['check-reset-otp'])) {
+if (isset($_POST['check-reset-otp'])) {
     $_SESSION['info'] = "";
     $otp_code = mysqli_real_escape_string($conn, $_POST['otp']);
     $check_code = "SELECT * FROM usertable WHERE code = $otp_code";
@@ -219,13 +221,40 @@ if (isset ($_POST['check-reset-otp'])) {
 }
 
 //if user click change password button
-if (isset ($_POST['change-password'])) {
+if (isset($_POST['change-password'])) {
     $_SESSION['info'] = "";
     $password = mysqli_real_escape_string($conn, $_POST['password']);
     $cpassword = mysqli_real_escape_string($conn, $_POST['cpassword']);
+
+    $password_valid = true;
+
+    if (strlen($password) < 10) {
+        $errors['password'] = "Password requirements not fulfilled.";
+        $password_valid = false;
+    }
+    if (!preg_match("/[A-Z]/", $password)) {
+        $errors['password'] = "Password requirements not fulfilled.";
+        $password_valid = false;
+    }
+    if (!preg_match("/[a-z]/", $password)) {
+        $errors['password'] = "Password requirements not fulfilled.";
+        $password_valid = false;
+    }
+    if (!preg_match("/[0-9]/", $password)) {
+        $errors['password'] = "Password requirements not fulfilled.";
+        $password_valid = false;
+    }
+    if (!preg_match("/[\W]/", $password)) {
+        $errors['password'] = "Password requirements not fulfilled.";
+        $password_valid = false;
+    }
+
     if ($password !== $cpassword) {
         $errors['password'] = "Confirm password not matched!";
-    } else {
+        $password_valid = false;
+    }
+
+    if ($password_valid) {
         $code = 0;
         $email = $_SESSION['email']; //getting this email using session
         $encpass = password_hash($password, PASSWORD_BCRYPT);
@@ -242,7 +271,7 @@ if (isset ($_POST['change-password'])) {
 }
 
 //if login now button click
-if (isset ($_POST['login-now'])) {
+if (isset($_POST['login-now'])) {
     header('Location: login-user.php');
 }
 

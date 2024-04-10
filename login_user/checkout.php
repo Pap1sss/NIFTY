@@ -62,7 +62,7 @@ if ($result->num_rows > 0) {
       $address = $_POST['address'];
       $reference_number = "0";
       $gcash_number = "0";
-      $product_image = $_POST['receipt'];
+      $product_image = "none";
       if (isset($product_image['receipt'])) {
         $product_image_folder = 'uploaded_img/' . $product_image['receipt'];
       } else {
@@ -74,23 +74,31 @@ if ($result->num_rows > 0) {
       $result = mysqli_stmt_get_result($cart_query);
 
       $price_total = 0;
+
+      $product_name = [];
       $glue = "\n";
       if (mysqli_num_rows($result) > 0) {
         while ($product_item = mysqli_fetch_assoc($result)) {
-          $product_name[] = 'Item: [' . $product_item['name'] . '] SIZE & COLOR [' . $product_item['unit'] . '] Quantity: [' . $product_item['quantity'] . '] ';
+          
+          
+          $product_name[] = $product_item['name']. ' '. $product_item['unit']. $product_item['color']. ' '. $product_item['quantity'];
+
+          // Add a line break after each product name
+          $product_name[count($product_name) - 1] .= "\n";
+
+          $total_product = implode($glue, $product_name);
 
           $product_price = ($product_item['price'] * $product_item['quantity']);
           $price_total += $product_price;
           $total_price = $price_total;
 
+
+
+
         }
         ;
       }
       ;
-
-
-      $total_product = implode($glue, $product_name);
-
       $detail_query = mysqli_prepare($conn, "INSERT INTO `orders`(name, number, email, method, address, total_products, total_price, user_id, status, date_created, time_created, reference_number, gcash_number, screenshot) 
       VALUES(?, ?, ?, ?, ?, ?, ?, ?, 'pending', CURRENT_DATE(), CURRENT_TIME(), ?,?,?)");
       mysqli_stmt_bind_param($detail_query, "ssssssdiiis", $name, $number, $email, $method, $address, $total_product, $price_total, $user_id, $reference_number, $gcash_number, $product_image);
@@ -100,6 +108,44 @@ if ($result->num_rows > 0) {
       mysqli_stmt_bind_param($sales_query, "di", $order_id, $price_total);
       mysqli_stmt_execute($sales_query);
 
+      $cart_query_sales = mysqli_prepare($conn, "SELECT * FROM `cart` WHERE user_id =?");
+      mysqli_stmt_bind_param($cart_query_sales, "i", $user_id);
+      mysqli_stmt_execute($cart_query_sales);
+      $sales_result = mysqli_stmt_get_result($cart_query_sales);
+
+      if (mysqli_num_rows($sales_result) > 0) {
+        while ($fetch_cart = mysqli_fetch_assoc($sales_result)) {
+          $product_quantity = $fetch_cart['quantity'];
+          $product_name_sales = $fetch_cart['name'];
+          $product_unit = $fetch_cart['unit'];
+          $product_color = $fetch_cart['color'];
+          $product_id = $fetch_cart['product_id'];
+
+          $sql = "SELECT * FROM product_stocks WHERE product_id =? AND unit =? AND color =?";
+          $stmt = mysqli_prepare($conn, $sql);
+          mysqli_stmt_bind_param($stmt, "iss", $product_id, $product_unit, $product_color);
+          mysqli_stmt_execute($stmt);
+          $stocks_result = mysqli_stmt_get_result($stmt);
+
+          if (mysqli_num_rows($stocks_result) > 0) {
+            while ($row_stocks = mysqli_fetch_assoc($stocks_result)) {
+              $new_stock = $row_stocks['quantity'] - $product_quantity;
+
+              $update_stock_query = "UPDATE product_stocks SET quantity =? WHERE product_id =? AND unit =? AND color =?";
+              $stmt = mysqli_prepare($conn, $update_stock_query);
+              mysqli_stmt_bind_param($stmt, "iiss", $new_stock, $product_id, $product_unit, $product_color);
+              mysqli_stmt_execute($stmt);
+            }
+          }
+          $product_sales_query = mysqli_prepare($conn, "INSERT INTO `product_sales`(order_id, product_name, quantity) 
+          VALUES(?, ?, ?)");
+          mysqli_stmt_bind_param($product_sales_query, "sss", $order_id, $product_name_sales, $product_quantity, );
+          mysqli_stmt_execute($product_sales_query);
+
+        }
+        ;
+      }
+      ;
 
 
       $delete_query = mysqli_prepare($conn, "DELETE FROM `cart` WHERE user_id = ?");
@@ -174,11 +220,14 @@ if ($result->num_rows > 0) {
         $mail->send();
 
         header('location: home.php');
+        exit;
 
       } catch (Exception $e) {
-        $errors['otp-error'] = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+
       }
 
+      header('location: home.php');
+      exit;
 
 
 
@@ -193,59 +242,104 @@ if ($result->num_rows > 0) {
       $email = mysqli_real_escape_string($conn, $_POST['email']);
       $method = mysqli_real_escape_string($conn, $_POST['method']);
       $address = mysqli_real_escape_string($conn, $_POST['address']);
-      $reference_number = mysqli_real_escape_string($conn, $_POST['reference']);
-      $gcash_number = mysqli_real_escape_string($conn, $_POST['gcash_number']);
+      $reference_number = $_POST['reference'];
+      $gcash_number = $_POST['gcash_number'];
       $receipt_image = mysqli_real_escape_string($conn, $_FILES['receipt']['name']);
       $receipt_image_tmp_name = $_FILES['receipt']['tmp_name'];
-    
+
       if (empty($receipt_image)) {
         echo "<script>alert('Please upload the receipt image');</script>";
       } else {
         $target_dir = "../admin/uploaded_img/";
         $target_file_image = $target_dir . basename($receipt_image);
         move_uploaded_file($receipt_image_tmp_name, $target_file_image);
-    
+
         $cart_query = mysqli_prepare($conn, "SELECT * FROM `cart` WHERE user_id = ?");
         mysqli_stmt_bind_param($cart_query, "i", $user_id);
         mysqli_stmt_execute($cart_query);
         $result = mysqli_stmt_get_result($cart_query);
-    
+
         $price_total = 0;
-        $glue = "\n \n";
+        $product_name = [];
+        $glue = "\n";
         if (mysqli_num_rows($result) > 0) {
-          $index = 0;
           while ($product_item = mysqli_fetch_assoc($result)) {
-              $product_name[$index] = 'Item: [' . $product_item['name'] . '] SIZE & COLOR [' . $product_item['unit'] . '] Quantity: [' . $product_item['quantity'] . '] ';
-      
-              $product_price = ($product_item['price'] * $product_item['quantity']);
-              $price_total += $product_price;
-              $total_price = $price_total;
-      
-              // Add a line break after each product name
-              $product_name[$index] .= "\n";
-              $index++;
+            $product_name[] = $product_item['name']. ' '. $product_item['unit']. $product_item['color']. ' '. $product_item['quantity'];
+
+            // Add a line break after each product name
+            $product_name[count($product_name) - 1] .= "\n";
+
+            $total_product = implode($glue, $product_name);
+
+            $product_price = ($product_item['price'] * $product_item['quantity']);
+            $price_total += $product_price;
+            $total_price = $price_total;
+
+
+
+
           }
-      }
-    
-        $total_product = implode($glue, $product_name);
-    
+          ;
+        }
+        ;
         $detail_query = mysqli_prepare($conn, "INSERT INTO `orders`(name, number, email, method, address, total_products, total_price, user_id, status, date_created, time_created, reference_number, gcash_number, screenshot) 
-          VALUES(?, ?, ?, ?, ?, ?, ?, ?, 'pending', CURRENT_DATE(), CURRENT_TIME(), ?,?,?)");
+      VALUES(?, ?, ?, ?, ?, ?, ?, ?, 'to pay', CURRENT_DATE(), CURRENT_TIME(), ?,?,?)");
         mysqli_stmt_bind_param($detail_query, "ssssssdiiis", $name, $number, $email, $method, $address, $total_product, $price_total, $user_id, $reference_number, $gcash_number, $receipt_image);
         mysqli_stmt_execute($detail_query);
-    
         $order_id = mysqli_insert_id($conn);
         $sales_query = mysqli_prepare($conn, "INSERT INTO `sales`(orders_id, total_price, date_created) VALUES (?, ?, CURRENT_DATE())");
         mysqli_stmt_bind_param($sales_query, "di", $order_id, $price_total);
         mysqli_stmt_execute($sales_query);
-    
+
+        $cart_query_sales = mysqli_prepare($conn, "SELECT * FROM `cart` WHERE user_id =?");
+        mysqli_stmt_bind_param($cart_query_sales, "i", $user_id);
+        mysqli_stmt_execute($cart_query_sales);
+        $sales_result = mysqli_stmt_get_result($cart_query_sales);
+
+        if (mysqli_num_rows($sales_result) > 0) {
+          while ($fetch_cart = mysqli_fetch_assoc($sales_result)) {
+            $product_quantity = $fetch_cart['quantity'];
+            $product_name_sales = $fetch_cart['name'];
+            $product_unit = $fetch_cart['unit'];
+            $product_color = $fetch_cart['color'];
+            $product_id = $fetch_cart['product_id'];
+
+            $sql = "SELECT * FROM product_stocks WHERE product_id =? AND unit =? AND color =?";
+            $stmt = mysqli_prepare($conn, $sql);
+            mysqli_stmt_bind_param($stmt, "iss", $product_id, $product_unit, $product_color);
+            mysqli_stmt_execute($stmt);
+            $stocks_result = mysqli_stmt_get_result($stmt);
+
+            if (mysqli_num_rows($stocks_result) > 0) {
+              while ($row_stocks = mysqli_fetch_assoc($stocks_result)) {
+                $new_stock = $row_stocks['quantity'] - $product_quantity;
+
+                $update_stock_query = "UPDATE product_stocks SET quantity =? WHERE product_id =? AND unit =? AND color =?";
+                $stmt = mysqli_prepare($conn, $update_stock_query);
+                mysqli_stmt_bind_param($stmt, "iiss", $new_stock, $product_id, $product_unit, $product_color);
+                mysqli_stmt_execute($stmt);
+              }
+            }
+
+
+
+            $product_sales_query = mysqli_prepare($conn, "INSERT INTO `product_sales`(order_id, product_name, quantity) 
+      VALUES(?, ?, ?)");
+            mysqli_stmt_bind_param($product_sales_query, "sss", $order_id, $product_name_sales, $product_quantity, );
+            mysqli_stmt_execute($product_sales_query);
+
+          }
+          ;
+        }
+        ;
         $delete_query = mysqli_prepare($conn, "DELETE FROM `cart` WHERE user_id = ?");
         mysqli_stmt_bind_param($delete_query, "i", $user_id);
         mysqli_stmt_execute($delete_query);
-    
+
+
         $email = filter_var($email, FILTER_SANITIZE_EMAIL);
         $number = filter_var($number, FILTER_SANITIZE_NUMBER_INT);
-    
+
         $mail = new PHPMailer(true);
         $now = new DateTime();
         $date = date('Y-m-d');
@@ -255,7 +349,7 @@ if ($result->num_rows > 0) {
         $daysToAdd = rand($minDaysToAdd, $maxDaysToAdd); // Randomly choose between 3 and 5 days to add
         $now->add(new DateInterval('P' . $daysToAdd . 'D'));
         $expectedDeliveryDate = $now->format('Y-m-d');
-    
+
         $subject = "NIFTY SHOES ORDER CONFIRMATION";
         $message = "
     
@@ -283,7 +377,7 @@ if ($result->num_rows > 0) {
     
           Delivery date will depends on the availability of the product you ordered
           For inquires and questions you can email us on this address";
-    
+
         try {
           //Server settings
           $mail->isSMTP();
@@ -293,26 +387,30 @@ if ($result->num_rows > 0) {
           $mail->Password = 'mnxc djee wiln kzje';
           $mail->SMTPSecure = 'tls';
           $mail->Port = 587;
-    
+
           // Sender and recipient settings
           $mail->setFrom('niftyshoes@gmail.com', 'Nifty Shoes');
           $mail->addAddress($email);
-    
+
           // Email content
           $mail->isHTML(false);
           $mail->Subject = $subject;
           $mail->Body = $message;
-    
+
           $mail->send();
-    
+
           header('location: home.php');
-    
+          exit;
+
         } catch (Exception $e) {
-          $errors['otp-error'] = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+          header('location: home.php');
+          exit;
         }
-    
+
       }
-    
+      header('location: home.php');
+      exit;
+
     }
     ?>
 
@@ -497,207 +595,236 @@ if ($result->num_rows > 0) {
               <hr style=" border-top: 0.3px solid #5F5E5E; ">
               <br>
               <br>
+
+
+
               <form action="" method="post" enctype="multipart/form-data">
-                <div class="display-order mb-4 p-3 bg-light">
+                <div class="display-order mb-4 p-3 bg-light d-flex justify-content-evenly" style="padding: 20px;  ">
+                  <!-- products list -->
+                  <div class="container">
+                    <div class="card shadow mb-4">
+                      <div class="card-header py-3">
+                        <div class="display-order ">
+                          <div class="card-body">
+                            <div class="input-container card"
+                              style="background: white; padding: 20px; border-radius: 5px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);">
+                              <div class="form-group d-flex flex-column align-items-left justify-content-center mb-4"
+                                style="margin: 20px;">
+                                <p>Review Order:</p>
+                                <table class="table">
 
-                  <div class="row justify-content-center">
-                    <div class="col-md-8">
-                      <div class="card">
-                        <div class="card-body">
-                          <div class="display-order text-center">
-                            <?php
-                            $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'");
-                            $total = 0;
-                            $grand_total = 0;
-                            if (mysqli_num_rows($select_cart) > 0) {
-                              while ($fetch_cart = mysqli_fetch_assoc($select_cart)) {
-                                $total_price = ($fetch_cart['price'] * $fetch_cart['quantity']);
-                                $grand_total += $total_price;
-                                $shipping = "80";
-                                $Total = 0;
-                                $Total = $grand_total + $shipping;
+                                  <tr>
+                                    <th>Product Name</th>
+                                    <th>Size</th>
+                                    <th>Color</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                  </tr>
 
-                                ?>
-                                <span>
-                                  <h4>
-                                    <?= $fetch_cart['name']; ?>
-                                    [
-                                    <?= $fetch_cart['unit']; ?> ]
-                                    [ Quantity:
-                                    <?= $fetch_cart['quantity']; ?> ]
-                                    [₱
-                                    <?= $fetch_cart['price']; ?>]
-                                  </h4>
-                                </span>
-                                <?php
-                              }
-                            } else {
+                                  <?php
+                                  $shipping = "80";
+                                  $Total = 0;
+                                  $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'");
+                                  $total = 0;
+                                  $grand_total = 0;
+                                  if (mysqli_num_rows($select_cart) > 0) {
+                                    while ($fetch_cart = mysqli_fetch_assoc($select_cart)) {
+                                      $total_price = ($fetch_cart['price'] * $fetch_cart['quantity']);
+                                      $grand_total += $total_price;
 
-                            }
-                            ?>
 
-                            <span class="grand-total ms-3">Grand Total: ₱
-                              <?php echo $Total; ?>
-                            </span>
+                                      $Total = $grand_total + $shipping;
+                                      ?>
+
+                                      <tr>
+                                        <th>
+
+                                          <?= $fetch_cart['name']; ?>
+                                        </th>
+                                        <th>
+                                          <?= $fetch_cart['unit']; ?>
+                                        </th>
+                                        <th>
+                                          <?= $fetch_cart['color']; ?>
+                                        </th>
+                                        <th>
+                                          <input type="hidden" name="product_quantity" class="form-control"
+                                            value=" <?= $fetch_cart['quantity']; ?>" readonly="readonly" />
+                                          <?= $fetch_cart['quantity']; ?>
+                                        </th>
+                                        <th>
+
+                                          <?= $fetch_cart['price']; ?>
+                                        </th>
+                                      </tr>
+
+                                      <?php
+                                    }
+                                  } else {
+                                    ?>
+
+                                    <?php
+                                  }
+                                  ?>
+                                </table>
+                                <div class="text-right">
+                                  <span class="grand-total ms-3">Shipping Fee:
+                                    ₱
+                                    <?php echo $shipping; ?>
+                                  </span>
+                                </div>
+                                <div class="text-right">
+                                  <span class="grand-total ms-3">Grand Total:
+                                    ₱
+                                    <?php echo $Total; ?>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <?php
-                if ($grand_total == 0) {
-                  echo "<script>alert('Your cart is empty.'); history.back();</script>";
-                } else {
-                  ?>
-                  <h4>INPUT YOUR ORDER INFORMATION</h4>
-                  <div class="row g-3">
-                    <div class="col-md-6">
-                      <div class="inputBox p-3 mb-3 bg-light">
-                        <span class="fs-5">Name</span>
-                        <input type="text" style="font-size: 20px;" placeholder="Enter your name" name="name"
-                          value="<?php echo htmlspecialchars($user_name); ?>" required class="form-control">
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="inputBox p-3 mb-3 bg-light">
-                        <span class="fs-5">Mobile Number</span>
-                        <input type="number" style="font-size: 20px;" placeholder="Enter your number" name="number"
-                          value="<?php echo htmlspecialchars($contact); ?>" required class="form-control">
-                      </div>
-                    </div>
-
-                    <div class="col-md-6">
-                      <div class="inputBox p-3 mb-3 bg-light">
-                        <span class="fs-5">Email address</span>
-                        <input type="email" style="font-size: 20px;" placeholder="Enter your email" name="email"
-                          value="<?php echo htmlspecialchars($email); ?>" required class="form-control">
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="inputBox p-3 mb-3 bg-light">
-                        <span class="fs-5">Full Address</span>
-                        <input type="text" style="font-size: 20px;"
-                          placeholder="e.g. House Number. Street, Barangay, City, Province" name="address"
-                          value="<?php echo htmlspecialchars($address); ?>" required class="form-control">
-                      </div>
-                    </div>
-                    <script>
-                      function showGcashInput() {
-                        document.getElementById('gcash-input').style.display = 'block';
-                      }
-
-                      function hideGcashInput() {
-                        document.getElementById('gcash-input').style.display = 'none';
-                      }
-
-                      function uploadGcashQRCode() {
-                        const input = document.createElement('input');
-                        input.type = 'file';
-                        input.accept = 'image/*';
-                        input.onchange = function (e) {
-                          const file = e.target.files[0];
-                          const reader = new FileReader();
-                          reader.onload = function (e) {
-                            const img = document.createElement('img');
-                            img.src = e.target.result;
-                            document.getElementById('gcash-qr-code').appendChild(img);
-                          };
-                          reader.readAsDataURL(file);
-                        };
-                        input.click();
-                      }
-                    </script>
-                    </head>
-
-
-                    <div class="col-md-6">
-                      <div class="inputBox p-3 mb-3 bg-light">
-                        <span class="fs-5">Payment Method:</span>
-                        <div class="form-check">
-                          <input class="form-check-input" type="radio" name="method" id="cash-on-delivery"
-                            value="cash on delivery" required onchange="hideGcashInput()">
-                          <label class="form-check-label" for="cash-on-delivery">
-                            Cash on Delivery
-                          </label>
-                          <div class="text-center mt-5" id="cashOrderButtonContainer" style="display: none;">
-                            <button type="submit" name="order_btn_COD" id="cashOrderButton" class="btn detail-btn">Order
-                              Now</button>
-                          </div>
-                        </div>
-                        <div class="form-check">
-                          <input class="form-check-input" type="radio" name="method" id="gcash" value="gcash" required
-                            onchange="showGcashInput()">
-                          <label class="form-check-label" for="gcash">
-                            GCash
-                          </label>
-                          <div id="gcash-input" style="display: none;">
-                            <div class="input-group mb-3">
-                              <div id="gcash-qr-code"></div>
-                              <div class="col-md-6">
-                                <div class="inputBox p-3 mb-3 bg-light">
-                                  <span class="fs-5">Enter REFERENCE NO.</span>
-                                  <input type="text" style="font-size: 20px;" placeholder="" name="reference" class="form-control"
-                                    id="gcashReference">
+                  <div class="container">
+                    <div class="card shadow mb-4">
+                      <div class="card-header py-3">
+                        <div class="card-body">
+                          <h4>INPUT YOUR ORDER INFORMATION</h4>
+                          <div class="input-container card"
+                            style="background: white; padding: 20px; border-radius: 5px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);">
+                            <div class="form-group d-flex flex-column align-items-left justify-content-center mb-4"
+                              style="margin: 20px;">
+                              <span class="fs-5">Name</span>
+                              <input type="text" style="font-size: 20px;" placeholder="Enter your name" name="name"
+                                value="<?php echo htmlspecialchars($user_name); ?>" required class="form-control ">
+                              <span class="fs-5">Mobile Number</span>
+                              <input type="number" style="font-size: 20px;" placeholder="Enter your number" name="number"
+                                value="<?php echo htmlspecialchars($contact); ?>" required class="form-control">
+                              <span class="fs-5">Email address</span>
+                              <input type="email" style="font-size: 20px;" placeholder="Enter your email" name="email"
+                                value="<?php echo htmlspecialchars($email); ?>" required class="form-control">
+                              <span class="fs-5">Full Address</span>
+                              <input type="text" style="font-size: 20px;"
+                                placeholder="e.g. House Number. Street, Barangay, City, Province" name="address"
+                                value="<?php echo htmlspecialchars($address); ?>" required class="form-control">
+                              <span class="fs-5">Payment Method:</span>
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="method" id="cash-on-delivery"
+                                  value="cash on delivery" required onchange="hideGcashInput()">
+                                <label class="form-check-label" for="cash-on-delivery">
+                                  Cash on Delivery
+                                </label>
+                                <div class="text-center mt-5 " id="cashOrderButtonContainer" style="display: none;">
+                                  <button type="submit" name="order_btn_COD" id="cashOrderButton" class="btn detail-btn">Order
+                                    Now</button>
                                 </div>
-                                <div class="inputBox p-3 mb-3 bg-light">
-                                  <span class="fs-5">Enter Gcash Number Used:</span>
-                                  <input type="text" style="font-size: 20px;" placeholder="" name="gcash_number"
-                                    class="form-control" id="gcashNumber" pattern="[0-9]{11}">
-                                </div>
-                                <div class="inputBox p-3 mb-3 bg-light">
-                                  <span class="fs-5">Upload Receipt Screenshot:</span>
-                                  <input type="file" accept="image/png, image/jpeg, image/jpg" name="receipt" class="box"
-                                    id="gcashReceipt">
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="method" id="gcash" value="gcash" required
+                                  onchange="showGcashInput()">
+                                <label class="form-check-label" for="gcash">
+                                  GCash
+                                </label>
+                                <div id="gcash-input" style="display: none;">
+                                  <div class="">
+                                    <div id="gcash-qr-code"></div>
+
+                                    <div class="form-check">
+                                      <span class="fs-5">Enter REFERENCE NO.</span>
+                                      <input type="text" style="font-size: 20px;" placeholder="" name="reference"
+                                        class="form-control" id="gcashReference">
+                                    </div>
+                                    <div class="form-check">
+                                      <span class="fs-5">Enter Gcash Number Used:</span>
+                                      <input type="text" style="font-size: 20px;" placeholder="" name="gcash_number"
+                                        class="form-control" id="gcashNumber" maxlength="11">
+                                    </div>
+
+                                    <div class="custom-file text-right">
+                                      <span class="fs-5">Upload Receipt Screenshot:</span>
+                                      <input type="file" accept="image/png, image/jpeg, image/jpg" name="receipt" class="box"
+                                        id="gcashReceipt">
+                                    </div>
+                                  </div>
+                                  <div class="text-center mt-5" id="gcashOrderButtonContainer" style="display: none;">
+                                    <button type="submit" name="order_btn_gcash" id="gcashOrderButton"
+                                      class="btn detail-btn">Order
+                                      Now</button>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                            <div class="text-center mt-5" id="gcashOrderButtonContainer" style="display: none;">
-                              <button type="submit" name="order_btn_gcash" id="gcashOrderButton" class="btn detail-btn">Order
-                                Now</button>
-                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                </form>
-
-                <script>
-                  // Enable/Hide submit buttons based on the radio button's state
-                  const cashOnDeliveryRadio = document.getElementById("cash-on-delivery");
-                  const gcashRadio = document.getElementById("gcash");
-                  const cashOrderButtonContainer = document.getElementById("cashOrderButtonContainer");
-                  const gcashOrderButtonContainer = document.getElementById("gcashOrderButtonContainer");
-                  const gcashReference = document.getElementById("gcashReference");
-                  const gcashNumber = document.getElementById("gcashNumber");
-                  const gcashReceipt = document.getElementById("gcashReceipt");
-
-                  cashOnDeliveryRadio.addEventListener("change", () => {
-                    if (cashOnDeliveryRadio.checked) {
-                      cashOrderButtonContainer.style.display = "block";
-                      gcashOrderButtonContainer.style.display = "none";
-
-                    }
-                  });
-
-                  gcashRadio.addEventListener("change", () => {
-                    if (gcashRadio.checked) {
-                      gcashOrderButtonContainer.style.display = "block";
-                      cashOrderButtonContainer.style.display = "none";
-
-                    }
-                  });
-                </script>
-              </div>
-
+              </form>
             </div>
-            </div>
-            <?php
-                }
+          </div>
+          <script>
+            function showGcashInput() {
+              document.getElementById('gcash-input').style.display = 'block';
+            }
+
+            function hideGcashInput() {
+              document.getElementById('gcash-input').style.display = 'none';
+            }
+
+            function uploadGcashQRCode() {
+              const input = document.createElement('input');
+              input.type = 'file';
+              input.accept = 'image/*';
+              input.onchange = function (e) {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                  const img = document.createElement('img');
+                  img.src = e.target.result;
+                  document.getElementById('gcash-qr-code').appendChild(img);
+                };
+                reader.readAsDataURL(file);
+              };
+              input.click();
+            }
+          </script>
+
+          <script>
+            // Enable/Hide submit buttons based on the radio button's state
+            const cashOnDeliveryRadio = document.getElementById("cash-on-delivery");
+            const gcashRadio = document.getElementById("gcash");
+            const cashOrderButtonContainer = document.getElementById("cashOrderButtonContainer");
+            const gcashOrderButtonContainer = document.getElementById("gcashOrderButtonContainer");
+            const gcashReference = document.getElementById("gcashReference");
+            const gcashNumber = document.getElementById("gcashNumber");
+            const gcashReceipt = document.getElementById("gcashReceipt");
+
+            cashOnDeliveryRadio.addEventListener("change", () => {
+              if (cashOnDeliveryRadio.checked) {
+                cashOrderButtonContainer.style.display = "block";
+                gcashOrderButtonContainer.style.display = "none";
+
+              }
+            });
+
+            gcashRadio.addEventListener("change", () => {
+              if (gcashRadio.checked) {
+                gcashOrderButtonContainer.style.display = "block";
+                cashOrderButtonContainer.style.display = "none";
+
+              }
+            });
+          </script>
+          </div>
+
+          </div>
+          </div>
+          <?php
       }
     }
   }
 }
+
 ?>
 
   <!-- 
