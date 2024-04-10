@@ -315,7 +315,7 @@ if ($result->num_rows > 0) {
                                             if ($result && mysqli_num_rows($result) > 0) {
                                                 $row = mysqli_fetch_assoc($result);
 
-                                                $total_sales = $row['total'];
+                                                $total_sales = $row['total_quantity'];
                                                 $best = $row['product_name'];
                                                 $select = mysqli_query($conn, "SELECT * FROM products WHERE name = '$best'");
                                                 while ($row = mysqli_fetch_assoc($select)) {
