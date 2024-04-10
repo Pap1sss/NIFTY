@@ -57,8 +57,8 @@ if ($result->num_rows > 0) {
 
         <body>
             <div class="container">
-                <div class="row">
-                    <div class="col-md-4 offset-md-4 form login-form">
+               
+                    <div class="col-md-4 offset-md-4 form login-form ">
                         <form action="login-user.php" method="POST" autocomplete="">
                         <a href="../index.php">
                             <img src="../admin/uploaded_img/<?= $row["logo"] ?>" width="150" height="50" alt="logo">
@@ -96,7 +96,7 @@ if ($result->num_rows > 0) {
 
                         </form>
                     </div>
-                </div>
+                
             </div>
             <?php
     }
