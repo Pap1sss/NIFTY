@@ -274,6 +274,7 @@ if ($result->num_rows > 0) {
 
                                                         <th>Order ID</th>
                                                         <th>Customer Name, Email, & Number</th>
+                                                        <th>Products</th>
                                                         <th>Gcash Number</th>
                                                         <th>Reference Number</th>
                                                         <th>Receipt</th>
@@ -287,6 +288,7 @@ if ($result->num_rows > 0) {
 
                                                         <th>Order ID</th>
                                                         <th>Customer Name, Email, & Number</th>
+                                                        <th>Products</th>
                                                         <th>Gcash Number</th>
                                                         <th>Reference Number</th>
                                                         <th>Receipt</th>
@@ -304,6 +306,7 @@ if ($result->num_rows > 0) {
 
                                                             echo "<td>" . $row["id"] . "</td>";
                                                             echo "<td>" . $row["name"] . "<br>" . $row["email"] . "<br>" . $row["number"] . "</td>";
+                                                            echo "<td>" . $row["total_products"] . "</td>";
                                                             echo "<td>" . $row["gcash_number"] . "</td>";
                                                             echo "<td>" . $row["reference_number"] . "</td>";
 

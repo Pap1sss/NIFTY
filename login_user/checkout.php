@@ -79,9 +79,9 @@ if ($result->num_rows > 0) {
       $glue = "\n";
       if (mysqli_num_rows($result) > 0) {
         while ($product_item = mysqli_fetch_assoc($result)) {
-          
-          
-          $product_name[] = $product_item['name']. ' '. $product_item['unit']. $product_item['color']. ' '. $product_item['quantity'];
+
+
+          $product_name[] = $product_item['name'] . ' -' . $product_item['unit'] . $product_item['color'] . ' -' . $product_item['quantity'];
 
           // Add a line break after each product name
           $product_name[count($product_name) - 1] .= "\n";
@@ -104,9 +104,7 @@ if ($result->num_rows > 0) {
       mysqli_stmt_bind_param($detail_query, "ssssssdiiis", $name, $number, $email, $method, $address, $total_product, $price_total, $user_id, $reference_number, $gcash_number, $product_image);
       mysqli_stmt_execute($detail_query);
       $order_id = mysqli_insert_id($conn);
-      $sales_query = mysqli_prepare($conn, "INSERT INTO `sales`(orders_id, total_price, date_created) VALUES (?, ?, CURRENT_DATE())");
-      mysqli_stmt_bind_param($sales_query, "di", $order_id, $price_total);
-      mysqli_stmt_execute($sales_query);
+
 
       $cart_query_sales = mysqli_prepare($conn, "SELECT * FROM `cart` WHERE user_id =?");
       mysqli_stmt_bind_param($cart_query_sales, "i", $user_id);
@@ -135,12 +133,14 @@ if ($result->num_rows > 0) {
               $stmt = mysqli_prepare($conn, $update_stock_query);
               mysqli_stmt_bind_param($stmt, "iiss", $new_stock, $product_id, $product_unit, $product_color);
               mysqli_stmt_execute($stmt);
+
+              $product_move_cart_query = mysqli_prepare($conn, "INSERT INTO `pending_cart`(product_id, order_id, name, price, unit, color, quantity) 
+              VALUES(?, ?, ?,?,?,?,?)");
+              mysqli_stmt_bind_param($product_move_cart_query, "sssssss", $product_id, $order_id, $product_name_sales, $product_price, $product_unit, $product_color, $product_quantity);
+              mysqli_stmt_execute($product_move_cart_query);
             }
           }
-          $product_sales_query = mysqli_prepare($conn, "INSERT INTO `product_sales`(order_id, product_name, quantity) 
-          VALUES(?, ?, ?)");
-          mysqli_stmt_bind_param($product_sales_query, "sss", $order_id, $product_name_sales, $product_quantity, );
-          mysqli_stmt_execute($product_sales_query);
+       
 
         }
         ;
@@ -204,7 +204,7 @@ if ($result->num_rows > 0) {
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
         $mail->Username = 'papisssgg@gmail.com';
-        $mail->Password = 'mnxc djee wiln kzje';
+        $mail->Password = 'suqg vcti uwkk lpqz';
         $mail->SMTPSecure = 'tls';
         $mail->Port = 587;
 
@@ -264,7 +264,7 @@ if ($result->num_rows > 0) {
         $glue = "\n";
         if (mysqli_num_rows($result) > 0) {
           while ($product_item = mysqli_fetch_assoc($result)) {
-            $product_name[] = $product_item['name']. ' '. $product_item['unit']. $product_item['color']. ' '. $product_item['quantity'];
+            $product_name[] = $product_item['name'] . ' -' . $product_item['unit'] . $product_item['color'] . ' -' . $product_item['quantity'];
 
             // Add a line break after each product name
             $product_name[count($product_name) - 1] .= "\n";
@@ -287,9 +287,7 @@ if ($result->num_rows > 0) {
         mysqli_stmt_bind_param($detail_query, "ssssssdiiis", $name, $number, $email, $method, $address, $total_product, $price_total, $user_id, $reference_number, $gcash_number, $receipt_image);
         mysqli_stmt_execute($detail_query);
         $order_id = mysqli_insert_id($conn);
-        $sales_query = mysqli_prepare($conn, "INSERT INTO `sales`(orders_id, total_price, date_created) VALUES (?, ?, CURRENT_DATE())");
-        mysqli_stmt_bind_param($sales_query, "di", $order_id, $price_total);
-        mysqli_stmt_execute($sales_query);
+
 
         $cart_query_sales = mysqli_prepare($conn, "SELECT * FROM `cart` WHERE user_id =?");
         mysqli_stmt_bind_param($cart_query_sales, "i", $user_id);
@@ -317,16 +315,17 @@ if ($result->num_rows > 0) {
                 $update_stock_query = "UPDATE product_stocks SET quantity =? WHERE product_id =? AND unit =? AND color =?";
                 $stmt = mysqli_prepare($conn, $update_stock_query);
                 mysqli_stmt_bind_param($stmt, "iiss", $new_stock, $product_id, $product_unit, $product_color);
-                mysqli_stmt_execute($stmt);
+                mysqli_stmt_execute($stmt);  
+                $product_move_cart_query = mysqli_prepare($conn, "INSERT INTO `pending_cart`(product_id, order_id, name, price, unit, color, quantity) 
+          VALUES(?, ?, ?,?,?,?,?)");
+          mysqli_stmt_bind_param($product_move_cart_query, "sssssss", $product_id, $order_id, $product_name_sales, $product_price, $product_unit, $product_color, $product_quantity);
+          mysqli_stmt_execute($product_move_cart_query);
+
               }
             }
 
+          
 
-
-            $product_sales_query = mysqli_prepare($conn, "INSERT INTO `product_sales`(order_id, product_name, quantity) 
-      VALUES(?, ?, ?)");
-            mysqli_stmt_bind_param($product_sales_query, "sss", $order_id, $product_name_sales, $product_quantity, );
-            mysqli_stmt_execute($product_sales_query);
 
           }
           ;
@@ -384,7 +383,7 @@ if ($result->num_rows > 0) {
           $mail->Host = 'smtp.gmail.com';
           $mail->SMTPAuth = true;
           $mail->Username = 'papisssgg@gmail.com';
-          $mail->Password = 'mnxc djee wiln kzje';
+          $mail->Password = 'suqg vcti uwkk lpqz';
           $mail->SMTPSecure = 'tls';
           $mail->Port = 587;
 
@@ -763,63 +762,63 @@ if ($result->num_rows > 0) {
             </div>
           </div>
           <script>
-            function showGcashInput() {
-              document.getElementById('gcash-input').style.display = 'block';
-            }
+                  function showGcashInput() {
+                      document.getElementById('gcash-input').style.display = 'block';
+                    }
 
-            function hideGcashInput() {
-              document.getElementById('gcash-input').style.display = 'none';
-            }
+                    function hideGcashInput() {
+                      document.getElementById('gcash-input').style.display = 'none';
+                    }
 
-            function uploadGcashQRCode() {
-              const input = document.createElement('input');
-              input.type = 'file';
-              input.accept = 'image/*';
-              input.onchange = function (e) {
-                const file = e.target.files[0];
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                  const img = document.createElement('img');
-                  img.src = e.target.result;
-                  document.getElementById('gcash-qr-code').appendChild(img);
-                };
-                reader.readAsDataURL(file);
-              };
-              input.click();
-            }
-          </script>
+                    function uploadGcashQRCode() {
+                      const input = document.createElement('input');
+                      input.type = 'file';
+                      input.accept = 'image/*';
+                      input.onchange = function (e) {
+                        const file = e.target.files[0];
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                          const img = document.createElement('img');
+                          img.src = e.target.result;
+                          document.getElementById('gcash-qr-code').appendChild(img);
+                        };
+                        reader.readAsDataURL(file);
+                      };
+                      input.click();
+                    }
+                  </script>
 
-          <script>
-            // Enable/Hide submit buttons based on the radio button's state
-            const cashOnDeliveryRadio = document.getElementById("cash-on-delivery");
-            const gcashRadio = document.getElementById("gcash");
-            const cashOrderButtonContainer = document.getElementById("cashOrderButtonContainer");
-            const gcashOrderButtonContainer = document.getElementById("gcashOrderButtonContainer");
-            const gcashReference = document.getElementById("gcashReference");
-            const gcashNumber = document.getElementById("gcashNumber");
-            const gcashReceipt = document.getElementById("gcashReceipt");
+                  <script>
+                    // Enable/Hide submit buttons based on the radio button's state
+                    const cashOnDeliveryRadio = document.getElementById("cash-on-delivery");
+                    const gcashRadio = document.getElementById("gcash");
+                    const cashOrderButtonContainer = document.getElementById("cashOrderButtonContainer");
+                    const gcashOrderButtonContainer = document.getElementById("gcashOrderButtonContainer");
+                    const gcashReference = document.getElementById("gcashReference");
+                    const gcashNumber = document.getElementById("gcashNumber");
+                    const gcashReceipt = document.getElementById("gcashReceipt");
 
-            cashOnDeliveryRadio.addEventListener("change", () => {
-              if (cashOnDeliveryRadio.checked) {
-                cashOrderButtonContainer.style.display = "block";
-                gcashOrderButtonContainer.style.display = "none";
+                    cashOnDeliveryRadio.addEventListener("change", () => {
+                      if (cashOnDeliveryRadio.checked) {
+                        cashOrderButtonContainer.style.display = "block";
+                        gcashOrderButtonContainer.style.display = "none";
 
-              }
-            });
+                      }
+                    });
 
-            gcashRadio.addEventListener("change", () => {
-              if (gcashRadio.checked) {
-                gcashOrderButtonContainer.style.display = "block";
-                cashOrderButtonContainer.style.display = "none";
+                    gcashRadio.addEventListener("change", () => {
+                      if (gcashRadio.checked) {
+                        gcashOrderButtonContainer.style.display = "block";
+                        cashOrderButtonContainer.style.display = "none";
 
-              }
-            });
-          </script>
-          </div>
+                      }
+                    });
+                  </script>
+                  </div>
 
-          </div>
-          </div>
-          <?php
+                  </div>
+                  </div>
+                  <?php
       }
     }
   }
@@ -837,65 +836,65 @@ if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
 
       ?>
-      <footer class="footer">
-        <br><br>
+          <footer class="footer">
+            <br><br>
 
-        <div class="footer-top section"
-          style="background: linear-gradient(to right, #f9c47f, #F4B39D); box-shadow: 0px 4px 4px rgba(0, 0, 0, .05);">
-          <div class="container">
-
-
-            <div class="footer-link-box">
-
-              <ul class="footer-list">
-
-                <li>
-                  <p class="footer-list-title">Contact Us</p>
-                </li>
-
-                <li>
-                  <address class="footer-link">
-                    <ion-icon name="location"></ion-icon>
-
-                    <span class="footer-link-text">
-                      <?= htmlspecialchars($row["address"]); ?>
-                    </span>
-                  </address>
-                </li>
-
-                <li>
-                  <a href="tel:<?= htmlspecialchars($row["contact"]); ?>" class="footer-link">
-                    <ion-icon name="call"></ion-icon>
-
-                    <span class="footer-link-text">
-                      <?= htmlspecialchars($row["contact"]); ?>
-                    </span>
-                  </a>
-                </li>
-
-                <li>
-                  <a href="mailto:<?= htmlspecialchars($row["email"]); ?>" class="footer-link">
-                    <ion-icon name="mail"></ion-icon>
-
-                    <span class="footer-link-text">
-                      <?= htmlspecialchars($row["email"]); ?>
-                    </span>
-                  </a>
-                </li>
-
-              </ul>
+            <div class="footer-top section"
+              style="background: linear-gradient(to right, #f9c47f, #F4B39D); box-shadow: 0px 4px 4px rgba(0, 0, 0, .05);">
+              <div class="container">
 
 
+                <div class="footer-link-box">
+
+                  <ul class="footer-list">
+
+                    <li>
+                      <p class="footer-list-title">Contact Us</p>
+                    </li>
+
+                    <li>
+                      <address class="footer-link">
+                        <ion-icon name="location"></ion-icon>
+
+                        <span class="footer-link-text">
+                          <?= htmlspecialchars($row["address"]); ?>
+                        </span>
+                      </address>
+                    </li>
+
+                    <li>
+                      <a href="tel:<?= htmlspecialchars($row["contact"]); ?>" class="footer-link">
+                        <ion-icon name="call"></ion-icon>
+
+                        <span class="footer-link-text">
+                          <?= htmlspecialchars($row["contact"]); ?>
+                        </span>
+                      </a>
+                    </li>
+
+                    <li>
+                      <a href="mailto:<?= htmlspecialchars($row["email"]); ?>" class="footer-link">
+                        <ion-icon name="mail"></ion-icon>
+
+                        <span class="footer-link-text">
+                          <?= htmlspecialchars($row["email"]); ?>
+                        </span>
+                      </a>
+                    </li>
+
+                  </ul>
 
 
 
+
+
+                </div>
+
+              </div>
             </div>
 
-          </div>
-        </div>
 
-
-        <?php
+            <?php
     }
   }
   ?>

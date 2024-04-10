@@ -76,7 +76,7 @@ if ($result->num_rows > 0) {
             <!-- Page Wrapper -->
             <div id="wrapper">
 
-            <style>
+                <style>
                     .sidebar {
                         position: sticky;
                         top: 0;
@@ -264,39 +264,40 @@ if ($result->num_rows > 0) {
 
                         </div>
                         <div class="card-body">
-                            <h1>Admin Activity Logs</h1>
+                            <h1>Order Logs</h1>
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
 
-                                            <th>Date & Time</th>
+                                            <th>Order ID</th>
                                             <th>Username</th>
                                             <th>Activity</th>
-
+                                            <th>Date & Time</th>
 
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th>Date & Time</th>
-                                            <th>Username</th>'
+                                            <th>Order ID</th>
+                                            <th>Username</th>
                                             <th>Activity</th>
+                                            <th>Date & Time</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
                                         <?php
-                                        $sql = "SELECT * FROM admin_activity_log";
+                                        $sql = "SELECT * FROM order_log";
                                         $result = mysqli_query($conn, $sql);
                                         if (mysqli_num_rows($result) > 0) {
                                             while ($row = mysqli_fetch_assoc($result)) {
                                                 echo "<tr>";
 
-                                                echo "<td>" . $row["time_log"] . "</td>";
-
+                                                echo "<td>" . $row["order_id"] . "</td>";
                                                 echo "<td>" . $row["username"] . "</td>";
                                                 echo "<td>" . $row["action"] . "</td>";
-
+                                                echo "<td>" . $row["datetime"] . "</td>";
+                                                echo "</tr>";
 
                                                 ?>
 
@@ -312,6 +313,80 @@ if ($result->num_rows > 0) {
                         </div>
                     </div>
                     <hr class="sidebar-divider d-none d-md-block">
+                    <div class="card-body">
+                        <h1>Stocks Logs</h1>
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>Product ID</th>
+                                        <th>Username</th>
+                                        <th>Activity</th>
+                                        <th>unit</th>
+                                        <th>color</th>
+                                        <th>quantity</th>
+                                        <th>Date & Time</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th>Product ID</th>
+                                        <th>Username</th>
+                                        <th>Activity</th>
+                                        <th>unit</th>
+                                        <th>color</th>
+                                        <th>quantity</th>
+                                        <th>Date & Time</th>
+                                    </tr>
+                                </tfoot>
+                                <tbody>
+                                    <?php
+                                    $limit = 10; // Number of records to display per page
+                                    $page = isset($_GET['page']) ? $_GET['page'] : 1; // Current page number
+                                    $start = ($page - 1) * $limit; // Start record number for the current page
+                            
+                                    $sql = "SELECT * FROM stocks_log ORDER BY id DESC LIMIT $start, $limit";
+                                    $result = mysqli_query($conn, $sql);
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            echo "<tr>";
+                                            echo "<td>" . $row["product_id"] . "</td>";
+                                            
+                                            echo "<td>" . $row["username"] . "</td>";
+                                            echo "<td>" . $row["action"] . "</td>";
+                                            echo "<td>" . $row["unit"] . "</td>";
+                                            echo "<td>" . $row["color"] . "</td>";
+                                            echo "<td>" . $row["quantity"] . "</td>";
+
+                                            echo "<td>" . $row["date_time"] . "</td>";
+                                            echo "</tr>";
+                                        }
+                                    } else {
+                                        echo "<tr><td colspan='6'>No Information found</td></tr>";
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                                <?php
+                                $sql = "SELECT COUNT(*) FROM stocks_log";
+                                $result = mysqli_query($conn, $sql);
+                                $total_records = mysqli_fetch_array($result)[0];
+                                $total_pages = ceil($total_records / $limit);
+
+                                for ($i = 1; $i <= $total_pages; $i++) {
+                                    if ($i == $page) {
+                                        echo "<li class='page-item active'><a class='page-link' href='?page=" . $i . "'>" . $i . "</a></li>";
+                                    } else {
+                                        echo "<li class='page-item'><a class='page-link' href='?page=" . $i . "'>" . $i . "</a></li>";
+                                    }
+                                }
+                                ?>
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
                 <!-- /.container-fluid -->
 

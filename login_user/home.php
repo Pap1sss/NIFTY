@@ -404,7 +404,7 @@ if ($result->num_rows > 0) {
                             <?php
                             if (isset($_POST['cancel'])) {
                               $order_id = $_POST['order_id'];
-
+                              
                               $stmt = $conn->prepare("UPDATE orders SET status = ? WHERE id = ?");
                               $stmt->bind_param("si", $pending, $order_id);
                               $pending = "cancelled";

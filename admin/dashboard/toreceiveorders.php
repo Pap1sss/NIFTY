@@ -39,12 +39,56 @@ if ($result->num_rows > 0) {
         if (isset($_GET['complete'])) {
             $id = $_GET['complete'];
             mysqli_query($conn, "UPDATE orders SET status='order completed'WHERE id = '$id'");
+
             mysqli_query($conn, "INSERT INTO order_log(order_id, action, username, datetime) 
                     VALUES('$id', 'updated order status (order completed)', '$username', CURRENT_TIME())");
+
+            $order_query_sales = mysqli_prepare($conn, "SELECT * FROM `orders` WHERE id =?");
+            mysqli_stmt_bind_param($order_query_sales, "i", $id);
+            mysqli_stmt_execute($order_query_sales);
+            $sales1_result = mysqli_stmt_get_result($order_query_sales);
+            if (mysqli_num_rows($sales1_result) > 0) {
+                while ($fetch_order = mysqli_fetch_assoc($sales1_result)) {
+                    $product_price = $fetch_order['total_price'];
+                    $price_price = $product_price; // initialize $price_price variable
+                    $sales_query = mysqli_prepare($conn, "INSERT INTO `sales`(orders_id, total_price, date_created) VALUES (?, ?, CURRENT_DATE())");
+                    mysqli_stmt_bind_param($sales_query, "di", $id, $price_price);
+                    mysqli_stmt_execute($sales_query);
+
+                }
+            }
+
+            $cart_query_sales = mysqli_prepare($conn, "SELECT * FROM `pending_cart` WHERE order_id =?");
+            mysqli_stmt_bind_param($cart_query_sales, "i", $id);
+            mysqli_stmt_execute($cart_query_sales);
+            $sales_result = mysqli_stmt_get_result($cart_query_sales);
+
+            if (mysqli_num_rows($sales_result) > 0) {
+                while ($fetch_cart = mysqli_fetch_assoc($sales_result)) {
+                    $product_quantity = $fetch_cart['quantity'];
+                    $product_name_sales = $fetch_cart['name'];
+                    $product_unit = $fetch_cart['unit'];
+                    $product_color = $fetch_cart['color'];
+                    $product_id = $fetch_cart['product_id'];
+
+                    $product_sales_query = mysqli_prepare($conn, "INSERT INTO `product_sales`(order_id, product_name, quantity) 
+                                                VALUES(?, ?, ?)");
+                    mysqli_stmt_bind_param($product_sales_query, "isi", $id, $product_name_sales, $product_quantity);
+                    mysqli_stmt_execute($product_sales_query);
+
+
+                }
+            }
+
+            $delete_query = mysqli_prepare($conn, "DELETE FROM `pending_cart` WHERE order_id = ?");
+            mysqli_stmt_bind_param($delete_query, "i", $id);
+            mysqli_stmt_execute($delete_query);
             header('location:toreceiveorders.php');
             exit;
         }
+
         ;
+       
 
 
         ?>

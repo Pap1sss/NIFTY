@@ -1590,7 +1590,7 @@ if ($result->num_rows > 0) {
 
             // Send an AJAX request to get the remaining stocks for the selected size and color
             var xhr = new XMLHttpRequest();
-            xhr.open('GET', 'get_stocks.php?size=' + size + '&color=' + color, true);
+            xhr.open('GET', 'get_stocks.php?size=' + size + '&color=' + color + '&id=' + <?php echo $id; ?>, true);
             xhr.onload = function () {
               if (this.status == 200) {
                 // Check if the remaining stocks is greater than zero and quantity is less than or equal to remaining stocks
@@ -1622,7 +1622,7 @@ if ($result->num_rows > 0) {
 
           // Send an AJAX request to get the remaining stocks for the selected size and color
           var xhr = new XMLHttpRequest();
-          xhr.open('GET', 'get_stocks.php?size=' + size + '&color=' + color, true);
+          xhr.open('GET', 'get_stocks.php?size=' + size + '&color=' + color + '&id=' + <?php echo $id; ?>, true);
           xhr.onload = function () {
             if (this.status == 200) {
               // Check if quantity is less than or equal to remaining stocks

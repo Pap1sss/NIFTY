@@ -42,6 +42,7 @@ if ($result->num_rows > 0) {
             $unit = $_POST['unit'];
             $color = $_POST['color'];
             $username = $_SESSION['username'];
+            $date_time = date('Y-m-d H:i:s');
             $stock_quantity = 0;
 
             $sql = "SELECT * FROM product_stocks WHERE product_id = ? AND unit = ? AND color = ?";
@@ -61,9 +62,9 @@ if ($result->num_rows > 0) {
                     mysqli_stmt_bind_param($stmt, "iiis", $new_stock, $id, $unit, $color);
                     mysqli_stmt_execute($stmt);
 
-                    $sql = "INSERT INTO stocks_log(username, action, product_id,  quantity, date_time) VALUES(?, ?, ?, ?, CURRENT_TIME())";
+                    $sql = "INSERT INTO stocks_log(username, action, product_id,  unit, color, quantity, date_time) VALUES(?, ?, ?, ?, ?, ?, ?)";
                     $stmt = mysqli_prepare($conn, $sql);
-                    mysqli_stmt_bind_param($stmt, "ssii", $username, $create, $id, $quantity);
+                    mysqli_stmt_bind_param($stmt, "sssssis", $username, $create, $id, $unit, $color, $quantity, $date_time);
                     mysqli_stmt_execute($stmt);
 
                     header("Location:stocks.php?manage=$id");
@@ -78,10 +79,10 @@ if ($result->num_rows > 0) {
                 mysqli_stmt_bind_param($stmt, "issi", $id, $unit, $color, $quantity);
                 mysqli_stmt_execute($stmt);
 
-                $sql = "INSERT INTO stocks_log(username, action, product_id,  quantity, date_time) VALUES(?, ?, ?, ?, CURRENT_TIME())";
-                $stmt = mysqli_prepare($conn, $sql);
-                mysqli_stmt_bind_param($stmt, "ssii", $username, $create, $id, $quantity);
-                mysqli_stmt_execute($stmt);
+                $sql = "INSERT INTO stocks_log(username, action, product_id,  unit, color, quantity, date_time) VALUES(?, ?, ?, ?, ?, ?, ?)";
+                    $stmt = mysqli_prepare($conn, $sql);
+                    mysqli_stmt_bind_param($stmt, "sssssis", $username, $create, $id, $unit, $color, $quantity, $date_time);
+                    mysqli_stmt_execute($stmt);
 
                 if (mysqli_stmt_affected_rows($stmt) > 0) {
                     $message[] = 'new stocks added successfully';
