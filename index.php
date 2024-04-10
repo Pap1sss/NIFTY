@@ -207,9 +207,10 @@ if ($result->num_rows > 0) {
       </main>
 
       <?php
-      $sql = "SELECT quantity, SUM(quantity) as total
-                                        FROM product_sales
-                                        GROUP BY product_name;";
+      $sql = "SELECT product_name, SUM(quantity) as total_quantity
+       FROM product_sales
+       GROUP BY product_name
+       ORDER BY total_quantity DESC;";
       $result = mysqli_query($conn, $sql);
       $row1 = mysqli_fetch_row($result);
 
@@ -225,11 +226,11 @@ if ($result->num_rows > 0) {
           </div>
           <ul class="list-unstyled product-list">
             <?php
-            $sql = "SELECT product_name, SUM(quantity) as total
-                FROM product_sales
-                GROUP BY product_name
-                ORDER BY total DESC
-                LIMIT 4;";
+            $sql = "SELECT product_name, SUM(quantity) as total_quantity
+            FROM product_sales
+            GROUP BY product_name
+            ORDER BY total_quantity DESC
+            LIMIT 4;";
             $result = mysqli_query($conn, $sql);
 
             if ($result && mysqli_num_rows($result) > 0) {
