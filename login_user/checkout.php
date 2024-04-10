@@ -79,9 +79,9 @@ if ($result->num_rows > 0) {
       $glue = "\n";
       if (mysqli_num_rows($result) > 0) {
         while ($product_item = mysqli_fetch_assoc($result)) {
-          
-          
-          $product_name[] = $product_item['name']. ' '. $product_item['unit']. $product_item['color']. ' '. $product_item['quantity'];
+
+
+          $product_name[] = "[" . $product_item['name'] . " - " . $product_item['unit'] . " - " . $product_item['color'] . " - " . $product_item['quantity'] . "]";
 
           // Add a line break after each product name
           $product_name[count($product_name) - 1] .= "\n";
@@ -264,7 +264,7 @@ if ($result->num_rows > 0) {
         $glue = "\n";
         if (mysqli_num_rows($result) > 0) {
           while ($product_item = mysqli_fetch_assoc($result)) {
-            $product_name[] = $product_item['name']. ' '. $product_item['unit']. $product_item['color']. ' '. $product_item['quantity'];
+            $product_name[] = "[" . $product_item['name'] . " - " . $product_item['unit'] . " - " . $product_item['color'] . " - " . $product_item['quantity'] . "]";
 
             // Add a line break after each product name
             $product_name[count($product_name) - 1] .= "\n";
