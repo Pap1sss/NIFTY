@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<?php @include 'config.php';
+<?php @include '../config.php';
 require_once "../controllerUserData.php";
 
 $username = $_SESSION['username'];
