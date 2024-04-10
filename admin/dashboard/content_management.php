@@ -165,7 +165,7 @@ if ($result->num_rows > 0) {
                 $stmt->bind_param("s", $company_logo);
                 $stmt->execute();
 
-                $target_dir = "uploaded_img/";
+                $target_dir = "../uploaded_img/";
                 $target_file_logo = $target_dir . basename($company_logo);
                 move_uploaded_file($company_logo_tmp_name, $target_file_logo);
                 header('location: content_management.php');
@@ -185,7 +185,7 @@ if ($result->num_rows > 0) {
                 $stmt->bind_param("s", $display_image);
                 $stmt->execute();
 
-                $target_dir = "uploaded_img/";
+                $target_dir = "../uploaded_img/";
                 $target_file_image = $target_dir . basename($display_image);
                 move_uploaded_file($display_image_tmp_name, $target_file_image);
                 header('location: content_management.php');
