@@ -207,91 +207,64 @@ if ($result->num_rows > 0) {
       </main>
 
       <?php
-      $sql = "SELECT product_name, SUM(quantity) as total_quantity
-       FROM product_sales
-       GROUP BY product_name
-       ORDER BY total_quantity DESC;";
+      $sql = "SELECT product_sales.product_name, SUM(product_sales.quantity) as total_quantity, products.price
+        FROM product_sales
+        JOIN products ON product_sales.product_name = products.name
+        GROUP BY product_sales.product_name
+        ORDER BY total_quantity DESC
+        LIMIT 4;";
       $result = mysqli_query($conn, $sql);
-      $row1 = mysqli_fetch_row($result);
-
       ?>
 
       <div class="d-flex justify-content-center">
         <div class="container" style="padding: 50px;">
           <div
             style="color:#5F5E5E; text-align:center; padding: 5px; border-radius: 5px; margin-bottom: 35px; margin-top:35px;">
-
-            <h2>
-              - TOP SELLING PRODUCTS -</h2>
+            <h2>- TOP SELLING PRODUCTS -</h2>
           </div>
           <ul class="list-unstyled product-list">
             <?php
-            $sql = "SELECT product_name, SUM(quantity) as total_quantity
-            FROM product_sales
-            GROUP BY product_name
-            ORDER BY total_quantity DESC
-            LIMIT 4;";
-            $result = mysqli_query($conn, $sql);
-
             if ($result && mysqli_num_rows($result) > 0) {
-              while ($row1 = mysqli_fetch_assoc($result)) {
-                $total_sales = $row1['total'];
-                $best = $row1['product_name'];
-                $select = mysqli_query($conn, "SELECT * FROM products WHERE name = '$best'");
-                while ($product_row = mysqli_fetch_assoc($select)) {
-                  $grandtotal = $product_row['price'] * $total_sales;
-
-                  ?>
-                  <li class="product-item"
-                    style="box-shadow: 1px 3px 10px 1px; color: #C2C0C0; padding: 10px; border-radius: 5px;">
-
-                    <div class="product-card" tabindex="0">
-
-                      <figure class="card-banner">
-
-                        <img src="<?= htmlspecialchars($product_row["image"]) ?>" width="350" height="350" loading="lazy"
-                          alt="PRODUCTS" class="image-contain">
-
-                        <ul class="card-action-list">
-
-                        </ul>
-
-                      </figure>
-                      <div class="card-content">
-                        <h3 class="h3 card-title">
-
-                          <p style="text-transform: uppercase; color: #4a4747;">
-                            <?php echo htmlspecialchars($best); ?>
-                          </p>
-
-                        </h3>
-
-                        <data style="color: #4a4747; font-size:20px;">₱
-                          <?php echo $product_row['price']; ?>
-                        </data>
-
-                      </div>
-                      <br>
-                      <style>
-                        .detail-btn {
-                          background-color: #f9c47f;
-
-                        }
-
-                        .detail-btn:hover {
-                          background-color: #F4B39D;
-                        }
-                      </style>
-                      <a style=" border-radius: 7px; border: 2px solid white; display: flex; justify-content:center; align-items: center;"
-                        href="productdetails.php?id=<?php echo htmlspecialchars($product_row["id"]); ?>"
-                        class="btn detail-btn">View
-                        Details</a>
-
+              while ($row = mysqli_fetch_assoc($result)) {
+                $total_sales = $row['total_quantity'];
+                $best = $row['product_name'];
+                $grandtotal = $row['price'] * $total_sales;
+                ?>
+                <li class="product-item"
+                  style="box-shadow: 1px 3px 10px 1px; color: #C2C0C0; padding: 10px; border-radius: 5px;">
+                  <div class="product-card" tabindex="0">
+                    <figure class="card-banner">
+                      <img src="<?= htmlspecialchars($row["image"]) ?>" width="350" height="350" loading="lazy" alt="PRODUCTS"
+                        class="image-contain">
+                      <ul class="card-action-list">
+                      </ul>
+                    </figure>
+                    <div class="card-content">
+                      <h3 class="h3 card-title">
+                        <p style="text-transform: uppercase; color: #4a4747;">
+                          <?php echo htmlspecialchars($best); ?>
+                        </p>
+                      </h3>
+                      <data style="color: #4a4747; font-size:20px;">₱
+                        <?php echo $row['price']; ?>
+                      </data>
                     </div>
-                  </li>
+                    <br>
+                    <style>
+                      .detail-btn {
+                        background-color: #f9c47f;
+                      }
 
-                  <?php
-                }
+                      .detail-btn:hover {
+                        background-color: #F4B39D;
+                      }
+                    </style>
+                    <a style=" border-radius: 7px; border: 2px solid white; display: flex; justify-content:center; align-items: center;"
+                      href="productdetails.php?id=<?php echo htmlspecialchars($row["id"]); ?>" class="btn detail-btn">View
+                      Details</a>
+                  </div>
+                </li>
+                <?php
               }
             } else {
               echo "No results found.";
