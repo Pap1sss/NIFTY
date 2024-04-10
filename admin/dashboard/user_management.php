@@ -62,8 +62,8 @@ if (isset($_GET['delete'])) {
     $stmt->execute();
 
     echo "<script>alert('User Archived');</script>";
-  
-    
+    echo "<script>location.href = 'user_management.php';</script>";
+    exit;
 }
 ;
 
