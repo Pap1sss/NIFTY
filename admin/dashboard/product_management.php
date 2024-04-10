@@ -2,7 +2,9 @@
 <html lang="en">
 <?php @include 'config.php';
 require_once "../controllerUserData.php";
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 $username = $_SESSION['username'];
 
 
@@ -64,7 +66,7 @@ if ($result->num_rows > 0) {
                     move_uploaded_file($product_image_tmp_name, $product_image_folder);
                     echo "<script>alert('New Product Added Successfully');</script>";
                     header("Location: product_management.php");
-                    
+
                 } else {
                     echo "<script>alert('Could not add the product');</script>";
                 }
@@ -102,7 +104,7 @@ if ($result->num_rows > 0) {
                     $data_check = mysqli_query($conn, $product_logs);
                     echo "<script>alert('Category Added Successfully');</script>";
                     header("Location:product_management.php");
-                  
+
                 }
             }
         }
@@ -135,7 +137,7 @@ if ($result->num_rows > 0) {
        VALUES('$id', '$category', '$product_name', '$price', '$image', '$description', CURRENT_TIME())");
             echo "<script>alert('Product Archived');</script>";
             header("Location: product_management.php");
-           
+
         }
         ;
 
@@ -155,7 +157,7 @@ if ($result->num_rows > 0) {
                VALUES('$username', CURRENT_DATE(), CURRENT_TIME(),'deleted category $category_name')");
             echo "<script>alert('Removed Successfully');</script>";
             header("Location:product_management.php");
-         
+
         }
         ;
 
