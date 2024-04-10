@@ -478,6 +478,15 @@ if ($result->num_rows > 0) {
                               $stmt->bind_param("si", $pending, $order_id);
                               $pending = "cancelled";
                               $stmt->execute();
+
+                              // Output any messages or errors here, before redirecting
+                              if ($stmt->affected_rows > 0) {
+                                echo "Order cancelled successfully.";
+                              } else {
+                                echo "Error cancelling order.";
+                              }
+
+                              // Redirect after outputting any messages
                               header("Location: home.php");
                               exit();
                             }
