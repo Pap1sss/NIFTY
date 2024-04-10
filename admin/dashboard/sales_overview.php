@@ -292,9 +292,10 @@ if ($result->num_rows > 0) {
                                         </div>
                                         <!-- Card Body -->
                                         <?php
-                                        $sql = "SELECT quantity, SUM(quantity) as total
+                                        $sql = "SELECT product_name, SUM(quantity) as total_quantity
                                         FROM product_sales
-                                        GROUP BY product_name;";
+                                        GROUP BY product_name
+                                        ORDER BY total_quantity DESC;";
                                         $result = mysqli_query($conn, $sql);
                                         $row = mysqli_fetch_row($result);
 
