@@ -425,7 +425,7 @@ if ($result->num_rows > 0) {
               <div class="card-body">
                 <p><strong>Expected shipping delivery</strong></p>
                 <p class="mb-0">The expected delivery date should be 3 days onwards depending on the availability of
-                  theproduct.</p>
+                  the product.</p>
               </div>
             </div>
 

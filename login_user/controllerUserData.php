@@ -140,7 +140,7 @@ if (isset($_POST['login'])) {
                 $insert_logs = "INSERT INTO logs (email, timein, date)
                         values( '$email', CURRENT_TIME(), CURRENT_DATE())";
                 $data_check = mysqli_query($conn, $insert_logs);
-                header("location: home.php");
+                header("location: ../index.php");
 
             } else {
                 $info = "It's look like you haven't still verify your email - $email";
