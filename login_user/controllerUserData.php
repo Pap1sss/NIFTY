@@ -35,6 +35,8 @@ if (isset($_POST['signup'])) {
     }
     if (count($errors) === 0) {
         $status = "notverified";
+        $name = "";
+        
         $code = rand(999999, 111111);
         $insert_data = "INSERT INTO usertable (email, code, status) values('$email', '$code', '$status')";
         $data_check = mysqli_query($conn, $insert_data);
