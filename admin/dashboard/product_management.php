@@ -130,7 +130,7 @@ if ($result->num_rows > 0) {
                 $image = $row['image'];
                 $description = mysqli_real_escape_string($conn, $row['description']);
             }
-            mysqli_query($conn, "DELETE FROM product_sales WHERE product_name = $product_name");
+            mysqli_query($conn, "DELETE FROM product_sales WHERE product_name = '$product_name'");
             mysqli_query($conn, "DELETE FROM products WHERE id = $id");
             mysqli_query($conn, "DELETE FROM product_stocks WHERE product_id = $id");
             mysqli_query($conn, "INSERT INTO archive_products(product_id, category, name, price, image, description, date_time_archive)
