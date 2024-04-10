@@ -286,7 +286,7 @@ if ($result->num_rows > 0) {
 
                                         <!-- Card Body -->
                                         <?php
-                                      $sql = "SELECT SUM(quantity) as total, product_name
+                                        $sql = "SELECT SUM(quantity) as total, product_name
                                       FROM product_sales
                                       GROUP BY product_name;";
                                         $result = mysqli_query($conn, $sql);
@@ -382,9 +382,9 @@ if ($result->num_rows > 0) {
                                                 while ($row = mysqli_fetch_assoc($result)) {
                                                     $name = $row['name'];
 
-                                                    $sql = "SELECT *, SUM(quantity) as total
-                                                    FROM product_sales WHERE product_name = '$name';
-                                                    ";
+                                                    $sql = "SELECT SUM(quantity) as total, product_name
+                                                    FROM product_sales
+                                                    GROUP BY product_name;";
                                                     $result1 = mysqli_query($conn, $sql);
 
                                                     if ($result && mysqli_num_rows($result1) > 0) {
