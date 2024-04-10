@@ -126,12 +126,12 @@ if ($result->num_rows > 0) {
 
                 $price = $row['price'];
                 $image = $row['image'];
-                $description = $row['description'];
+                $description = mysqli_real_escape_string($conn, $row['description']);
             }
-
+            mysqli_query($conn, "DELETE FROM product_sales WHERE product_name = $product_name");
             mysqli_query($conn, "DELETE FROM products WHERE id = $id");
             mysqli_query($conn, "DELETE FROM product_stocks WHERE product_id = $id");
-            mysqli_query($conn, "INSERT INTO archive_products(product_id, category, name, price, image, description, date_time_archive) 
+            mysqli_query($conn, "INSERT INTO archive_products(product_id, category, name, price, image, description, date_time_archive)
        VALUES('$id', '$category', '$product_name', '$price', '$image', '$description', CURRENT_TIME())");
             echo "<script>alert('Product Archived');</script>";
             header("Location: product_management.php");
@@ -607,6 +607,7 @@ if ($result->num_rows > 0) {
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
+                                                <th>Product ID</th>
                                                 <th>Image</th>
                                                 <th>Category</th>
                                                 <th>Name</th>
@@ -618,6 +619,7 @@ if ($result->num_rows > 0) {
                                         </thead>
                                         <tfoot>
                                             <tr>
+                                                <th>Product ID</th>
                                                 <th>Image</th>
                                                 <th>Category</th>
                                                 <th>Name</th>
@@ -634,6 +636,7 @@ if ($result->num_rows > 0) {
                                             if (mysqli_num_rows($result) > 0) {
                                                 while ($row = mysqli_fetch_assoc($result)) {
                                                     echo "<tr>";
+                                                    echo "<td>" . $row["product_id"] . "</td>";
                                                     echo "<td><img src='../../" . $row["image"] . "' alt='" . $row["name"] . "' width='100' height='100'></td>";
                                                     echo "<td>" . $row["category"] . "</td>";
                                                     echo "<td>" . $row["name"] . "</td>";

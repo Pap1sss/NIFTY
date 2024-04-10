@@ -379,7 +379,8 @@ if ($result->num_rows > 0) {
                                                     ?>
                                                     <div class="h5 mb-0 font-weight-bold text-gray-800">
                                                         <?php echo $row[0]; ?>
-                                                        <a href="completedorders.php" style="text-decoration: none;">
+                                                        <a href="completedorders.php"
+                                                            style="text-decoration: none;">
                                                             <i class="fas fa-eye fa-sm fa-fw mr-2 text-gray-400"></i>
                                                         </a>
                                                     </div>
@@ -404,8 +405,7 @@ if ($result->num_rows > 0) {
                                                     ?>
                                                     <div class="h5 mb-0 font-weight-bold text-gray-800">
                                                         <?php echo $row[0]; ?>
-                                                        <a href="cancelledorders.php?status=cancelled"
-                                                            style="text-decoration: none;">
+                                                        <a href="cancelledorders.php?status=cancelled" style="text-decoration: none;">
                                                             <i class="fas fa-eye fa-sm fa-fw mr-2 text-gray-400"></i>
                                                         </a>
                                                     </div>
@@ -486,6 +486,8 @@ if ($result->num_rows > 0) {
 
                             <hr class="sidebar-divider my-0">
                             <br>
+
+                           
 
 
 

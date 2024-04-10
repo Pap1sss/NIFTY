@@ -47,7 +47,7 @@ if (isset($_POST['update_product_name'])) {
     $stmt = $conn->prepare("INSERT INTO admin_activity_log(username, date_log, time_log, action) VALUES(?, CURRENT_DATE(), CURRENT_TIME(),?)");
     $stmt->bind_param("ss", $username, $editproductname);
     $stmt->execute();
-    header("Location:edit.php");
+    header("Location:edit.php?edit=$id");
     exit;
 }
 ;
@@ -74,7 +74,7 @@ if (isset($_POST['update_price'])) {
     $stmt = $conn->prepare("INSERT INTO admin_activity_log(username, date_log, time_log, action) VALUES(?, CURRENT_DATE(), CURRENT_TIME(),?)");
     $stmt->bind_param("ss", $username, $editproductprice);
     $stmt->execute();
-    header("Location:edit.php");
+    header("Location:edit.php?edit=$id");
     exit;
 }
 ;
@@ -104,7 +104,7 @@ if (isset($_POST['update_description'])) {
     $stmt = $conn->prepare("INSERT INTO admin_activity_log(username, date_log, time_log, action) VALUES(?, CURRENT_DATE(), CURRENT_TIME(),?)");
     $stmt->bind_param("ss", $username, $editproductdescription);
     $stmt->execute();
-    header("Location:edit.php");
+    header("Location:edit.php?edit=$id");
     exit;
 }
 
@@ -132,7 +132,7 @@ if (isset($_POST['update_image'])) {
 
             echo "<script>alert('Please fill required attachment');</script>";
         }
-        header("Location:edit.php");
+        header("Location:edit.php?edit=$id");
         exit;
     }
 }
@@ -158,7 +158,7 @@ if (isset($_POST['upload_image'])) {
         } else {
             echo "<script>alert('Could not add the product');</script>";
         }
-        header("Location:edit.php");
+        header("Location:edit.php?edit=$id");
         exit;
     }
 }

@@ -46,23 +46,22 @@ if ($result->num_rows > 0) {
         <!-- 
         - #HEADER
         -->
-        <header class=" header" data-header
-            style="background: linear-gradient(to right, #f9c47f, #F4B39D); ">
+        <header class=" header" data-header style="background: linear-gradient(to right, #f9c47f, #F4B39D); ">
             <div class="d-flex justify-content-center">
                 <a href="../index.php" class="logo">
-                   <p></p>
+                    <p></p>
                 </a>
             </div>
         </header>
 
         <body>
             <div class="container">
-               
-                    <div class="col-md-4 offset-md-4 form login-form ">
+                <div class="row justify-content-center">
+                    <div class="col-12 col-md-6 col-lg-4 form login-form">
                         <form action="login-user.php" method="POST" autocomplete="">
-                        <a href="../index.php">
-                            <img src="../admin/uploaded_img/<?= $row["logo"] ?>" width="150" height="50" alt="logo">
-                        </a>
+                            <a href="../index.php">
+                                <img src="../admin/uploaded_img/<?= $row["logo"] ?>" width="150" height="50" alt="logo">
+                            </a>
                             <p class="text-center">Sign in with your email and password.</p>
                             <?php
                             if (count($errors) > 0) {
@@ -84,7 +83,8 @@ if ($result->num_rows > 0) {
                             <div class="form-group">
                                 <input class="form-control" type="password" name="password" placeholder="Password" required>
                             </div>
-                            <div class="link forget-pass text-right"><a href="forgot-password.php" style="color: #BB4D00;">Forgot
+                            <div class="link forget-pass text-right"><a href="forgot-password.php"
+                                    style="color: #BB4D00;">Forgot
                                     password?</a></div>
                             <div class="form-group">
                                 <input class="form-control submit_button" type="submit" name="login" value="SIGN IN"
@@ -92,11 +92,9 @@ if ($result->num_rows > 0) {
                             </div>
                             <div class="link login-link text-center">New to Nifty Shoes? <a href="signup-user.php"
                                     style="color: #BB4D00;">Register</a></div>
-                       
-
                         </form>
                     </div>
-                
+                </div>
             </div>
             <?php
     }

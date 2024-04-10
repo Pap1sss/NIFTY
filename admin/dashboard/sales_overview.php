@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<?php include 'config.php';
+<?php @include 'config.php';
 require_once "../controllerUserData.php";
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+
 $username = $_SESSION['username'];
 
 
@@ -283,12 +282,16 @@ if ($result->num_rows > 0) {
                                 <div class="col-xl-4 col-lg-5 d-flex">
                                     <div class="card shadow mb-4">
                                         <!-- Card Header - Dropdown -->
-
+                                        <div
+                                            class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                            <h6 class="m-0 font-weight-bold text-primary">Top Selling Product</h6>
+                                            
+                                        </div>
                                         <!-- Card Body -->
                                         <?php
-                                        $sql = "SELECT SUM(quantity) as total, product_name
-                                      FROM product_sales
-                                      GROUP BY product_name;";
+                                        $sql = "SELECT quantity, SUM(quantity) as total
+                                        FROM product_sales
+                                        GROUP BY product_name;";
                                         $result = mysqli_query($conn, $sql);
                                         $row = mysqli_fetch_row($result);
 
@@ -382,9 +385,9 @@ if ($result->num_rows > 0) {
                                                 while ($row = mysqli_fetch_assoc($result)) {
                                                     $name = $row['name'];
 
-                                                    $sql = "SELECT SUM(quantity) as total, product_name
-                                                    FROM product_sales
-                                                    GROUP BY product_name;";
+                                                    $sql = "SELECT *, SUM(quantity) as total
+                                                    FROM product_sales WHERE product_name = '$name';
+                                                    ";
                                                     $result1 = mysqli_query($conn, $sql);
 
                                                     if ($result && mysqli_num_rows($result1) > 0) {
@@ -463,7 +466,7 @@ if ($result->num_rows > 0) {
                                         $start_date = $_POST['start_date'];
                                         $end_date = $_POST['end_date'];
 
-
+                        
                                         // Prepare and bind
                                         $stmt = $conn->prepare("SELECT SUM(total_price) as total_sum FROM sales WHERE date_created BETWEEN? AND?");
                                         $stmt->bind_param("ss", $start_date, $end_date);
@@ -496,7 +499,7 @@ if ($result->num_rows > 0) {
                                             echo "</tr>";
                                         }
 
-
+                                      
                                     }
                                     ?>
                                 </tbody>

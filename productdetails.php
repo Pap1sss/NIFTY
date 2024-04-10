@@ -627,12 +627,13 @@ if ($result->num_rows > 0) {
                                 document.querySelectorAll('input[name="size"], input[name="color"]').forEach(function (button) {
                                   button.addEventListener('change', function () {
                                     // Get the selected size and color
+
                                     var size = document.querySelector('input[name="size"]:checked').value;
                                     var color = document.querySelector('input[name="color"]:checked').value;
 
                                     // Query the database to get the remaining stocks
                                     var xhr = new XMLHttpRequest();
-                                    xhr.open('GET', 'get_stocks.php?size=' + size + '&color=' + color, true);
+                                    xhr.open('GET', 'get_stocks.php?size=' + size + '&color=' + color + '&id=' + <?php echo $id; ?>, true);
                                     xhr.onload = function () {
                                       if (this.status == 200) {
                                         // Display the remaining stocks
@@ -1012,6 +1013,10 @@ if ($result->num_rows > 0) {
                                   <div class="box">
                                     <div class="form-check-inline d-flex justify-content-left">
                                       <?php
+                                      $id = "";
+                                      if (isset($_GET['id'])) {
+                                        $id = $_GET['id'];
+                                      }
 
                                       if (empty($options_unit)) {
                                         echo "OUT OF STOCK";
@@ -1022,6 +1027,7 @@ if ($result->num_rows > 0) {
                                           if (!empty($option_unit['unit']) && !in_array($option_unit['unit'], $size_names)) {
                                             $size_names[] = $option_unit['unit'];
                                             echo ' <div class ="form-check" >';
+
                                             echo '<input class="form-check-input" type="radio" name="size" id="size' . $option_unit['id'] . '" value="' . $option_unit['unit'] . '" required>';
                                             echo '<label class="form-check-label" for="size' . $option_unit['id'] . '">' . $option_unit['unit'] . '</label>';
                                             echo '</div>';
@@ -1075,12 +1081,13 @@ if ($result->num_rows > 0) {
                                 document.querySelectorAll('input[name="size"], input[name="color"]').forEach(function (button) {
                                   button.addEventListener('change', function () {
                                     // Get the selected size and color
+
                                     var size = document.querySelector('input[name="size"]:checked').value;
                                     var color = document.querySelector('input[name="color"]:checked').value;
 
                                     // Query the database to get the remaining stocks
                                     var xhr = new XMLHttpRequest();
-                                    xhr.open('GET', 'get_stocks.php?size=' + size + '&color=' + color, true);
+                                    xhr.open('GET', 'get_stocks.php?size=' + size + '&color=' + color + '&id=' + <?php echo $id; ?>, true);
                                     xhr.onload = function () {
                                       if (this.status == 200) {
                                         // Display the remaining stocks
@@ -1091,6 +1098,7 @@ if ($result->num_rows > 0) {
                                   });
                                 });
                               </script>
+
 
                             </div>
                             <br><br>
