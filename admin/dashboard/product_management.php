@@ -44,7 +44,6 @@ if ($result->num_rows > 0) {
             $product_name = mysqli_real_escape_string($conn, $_POST['product_name']);
             $product_price = mysqli_real_escape_string($conn, $_POST['product_price']);
             $product_image = mysqli_real_escape_string($conn, $_FILES['product_image']['name']);
-            $product_description = mysqli_real_escape_string($conn, $_POST['product_description']);
             $product_image_tmp_name = $_FILES['product_image']['tmp_name'];
             $product_image_folder = '../uploaded_img/' . $product_image;
 
@@ -63,16 +62,17 @@ if ($result->num_rows > 0) {
                     $insert_gallery = "INSERT INTO product_gallery (product_id, product_image, date_uploaded) 
                   VALUES('$product_id', '$product_image', CURRENT_TIME())";
                     $upload_img = mysqli_query($conn, $insert_gallery);
-                    move_uploaded_file($product_image_tmp_name, $product_image_folder);
-                    echo "<script>alert('New Product Added Successfully');</script>";
-                    header("Location: product_management.php");
-
+                    if (move_uploaded_file($product_image_tmp_name, $product_image_folder)) {
+                        echo "<script>alert('New Product Added Successfully');</script>";
+                        header("Location: product_management.php");
+                    } else {
+                        echo "<script>alert('Could not upload the image');</script>";
+                    }
                 } else {
                     echo "<script>alert('Could not add the product');</script>";
                 }
             }
         }
-
         if (isset($_POST['add_product_category'])) {
             $create = 'created a category';
             $username = $_SESSION['username'];
