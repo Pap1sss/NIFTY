@@ -239,7 +239,7 @@ if ($result->num_rows > 0) {
                 $best = $row1['product_name'];
                 $select = mysqli_query($conn, "SELECT * FROM products WHERE name = '$best'");
                 while ($product_row = mysqli_fetch_assoc($select)) {
-                  $grandtotal = $product_row['price'] * $total_sales;
+                 
 
                   ?>
                   <li class="product-item"
