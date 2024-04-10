@@ -398,8 +398,7 @@ if ($result->num_rows > 0) {
                                                     if ($result && mysqli_num_rows($result1) > 0) {
                                                         $row1 = mysqli_fetch_assoc($result1);
 
-                                                        $total_sales = $row1['total_quantity'];
-                                                        $best = $row1['product_name'];
+                                                        $total_sales = $row1['total'];
                                                         $grand_total = $row['price'] * $total_sales;
 
 
