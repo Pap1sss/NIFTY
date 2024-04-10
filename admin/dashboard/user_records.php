@@ -36,17 +36,17 @@ if ($result->num_rows > 0) {
 
         if (isset($_GET['delete'])) {
             $id = $_GET['delete'];
-        
+
             $sql = "SELECT * FROM review_table WHERE review_id = ?";
             $stmt = mysqli_prepare($conn, $sql);
             mysqli_stmt_bind_param($stmt, "i", $id);
             mysqli_stmt_execute($stmt);
             $result = mysqli_stmt_get_result($stmt);
-            $username= '';
+            $username = '';
             $rating = '';
             $review = '';
             $product_id = '';
-        
+
             if (mysqli_num_rows($result) > 0) {
                 $row = mysqli_fetch_assoc($result);
                 $username = $row['user_name'];
@@ -54,24 +54,24 @@ if ($result->num_rows > 0) {
                 $review = $row['user_review'];
                 $product_id = $row['product_id'];
             }
-        
+
             $sql = "DELETE FROM review_table WHERE review_id = ?";
             $stmt = mysqli_prepare($conn, $sql);
             mysqli_stmt_bind_param($stmt, "i", $id);
             mysqli_stmt_execute($stmt);
-        
+
             $sql = "INSERT INTO archive_review(review_id, username, user_rating, user_review, date_time_archive, product_id) VALUES(?, ?, ?, ?, CURRENT_TIME(),?)";
             $stmt = mysqli_prepare($conn, $sql);
             mysqli_stmt_bind_param($stmt, "isssi", $id, $username, $rating, $review, $product_id);
             mysqli_stmt_execute($stmt);
-        
+
             $archive_a_user = "Archive a user review";
             $stmt = $conn->prepare("INSERT INTO admin_activity_log(username, date_log, time_log, action) VALUES(?, CURRENT_DATE(), CURRENT_TIME(),?)");
             $stmt->bind_param("ss", $username, $archive_a_user);
             $stmt->execute();
-        
+
             echo "<script>alert('User Review Archived');</script>";
-            echo "<script>location.href = 'user_records.php';</script>";
+            header("Location:user_records.php");
             exit;
         }
 

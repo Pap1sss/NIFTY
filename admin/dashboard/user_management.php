@@ -37,6 +37,7 @@ if (isset($_GET['delete'])) {
     $email = '';
     $contact = '';
     $address = '';
+    $status = '';
 
     if (mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
@@ -44,6 +45,7 @@ if (isset($_GET['delete'])) {
         $email = mysqli_real_escape_string($conn, $row['email']);
         $contact = mysqli_real_escape_string($conn, $row['contact']);
         $address = mysqli_real_escape_string($conn, $row['address']);
+        $status = mysqli_real_escape_string($conn, $row['status']);
     }
 
     $sql = "DELETE FROM usertable WHERE id = ?";
@@ -51,18 +53,18 @@ if (isset($_GET['delete'])) {
     mysqli_stmt_bind_param($stmt, "i", $id);
     mysqli_stmt_execute($stmt);
 
-    $sql = "INSERT INTO archive_user(name, email, contact, address, date_time_archive) VALUES(?, ?, ?, ?, CURRENT_TIME())";
+    $sql = "INSERT INTO archive_user(name, email, contact, address, status, date_time_archive) VALUES(?, ?, ?, ?, ?, CURRENT_TIME())";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "ssss", $name, $email, $contact, $address);
+    mysqli_stmt_bind_param($stmt, "sssss", $name, $email, $contact, $address, $status);
     mysqli_stmt_execute($stmt);
 
     $archive_a_user = "Archive a user account";
     $stmt = $conn->prepare("INSERT INTO admin_activity_log(username, date_log, time_log, action) VALUES(?, CURRENT_DATE(), CURRENT_TIME(),?)");
-    $stmt->bind_param("ss", $username,  $archive_a_user);
+    $stmt->bind_param("ss", $username, $archive_a_user);
     $stmt->execute();
 
-    echo "<script>alert('User Archived');</script>";
-    echo "<script>location.href = 'user_management.php';</script>";
+
+    header("Location:user_management.php");
     exit;
 }
 ;
@@ -370,6 +372,7 @@ if ($result->num_rows > 0) {
                             </div>
                         </div>
                     </div>
+
                     <hr class="sidebar-divider d-none d-md-block">
 
                     <div class="card-body">

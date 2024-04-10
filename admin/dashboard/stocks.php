@@ -66,8 +66,9 @@ if ($result->num_rows > 0) {
                     mysqli_stmt_bind_param($stmt, "ssii", $username, $create, $id, $quantity);
                     mysqli_stmt_execute($stmt);
 
-                    echo "<script>window.location.href = 'stocks.php?manage=$id';</script>";
+                    header("Location:stocks.php?manage=$id");
                     exit;
+
                 } else {
                     echo "The 'quantity' key does not exist in the fetched row.";
                 }
@@ -88,7 +89,7 @@ if ($result->num_rows > 0) {
                     exit;
                 } else {
                     $message[] = 'could not add the stocks';
-                    echo "<script>window.location.href = 'stocks.php?manage=$id';</script>";
+                    header("Location:stocks.php?manage=$id");
                     exit;
                 }
             }
@@ -253,6 +254,8 @@ if ($result->num_rows > 0) {
                     <hr class="sidebar-divider d-none d-md-block">
 
                 </ul>
+                <!-- End of Sidebar -->
+
                 <!-- Content Wrapper -->
                 <div id="content-wrapper" class="d-flex flex-column">
 
@@ -323,282 +326,210 @@ if ($result->num_rows > 0) {
                                 </li>
 
                             </ul>
-                            <!-- End of Sidebar -->
 
-                            <!-- Content Wrapper -->
-                            <div id="content-wrapper" class="d-flex flex-column">
+                        </nav>
+                        <!-- End of Topbar -->
 
-                                <!-- Main Content -->
-                                <div id="content">
+                        <!-- Begin Page Content -->
+                        <div class="container-fluid">
 
-                                    <!-- Topbar -->
-                                    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-                                        <!-- Sidebar Toggle (Topbar) -->
-                                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                                            <i class="fa fa-bars"></i>
-                                        </button>
+                            <!-- DataTales Example -->
 
 
 
-                                        <!-- Topbar Navbar -->
-                                        <ul class="navbar-nav ml-auto">
 
-                                            <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                                            <li class="nav-item dropdown no-arrow d-sm-none">
-                                                <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fas fa-search fa-fw"></i>
-                                                </a>
-                                                <!-- Dropdown - Messages -->
-                                                <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                                                    aria-labelledby="searchDropdown">
-                                                    <form class="form-inline mr-auto w-100 navbar-search">
-                                                        <div class="input-group">
-                                                            <input type="text" class="form-control bg-light border-0 small"
-                                                                placeholder="Search for..." aria-label="Search"
-                                                                aria-describedby="basic-addon2">
-                                                            <div class="input-group-append">
-                                                                <button class="btn btn-primary" type="button">
-                                                                    <i class="fas fa-search fa-sm"></i>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </form>
+                            <div class="card-body d-flex justify-content-center">
+                                <div class="table-responsive">
+                                    <p>Product Details</p>
+                                    <table class="table table-bordered" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>Image</th>
+                                                <th>Category</th>
+                                                <th>Name</th>
+                                                <th>Price</th>
+
+
+
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Image</th>
+                                                <th>Category</th>
+                                                <th>Name</th>
+                                                <th>Price</th>
+
+
+                                            </tr>
+                                        </tfoot>
+                                        <tbody>
+                                            <?php
+                                            $id = $_GET['manage'];
+                                            $sql = "SELECT * FROM products WHERE id = '$id'";
+                                            $result = mysqli_query($conn, $sql);
+                                            if (mysqli_num_rows($result) > 0) {
+                                                while ($row = mysqli_fetch_assoc($result)) {
+                                                    echo "<tr>";
+                                                    echo "<td><img src='../../" . $row["image"] . "' alt='" . $row["name"] . "' max-width='200' height='200'></td>";
+                                                    echo "<td>" . $row["category"] . "</td>";
+                                                    echo "<td>" . $row["name"] . "</td>";
+                                                    echo "<td>" . $row["price"] . "</td>";
+
+
+
+                                                    echo "</tr>";
+                                                    ?>
+
+                                                    <?php
+                                                }
+                                            } else {
+                                                echo "<tr><td colspan='6'>No products found</td></tr>";
+                                            }
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-evenly flex-wrap">
+                                <div class="col-xl-4 col-lg-5">
+                                    <div class="card shadow mb-4">
+                                        <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post"
+                                            enctype="multipart/form-data">
+
+
+                                            <div class="form-group d-flex flex-column align-items-center justify-content-center mb-4"
+                                                style="margin: 20px;">
+                                                <p>ADD STOCK</p>
+
+                                                <input style="box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);" type="text"
+                                                    placeholder="Enter Unit/Size/Variation" name="unit"
+                                                    class="form-control mb-3" maxlength="255" required>
+
+                                                <input style="box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);" type="text"
+                                                    placeholder="Enter Color" name="color" class="form-control mb-3"
+                                                    maxlength="255" required>
+                                                <label for="quantity">Quantity:</label>
+                                                <input style="box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);" type="number"
+                                                    name="quantity" value="1" class="form-control mb-3" maxlength="255"
+                                                    required>
+
+                                                <div class="card-body">
+                                                    <input style="color:whitesmoke;" type="submit" class="btn btn-primary"
+                                                        name="add_stock" value="SUBMIT">
                                                 </div>
-                                            </li>
+                                            </div>
 
+                                        </form>
+                                    </div>
 
+                                </div>
+                                <div>
+                                    <div class="card shadow mb-4" style="padding: 20px;">
 
-                                            <div class="topbar-divider d-none d-sm-block"></div>
-
-                                            <!-- Nav Item - User Information -->
-                                            <li class="nav-item dropdown no-arrow">
-                                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                                                        <?php echo htmlspecialchars($username); ?>
-                                                    </span>
-                                                    <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
-                                                </a>
-                                                <!-- Dropdown - User Information -->
-                                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                                    aria-labelledby="userDropdown">
-
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="../admin_creation/logout.php"
-                                                        data-toggle="modal" data-target="#logoutModal">
-                                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                                        Logout
-                                                    </a>
-                                                </div>
-                                            </li>
-
-                                        </ul>
-
-                                    </nav>
-                                    <!-- End of Topbar -->
-
-                                    <!-- Begin Page Content -->
-                                    <div class="container-fluid">
-
-
-                                        <!-- DataTales Example -->
-
-
-
-
-                                        <div class="card-body d-flex justify-content-center">
-                                            <div class="table-responsive">
-                                                <p>Product Details</p>
-                                                <table class="table table-bordered" width="100%" cellspacing="0">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Image</th>
-                                                            <th>Category</th>
-                                                            <th>Name</th>
-                                                            <th>Price</th>
-
-
-
-                                                        </tr>
-                                                    </thead>
-                                                    <tfoot>
-                                                        <tr>
-                                                            <th>Image</th>
-                                                            <th>Category</th>
-                                                            <th>Name</th>
-                                                            <th>Price</th>
-
-
-                                                        </tr>
-                                                    </tfoot>
-                                                    <tbody>
-                                                        <?php
-                                                        $id = $_GET['manage'];
-                                                        $sql = "SELECT * FROM products WHERE id = '$id'";
-                                                        $result = mysqli_query($conn, $sql);
-                                                        if (mysqli_num_rows($result) > 0) {
-                                                            while ($row = mysqli_fetch_assoc($result)) {
-                                                                echo "<tr>";
-                                                                echo "<td><img src='../../" . $row["image"] . "' alt='" . $row["name"] . "' max-width='200' height='200'></td>";
-                                                                echo "<td>" . $row["category"] . "</td>";
-                                                                echo "<td>" . $row["name"] . "</td>";
-                                                                echo "<td>" . $row["price"] . "</td>";
-
-
-
-                                                                echo "</tr>";
-                                                                ?>
-
-                                                                <?php
-                                                            }
-                                                        } else {
-                                                            echo "<tr><td colspan='6'>No products found</td></tr>";
-                                                        }
+                                        <form method="post" action="">
+                                            <table class="table table-bordered table-responsive" id="dataTable" width="100%"
+                                                cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Unit/Size/Variation</th>
+                                                        <th>Color</th>
+                                                        <th>Quantity</th>
+                                                        <th>Remove</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                    $select = mysqli_query($conn, "SELECT * FROM product_stocks WHERE product_id = '$id' ORDER BY id DESC");
+                                                    while ($row = mysqli_fetch_assoc($select)) {
                                                         ?>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex justify-content-evenly flex-wrap">
-                                            <div class="col-xl-4 col-lg-5">
-                                                <div class="card shadow mb-4">
-                                                    <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post"
-                                                        enctype="multipart/form-data">
-
-
-                                                        <div class="form-group d-flex flex-column align-items-center justify-content-center mb-4"
-                                                            style="margin: 20px;">
-                                                            <p>ADD STOCK</p>
-
-                                                            <input style="box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);" type="text"
-                                                                placeholder="Enter Unit/Size/Variation" name="unit"
-                                                                class="form-control mb-3" maxlength="255" required>
-
-                                                            <input style="box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);" type="text"
-                                                                placeholder="Enter Color" name="color" class="form-control mb-3"
-                                                                maxlength="255" required>
-                                                            <label for="quantity">Quantity:</label>
-                                                            <input style="box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);"
-                                                                type="number" name="quantity" value="1"
-                                                                class="form-control mb-3" maxlength="255" required>
-
-                                                            <div class="card-body">
-                                                                <input style="color:whitesmoke;" type="submit"
-                                                                    class="btn btn-primary" name="add_stock" value="SUBMIT">
-                                                            </div>
-                                                        </div>
-
-                                                    </form>
-                                                </div>
-
-                                            </div>
-                                            <div>
-                                                <div class="card shadow mb-4" style="padding: 20px;">
-
-                                                    <form method="post" action="">
-                                                        <table class="table table-bordered table-responsive" id="dataTable"
-                                                            width="100%" cellspacing="0">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Unit/Size/Variation</th>
-                                                                    <th>Color</th>
-                                                                    <th>Quantity</th>
-                                                                    <th>Remove</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <?php
-                                                                $select = mysqli_query($conn, "SELECT * FROM product_stocks WHERE product_id = '$id' ORDER BY id DESC");
-                                                                while ($row = mysqli_fetch_assoc($select)) {
-                                                                    ?>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <?php echo $row['unit']; ?>
-                                                                        </td>
-                                                                        <td>
-                                                                            <?php echo $row['color']; ?>
-                                                                        </td>
-                                                                        <td>
-                                                                            <?php echo $row['quantity']; ?>
-                                                                        </td>
-                                                                        <td>
-                                                                            <input type="checkbox" name="delete[]"
-                                                                                value="<?php echo $row['id']; ?>">
-                                                                        </td>
-                                                                    </tr>
-                                                                <?php } ?>
-                                                            </tbody>
-                                                        </table>
-                                                        <button type="submit" name="delete_stocks" class="btn btn-dark">Remove
-                                                            Selected
-                                                            Stock</button>
-                                                    </form>
-                                                </div>
-                                            </div>
-
-                                        </div>
+                                                        <tr>
+                                                            <td>
+                                                                <?php echo $row['unit']; ?>
+                                                            </td>
+                                                            <td>
+                                                                <?php echo $row['color']; ?>
+                                                            </td>
+                                                            <td>
+                                                                <?php echo $row['quantity']; ?>
+                                                            </td>
+                                                            <td>
+                                                                <input type="checkbox" name="delete[]"
+                                                                    value="<?php echo $row['id']; ?>">
+                                                            </td>
+                                                        </tr>
+                                                    <?php } ?>
+                                                </tbody>
+                                            </table>
+                                            <button type="submit" name="delete_stocks" class="btn btn-dark">Remove
+                                                Selected
+                                                Stock</button>
+                                        </form>
                                     </div>
                                 </div>
-                                <hr class="sidebar-divider d-none d-md-block">
 
-                                <!-- /.container-fluid -->
-
-                            </div>
-                            <!-- End of Main Content -->
-
-
-
-                    </div>
-                    <!-- End of Content Wrapper -->
-
-                </div>
-                <!-- End of Page Wrapper -->
-
-                <!-- Scroll to Top Button-->
-                <a class="scroll-to-top rounded" href="#page-top">
-                    <i class="fas fa-angle-up"></i>
-                </a>
-
-                <!-- Logout Modal-->
-                <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Do you want to Logout?</h5>
-                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">×</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                            <div class="modal-footer">
-                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                                <a class="btn btn-primary" href="../admin_creation/logout.php">Logout</a>
                             </div>
                         </div>
                     </div>
+                    <hr class="sidebar-divider d-none d-md-block">
+
+                    <!-- /.container-fluid -->
+
                 </div>
-
-                <!-- Bootstrap core JavaScript-->
-                <script src="vendor/jquery/jquery.min.js"></script>
-                <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-                <!-- Core plugin JavaScript-->
-                <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-                <!-- Custom scripts for all pages-->
-                <script src="js/sb-admin-2.min.js"></script>
-
-                <!-- Page level plugins -->
-                <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-                <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+                <!-- End of Main Content -->
 
 
-                <!-- Page level custom scripts -->
-                <script src="js/demo/datatables-demo.js"></script>
-                <?php
+
+            </div>
+            <!-- End of Content Wrapper -->
+
+            </div>
+            <!-- End of Page Wrapper -->
+
+            <!-- Scroll to Top Button-->
+            <a class="scroll-to-top rounded" href="#page-top">
+                <i class="fas fa-angle-up"></i>
+            </a>
+
+            <!-- Logout Modal-->
+            <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Do you want to Logout?</h5>
+                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                            <a class="btn btn-primary" href="../admin_creation/logout.php">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bootstrap core JavaScript-->
+            <script src="vendor/jquery/jquery.min.js"></script>
+            <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+            <!-- Core plugin JavaScript-->
+            <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+            <!-- Custom scripts for all pages-->
+            <script src="js/sb-admin-2.min.js"></script>
+
+            <!-- Page level plugins -->
+            <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+            <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+
+            <!-- Page level custom scripts -->
+            <script src="js/demo/datatables-demo.js"></script>
+            <?php
     }
 }
 ?>
