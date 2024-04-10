@@ -200,7 +200,7 @@ if ($result->num_rows > 0) {
         .detail-btn {
           background-color: #E7AF65;
           border: transparent;
-          border-radius: 20px;
+          padding: 20px;
           box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.20);
 
 
@@ -327,33 +327,39 @@ if ($result->num_rows > 0) {
             </div>
 
             <div class="column d-flex justify-content-evenly" style="padding: 20px; ">
-              <ul class="nav nav-tabs" style="font-color: black;">
-                <li class="nav-item">
-                  <a class="nav-link tab_font" id="topayOrderTab" data-toggle="tab" href="#topayOrderPanel" role="tab">TO
-                    PAY</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link tab_font" id="pendingOrderTab" data-toggle="tab" href="#pendingOrderPanel"
-                    role="tab">PENDING
-                    ORDER</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link tab_font" id="toShipTab" data-toggle="tab" href="#toShipPanel" role="tab">TO SHIP</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link tab_font" id="toReceiveTab" data-toggle="tab" href="#toReceivePanel" role="tab">TO
-                    RECEIVED</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link tab_font" id="orderCompletedTab" data-toggle="tab" href="#orderCompletedPanel"
-                    role="tab">
-                    COMPLETED</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link tab_font" id="CancelTab" data-toggle="tab" href="#orderCompletedPanel"
-                    role="tab">CANCELED</a>
-                </li>
-              </ul>
+              <div class="row">
+                <div class="col-12">
+                  <ul class="nav nav-tabs" style="font-color: black;">
+                    <li class="nav-item">
+                      <a class="nav-link tab_font" id="topayOrderTab" data-toggle="tab" href="#topayOrderPanel"
+                        role="tab">TO
+                        PAY</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link tab_font" id="pendingOrderTab" data-toggle="tab" href="#pendingOrderPanel"
+                        role="tab">PENDING
+                        ORDER</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link tab_font" id="toShipTab" data-toggle="tab" href="#toShipPanel" role="tab">TO
+                        SHIP</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link tab_font" id="toReceiveTab" data-toggle="tab" href="#toReceivePanel" role="tab">TO
+                        RECEIVED</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link tab_font" id="orderCompletedTab" data-toggle="tab" href="#orderCompletedPanel"
+                        role="tab">
+                        COMPLETED</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link tab_font" id="CancelTab" data-toggle="tab" href="#cancelOrderPanel"
+                        role="tab">CANCELED</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
             <br>
 
@@ -386,7 +392,7 @@ if ($result->num_rows > 0) {
                         ?>
                         <tr>
                           <td>
-                            <?= htmlspecialchars($row["total_products"]) ?> 
+                            <?= htmlspecialchars($row["total_products"]) ?>
                           </td>
                           <td>
                             <?= htmlspecialchars($row["total_price"]) ?>
@@ -410,7 +416,7 @@ if ($result->num_rows > 0) {
 
                             <form action="" method="post">
                               <input type="hidden" name="order_id" value="<?= htmlspecialchars($row["id"]) ?>">
-                              <button type="submit" class="btn btn-danger" name="cancel">Cancel Order</button>
+                              <button type="submit" class="detail-btn" name="cancel">X</button>
                             </form>
                           </td>
 
@@ -481,7 +487,7 @@ if ($result->num_rows > 0) {
 
                             <form action="" method="post">
                               <input type="hidden" name="order_id" value="<?= htmlspecialchars($row["id"]) ?>">
-                              <button type="submit" class="btn btn-danger" name="cancel">Cancel Order</button>
+                              <button type="submit" class="detail-btn" name="cancel">X</button>
                             </form>
                           </td>
 
@@ -709,7 +715,7 @@ if ($result->num_rows > 0) {
       </div>
       </div>
       <script>
-         document.getElementById('topayOrderTab').addEventListener('click', function () {
+        document.getElementById('topayOrderTab').addEventListener('click', function () {
           toggleVisibility('topayOrderSection');
           toggleVisibility('pendingOrderSection', false);
           toggleVisibility('toShipSection', false);
