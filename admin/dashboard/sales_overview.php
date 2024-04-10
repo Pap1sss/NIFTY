@@ -389,10 +389,10 @@ if ($result->num_rows > 0) {
                                                 while ($row = mysqli_fetch_assoc($result)) {
                                                     $name = $row['name'];
 
-                                                    $sql = "SELECT SUM(quantity) as total_quantity
-                                                    FROM product_sales
-                                                    ORDER BY total_quantity DESC WHERE product_name = '$name';
+                                                    $$sql = "SELECT * SUM(quantity) as total
+                                                    FROM product_sales WHERE product_name = '$name'
                                                     ";
+                                                    
                                                     $result1 = mysqli_query($conn, $sql);
 
                                                     if ($result && mysqli_num_rows($result1) > 0) {
