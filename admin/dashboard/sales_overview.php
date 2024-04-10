@@ -391,7 +391,7 @@ if ($result->num_rows > 0) {
 
                                                     $sql = "SELECT SUM(quantity) as total_quantity
                                                     FROM product_sales
-                                                    ORDER BY total_quantity DESC;;
+                                                    ORDER BY total_quantity DESC WHERE product_name = '$name';
                                                     ";
                                                     $result1 = mysqli_query($conn, $sql);
 
