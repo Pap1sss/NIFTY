@@ -99,7 +99,11 @@ if ($username != false && $name != false) {
             <span class="material-icons-outlined">inventory</span> Manage Order Status
           </a>
         </li>
-
+        <li class="sidebar-list-item" style="opacity: 0.5;">
+          <a href="admin_logs.php">
+            <span class="material-icons-outlined">face</span> Admin Logs
+          </a>
+        </li>
       </ul>
     </aside>
     <!-- End Sidebar -->
@@ -117,9 +121,9 @@ if ($username != false && $name != false) {
             <nav aria-label="Page navigation example">
               <ul class="pagination">
                 <?php
-                $status = isset($_GET['status']) ? $_GET['status'] : 'all';
-                $limit = isset($_GET['limit_user']) ? (int) $_GET['limit_user'] : 10;
-                $page = isset($_GET['user_page']) ? (int) $_GET['user_page'] : 1;
+                $status = isset ($_GET['status']) ? $_GET['status'] : 'all';
+                $limit = isset ($_GET['limit_user']) ? (int) $_GET['limit_user'] : 10;
+                $page = isset ($_GET['user_page']) ? (int) $_GET['user_page'] : 1;
                 $offset = ($page - 1) * $limit;
                 if ($status == 'all') {
                   $sql = "SELECT COUNT(*) as total from usertable";
@@ -211,7 +215,7 @@ if ($username != false && $name != false) {
             </form>
             <?php
 
-            if (isset($_POST['delete_submit'])) {
+            if (isset ($_POST['delete_submit'])) {
               // Get the list of checkbox values
               $delete_ids = $_POST['delete_ids'];
               $user_id = $_POST['user_id'];
@@ -245,8 +249,8 @@ if ($username != false && $name != false) {
             <nav aria-label="Page navigation example">
               <ul class="pagination">
                 <?php
-                $limit = isset($_GET['limit']) ? (int) $_GET['limit'] : 10;
-                $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+                $limit = isset ($_GET['limit']) ? (int) $_GET['limit'] : 10;
+                $page = isset ($_GET['page']) ? (int) $_GET['page'] : 1;
                 $offset = ($page - 1) * $limit;
                 $sql = "SELECT COUNT(*) as total from logs";
                 $result = $conn->query($sql);
