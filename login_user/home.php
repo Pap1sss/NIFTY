@@ -287,25 +287,23 @@ if ($result->num_rows > 0) {
                     <?php
                     if (isset($_POST['submit'])) {
                       $contact = filter_var($_POST['contact'], FILTER_SANITIZE_NUMBER_INT);
-                      $address = filter_var($_POST['address'], FILTER_SANITIZE_STRING);
-                      $user_name = filter_var($_POST['fullname'], FILTER_SANITIZE_STRING);
-
-
+                      $address = htmlspecialchars($_POST['address'], ENT_QUOTES, 'UTF-8');
+                      $user_name = htmlspecialchars($_POST['fullname'], ENT_QUOTES, 'UTF-8');
 
                       $sql = "UPDATE usertable SET name =?, contact = ?, address = ? WHERE id = ?";
                       $stmt = $conn->prepare($sql);
                       $stmt->bind_param("ssss", $user_name, $contact, $address, $user_id);
                       $stmt->execute();
 
-
                       if ($stmt->affected_rows > 0) {
                         echo "<script>alert('Information updated successfully.'); window.location.reload(); </script>";
                       } else {
 
                       }
-
-                      $stmt->close();
                     }
+
+
+
                     ?>
                   </div>
                 </div>
@@ -404,7 +402,7 @@ if ($result->num_rows > 0) {
                             <?php
                             if (isset($_POST['cancel'])) {
                               $order_id = $_POST['order_id'];
-                              
+
                               $stmt = $conn->prepare("UPDATE orders SET status = ? WHERE id = ?");
                               $stmt->bind_param("si", $pending, $order_id);
                               $pending = "cancelled";
