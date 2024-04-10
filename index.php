@@ -225,11 +225,11 @@ if ($result->num_rows > 0) {
           </div>
           <ul class="list-unstyled product-list">
             <?php
-            $sql = "SELECT product_name, SUM(quantity) as total
-           FROM product_sales
-           GROUP BY product_name
-           ORDER BY total DESC
-           LIMIT 4;";
+            $sql = "SELECT product_name, FUNCTION_NAME(quantity) as total, quantity
+          FROM product_sales
+          GROUP BY product_name, quantity
+          ORDER BY total DESC
+          LIMIT 4;";
             $result = mysqli_query($conn, $sql);
 
             if ($result && mysqli_num_rows($result) > 0) {
