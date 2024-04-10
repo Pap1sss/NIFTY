@@ -389,7 +389,7 @@ if ($result->num_rows > 0) {
                                                 while ($row = mysqli_fetch_assoc($result)) {
                                                     $name = $row['name'];
 
-                                                    $$sql = "SELECT * SUM(quantity) as total
+                                                    $sql = "SELECT * SUM(quantity) as total
                                                     FROM product_sales WHERE product_name = '$name'
                                                     ";
                                                     
