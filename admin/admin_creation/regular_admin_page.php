@@ -122,11 +122,7 @@ if ($username != false && $name != false) {
             <span class="material-icons-outlined">inventory</span> Manage Order Status
           </a>
         </li>
-        <li class="sidebar-list-item" style="opacity: 0.5;">
-          <a href="../admin_logs.php">
-            <span class="material-icons-outlined">face</span> Admin Logs
-          </a>
-        </li>
+
       </ul>
     </aside>
     <!-- End Sidebar -->
@@ -222,17 +218,18 @@ if ($username != false && $name != false) {
 
                         ?>
 
-                        <div class="col-md-6">
-                          <div class="col-lg-12">
-                            <h3>Total Sales between
-                              <?= $start_date ?> and
-                              <?= $end_date ?>:
+                        <div class="d-flex justify-content-center">
 
-                            </h3>
-                            <h1>₱
-                              <?= $total_sales ?>
-                            </h1>
-                          </div>
+                          <h3>Total Sales between
+                            <?= $start_date ?> and
+                            <?= $end_date ?>:
+
+                          </h3>
+                          <h1></h1>
+                          <h1>₱
+                            <?= $total_sales ?>
+                          </h1>
+
                         </div>
 
                         <div class="col-lg-12">
@@ -293,7 +290,7 @@ if ($username != false && $name != false) {
           </div>
         </section>
 
-        <br><br>
+
         <!-- ADMIN LOGS -->
         <section style="padding-top:10px;">
           <div class="handler">
