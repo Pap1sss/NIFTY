@@ -288,7 +288,7 @@ if ($result->num_rows > 0) {
                                         <div
                                             class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                             <h6 class="m-0 font-weight-bold text-primary">Top Selling Product</h6>
-                                            
+
                                         </div>
                                         <!-- Card Body -->
                                         <?php
@@ -304,10 +304,10 @@ if ($result->num_rows > 0) {
                                         ?>
                                         <div class="card-body">
                                             <?php
-                                            $sql = "SELECT product_name, SUM(quantity) as total
+                                            $sql = "SELECT product_name, SUM(quantity) as total_quantity
                                             FROM product_sales
                                             GROUP BY product_name
-                                            ORDER BY total DESC
+                                            ORDER BY total_quantity DESC
                                             LIMIT 1;";
                                             $result = mysqli_query($conn, $sql);
 
@@ -469,7 +469,7 @@ if ($result->num_rows > 0) {
                                         $start_date = $_POST['start_date'];
                                         $end_date = $_POST['end_date'];
 
-                        
+
                                         // Prepare and bind
                                         $stmt = $conn->prepare("SELECT SUM(total_price) as total_sum FROM sales WHERE date_created BETWEEN? AND?");
                                         $stmt->bind_param("ss", $start_date, $end_date);
@@ -502,7 +502,7 @@ if ($result->num_rows > 0) {
                                             echo "</tr>";
                                         }
 
-                                      
+
                                     }
                                     ?>
                                 </tbody>
