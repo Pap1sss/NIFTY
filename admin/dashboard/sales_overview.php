@@ -2,7 +2,8 @@
 <html lang="en">
 <?php include 'config.php';
 require_once "../controllerUserData.php";
-
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 $username = $_SESSION['username'];
 
 
@@ -282,7 +283,7 @@ if ($result->num_rows > 0) {
                                 <div class="col-xl-4 col-lg-5 d-flex">
                                     <div class="card shadow mb-4">
                                         <!-- Card Header - Dropdown -->
-                                       
+
                                         <!-- Card Body -->
                                         <?php
                                         $sql = "SELECT quantity, SUM(quantity) as total
@@ -462,7 +463,7 @@ if ($result->num_rows > 0) {
                                         $start_date = $_POST['start_date'];
                                         $end_date = $_POST['end_date'];
 
-                        
+
                                         // Prepare and bind
                                         $stmt = $conn->prepare("SELECT SUM(total_price) as total_sum FROM sales WHERE date_created BETWEEN? AND?");
                                         $stmt->bind_param("ss", $start_date, $end_date);
@@ -495,7 +496,7 @@ if ($result->num_rows > 0) {
                                             echo "</tr>";
                                         }
 
-                                      
+
                                     }
                                     ?>
                                 </tbody>
