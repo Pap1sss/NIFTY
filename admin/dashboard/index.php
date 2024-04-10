@@ -487,146 +487,21 @@ if ($result->num_rows > 0) {
                             <hr class="sidebar-divider my-0">
                             <br>
 
-                            <div class="d-flex ">
 
 
-
-
-                                <!-- Pie Chart -->
-                                <div class="col-xl-4 col-lg-5 d-flex">
-                                    <div class="card shadow mb-4">
-                                        <!-- Card Header - Dropdown -->
-                                        <div
-                                            class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                            <h6 class="m-0 font-weight-bold text-primary">Top Selling Product</h6>
-                                            <div class="dropdown no-arrow">
-                                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                                    aria-labelledby="dropdownMenuLink">
-                                                    <div class="dropdown-header">View:</div>
-                                                    <a class="dropdown-item" href="#">Product Sales Count</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Card Body -->
-                                        <?php
-                                        $sql_total = "SELECT quantity, SUM(quantity) as total FROM product_sales GROUP BY product_name;";
-                                        $result_total = mysqli_query($conn, $sql_total);
-                                        $row_total = mysqli_fetch_row($result_total);
-
-                                        ?>
-                                        <div class="card-body">
-                                            <?php
-                                            $sql_best = "SELECT product_name, SUM(quantity) as total FROM product_sales GROUP BY product_name ORDER BY total DESC LIMIT 1;";
-                                            $result_best = mysqli_query($conn, $sql_best);
-
-                                            if ($result_best && mysqli_num_rows($result_best) > 0) {
-                                                $row_best = mysqli_fetch_assoc($result_best);
-
-                                                $total_sales = $row_best['total'];
-                                                $best = $row_best['product_name'];
-                                                $select = mysqli_query($conn, "SELECT * FROM products WHERE name = '$best'");
-                                                while ($row = mysqli_fetch_assoc($select)) {
-                                                    $grandtotal = $row['price'] * $total_sales;
-
-                                                    ?>
-                                                    <div>
-                                                        <img class="contain"
-                                                            style="width: 100%; height: 100%; box-shadow: 1px 3px 10px 1px; "
-                                                            src="../../<?= htmlspecialchars($row["image"]) ?>" alt="logo">
-                                                        <hr style=" border-top: 0.3px solid #5F5E5E; ">
-                                                        <h4>
-                                                            Product:
-                                                            <?php echo htmlspecialchars($best); ?>
-                                                        </h4>
-                                                        <h4>
-                                                            Price:
-                                                            ₱
-                                                            <?php echo $row['price']; ?>
-                                                        </h4>
-                                                        <h4>
-                                                            Total Sales Count:
-                                                            <?php echo htmlspecialchars($total_sales); ?>
-                                                        </h4>
-                                                        <h4>
-
-                                                            Sales Grand Total: ₱
-                                                            <?php echo htmlspecialchars($grandtotal); ?>
-                                                        </h4>
-                                                    </div>
-
-                                                    <?php
-                                                }
-                                            } else {
-                                                echo "No results found.";
-                                            }
-                                            ?>
-                                        </div>
-                                    </div>
-
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                            <thead>
-                                                <tr>
-                                                    <th>Image</th>
-                                                    <th>Name</th>
-                                                    <th>Price</th>
-                                                    <th>Total Sales Count</th>
-                                                    <th>Grand Total</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php
-                                                $sql = "SELECT product_name, SUM(quantity) as total FROM product_sales GROUP BY product_name;";
-                                                $result = mysqli_query($conn, $sql);
-
-                                                while ($row = mysqli_fetch_assoc($result)) {
-                                                    $product_name = $row['product_name'];
-                                                    $select = mysqli_query($conn, "SELECT * FROM products WHERE name = '$product_name'");
-                                                    while ($row_prod = mysqli_fetch_assoc($select)) {
-                                                        $grandtotal = $row_prod['price'] * $row['total'];
-                                                        echo '<tr>';
-                                                        echo '<td><img src="../../' . htmlspecialchars($row_prod["image"]) . '" style="width: 50px; height: 50px;"></td>';
-                                                        echo '<td>' . htmlspecialchars($row_prod["name"]) . '</td>';
-
-                                                        echo "<td> ₱" . $row["price"] . "</td>";
-                                                        echo "<td>" . $total_sales . "</td>";
-                                                        echo "<td>₱" . $grand_total . "</td>";
-
-
-                                                        echo "</tr>";
-
-                                                        ?>
-
-                                                        <?php
-                                                    }
-                                                }
-                                                ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-
-                                </div>
-
-
-
-
-
-                            </div>
 
 
                         </div>
 
 
                     </div>
-                    <!-- /.container-fluid -->
+
 
                 </div>
-                <!-- End of Main Content -->
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
 
 
 
