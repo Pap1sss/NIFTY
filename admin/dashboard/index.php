@@ -379,8 +379,7 @@ if ($result->num_rows > 0) {
                                                     ?>
                                                     <div class="h5 mb-0 font-weight-bold text-gray-800">
                                                         <?php echo $row[0]; ?>
-                                                        <a href="completedorders.php"
-                                                            style="text-decoration: none;">
+                                                        <a href="completedorders.php" style="text-decoration: none;">
                                                             <i class="fas fa-eye fa-sm fa-fw mr-2 text-gray-400"></i>
                                                         </a>
                                                     </div>
@@ -405,7 +404,8 @@ if ($result->num_rows > 0) {
                                                     ?>
                                                     <div class="h5 mb-0 font-weight-bold text-gray-800">
                                                         <?php echo $row[0]; ?>
-                                                        <a href="cancelledorders.php?status=cancelled" style="text-decoration: none;">
+                                                        <a href="cancelledorders.php?status=cancelled"
+                                                            style="text-decoration: none;">
                                                             <i class="fas fa-eye fa-sm fa-fw mr-2 text-gray-400"></i>
                                                         </a>
                                                     </div>
@@ -508,36 +508,26 @@ if ($result->num_rows > 0) {
                                                     aria-labelledby="dropdownMenuLink">
                                                     <div class="dropdown-header">View:</div>
                                                     <a class="dropdown-item" href="#">Product Sales Count</a>
-
                                                 </div>
                                             </div>
                                         </div>
                                         <!-- Card Body -->
                                         <?php
-                                        $sql = "SELECT quantity, SUM(quantity) as total
-                                        FROM product_sales
-                                        GROUP BY product_name;";
-                                        $result = mysqli_query($conn, $sql);
-                                        $row = mysqli_fetch_row($result);
-
-
-
+                                        $sql_total = "SELECT quantity, SUM(quantity) as total FROM product_sales GROUP BY product_name;";
+                                        $result_total = mysqli_query($conn, $sql_total);
+                                        $row_total = mysqli_fetch_row($result_total);
 
                                         ?>
                                         <div class="card-body">
                                             <?php
-                                            $sql = "SELECT product_name SUM(quantity) as total
-                                            FROM product_sales
-                                            GROUP BY product_name
-                                            ORDER BY total DESC
-                                            LIMIT 1;";
-                                            $result = mysqli_query($conn, $sql);
+                                            $sql_best = "SELECT product_name, SUM(quantity) as total FROM product_sales GROUP BY product_name ORDER BY total DESC LIMIT 1;";
+                                            $result_best = mysqli_query($conn, $sql_best);
 
-                                            if ($result && mysqli_num_rows($result) > 0) {
-                                                $row = mysqli_fetch_assoc($result);
+                                            if ($result_best && mysqli_num_rows($result_best) > 0) {
+                                                $row_best = mysqli_fetch_assoc($result_best);
 
-                                                $total_sales = $row['total'];
-                                                $best = $row['product_name'];
+                                                $total_sales = $row_best['total'];
+                                                $best = $row_best['product_name'];
                                                 $select = mysqli_query($conn, "SELECT * FROM products WHERE name = '$best'");
                                                 while ($row = mysqli_fetch_assoc($select)) {
                                                     $grandtotal = $row['price'] * $total_sales;
@@ -577,93 +567,66 @@ if ($result->num_rows > 0) {
                                         </div>
                                     </div>
 
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Image</th>
+                                                    <th>Name</th>
+                                                    <th>Price</th>
+                                                    <th>Total Sales Count</th>
+                                                    <th>Grand Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                $sql = "SELECT product_name, SUM(quantity) as total FROM product_sales GROUP BY product_name;";
+                                                $result = mysqli_query($conn, $sql);
 
-                                </div>
-                                <div class="table-responsive">
-                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                        <thead>
-                                            <tr>
-                                                <th>Image</th>
-                                                <th>Name</th>
-                                                <th>Price</th>
-                                                <th>Total Sales Count</th>
-                                                <th>Sales Grand Total</th>
-
-
-                                            </tr>
-                                        </thead>
-                                        <tfoot>
-                                            <tr>
-                                                <th>Image</th>
-                                                <th>Name</th>
-                                                <th>Price</th>
-                                                <th>Total Sales Count</th>
-                                                <th>Sales Grand Total</th>
-                                            </tr>
-                                        </tfoot>
-                                        <tbody>
-                                            <?php
-                                            $sql = "SELECT * FROM products";
-
-                                            $result = mysqli_query($conn, $sql);
-                                            if (mysqli_num_rows($result) > 0) {
                                                 while ($row = mysqli_fetch_assoc($result)) {
-                                                    $name = $row['name'];
+                                                    $product_name = $row['product_name'];
+                                                    $select = mysqli_query($conn, "SELECT * FROM products WHERE name = '$product_name'");
+                                                    while ($row_prod = mysqli_fetch_assoc($select)) {
+                                                        $grandtotal = $row_prod['price'] * $row['total'];
+                                                        echo '<tr>';
+                                                        echo '<td><img src="../../' . htmlspecialchars($row_prod["image"]) . '" style="width: 50px; height: 50px;"></td>';
+                                                        echo '<td>' . htmlspecialchars($row_prod["name"]) . '</td>';
 
-                                                    $sql = "SELECT * SUM(quantity) as total
-                                                    FROM product_sales WHERE product_name = '$name';
-                                                    ";
-                                                    $result1 = mysqli_query($conn, $sql);
-
-                                                    if ($result && mysqli_num_rows($result1) > 0) {
-                                                        $row1 = mysqli_fetch_assoc($result1);
-
-                                                        $total_sales = $row1['total'];
-                                                        $best = $row1['product_name'];
-                                                        $grand_total = $row['price'] * $total_sales;
-
-
-                                                        echo "<tr>";
-                                                        echo "<td><img src='../../" . $row["image"] . "' alt='" . $row["name"] . "' width='100' height='100'></td>";
-
-                                                        echo "<td>" . $row["name"] . "</td>";
                                                         echo "<td> ₱" . $row["price"] . "</td>";
                                                         echo "<td>" . $total_sales . "</td>";
                                                         echo "<td>₱" . $grand_total . "</td>";
 
 
                                                         echo "</tr>";
-                                                    }
-                                                    ?>
 
-                                                    <?php
+                                                        ?>
+
+                                                        <?php
+                                                    }
                                                 }
-                                            } else {
-                                                echo "<tr><td colspan='6'>No products found</td></tr>";
-                                            }
-                                            ?>
-                                        </tbody>
-                                    </table>
+                                                ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
                                 </div>
 
 
+
+
+
                             </div>
-
-
-
 
 
                         </div>
 
 
                     </div>
-
+                    <!-- /.container-fluid -->
 
                 </div>
-                <!-- /.container-fluid -->
-
-            </div>
-            <!-- End of Main Content -->
+                <!-- End of Main Content -->
 
 
 
