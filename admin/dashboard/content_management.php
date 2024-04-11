@@ -652,9 +652,10 @@ if ($result->num_rows > 0) {
 
                                                             echo "<td>" . $row["title"] . "</td>";
                                                             echo "<td>" . $row["description"] . "</td>";
+                                                           echo "<td>" . $row["email"] . "</td>";
                                                             echo "<td>" . $row["address"] . "</td>";
                                                             echo "<td>" . $row["contact"] . "</td>";
-                                                            echo "<td>" . $row["email"] . "</td>";
+                                                            
                                                             echo "<td><img src='../uploaded_img/" . $row["logo"] . "' alt='" . $row["logo"] . "' width='150' height='100'></td>";
                                                             echo "<td><img src='../uploaded_img/" . $row["homepage_image"] . "' alt='" . $row["homepage_image"] . "' width='200' height='200'></td>";
                                                             echo "<td><img src='../uploaded_img/" . $row["gcash_ss"] . "' alt='" . $row["gcash_ss"] . "' width='100' height='100'></td>";
