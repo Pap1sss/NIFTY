@@ -64,7 +64,7 @@
 
 	
 	    $backup_file_name = $dbname . '_database.sql';
-	    $fileHandler = fopen($backup_file_name, 'w+');
+	    $fileHandler = fopen('/var/www/html/backups/website_database.sql', 'w+');
 	    fwrite($fileHandler, $outsql);
 	    fclose($fileHandler);
 
