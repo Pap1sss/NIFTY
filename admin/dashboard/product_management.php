@@ -662,63 +662,7 @@ if ($result->num_rows > 0) {
                             <br>
 
 
-                            <div class="card-body">
-                                <h3>Archive Products</h3>
-                                <div class="table-responsive">
-                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                        <thead>
-                                            <tr>
-                                                <th>Product ID</th>
-                                                <th>Image</th>
-                                                <th>Category</th>
-                                                <th>Name</th>
-                                                <th>Price</th>
-                                                <th>Description</th>
-                                                <th>Date & Time Archived</th>
-
-                                            </tr>
-                                        </thead>
-                                        <tfoot>
-                                            <tr>
-                                                <th>Product ID</th>
-                                                <th>Image</th>
-                                                <th>Category</th>
-                                                <th>Name</th>
-                                                <th>Price</th>
-                                                <th>Description</th>
-                                                <th>Date & Time Created</th>
-
-                                            </tr>
-                                        </tfoot>
-                                        <tbody>
-                                            <?php
-                                            $sql = "SELECT * FROM archive_products";
-                                            $result = mysqli_query($conn, $sql);
-                                            if (mysqli_num_rows($result) > 0) {
-                                                while ($row = mysqli_fetch_assoc($result)) {
-                                                    echo "<tr>";
-                                                    echo "<td>" . $row["product_id"] . "</td>";
-                                                    echo "<td><img src='../../" . $row["image"] . "' alt='" . $row["name"] . "' width='100' height='100'></td>";
-                                                    echo "<td>" . $row["category"] . "</td>";
-                                                    echo "<td>" . $row["name"] . "</td>";
-                                                    echo "<td>" . $row["price"] . "</td>";
-                                                    echo "<td>" . $row["description"] . "</td>";
-                                                    echo "<td>" . $row["date_time_archive"] . "</td>";
-
-                                                    echo "</tr>";
-                                                    ?>
-
-                                                    <?php
-                                                }
-                                            } else {
-                                                echo "<tr><td colspan='6'>No products found</td></tr>";
-                                            }
-                                            ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-
+                           
 
 
                         </div>
