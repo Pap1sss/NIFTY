@@ -82,6 +82,9 @@
 	    readfile($backup_file_name);
 	    exec('rm ' . $backup_file_name);
 
+		header('location: ../dashboard/index.php');
+		exit();
+
 	}
 
 ?>
