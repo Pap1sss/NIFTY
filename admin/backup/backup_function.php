@@ -2,7 +2,7 @@
     ini_set('display_errors', 1);
 	ini_set('display_startup_errors', 1);
 	error_reporting(E_ALL);
-    error_reporting(0);
+    
 	function backDb($host, $user, $pass, $dbname, $tables = '*'){
 	
 		$conn = new mysqli($host, $user, $pass, $dbname);
@@ -82,8 +82,6 @@
 	    readfile($backup_file_name);
 	    exec('rm ' . $backup_file_name);
 
-		header('location: ../dashboard/index.php');
-		exit();
 
 	}
 
