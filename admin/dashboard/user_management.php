@@ -129,7 +129,8 @@ if ($result->num_rows > 0) {
                         position: sticky;
                         top: 0;
                         height: 100vh;
-                        overflow-y: auto;
+
+
                     }
                 </style>
 
@@ -144,7 +145,7 @@ if ($result->num_rows > 0) {
                     <hr class="sidebar-divider my-0">
 
                     <!-- Nav Item - Dashboard -->
-                    <li class="nav-item active">
+                    <li class="nav-item ">
                         <a class="nav-link" href="index.php">
                             <i class="fas fa-fw fa-tachometer-alt"></i>
                             <span>Dashboard</span></a>
@@ -159,7 +160,7 @@ if ($result->num_rows > 0) {
                     </div>
 
                     <!-- Nav Item - Pages Collapse Menu -->
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
                             aria-expanded="true" aria-controls="collapsePages">
                             <i class="fas fa-fw fa-folder"></i>
@@ -178,19 +179,68 @@ if ($result->num_rows > 0) {
                         </div>
                     </li>
 
-                    <!-- Nav Item - Utilities Collapse Menu -->
+
+
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour"
+                            aria-expanded="true" aria-controls="collapseTwo">
+                            <i class="fas fa-fw fa-wallet"></i>
+                            <span>Sales Management</span>
+                        </a>
+                        <div id="collapseFour" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+
+                                <a class="collapse-item" href="sales_overview.php">Product Sales</a>
+                                <a class="collapse-item" href="sales_report.php">Sales Report</a>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
+                            aria-expanded="true" aria-controls="collapseTwo">
+                            <i class="fas fa-fw fa-keyboard"></i>
+                            <span>Content Management</span>
+                        </a>
+                        <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <h6 class="collapse-header">Manage</h6>
+                                <a class="collapse-item" href="product_management.php">Products</a>
+                                <a class="collapse-item" href="content_management.php">Content</a>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFive"
+                            aria-expanded="true" aria-controls="collapseTwo">
+                            <i class="fas fa-fw fa-smile"></i>
+                            <span>User Management</span>
+                        </a>
+                        <div id="collapseFive" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+
+                                <a class="collapse-item" href="user_management.php">Customer Insights</a>
+                                <a class="collapse-item" href="user_records.php">Review & Ratings</a>
+                               
+                            </div>
+                        </div>
+                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
                             aria-expanded="true" aria-controls="collapseUtilities">
                             <i class="fas fa-fw fa-table"></i>
-                            <span>Logs</span>
+                            <span>Admin Logs</span>
                         </a>
                         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                             data-parent="#accordionSidebar">
                             <div class="bg-white py-2 collapse-inner rounded">
                                 <h6 class="collapse-header">Data Logs:</h6>
-                                <a class="collapse-item" href="admin_access_logs.php">Admin Logs</a>
-                                <a class="collapse-item" href="admin_activity_logs.php">Admin Actions</a>
+                                <a class="collapse-item" href="admin_order_logs.php">Order</a>
+                                <a class="collapse-item" href="admin_stocks_logs.php">Stocks</a>
+                                <a class="collapse-item" href="admin_access_logs.php">Access</a>
+                                <a class="collapse-item" href="admin_activity_logs.php">Activity</a>
                                 <a class="collapse-item" href="admin_product_activity.php">Product Operations</a>
                                 <a class="collapse-item" href="user_records.php">User Records</a>
 
@@ -198,33 +248,35 @@ if ($result->num_rows > 0) {
                         </div>
                     </li>
 
-                    <!-- Nav Item - Products -->
                     <li class="nav-item">
-                        <a class="nav-link" href="product_management.php">
-                            <i class="fas fa-fw fa-briefcase"></i>
-                            <span>Manage Products</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="sales_overview.php">
-                            <i class="fas fa-fw fa-wallet"></i>
-                            <span>Sales Overview</span></a>
-                    </li>
-
-                    <!-- Nav Item - Pages Collapse Menu -->
-                    <li class="nav-item">
-                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                            aria-expanded="true" aria-controls="collapseTwo">
-                            <i class="fas fa-fw fa-cog"></i>
-                            <span>Settings</span>
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities1"
+                            aria-expanded="true" aria-controls="collapseUtilities">
+                            <i class="fas fa-fw fa-archive"></i>
+                            <span>Archive Informations</span>
                         </a>
-                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div id="collapseUtilities1" class="collapse" aria-labelledby="headingUtilities"
+                            data-parent="#accordionSidebar">
                             <div class="bg-white py-2 collapse-inner rounded">
+                                <h6 class="collapse-header">Data Logs:</h6>
+                                <a class="collapse-item" href="archive_products.php">Product</a>
+                                <a class="collapse-item" href="archive_accounts.php">Accounts</a>
+                                <a class="collapse-item" href="admin_reviews.php">Reviews</a>
+                                
 
-                                <a class="collapse-item" href="content_management.php">Content Manager</a>
-                                <a class="collapse-item" href="user_management.php">User Management</a>
                             </div>
                         </div>
                     </li>
+
+                   
+
+                    
+
+                   
+
+
+
+
+
 
                     <!-- Divider -->
                     <hr class="sidebar-divider d-none d-md-block">
@@ -375,65 +427,7 @@ if ($result->num_rows > 0) {
 
                     <hr class="sidebar-divider d-none d-md-block">
 
-                    <div class="card-body">
-                        <h1>Archive Accounts</h1>
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th>Email</th>
-                                        <th>Name</th>
-                                        <th>Contact Number</th>
-                                        <th>Address</th>
-                                        <th>Status Before Archive</th>
-                                        <th>Date & Time of Archive</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $page = isset($_GET['page']) ? $_GET['page'] : 1;
-                                    $limit = 10;
-                                    $offset = ($page - 1) * $limit;
-                                    $sql = "SELECT * FROM archive_user ORDER BY id DESC LIMIT $offset, $limit";
-                                    $result = mysqli_query($conn, $sql);
-                                    if (mysqli_num_rows($result) > 0) {
-                                        while ($row = mysqli_fetch_assoc($result)) {
-                                            echo "<tr>";
-                                            echo "<td>" . $row["email"] . "</td>";
-                                            echo "<td>" . $row["name"] . "</td>";
-                                            echo "<td>" . $row["contact"] . "</td>";
-                                            echo "<td>" . $row["address"] . "</td>";
-                                            echo "<td>" . $row["status"] . "</td>";
-                                            echo "<td>" . $row["date_time_archive"] . "</td>";
-                                            echo "</tr>";
-                                        }
-                                    } else {
-                                        echo "<tr><td colspan='4'>No users found</td></tr>";
-                                    }
-                                    ?>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="card-footer">
-                            <?php
-                            $total_rows = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM archive_user"));
-                            $total_pages = ceil($total_rows / $limit);
-                            if ($page > 1) {
-                                echo "<a href='?page=" . ($page - 1) . "' class='btn btn-primary'>Previous</a>";
-                            }
-                            for ($i = 1; $i <= $total_pages; $i++) {
-                                if ($i == $page) {
-                                    echo "<button class='btn btn-primary'>" . $i . "</button>";
-                                } else {
-                                    echo "<a href='?page=" . $i . "' class='btn btn-primary'>" . $i . "</a>";
-                                }
-                            }
-                            if ($page < $total_pages) {
-                                echo "<a href='?page=" . ($page + 1) . "' class='btn btn-primary'>Next</a>";
-                            }
-                            ?>
-                        </div>
-                    </div>
+                    
                 </div>
                 <!-- /.container-fluid -->
 

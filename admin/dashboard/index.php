@@ -69,6 +69,16 @@ if ($result->num_rows > 0) {
             <div id="wrapper">
 
                 <!-- Sidebar -->
+                <style>
+                    .sidebar {
+                        position: sticky;
+                        top: 0;
+                        height: 100vh;
+
+
+                    }
+                </style>
+
                 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
                     <!-- Sidebar - Brand -->
@@ -94,10 +104,6 @@ if ($result->num_rows > 0) {
                         Interface
                     </div>
 
-
-
-
-
                     <!-- Nav Item - Pages Collapse Menu -->
                     <li class="nav-item">
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
@@ -118,57 +124,135 @@ if ($result->num_rows > 0) {
                         </div>
                     </li>
 
-                    <!-- Nav Item - Utilities Collapse Menu -->
+
+
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour"
+                            aria-expanded="true" aria-controls="collapseTwo">
+                            <i class="fas fa-fw fa-wallet"></i>
+                            <span>Sales Management</span>
+                        </a>
+                        <div id="collapseFour" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+
+                                <a class="collapse-item" href="sales_overview.php">Product Sales</a>
+                                <a class="collapse-item" href="sales_report.php">Sales Report</a>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
+                            aria-expanded="true" aria-controls="collapseTwo">
+                            <i class="fas fa-fw fa-keyboard"></i>
+                            <span>Content Management</span>
+                        </a>
+                        <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <h6 class="collapse-header">Manage</h6>
+                                <a class="collapse-item" href="product_management.php">Products</a>
+                                <a class="collapse-item" href="content_management.php">Content</a>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFive"
+                            aria-expanded="true" aria-controls="collapseTwo">
+                            <i class="fas fa-fw fa-smile"></i>
+                            <span>User Management</span>
+                        </a>
+                        <div id="collapseFive" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+
+                                <a class="collapse-item" href="user_management.php">Customer Insights</a>
+                                <a class="collapse-item" href="user_records.php">Review & Ratings</a>
+                              
+                            </div>
+                        </div>
+                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
                             aria-expanded="true" aria-controls="collapseUtilities">
                             <i class="fas fa-fw fa-table"></i>
-                            <span>Logs</span>
+                            <span>Admin Logs</span>
                         </a>
                         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                             data-parent="#accordionSidebar">
                             <div class="bg-white py-2 collapse-inner rounded">
                                 <h6 class="collapse-header">Data Logs:</h6>
-                                <a class="collapse-item" href="admin_access_logs.php">Admin Logs</a>
-                                <a class="collapse-item" href="admin_activity_logs.php">Admin Actions</a>
+                                <a class="collapse-item" href="admin_order_logs.php">Order</a>
+                                <a class="collapse-item" href="admin_stocks_logs.php">Stocks</a>
+                                <a class="collapse-item" href="admin_access_logs.php">Access</a>
+                                <a class="collapse-item" href="admin_activity_logs.php">Activity</a>
                                 <a class="collapse-item" href="admin_product_activity.php">Product Operations</a>
                                 <a class="collapse-item" href="user_records.php">User Records</a>
+
                             </div>
                         </div>
                     </li>
 
-                    <!-- Nav Item - Products -->
                     <li class="nav-item">
-                        <a class="nav-link" href="product_management.php">
-                            <i class="fas fa-fw fa-briefcase"></i>
-                            <span>Manage Products</span></a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="sales_overview.php">
-                            <i class="fas fa-fw fa-wallet"></i>
-                            <span>Sales Overview</span></a>
-                    </li>
-
-                    <!-- Nav Item - Pages Collapse Menu -->
-                    <li class="nav-item">
-                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                            aria-expanded="true" aria-controls="collapseTwo">
-                            <i class="fas fa-fw fa-cog"></i>
-                            <span>Settings</span>
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities1"
+                            aria-expanded="true" aria-controls="collapseUtilities">
+                            <i class="fas fa-fw fa-archive"></i>
+                            <span>Archive Informations</span>
                         </a>
-                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div id="collapseUtilities1" class="collapse" aria-labelledby="headingUtilities"
+                            data-parent="#accordionSidebar">
                             <div class="bg-white py-2 collapse-inner rounded">
+                                <h6 class="collapse-header">Data Logs:</h6>
+                                <a class="collapse-item" href="archive_products.php">Product</a>
+                                <a class="collapse-item" href="archive_accounts.php">Accounts</a>
+                                <a class="collapse-item" href="admin_reviews.php">Reviews</a>
 
-                                <a class="collapse-item" href="content_management.php">Content Manager</a>
-                                <a class="collapse-item" href="user_management.php">User Management</a>
+
                             </div>
                         </div>
                     </li>
+
+
+
+                    <li class="nav-item ">
+                        <form action="../backup/database_backup.php" method="post" id="">
+                
+
+                            <div class="form-group">
+                           
+                                <input type="hidden" class="form-control" placeholder="Enter Server Name EX: Localhost"
+                                    name="server" id="server" value = "localhost">
+                            </div>
+                            <div class="form-group">
+                              
+                                <input type="hidden" class="form-control" placeholder="Enter Database Username EX: root"
+                                    name="username" id="username" value = "root">
+                            </div>
+                            <div class="form-group">
+                                
+                                <input type="hidden" class="form-control" placeholder="Enter Database Password"
+                                    name="password" id="password"  value = "">
+                            </div>
+                            <div class="form-group">
+                              
+                                <input type="hidden" class="form-control" placeholder="Enter Database Name" name="dbname"
+                                    id="dbname" required=""  value = "website">
+                            </div>
+                            <div class="form-group text-center">
+                                <button type="submit" name="backupnow" class="btn btn-info btn-rounded">Initiate Backup</button>
+                            </div>
+                        </form>
+                    </li>
+
+
+
+
+
+
+
 
                     <!-- Divider -->
                     <hr class="sidebar-divider d-none d-md-block">
-
 
                 </ul>
                 <!-- End of Sidebar -->
@@ -253,7 +337,7 @@ if ($result->num_rows > 0) {
                             <!-- Page Heading -->
                             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                                 <h1 class="h3 mb-0 text-gray-800">Order Count</h1>
-                              
+
                             </div>
 
                             <!-- Content Row -->
@@ -378,8 +462,7 @@ if ($result->num_rows > 0) {
                                                     ?>
                                                     <div class="h5 mb-0 font-weight-bold text-gray-800">
                                                         <?php echo $row[0]; ?>
-                                                        <a href="completedorders.php"
-                                                            style="text-decoration: none;">
+                                                        <a href="completedorders.php" style="text-decoration: none;">
                                                             <i class="fas fa-eye fa-sm fa-fw mr-2 text-gray-400"></i>
                                                         </a>
                                                     </div>
@@ -404,7 +487,8 @@ if ($result->num_rows > 0) {
                                                     ?>
                                                     <div class="h5 mb-0 font-weight-bold text-gray-800">
                                                         <?php echo $row[0]; ?>
-                                                        <a href="cancelledorders.php?status=cancelled" style="text-decoration: none;">
+                                                        <a href="cancelledorders.php?status=cancelled"
+                                                            style="text-decoration: none;">
                                                             <i class="fas fa-eye fa-sm fa-fw mr-2 text-gray-400"></i>
                                                         </a>
                                                     </div>
@@ -422,7 +506,7 @@ if ($result->num_rows > 0) {
                             <!-- Page Heading -->
                             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                                 <h1 class="h3 mb-0 text-gray-800">Customer Insights</h1>
-                               
+
                             </div>
                             <div class="row">
 
@@ -485,7 +569,7 @@ if ($result->num_rows > 0) {
                             <hr class="sidebar-divider my-0">
                             <br>
 
-                           
+
 
 
 

@@ -77,7 +77,8 @@ if ($result->num_rows > 0) {
                         position: sticky;
                         top: 0;
                         height: 100vh;
-                        overflow-y: auto;
+
+
                     }
                 </style>
 
@@ -92,7 +93,7 @@ if ($result->num_rows > 0) {
                     <hr class="sidebar-divider my-0">
 
                     <!-- Nav Item - Dashboard -->
-                    <li class="nav-item active">
+                    <li class="nav-item ">
                         <a class="nav-link" href="index.php">
                             <i class="fas fa-fw fa-tachometer-alt"></i>
                             <span>Dashboard</span></a>
@@ -107,7 +108,7 @@ if ($result->num_rows > 0) {
                     </div>
 
                     <!-- Nav Item - Pages Collapse Menu -->
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
                             aria-expanded="true" aria-controls="collapsePages">
                             <i class="fas fa-fw fa-folder"></i>
@@ -126,19 +127,68 @@ if ($result->num_rows > 0) {
                         </div>
                     </li>
 
-                    <!-- Nav Item - Utilities Collapse Menu -->
+
+
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour"
+                            aria-expanded="true" aria-controls="collapseTwo">
+                            <i class="fas fa-fw fa-wallet"></i>
+                            <span>Sales Management</span>
+                        </a>
+                        <div id="collapseFour" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+
+                                <a class="collapse-item" href="sales_overview.php">Product Sales</a>
+                                <a class="collapse-item" href="sales_report.php">Sales Report</a>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
+                            aria-expanded="true" aria-controls="collapseTwo">
+                            <i class="fas fa-fw fa-keyboard"></i>
+                            <span>Content Management</span>
+                        </a>
+                        <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <h6 class="collapse-header">Manage</h6>
+                                <a class="collapse-item" href="product_management.php">Products</a>
+                                <a class="collapse-item" href="content_management.php">Content</a>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFive"
+                            aria-expanded="true" aria-controls="collapseTwo">
+                            <i class="fas fa-fw fa-smile"></i>
+                            <span>User Management</span>
+                        </a>
+                        <div id="collapseFive" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+
+                                <a class="collapse-item" href="user_management.php">Customer Insights</a>
+                                <a class="collapse-item" href="user_records.php">Review & Ratings</a>
+                              
+                            </div>
+                        </div>
+                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
                             aria-expanded="true" aria-controls="collapseUtilities">
                             <i class="fas fa-fw fa-table"></i>
-                            <span>Logs</span>
+                            <span>Admin Logs</span>
                         </a>
                         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                             data-parent="#accordionSidebar">
                             <div class="bg-white py-2 collapse-inner rounded">
                                 <h6 class="collapse-header">Data Logs:</h6>
-                                <a class="collapse-item" href="admin_access_logs.php">Admin Logs</a>
-                                <a class="collapse-item" href="admin_activity_logs.php">Admin Actions</a>
+                                <a class="collapse-item" href="admin_order_logs.php">Order</a>
+                                <a class="collapse-item" href="admin_stocks_logs.php">Stocks</a>
+                                <a class="collapse-item" href="admin_access_logs.php">Access</a>
+                                <a class="collapse-item" href="admin_activity_logs.php">Activity</a>
                                 <a class="collapse-item" href="admin_product_activity.php">Product Operations</a>
                                 <a class="collapse-item" href="user_records.php">User Records</a>
 
@@ -146,33 +196,35 @@ if ($result->num_rows > 0) {
                         </div>
                     </li>
 
-                    <!-- Nav Item - Products -->
                     <li class="nav-item">
-                        <a class="nav-link" href="product_management.php">
-                            <i class="fas fa-fw fa-briefcase"></i>
-                            <span>Manage Products</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="sales_overview.php">
-                            <i class="fas fa-fw fa-wallet"></i>
-                            <span>Sales Overview</span></a>
-                    </li>
-
-                    <!-- Nav Item - Pages Collapse Menu -->
-                    <li class="nav-item">
-                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                            aria-expanded="true" aria-controls="collapseTwo">
-                            <i class="fas fa-fw fa-cog"></i>
-                            <span>Settings</span>
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities1"
+                            aria-expanded="true" aria-controls="collapseUtilities">
+                            <i class="fas fa-fw fa-archive"></i>
+                            <span>Archive Informations</span>
                         </a>
-                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div id="collapseUtilities1" class="collapse" aria-labelledby="headingUtilities"
+                            data-parent="#accordionSidebar">
                             <div class="bg-white py-2 collapse-inner rounded">
+                                <h6 class="collapse-header">Data Logs:</h6>
+                                <a class="collapse-item" href="archive_products.php">Product</a>
+                                <a class="collapse-item" href="archive_accounts.php">Accounts</a>
+                                <a class="collapse-item" href="admin_reviews.php">Reviews</a>
+                                
 
-                                <a class="collapse-item" href="content_management.php">Content Manager</a>
-                                <a class="collapse-item" href="user_management.php">User Management</a>
                             </div>
                         </div>
                     </li>
+
+                   
+
+                    
+
+                   
+
+
+
+
+
 
                     <!-- Divider -->
                     <hr class="sidebar-divider d-none d-md-block">
@@ -328,21 +380,21 @@ if ($result->num_rows > 0) {
                                                             src="../../<?= htmlspecialchars($row["image"]) ?>" alt="logo">
                                                         <hr style=" border-top: 0.3px solid #5F5E5E; ">
                                                         <h4>
-                                                            Product:
+                                                            <strong>Product:</strong>
                                                             <?php echo htmlspecialchars($best); ?>
                                                         </h4>
                                                         <h4>
-                                                            Price:
+                                                        <strong> Price:</strong>
                                                             ₱
                                                             <?php echo $row['price']; ?>
                                                         </h4>
                                                         <h4>
-                                                            Total Sales Count:
+                                                        <strong> Total Sales Count:</strong>
                                                             <?php echo htmlspecialchars($total_sales); ?>
                                                         </h4>
                                                         <h4>
 
-                                                            Sales Grand Total: ₱
+                                                        <strong>  Sales Total Price: </strong> ₱
                                                             <?php echo htmlspecialchars($grandtotal); ?>
                                                         </h4>
                                                     </div>
@@ -366,7 +418,7 @@ if ($result->num_rows > 0) {
                                                 <th>Name</th>
                                                 <th>Price</th>
                                                 <th>Total Sales Count</th>
-                                                <th>Sales Grand Total</th>
+                                                <th>Total Price</th>
 
 
                                             </tr>
@@ -377,7 +429,7 @@ if ($result->num_rows > 0) {
                                                 <th>Name</th>
                                                 <th>Price</th>
                                                 <th>Total Sales Count</th>
-                                                <th>Sales Grand Total</th>
+                                                <th>Total Price</th>
                                             </tr>
                                         </tfoot>
                                         <tbody>
@@ -428,85 +480,7 @@ if ($result->num_rows > 0) {
                         </div>
                         <hr class="sidebar-divider d-none d-md-block">
                         <br>
-                        <div class="d-sm-flex align-items-center justify-content-between mb-4" style="padding-left: 20px;">
-                            <h1 class="h3 mb-0 text-gray-800">Total Sales</h1>
-
-                        </div>
-
-                        <div style="padding: 20px;">
-                            <form method="post" action="" onsubmit="return checkPassword()" class="form-inline">
-                                <div class="form-group">
-                                    <label for="start_date">Start Date:</label>
-                                    <input type="date" name="start_date" class="form-control mx-2" id="start_date">
-                                </div>
-                                <div class="form-group">
-                                    <label for="end_date">End Date:</label>
-                                    <input type="date" name="end_date" class="form-control mx-2" id="end_date">
-                                </div>
-                                <div class="form-group">
-                                    <input type="submit" name="submit_date_sales" class=" mx-2" class="material-icons-outlined"
-                                        value="🔎">
-                                </div>
-                            </form>
-                        </div>
-                        <div class="table-responsive" style="padding: 20px;">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th>Order ID</th>
-                                        <th>Grand Total</th>
-                                        <th>Date</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-
-
-                                    <?php
-
-                                    if (isset($_POST['submit_date_sales'])) {
-                                        $start_date = $_POST['start_date'];
-                                        $end_date = $_POST['end_date'];
-
-
-                                        // Prepare and bind
-                                        $stmt = $conn->prepare("SELECT SUM(total_price) as total_sum FROM sales WHERE date_created BETWEEN? AND?");
-                                        $stmt->bind_param("ss", $start_date, $end_date);
-
-                                        // Execute statement
-                                        $stmt->execute();
-
-                                        // Bind result variables
-                                        $stmt->bind_result($total_sum);
-
-                                        // Fetch value
-                                        $stmt->fetch();
-
-                                        echo "Total Sales Between: " . $start_date . " to " . $end_date . " is: ₱" . $total_sum;
-
-                                        $stmt->close();
-
-                                        $sql = "SELECT * FROM sales WHERE date_created BETWEEN? AND?";
-                                        $result1 = $conn->prepare($sql);
-                                        $result1->bind_param("ss", $start_date, $end_date);
-                                        $result1->execute();
-
-                                        $result1->bind_result($sales_id, $orders_id, $total_price, $date_created);
-
-                                        while ($result1->fetch()) {
-                                            echo "<tr>";
-                                            echo "<td>" . $orders_id . "</td>";
-                                            echo "<td>₱" . $total_price . "</td>";
-                                            echo "<td> " . $date_created . "</td>";
-                                            echo "</tr>";
-                                        }
-
-
-                                    }
-                                    ?>
-                                </tbody>
-                            </table>
-                        </div>
+                        
                     </div>
 
 
