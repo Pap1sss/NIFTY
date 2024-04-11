@@ -331,7 +331,7 @@ if ($result->num_rows > 0) {
                                             <th>Orders</th>
                                             <th>Total Price</th>
                                             <th>Order Date</th>
-                                            <th>Update Status</th>
+                                         
 
                                         </tr>
                                     </thead>
@@ -345,7 +345,7 @@ if ($result->num_rows > 0) {
                                             <th>Orders</th>
                                             <th>Total Price</th>
                                             <th>Order Date</th>
-                                            <th>Update Status</th>
+                                           \
                                         </tr>
                                     </tfoot>
                                     <tbody>
@@ -364,7 +364,7 @@ if ($result->num_rows > 0) {
                                                 echo "<td>" . $row["total_price"] . "</td>";
                                                 echo "<td>" . $row["date_created"] . "</td>";
                                                 echo "<td>";
-                                                echo "<a class='btn detail-btn' style='width: 100%' href='toreceiveorders.php?ship=" . htmlspecialchars($row['id']) . "'>COMPLETE ORDER</a>";
+                                              
                                                 echo "</td>";
                                                 echo "</tr>";
                                                 ?>
