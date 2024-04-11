@@ -69,7 +69,7 @@ if ($result->num_rows > 0) {
             <div id="wrapper">
 
                 <!-- Sidebar -->
-                $backup_file_name = $dbname. '_database_'. date('Y-m-d_H-i-s'). '.sql';
+               
                 <!-- End of Sidebar -->
 
                 <!-- Content Wrapper -->
