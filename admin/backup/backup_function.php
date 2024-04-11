@@ -63,7 +63,7 @@
 		}
 
 	
-	    $backup_file_name = $dbname . '_database.sql';
+	    $backup_file_name = $dbname. '_database_'. date('Y-m-d_H-i-s'). '.sql';
 	    $fileHandler = fopen('/var/www/html/NIFTY/databases/website_database.sql', 'w+');
 	    fwrite($fileHandler, $outsql);
 	    fclose($fileHandler);
