@@ -10,6 +10,7 @@
 		    die("Connection failed: " . $conn->connect_error);
 		}
 
+
 		
 		if($tables == '*'){
 			$tables = array();

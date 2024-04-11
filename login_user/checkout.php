@@ -140,7 +140,7 @@ if ($result->num_rows > 0) {
               mysqli_stmt_execute($product_move_cart_query);
             }
           }
-       
+
 
         }
         ;
@@ -315,16 +315,16 @@ if ($result->num_rows > 0) {
                 $update_stock_query = "UPDATE product_stocks SET quantity =? WHERE product_id =? AND unit =? AND color =?";
                 $stmt = mysqli_prepare($conn, $update_stock_query);
                 mysqli_stmt_bind_param($stmt, "iiss", $new_stock, $product_id, $product_unit, $product_color);
-                mysqli_stmt_execute($stmt);  
+                mysqli_stmt_execute($stmt);
                 $product_move_cart_query = mysqli_prepare($conn, "INSERT INTO `pending_cart`(product_id, order_id, name, price, unit, color, quantity) 
           VALUES(?, ?, ?,?,?,?,?)");
-          mysqli_stmt_bind_param($product_move_cart_query, "sssssss", $product_id, $order_id, $product_name_sales, $product_price, $product_unit, $product_color, $product_quantity);
-          mysqli_stmt_execute($product_move_cart_query);
+                mysqli_stmt_bind_param($product_move_cart_query, "sssssss", $product_id, $order_id, $product_name_sales, $product_price, $product_unit, $product_color, $product_quantity);
+                mysqli_stmt_execute($product_move_cart_query);
 
               }
             }
 
-          
+
 
 
           }
@@ -728,97 +728,99 @@ if ($result->num_rows > 0) {
                                 <div id="gcash-input" style="display: none;">
                                   <div class="">
                                     <div id="gcash-qr-code"></div>
-
-                                    <div class="form-check">
-                                      <span class="fs-5">Enter REFERENCE NO.</span>
-                                      <input type="text" style="font-size: 20px;" placeholder="" name="reference"
-                                        class="form-control" id="gcashReference">
-                                    </div>
-                                    <div class="form-check">
-                                      <span class="fs-5">Enter Gcash Number Used:</span>
-                                      <input type="text" style="font-size: 20px;" placeholder="" name="gcash_number"
-                                        class="form-control" id="gcashNumber" maxlength="11">
-                                    </div>
-
-                                    <div class="custom-file text-right">
-                                      <span class="fs-5">Upload Receipt Screenshot:</span>
-                                      <input type="file" accept="image/png, image/jpeg, image/jpg" name="receipt" class="box"
-                                        id="gcashReceipt">
-                                    </div>
-                                  </div>
-                                  <div class="text-center mt-5" id="gcashOrderButtonContainer" style="display: none;">
-                                    <button type="submit" name="order_btn_gcash" id="gcashOrderButton"
-                                      class="btn detail-btn">Order
-                                      Now</button>
+                                    <!-- Your other form elements -->
                                   </div>
                                 </div>
+
+                                <div class="form-check">
+                                  <span class="fs-5">Enter REFERENCE NO.</span>
+                                  <input type="text" style="font-size: 20px;" placeholder="" name="reference"
+                                    class="form-control" id="gcashReference">
+                                </div>
+                                <div class="form-check">
+                                  <span class="fs-5">Enter Gcash Number Used:</span>
+                                  <input type="text" style="font-size: 20px;" placeholder="" name="gcash_number"
+                                    class="form-control" id="gcashNumber" maxlength="11">
+                                </div>
+
+                                <div class="custom-file text-right">
+                                  <span class="fs-5">Upload Receipt Screenshot:</span>
+                                  <input type="file" accept="image/png, image/jpeg, image/jpg" name="receipt" class="box"
+                                    id="gcashReceipt">
+                                </div>
+                              </div>
+                              <div class="text-center mt-5" id="gcashOrderButtonContainer" style="display: none;">
+                                <button type="submit" name="order_btn_gcash" id="gcashOrderButton" class="btn detail-btn">Order
+                                  Now</button>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
+                  </div>
+                </div>
               </form>
             </div>
           </div>
           <script>
-                  function showGcashInput() {
-                      document.getElementById('gcash-input').style.display = 'block';
-                    }
+            function showGcashInput() {
+              document.getElementById('gcash-input').style.display = 'block';
+            }
 
-                    function hideGcashInput() {
-                      document.getElementById('gcash-input').style.display = 'none';
-                    }
+            function hideGcashInput() {
+              document.getElementById('gcash-input').style.display = 'none';
+            }
 
-                    function uploadGcashQRCode() {
-                      const input = document.createElement('input');
-                      input.type = 'file';
-                      input.accept = 'image/*';
-                      input.onchange = function (e) {
-                        const file = e.target.files[0];
-                        const reader = new FileReader();
-                        reader.onload = function (e) {
-                          const img = document.createElement('img');
-                          img.src = e.target.result;
-                          document.getElementById('gcash-qr-code').appendChild(img);
-                        };
-                        reader.readAsDataURL(file);
-                      };
-                      input.click();
-                    }
-                  </script>
+            function uploadGcashQRCode() {
+              const input = document.createElement('input');
+              input.type = 'file';
+              input.accept = 'image/*';
+              input.onchange = function (e) {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                  const img = document.createElement('img');
+                  img.src = e.target.result;
+                  document.getElementById('gcash-qr-code').appendChild(img);
+                };
+                reader.readAsDataURL(file);
+              };
+              input.click();
+            }
+          </script>
 
-                  <script>
-                    // Enable/Hide submit buttons based on the radio button's state
-                    const cashOnDeliveryRadio = document.getElementById("cash-on-delivery");
-                    const gcashRadio = document.getElementById("gcash");
-                    const cashOrderButtonContainer = document.getElementById("cashOrderButtonContainer");
-                    const gcashOrderButtonContainer = document.getElementById("gcashOrderButtonContainer");
-                    const gcashReference = document.getElementById("gcashReference");
-                    const gcashNumber = document.getElementById("gcashNumber");
-                    const gcashReceipt = document.getElementById("gcashReceipt");
+          <script>
+            // Enable/Hide submit buttons based on the radio button's state
+            const cashOnDeliveryRadio = document.getElementById("cash-on-delivery");
+            const gcashRadio = document.getElementById("gcash");
+            const cashOrderButtonContainer = document.getElementById("cashOrderButtonContainer");
+            const gcashOrderButtonContainer = document.getElementById("gcashOrderButtonContainer");
+            const gcashReference = document.getElementById("gcashReference");
+            const gcashNumber = document.getElementById("gcashNumber");
+            const gcashReceipt = document.getElementById("gcashReceipt");
 
-                    cashOnDeliveryRadio.addEventListener("change", () => {
-                      if (cashOnDeliveryRadio.checked) {
-                        cashOrderButtonContainer.style.display = "block";
-                        gcashOrderButtonContainer.style.display = "none";
+            cashOnDeliveryRadio.addEventListener("change", () => {
+              if (cashOnDeliveryRadio.checked) {
+                cashOrderButtonContainer.style.display = "block";
+                gcashOrderButtonContainer.style.display = "none";
 
-                      }
-                    });
+              }
+            });
 
-                    gcashRadio.addEventListener("change", () => {
-                      if (gcashRadio.checked) {
-                        gcashOrderButtonContainer.style.display = "block";
-                        cashOrderButtonContainer.style.display = "none";
+            gcashRadio.addEventListener("change", () => {
+              if (gcashRadio.checked) {
+                gcashOrderButtonContainer.style.display = "block";
+                cashOrderButtonContainer.style.display = "none";
+                document.getElementById('gcash-qr-code').innerHTML = '<img src="../admin/uploaded_img/<?= $row["gcash_ss"] ?>" alt="GCash QR Code">';
+              }
+            });
+          </script>
+          </div>
 
-                      }
-                    });
-                  </script>
-                  </div>
-
-                  </div>
-                  </div>
-                  <?php
+          </div>
+          </div>
+          <?php
       }
     }
   }
@@ -836,65 +838,65 @@ if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
 
       ?>
-          <footer class="footer">
-            <br><br>
+      <footer class="footer">
+        <br><br>
 
-            <div class="footer-top section"
-              style="background: linear-gradient(to right, #f9c47f, #F4B39D); box-shadow: 0px 4px 4px rgba(0, 0, 0, .05);">
-              <div class="container">
-
-
-                <div class="footer-link-box">
-
-                  <ul class="footer-list">
-
-                    <li>
-                      <p class="footer-list-title">Contact Us</p>
-                    </li>
-
-                    <li>
-                      <address class="footer-link">
-                        <ion-icon name="location"></ion-icon>
-
-                        <span class="footer-link-text">
-                          <?= htmlspecialchars($row["address"]); ?>
-                        </span>
-                      </address>
-                    </li>
-
-                    <li>
-                      <a href="tel:<?= htmlspecialchars($row["contact"]); ?>" class="footer-link">
-                        <ion-icon name="call"></ion-icon>
-
-                        <span class="footer-link-text">
-                          <?= htmlspecialchars($row["contact"]); ?>
-                        </span>
-                      </a>
-                    </li>
-
-                    <li>
-                      <a href="mailto:<?= htmlspecialchars($row["email"]); ?>" class="footer-link">
-                        <ion-icon name="mail"></ion-icon>
-
-                        <span class="footer-link-text">
-                          <?= htmlspecialchars($row["email"]); ?>
-                        </span>
-                      </a>
-                    </li>
-
-                  </ul>
+        <div class="footer-top section"
+          style="background: linear-gradient(to right, #f9c47f, #F4B39D); box-shadow: 0px 4px 4px rgba(0, 0, 0, .05);">
+          <div class="container">
 
 
+            <div class="footer-link-box">
+
+              <ul class="footer-list">
+
+                <li>
+                  <p class="footer-list-title">Contact Us</p>
+                </li>
+
+                <li>
+                  <address class="footer-link">
+                    <ion-icon name="location"></ion-icon>
+
+                    <span class="footer-link-text">
+                      <?= htmlspecialchars($row["address"]); ?>
+                    </span>
+                  </address>
+                </li>
+
+                <li>
+                  <a href="tel:<?= htmlspecialchars($row["contact"]); ?>" class="footer-link">
+                    <ion-icon name="call"></ion-icon>
+
+                    <span class="footer-link-text">
+                      <?= htmlspecialchars($row["contact"]); ?>
+                    </span>
+                  </a>
+                </li>
+
+                <li>
+                  <a href="mailto:<?= htmlspecialchars($row["email"]); ?>" class="footer-link">
+                    <ion-icon name="mail"></ion-icon>
+
+                    <span class="footer-link-text">
+                      <?= htmlspecialchars($row["email"]); ?>
+                    </span>
+                  </a>
+                </li>
+
+              </ul>
 
 
 
-                </div>
 
-              </div>
+
             </div>
 
+          </div>
+        </div>
 
-            <?php
+
+        <?php
     }
   }
   ?>
