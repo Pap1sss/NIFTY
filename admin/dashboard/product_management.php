@@ -130,11 +130,18 @@ if ($result->num_rows > 0) {
                 $image = $row['image'];
                 $description = mysqli_real_escape_string($conn, $row['description']);
             }
+            $create = 'archived a product' . $id;
+            $product_logs = "INSERT INTO product_operation(username, action, name, date_time) 
+       VALUES('$username','$create', '$product_name', CURRENT_TIME())";
+            $data_check = mysqli_query($conn, $product_logs);
             mysqli_query($conn, "DELETE FROM product_sales WHERE product_name = '$product_name'");
             mysqli_query($conn, "DELETE FROM products WHERE id = $id");
             mysqli_query($conn, "DELETE FROM product_stocks WHERE product_id = $id");
             mysqli_query($conn, "INSERT INTO archive_products(product_id, category, name, price, image, description, date_time_archive)
        VALUES('$id', '$category', '$product_name', '$price', '$image', '$description', CURRENT_TIME())");
+
+
+
             echo "<script>alert('Product Archived');</script>";
             header("Location: product_management.php");
 
@@ -300,7 +307,7 @@ if ($result->num_rows > 0) {
 
                                 <a class="collapse-item" href="user_management.php">Customer Insights</a>
                                 <a class="collapse-item" href="user_records.php">Review & Ratings</a>
-                                
+
                             </div>
                         </div>
                     </li>
@@ -339,17 +346,17 @@ if ($result->num_rows > 0) {
                                 <a class="collapse-item" href="archive_products.php">Product</a>
                                 <a class="collapse-item" href="archive_accounts.php">Accounts</a>
                                 <a class="collapse-item" href="admin_reviews.php">Reviews</a>
-                                
+
 
                             </div>
                         </div>
                     </li>
 
-                   
 
-                    
 
-                   
+
+
+
 
 
 
