@@ -725,7 +725,7 @@ if ($result->num_rows > 0) {
                                 <label class="form-check-label" for="gcash">
                                   GCash
                                 </label>
-                                <div id="gcash-input" style="display: none;">
+                                <div id="gcash-input" style="display: none; width: 300px; height:300px;">
                                   <div class="">
                                     <div id="gcash-qr-code"></div>
                                     <!-- Your other form elements -->
