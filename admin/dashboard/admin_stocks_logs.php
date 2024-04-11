@@ -97,7 +97,7 @@ if ($result->num_rows > 0) {
                     <hr class="sidebar-divider my-0">
 
                     <!-- Nav Item - Dashboard -->
-                    <li class="nav-item ">
+                    <li class="nav-item active">
                         <a class="nav-link" href="index.php">
                             <i class="fas fa-fw fa-tachometer-alt"></i>
                             <span>Dashboard</span></a>
@@ -174,23 +174,25 @@ if ($result->num_rows > 0) {
 
                                 <a class="collapse-item" href="user_management.php">Customer Insights</a>
                                 <a class="collapse-item" href="user_records.php">Review & Ratings</a>
-                                
+                              
                             </div>
                         </div>
                     </li>
 
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
                             aria-expanded="true" aria-controls="collapseUtilities">
                             <i class="fas fa-fw fa-table"></i>
-                            <span>Logs Management</span>
+                            <span>Admin Logs</span>
                         </a>
                         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                             data-parent="#accordionSidebar">
                             <div class="bg-white py-2 collapse-inner rounded">
                                 <h6 class="collapse-header">Data Logs:</h6>
-                                <a class="collapse-item" href="admin_access_logs.php">Admin Logs</a>
-                                <a class="collapse-item" href="admin_activity_logs.php">Admin Actions</a>
+                                <a class="collapse-item" href="admin_order_logs.php">Order</a>
+                                <a class="collapse-item" href="admin_stocks_logs.php">Stocks</a>
+                                <a class="collapse-item" href="admin_access_logs.php">Access</a>
+                                <a class="collapse-item" href="admin_activity_logs.php">Activity</a>
                                 <a class="collapse-item" href="admin_product_activity.php">Product Operations</a>
                                 <a class="collapse-item" href="user_records.php">User Records</a>
 
@@ -198,11 +200,58 @@ if ($result->num_rows > 0) {
                         </div>
                     </li>
 
-                   
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities1"
+                            aria-expanded="true" aria-controls="collapseUtilities">
+                            <i class="fas fa-fw fa-archive"></i>
+                            <span>Archive Informations</span>
+                        </a>
+                        <div id="collapseUtilities1" class="collapse" aria-labelledby="headingUtilities"
+                            data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <h6 class="collapse-header">Data Logs:</h6>
+                                <a class="collapse-item" href="archive_products.php">Product</a>
+                                <a class="collapse-item" href="archive_accounts.php">Accounts</a>
+                                <a class="collapse-item" href="admin_reviews.php">Reviews</a>
 
-                    
 
-                   
+                            </div>
+                        </div>
+                    </li>
+
+
+
+                    <li class="nav-item ">
+                        <form action="../backup/database_backup.php" method="post" id="">
+                
+
+                            <div class="form-group">
+                           
+                                <input type="hidden" class="form-control" placeholder="Enter Server Name EX: Localhost"
+                                    name="server" id="server" value = "localhost">
+                            </div>
+                            <div class="form-group">
+                              
+                                <input type="hidden" class="form-control" placeholder="Enter Database Username EX: root"
+                                    name="username" id="username" value = "root">
+                            </div>
+                            <div class="form-group">
+                                
+                                <input type="hidden" class="form-control" placeholder="Enter Database Password"
+                                    name="password" id="password"  value = "">
+                            </div>
+                            <div class="form-group">
+                              
+                                <input type="hidden" class="form-control" placeholder="Enter Database Name" name="dbname"
+                                    id="dbname" required=""  value = "website">
+                            </div>
+                            <div class="form-group text-center">
+                                <button type="submit" name="backupnow" class="btn btn-info btn-rounded">Initiate Backup</button>
+                            </div>
+                        </form>
+                    </li>
+
+
 
 
 
