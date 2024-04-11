@@ -363,9 +363,7 @@ if ($result->num_rows > 0) {
                                                 echo "<td>" . $row["total_products"] . "</td>";
                                                 echo "<td>" . $row["total_price"] . "</td>";
                                                 echo "<td>" . $row["date_created"] . "</td>";
-                                                echo "<td>";
-                                              
-                                                echo "</td>";
+                                               
                                                 echo "</tr>";
                                                 ?>
 
