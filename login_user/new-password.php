@@ -69,10 +69,7 @@ if ($result->num_rows > 0) {
                             <?php
                             if (isset($_SESSION['info'])) {
                                 ?>
-                                <div class="alert alert-success text-center">
-                                    <?php echo $_SESSION['info']; ?> password should at least 10 characters long, contains at least one uppercase letter, 
-                        contains at least one lowercase letter, contains at least one number, and contains at least one special character.
-                                </div>
+
                                 <?php
                             }
                             ?>
@@ -97,9 +94,29 @@ if ($result->num_rows > 0) {
                                 <input class="form-control" type="password" name="cpassword" placeholder="Confirm your password"
                                     required>
                             </div>
+                            <style>
+                                ul {
+                                    list-style: none;
+                                    padding: 0;
+                                    margin: 0;
+                                }
+                            </style>
+
+                            <div class="alert alert-success text-left" style="margin:0px;">
+                                <?php echo $_SESSION['info']; ?>
+                                <ul>
+                                    <li>- Is at least 10 characters long</li>
+                                    <li>- Contains at least one uppercase letter</li>
+                                    <li>- Contains at least one lowercase letter</li>
+                                    <li>- Contains at least one digit</li>
+                                    <li>- Contains at least one special character (i.e., a non-alphanumeric character)</li>
+                                </ul>
+
+                            </div>
+                            <hr>
                             <div class="form-group">
-                                <input class="form-control submit_button" style="color: WHITE;" type="submit" name="change-password"
-                                    value="Change">
+                                <input class="form-control submit_button" style="color: WHITE;" type="submit"
+                                    name="change-password" value="Change">
                             </div>
                         </form>
                     </div>
