@@ -7,8 +7,8 @@
 	if(isset($_POST['backupnow'])){
 		
 		$server = 'localhost';
-		$username = 'root';
-		$password = '';
+		$username = 'NIFTYSHOES';
+		$password = 'pa$$word1';
 		$dbname = 'website';
 
 		
