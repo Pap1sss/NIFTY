@@ -291,7 +291,9 @@ if ($result->num_rows > 0) {
                     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="2500" style="">
                       <ol class="carousel-indicators">
                         <?php
-                        $select_products = mysqli_query($conn, "SELECT * FROM `product_gallery`");
+                        $stmt = $conn->prepare("SELECT * FROM `product_gallery`");
+                        $stmt->execute();
+                        $select_products = $stmt->get_result();
                         if (mysqli_num_rows($select_products) > 0) {
                           $active = 'active';
                           $loop_count = 0;
@@ -308,7 +310,11 @@ if ($result->num_rows > 0) {
                       </ol>
                       <div class="carousel-inner">
                         <?php
-                        $select_products = mysqli_query($conn, "SELECT * FROM `product_gallery` WHERE product_id = '$id'");
+                        $stmt = $conn->prepare("SELECT * FROM `product_gallery` WHERE product_id = ?");
+                        $stmt->bind_param("i", $id);
+                        $id = $_POST['product_id']; // assuming product_id is an integer
+                        $stmt->execute();
+                        $select_products = $stmt->get_result();
                         if (mysqli_num_rows($select_products) > 0) {
                           $active = 'active';
                           $loop_count = 0;
@@ -321,7 +327,6 @@ if ($result->num_rows > 0) {
                                     style=" border:1px solid #F4B39D;width: auto; height: auto; box-shadow: 0px 4px 4px rgba(0, 0, 0, .05);">
                                     <img src="admin/uploaded_img/<?php echo htmlspecialchars($fetch_product['product_image']); ?>"
                                       loading="lazy" alt="PRODUCTS" class="image-contain">
-                                    </a>
                                   </figure>
                                 </div>
                               </div>
@@ -409,15 +414,15 @@ if ($result->num_rows > 0) {
                   $id = $_GET['id'];
                 }
 
-                $select_products = mysqli_query($conn, "SELECT * FROM `products` WHERE `id` = '$id'");
-
+                $stmt = $conn->prepare("SELECT * FROM `products` WHERE `id` = ?");
+                $stmt->bind_param("i", $id);
+                $id = $_GET['id']; // assuming id is an integer
+                $stmt->execute();
+                $select_products = $stmt->get_result();
 
                 if (mysqli_num_rows($select_products) > 0) {
 
                   while ($fetch_product = mysqli_fetch_assoc($select_products)) {
-
-
-
                     ?>
 
                     <div class="col-md-7 d-flex justify-content-center">
@@ -548,13 +553,13 @@ if ($result->num_rows > 0) {
                         </style>
                         <div>
                           <?php
-                          $query_unit = "SELECT * FROM product_stocks WHERE `product_id` = '$id'";
-
-                          $result = $conn->query($query_unit);
+                          $stmt = $conn->prepare("SELECT * FROM product_stocks WHERE `product_id` = ?");
+                          $stmt->bind_param("i", $id);
+                          $id = $_GET['id']; // assuming product_id is an integer
+                          $stmt->execute();
+                          $result = $stmt->get_result();
                           if ($result->num_rows > 0) {
                             $options_unit = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
-
                             ?>
 
                             <div style="padding: 0px 10px 10px 10px;">
@@ -592,14 +597,15 @@ if ($result->num_rows > 0) {
 
                           <!--PRODUCT COLOR-->
                           <?php
-                          $query_color = "SELECT * FROM product_stocks WHERE `product_id` = '$id'";
-
-                          $result = $conn->query($query_color);
+                          $stmt = $conn->prepare("SELECT * FROM product_stocks WHERE `product_id` = ?");
+                          $stmt->bind_param("i", $id);
+                          $id = $_GET['id']; // assuming product_id is an integer
+                          $stmt->execute();
+                          $result = $stmt->get_result();
                           if ($result->num_rows > 0) {
                             $options_color = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
-
                             ?>
+
                             <div style=" padding: 0px 10px 10px 10px; ">
                               <h2 style="padding-bottom: 5px;">Color:</h2>
                               <div class="form-check-inline">
@@ -740,7 +746,9 @@ if ($result->num_rows > 0) {
                     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="2000">
                       <ol class="carousel-indicators">
                         <?php
-                        $select_products = mysqli_query($conn, "SELECT * FROM `product_gallery`");
+                        $stmt = $conn->prepare("SELECT * FROM `product_gallery`");
+                        $stmt->execute();
+                        $select_products = $stmt->get_result();
                         if (mysqli_num_rows($select_products) > 0) {
                           $active = 'active';
                           $loop_count = 0;
@@ -758,7 +766,11 @@ if ($result->num_rows > 0) {
                       </ol>
                       <div class="carousel-inner">
                         <?php
-                        $select_products = mysqli_query($conn, "SELECT * FROM `product_gallery` WHERE product_id = '$id'");
+                        $stmt = $conn->prepare("SELECT * FROM `product_gallery` WHERE product_id = ?");
+                        $stmt->bind_param("i", $id);
+                        $id = $_GET['id']; // assuming product_id is an integer
+                        $stmt->execute();
+                        $select_products = $stmt->get_result();
                         if (mysqli_num_rows($select_products) > 0) {
                           $active = 'active';
                           $loop_count = 0;
@@ -856,18 +868,17 @@ if ($result->num_rows > 0) {
                   $id = $_GET['id'];
                 }
 
-                $select_products = mysqli_query($conn, "SELECT * FROM `products` WHERE `id` = '$id'");
-
+                $stmt = $conn->prepare("SELECT * FROM `products` WHERE `id` = ?");
+                $stmt->bind_param("i", $id);
+                $id = $_GET['id']; // assuming id is an integer
+                $stmt->execute();
+                $select_products = $stmt->get_result();
 
                 if (mysqli_num_rows($select_products) > 0) {
 
                   while ($fetch_product = mysqli_fetch_assoc($select_products)) {
 
-
-
-
                     ?>
-
                     <div class="col-md-7 d-flex justify-content-center">
                       <div class="container" style="margin-top: 25px;  ">
                         <div
@@ -997,13 +1008,13 @@ if ($result->num_rows > 0) {
                         </style>
                         <div>
                           <?php
-                          $query_unit = "SELECT * FROM product_stocks WHERE `product_id` = '$id'";
-
-                          $result = $conn->query($query_unit);
+                          $stmt = $conn->prepare("SELECT * FROM product_stocks WHERE `product_id` = ?");
+                          $stmt->bind_param("i", $id);
+                          $id = $_GET['id']; // assuming product_id is an integer
+                          $stmt->execute();
+                          $result = $stmt->get_result();
                           if ($result->num_rows > 0) {
                             $options_unit = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
-
                             ?>
 
                             <div style="padding: 0px 10px 10px 10px;">
@@ -1046,13 +1057,13 @@ if ($result->num_rows > 0) {
 
                           <!--PRODUCT COLOR-->
                           <?php
-                          $query_color = "SELECT * FROM product_stocks WHERE `product_id` = '$id'";
-
-                          $result = $conn->query($query_color);
+                          $stmt = $conn->prepare("SELECT * FROM product_stocks WHERE `product_id` = ?");
+                          $stmt->bind_param("i", $id);
+                          $id = $_GET['id']; // assuming product_id is an integer
+                          $stmt->execute();
+                          $result = $stmt->get_result();
                           if ($result->num_rows > 0) {
                             $options_color = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
-
                             ?>
                             <div style=" padding: 0px 10px 10px 10px; ">
                               <h2 style="padding-bottom: 5px;">Color:</h2>
@@ -1165,17 +1176,23 @@ if ($result->num_rows > 0) {
 
                       <?php
 
-                      $select_products = mysqli_query($conn, "SELECT * FROM `products` WHERE `id` = '$id'");
-                      $fetch_product = mysqli_fetch_assoc($select_products);
+                      $select_products = $conn->prepare("SELECT * FROM `products` WHERE `id` = ?");
+                      $select_products->bind_param("i", $id);
+                      $id = $_GET['id']; // assuming id is an integer
+                      $select_products->execute();
+                      $fetch_product = $select_products->get_result()->fetch_assoc();
                       $category = $fetch_product['category'];
 
-                      $select_products_category = mysqli_query($conn, "SELECT * FROM `products` WHERE `category` = '$category' AND `ID` != '$id'");
+                      $select_products_category = $conn->prepare("SELECT * FROM `products` WHERE `category` = ? AND `ID` != ?");
+                      $select_products_category->bind_param("is", $category, $id);
+                      $select_products_category->execute();
+                      $select_products_category = $select_products_category->get_result();
 
                       ?>
                       <?php
-                      if (mysqli_num_rows($select_products) > 0) {
+                      if ($select_products_category->num_rows > 0) {
 
-                        while ($fetch_product = mysqli_fetch_assoc($select_products_category)) {
+                        while ($fetch_product = $select_products_category->fetch_assoc()) {
                           ?>
                           <li class="product-item"
                             style="box-shadow: 1px 3px 10px 1px; color: #C2C0C0; padding: 10px; border-radius: 5px;">
