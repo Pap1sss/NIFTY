@@ -313,7 +313,7 @@ if ($result->num_rows > 0) {
                         
                         $stmt = $conn->prepare("SELECT * FROM `product_gallery` WHERE product_id = ?");
                         $stmt->bind_param("i", $id);
-                        $id = $_POST['id']; // assuming product_id is an integer
+                        $id = $_GET['id']; // assuming product_id is an integer
                         $stmt->execute();
                         $select_products = $stmt->get_result();
                         if (mysqli_num_rows($select_products) > 0) {
